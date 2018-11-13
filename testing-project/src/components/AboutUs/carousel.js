@@ -1,4 +1,87 @@
 import React, { Component } from 'react';
+import styled from 'styled-components'
+
+let percent;
+const styles = { transition: 'all 1s linear' }
+
+function resp(){
+	if(window.innerWidth <= 500){
+		percent = 90
+	}else{
+		percent = 70
+	}
+}
+
+resp()
+
+window.onresize=function(){ resp() }
+
+
+// styled carousel
+
+const CarouselContainer = styled.div`
+  width: 960px;
+  max-width: 100%;
+  margin: 10px auto;
+  padding-bottom: 60%; 
+  box-sizing: border-box;
+  position: relative;
+  overflow: hidden;
+`
+
+const ContainerItem = styled.div`
+  position: relative;
+  display: flex;
+  width: 3200px;
+  max-width: 333.3%;
+  padding: 5px;
+  box-sizing: border-box;
+  @media screen and (max-width: 500px){
+    max-width: unset;
+    width: 1000%;
+  }
+`
+
+const ListItem = styled.div`
+  padding: 20px;
+  box-sizing: border-box;
+  width: 10%;
+  position: relative;
+  text-align: center;
+  font-size: 1.2em;
+  padding: 0 10px 0 10px;
+`
+
+const Cont = styled.div`
+  box-shadow: 0px 0px 10px #000000;
+  padding: 5px;
+  box-sizing: border-box;
+`
+
+const ImgContent = styled.div`
+  width: 100%;
+  padding-bottom: 56.25%;
+  position: relative;
+`
+const Image = styled.img`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+`
+const ArrowContent = styled.div`text-align: center;`
+
+const Arrow = styled.span`
+  display: inline-block;
+  margin: 15px;
+  padding: 8px 12px;
+  background: red;
+  color:#ffffff;
+  cursor: pointer;
+  border-radius: 4px;
+`
 
 export default class Carousel extends Component {
 	constructor(props){
@@ -56,46 +139,51 @@ export default class Carousel extends Component {
 					name: "Lorem Ipsum 1",
 					description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's"
 				}
-			]
+			],
+			translate : 0
 		}
 	}
 
-	ToLeft () {
+	componentDidMount () {
+		setInterval(() => {
+			this.setState({ translate : this.state.translate === -percent ? 0 : this.state.translate - 10 })
+		},10000)
+	}
 
+	ToLeft () {
+		this.setState({ translate : this.state.translate === 0 ? -percent : this.state.translate + 10 })
 	}	
 
 	ToRight () {
-
+		this.setState({ translate : this.state.translate === -percent ? 0 : this.state.translate - 10 })
 	}
 
 	render(){
 		return (
 			<div>
-				<div className="arrows">
-					<span onClick={() => this.ToLeft}>Left</span>
-					<span onClick={() => this.ToRight}>Right</span>
-				</div>
-				<div className="container">
-					<div className="container-item">
+				<ArrowContent className="arrows">
+					<Arrow onClick={this.ToLeft.bind(this)}>Left</Arrow>
+					<Arrow onClick={this.ToRight.bind(this)}>Right</Arrow>
+				</ArrowContent>
+				<CarouselContainer>
+					<ContainerItem style={{ ...styles, transform: `translateX(${this.state.translate}%)` }}>
 					{
 						this.state.comments.map( (item, index) => {
 							return (
-								<div key={index} className="list-item">
-									<div className="cont">
-										<div className="img-content">
-											<img src={item.image} />
-										</div>
+								<ListItem key={index}>
+									<Cont>
+										<ImgContent>
+											<Image src={item.image} />
+										</ImgContent>
 										<h2>{item.name}</h2>
-										<p>
-											{item.description} 
-										</p>
-									</div>
-								</div>
+										<p>{item.description}</p>
+									</Cont>
+								</ListItem>
 							);
 						} )
 					}
-					</div>
-				</div>
+					</ContainerItem>
+				</CarouselContainer>
 			</div>
 		);
 	}
