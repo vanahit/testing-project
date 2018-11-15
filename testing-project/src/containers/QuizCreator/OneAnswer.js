@@ -39,7 +39,11 @@ const Label = styled.label`
 class OneAnswer extends Component {
   constructor(props) {
     super(props)
-    this.state = {title: '', isRight: false}
+    this.state = {
+      title: '', isRight: false
+
+
+  }
     this.answerChangeHandler = this.answerChangeHandler.bind(this);
     this.addOneAnswer = this.addOneAnswer.bind(this);
   }
@@ -47,8 +51,10 @@ class OneAnswer extends Component {
         this.props.isRight 
       ? this.setState({title: e.target.value, isRight: true})
       : this.setState({title: e.target.value, isRight: false})
-
-      this.props.setAnswers(this.state.title, this.props.id);
+      let id = this.props.id;
+      let obj = {id: {title: this.state.title, isRight: this.props.isRight}}
+      this.props.activeAnswer(obj);
+      this.props.createQuestionAnswer();
 
   }
   componentDidUpdate(props) {
@@ -86,10 +92,10 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
+  console.log(dispatch);
   return {
     createQuestionAnswer: () => dispatch(createQuestionAnswer()),
     activeAnswer: answer => dispatch(activeAnswer(answer))
-
   }
 }
 

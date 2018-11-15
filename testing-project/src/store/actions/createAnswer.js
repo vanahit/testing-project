@@ -13,17 +13,4 @@ export function activeAnswer(answer) {
     answer
   }
 }
-/*
-export function resetQuizCreation() {
-  return {
-    type: RESET_QUIZ_CREATION
-  }
-}
 
-export function finishCreateQuiz() {
-  return async (dispatch, getState) => {
-    await axios.post('/quizes.json', getState().create.quiz)
-    dispatch(resetQuizCreation())
-  }
-}
-*/

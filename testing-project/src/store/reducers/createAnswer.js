@@ -9,12 +9,11 @@ export default function quizReducer(state = initialState, action) {
   switch (action.type) {
     case CREATE_QUESTION_ANSWER:
       return {
-        ...state,
-        answers: [...state.answers, state.activeAnswer]
+        // ...state,
+        answers: [...state.answers, ...state.activeAnswer]
       }
-      case ACTIVE_ANSWER:
+    case ACTIVE_ANSWER:
       return {
-        ...state,
         activeAnswer : action.answer
       }
 

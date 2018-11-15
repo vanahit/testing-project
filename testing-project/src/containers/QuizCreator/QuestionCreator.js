@@ -49,9 +49,10 @@ class QuestionCreator extends Component {
     super(props);
     this.state = {
       formControls: { questionTitle: '', duration: '', score:'', },
-      answers:[],
+      answers:{answer1: {}, answer0: {}, answer2: {}},
       answersNumber: 3,
       isValid: false,
+
     };
     this.handleOptionChange = this.handleOptionChange.bind(this);
     this.answersCreater = this.answersCreater.bind(this);
@@ -93,8 +94,11 @@ class QuestionCreator extends Component {
     this.setAnswers();
     this.props.createQuestionAnswer();
   }
-  setAnswers(id, text) {
-    this.setState({answers: [...this.state.answers, {id: id, title: text, isRight: true} ] } );
+  setAnswers(obj) {
+    let key = Object.keys(obj)[0];
+    console.log(value)
+    let value = obj[key];
+    this.setState({ answers: {...obj, key: value} } );
   }
   answersCreater(count) {
     return (
