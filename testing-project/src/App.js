@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import OneQuizQuestion from './containers/QuizCreator/QuestionCreater/QuestionCreater';
+import QuestionCreater from './containers/QuizCreator/QuestionCreater/QuestionCreater';
 import './App.css';
 
 

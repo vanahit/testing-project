@@ -1,18 +1,17 @@
-import {CREATE_QUESTION_ANSWER, ACTIVE_ANSWER} from '../actions/actionTypes'
+import {CREATE_ANSWERS, SET_ANSWERS_VALUES} from '../actions/actionTypes'
 
 const initialState = {
-  answers: [],
-  activeAnswer: {}
+  answers: [{id: 1, title: ''}, {id: 2, title: ''}],
 }
 
 export default function quizReducer(state = initialState, action) {
   switch (action.type) {
-    case CREATE_QUESTION_ANSWER:
+    case CREATE_ANSWERS:
       return {
         ...state,
-        answers: [...state.answers, state.activeAnswer]
+        answers: action.answers
       }
-      case ACTIVE_ANSWER:
+      case SET_ANSWERS_VALUES:
       return {
         ...state,
         activeAnswer : action.answer

@@ -1,15 +1,16 @@
-import {CREATE_QUESTION_ANSWER, ACTIVE_ANSWER} from './actionTypes'
+import {CREATE_ANSWERS, SET_ANSWERS_VALUES} from './actionTypes'
 
-export function createQuestionAnswer() {
+export function createAnswers(answers) {
   console.log('this is action');
   return {
-    type: CREATE_QUESTION_ANSWER,
+    type: CREATE_ANSWERS,
+    answers
   }
 }
-export function activeAnswer(answer) {
+export function setAnswersValues(answer) {
   console.log('this is action');
   return {
-    type: ACTIVE_ANSWER,
+    type: SET_ANSWERS_VALUES,
     answer
   }
 }
