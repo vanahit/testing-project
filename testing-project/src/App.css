@@ -1,3 +1,4 @@
+
 .container {
     width: 1200px;
     max-width: 100%;
@@ -97,3 +98,14 @@
     margin: 5px;
     display: inline-block;
 }
+
+.arrows span{
+  display: inline-block;
+  margin: 15px;
+  padding: 8px 12px;
+  background: red;
+  color:#ffffff;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
