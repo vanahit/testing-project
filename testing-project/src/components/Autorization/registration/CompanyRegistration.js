@@ -1,13 +1,13 @@
 import React, {Component} from 'react';
 import ImgComponent from "./ImgComponent";
 import InfoComponent from "./InfoComponent";
+import * as firebase from "firebase";
 
 class CompanyRegistration extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            data: [],
             name: '',
             surname: '',
             phone: '',
@@ -18,18 +18,15 @@ class CompanyRegistration extends Component {
     }
 
     changeField(e, field) {
-        console.log(field);
+        console.log(typeof field);
         this.setState({
             [field]: e.target.value,
         })
     }
 
-    handleSubmit(e) {
-        e.preventDefault();
-        const obj = {...this.state};
-        delete obj.data;
+    makeRequeststoFirebase(obj) {
+        firebase.database().ref('companies/' + obj.name).set(obj);
 
-        this.setState({ data:[...this.state.data,obj] });
         this.setState({
             name: '',
             surname: '',
@@ -37,16 +34,22 @@ class CompanyRegistration extends Component {
             email: '',
             password: '',
             image: '',
-        })
+        });
+    }
+
+    handleSubmit(e) {
+        e.preventDefault();
+        const obj = {...this.state};
+        this.makeRequeststoFirebase(obj);
+
     }
 
 
     render() {
         const {name, surname, email, phone, password, img} = this.state;
 
-
         return (
-            <form  onSubmit={this.handleSubmit.bind(this)}>
+            <form onSubmit={this.handleSubmit.bind(this)}>
 
                 <div className='registration'>
                     <h2>Registration</h2>
