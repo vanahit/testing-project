@@ -17,15 +17,55 @@ class CompanyRegistration extends Component {
         }
     }
 
+
     changeField(e, field) {
-        console.log(typeof field);
         this.setState({
             [field]: e.target.value,
         })
     }
 
-    makeRequeststoFirebase(obj) {
-        firebase.database().ref('companies/' + obj.name).set(obj);
+    //
+    // componentDidMount() {
+    //     const db = firebase.database();
+    //     console.log(db.ref().child('companies'). ===' ');
+    // }
+
+    makeRequeststoFirebase() {
+
+        const db = firebase.database();
+        const path = 'companies';
+        const singleCompanie = {...this.state};
+
+        // db um sarqum em companies array u iran talis em singlecompanie
+        db.ref(path).push(singleCompanie);
+
+
+        // db.ref(path).once('value')
+        //     .then(snapshot => {
+        //         const companies = [];
+        //         snapshot.forEach(childSnapshot => {
+        //             companies.push({
+        //                 id: childSnapshot.key,
+        //                 ...childSnapshot.val()
+        //             })
+        //         });
+        //         console.log(companies)
+        //     });
+
+
+
+
+
+        db.ref(path).on('value',(snapshot)=>{
+            const companies = [];
+            snapshot.forEach(childSnapshot => {
+                companies.push({
+                    id: childSnapshot.key,
+                    ...childSnapshot.val()
+                })
+            });
+            console.log(companies)
+        });
 
         this.setState({
             name: '',
@@ -35,13 +75,22 @@ class CompanyRegistration extends Component {
             password: '',
             image: '',
         });
+
+
+    }
+
+    signUpCompany(){
+        firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.password)
+            .catch(function (error) {
+
+                console.log(error);
+            });
     }
 
     handleSubmit(e) {
         e.preventDefault();
-        const obj = {...this.state};
-        this.makeRequeststoFirebase(obj);
-
+        this.makeRequeststoFirebase();
+        this.signUpCompany();
     }
 
 
@@ -71,3 +120,13 @@ class CompanyRegistration extends Component {
 }
 
 export default CompanyRegistration;
+
+
+// createUser() {
+//     const user = firebase.auth();
+//     user.createUserWithEmailAndPassword(this.state.email, this.state.password)
+//         .then(res => {
+//             console.log(res)
+//             user.currentUser.sendEmailVerification();
+//         });
+// }

@@ -13,6 +13,7 @@ const InfoComponent = ({changeField, arr}) => {
                     type='text'
                     placeholder={item}
                     onChange={(event) => changeField(event, item)}
+                    required
                 />)}
         </div>
     )
