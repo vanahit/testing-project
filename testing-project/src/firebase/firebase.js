@@ -12,10 +12,6 @@ const config = {
 firebase.initializeApp(config);
 
 const database = firebase.database();
+const emailProvider = new firebase.auth.EmailAuthProvider();
 
-database.ref().set({
-    users: ' ',
-    companies: ' ',
-    tests: ' ',
-    languages: ' ',
-});
+export {firebase,emailProvider,database as default}

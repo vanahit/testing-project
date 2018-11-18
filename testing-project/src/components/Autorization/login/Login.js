@@ -1,4 +1,5 @@
 import React from 'react';
+import {firebase} from '../../../firebase/firebase';
 
 class Login extends React.Component {
 
@@ -8,12 +9,33 @@ class Login extends React.Component {
         this.state = {
             email: '',
             password: '',
-        }
+        };
+
+        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-    handleSubmit() {
+    handleSubmit(e) {
+        e.preventDefault();
 
+        this.logIn();
     }
+
+    logIn() {
+        firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password)
+            .then(console.log('signed'))
+            .catch(function (error) {
+                console.log(error);
+            });
+
+        setTimeout(() => {
+            firebase.auth().signOut().then(function () {
+                console.log('signed out')
+            }).catch(function (error) {
+                console.log(error);
+            });
+        }, 3000)
+    }
+
 
     render() {
         return (
@@ -38,6 +60,5 @@ class Login extends React.Component {
         )
     }
 }
-
 
 export default Login;
