@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import AboutUs from './components/AboutUs/AboutUs';
 import { Route } from "react-router-dom";
 import './App.css';
-import Route from "react-router/es/Route";
 import AutorizationUser from "./components/Autorization/AutorizationUser";
 import AutorizationCompany from "./components/Autorization/AutorizationCompany";
 
