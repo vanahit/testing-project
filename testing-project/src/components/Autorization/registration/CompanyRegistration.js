@@ -55,6 +55,7 @@ class CompanyRegistration extends Component {
 
 
 
+
         db.ref(path).on('value',(snapshot)=>{
             const companies = [];
             snapshot.forEach(childSnapshot => {
