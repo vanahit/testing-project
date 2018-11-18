@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import QuestionCreater from './QuestionCreater/QuestionCreater';
 import {connect} from 'react-redux';
 import {deleteQuestions} from '../../store/actions/testCreater';
+import {firebase} from '../../firebase/firebase';
 
 const Ul = styled.ul`
 	margin:0;
@@ -84,7 +85,14 @@ const TitleField = styled.textarea`
 class TestCreater extends  Component {
 	constructor(props) {
 		super(props);
-		this.state = {id: Date.now(), testTitle: '', testDeadline: '', testType: '', company: '', isEdites: false}
+		this.state = {
+			id: Date.now(), 
+			testTitle: '', 
+			testDeadline: '', 
+			testType: '', 
+			company: '', 
+			isEdites: false,
+		}
 	}
 	componentDidMount() {
 		fetch('https://testing-f6114.firebaseio.com/.json')
@@ -95,13 +103,18 @@ class TestCreater extends  Component {
 		return  word.replace(/^[ ]+/g, '').replace(/\s*$/, '');
 	}
 	postData = () => {
+		let db = firebase.database();
 		this.setState ({
 			...this.state,
+			passers: 0,
 			testTitle: this.clearWordFromSpaces(this.state.testTitle),
 			testDeadline: Date(this.state.testDeadline),
 			company: this.clearWordFromSpaces(this.state.company),
 			question: this.props.questions,
 		})
+
+		db.ref('tests').push({...this.state});
+
 		this.setState({
 			id: Date.now(),
 			testTitle: '', 
@@ -118,12 +131,12 @@ class TestCreater extends  Component {
 				required
 				onChange={(e) => this.setState({testType: e.target.value})} 
 				value={this.state.testType}>
-				{languages.map((option, index) => (
+				{
+					languages.map((option, index) => (
 					<option key={index + 1}> {option} </option>
 				))}
 			</Select>
 		);
-	
 	}
 	questionsListCreater = () => {
 		return ( 
@@ -162,7 +175,8 @@ class TestCreater extends  Component {
 		e.preventDefault();
 		this.postData();
 		this.props.deleteQuestions();
-	}	  
+	}	 
+
 	render() {
 		return(
 			<div>
