@@ -107,3 +107,115 @@
   cursor: pointer;
   border-radius: 4px;
 }
+
+
+/*Tests styles*/
+
+.container-fluid{
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    margin-top: 177px;
+}
+
+.searchingSelect {
+    width: 292px;
+    height: 44px;
+    padding: 10px;
+    box-sizing: border-box;
+    border: 1px solid #4F9DA6;
+    border-radius: 4px;
+    outline: none;
+    margin-right: 16px;
+}
+
+.search {
+    width: 480px;
+    height: 44px;
+    padding: 10px;
+    box-sizing: border-box;
+    border: 1px solid #4F9DA6;
+    border-radius: 4px;
+    outline: none;
+}
+
+.searching span{
+    float: right;
+    margin: 16px 20px;
+    color: #100529;
+    font-size: 20px;
+}
+
+.content-grid{
+    display: flex;
+    justify-content: space-between;
+    margin: 20px 0;
+    flex-wrap: wrap;
+}
+
+.content-grid .grid{
+    width: 276px;
+    margin: 16px 0;
+}
+
+.grid img{
+    width: 100%;
+}
+
+.grid-info{
+    padding: 5px;
+    box-sizing: border-box;
+}
+
+.grid-info p{
+    font-size: 16px;
+    margin: 8px 0;
+}
+
+.blue{
+    color: #4F9DA6;
+}
+
+.yellow{
+    color: #FFAD5A;
+}
+
+.addButton{
+    display: inline-block;
+    float: right;
+    width: 100px;
+    height: 44px;
+    box-sizing: border-box;
+    background: #FF5959;
+    box-shadow: 0px 3px 6px #000000;
+    border: none;
+    padding: 7px 10px;
+    margin-top: 20px;
+}
+
+.addButton span{
+    font-size: 20px;
+    color: #FFFFFF;
+
+}
+
+.add{
+    margin: 0 0 0 20px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
