@@ -43,7 +43,7 @@ class AutorizationCompany extends Component {
     }
 
 
-    signUpCompany(e) {
+    signInCompany(e) {
         e.preventDefault();
         firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.pass)
             .then(r => console.log(r))
@@ -64,7 +64,7 @@ class AutorizationCompany extends Component {
                             login={this.state.pass}
                             email={this.state.email}
                             changeHandler={this.changeHandler}
-                            signUpCompany={this.signUpCompany.bind(this)}/>
+                            signInCompany={this.signInCompany.bind(this)}/>
                     </div>}
             </div>
 

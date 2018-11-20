@@ -56,13 +56,13 @@ import {firebase} from '../../../firebase/firebase';
 //     }
 // }
 
-const Login = ({email, pass,signUpCompany,changeHandler}) => {
+const Login = ({email, pass,signInCompany,changeHandler}) => {
 
     return (
         <div>
             <div className='login'>
                 <h1>Login</h1>
-                <form onSubmit={signUpCompany}>
+                <form onSubmit={signInCompany}>
                     <input
                         type="email"
                         placeholder='email'

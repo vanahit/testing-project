@@ -23,15 +23,17 @@ class CompanyRegistration extends Component {
         })
     }
 
-    registrateCompanie() {
+    signUpCompanie() {
 
-        const db = firebase.database();
-        const auth = firebase.auth();
-        const singleCompanie = {...this.state};
+        const companie = {...this.state};
 
-        db.ref('companies').push(singleCompanie);
+        firebase.database().ref('companies').push(companie);
 
-        auth.createUserWithEmailAndPassword(singleCompanie.email, singleCompanie.password)
+        firebase.auth().createUserWithEmailAndPassword(companie.email, companie.password)
+            .then(res => {
+                firebase.auth().currentUser.sendEmailVerification();
+                console.log(res);
+            })
             .catch(e => console.log(e.message));
 
 
@@ -48,7 +50,7 @@ class CompanyRegistration extends Component {
 
     handleSubmit(e) {
         e.preventDefault();
-        this.registrateCompanie();
+        this.signUpCompanie();
     }
 
 
@@ -68,7 +70,6 @@ class CompanyRegistration extends Component {
                     <input type="submit"/>
                 </div>
 
-
             </form>
 
         );
@@ -77,41 +78,3 @@ class CompanyRegistration extends Component {
 }
 
 export default CompanyRegistration;
-
-
-// createUser() {
-//     const user = firebase.auth();
-//     user.createUserWithEmailAndPassword(this.state.email, this.state.password)
-//         .then(res => {
-//             console.log(res)
-//             user.currentUser.sendEmailVerification();
-//         });
-// }
-
-
-// db.ref(path).once('value')
-//     .then(snapshot => {
-//         const companies = [];
-//         snapshot.forEach(childSnapshot => {
-//             companies.push({
-//                 id: childSnapshot.key,
-//                 ...childSnapshot.val()
-//             })
-//         });
-//         console.log(companies)
-//     });
-//
-
-//
-//
-//
-// db.ref(path).on('value',(snapshot)=>{
-//     const companies = [];
-//     snapshot.forEach(childSnapshot => {
-//         companies.push({
-//             id: childSnapshot.key,
-//             ...childSnapshot.val()
-//         })
-//     });
-//     console.log(companies)
-// });
