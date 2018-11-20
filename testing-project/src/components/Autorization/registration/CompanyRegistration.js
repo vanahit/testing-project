@@ -17,55 +17,25 @@ class CompanyRegistration extends Component {
         }
     }
 
-
     changeField(e, field) {
         this.setState({
             [field]: e.target.value,
         })
     }
 
-    //
-    // componentDidMount() {
-    //     const db = firebase.database();
-    //     console.log(db.ref().child('companies'). ===' ');
-    // }
+    signUpCompanie() {
 
-    makeRequeststoFirebase() {
+        const companie = {...this.state};
 
-        const db = firebase.database();
-        const path = 'companies';
-        const singleCompanie = {...this.state};
+        firebase.database().ref('companies').push(companie);
 
-        // db um sarqum em companies array u iran talis em singlecompanie
-        db.ref(path).push(singleCompanie);
+        firebase.auth().createUserWithEmailAndPassword(companie.email, companie.password)
+            .then(res => {
+                firebase.auth().currentUser.sendEmailVerification();
+                console.log(res);
+            })
+            .catch(e => console.log(e.message));
 
-
-        // db.ref(path).once('value')
-        //     .then(snapshot => {
-        //         const companies = [];
-        //         snapshot.forEach(childSnapshot => {
-        //             companies.push({
-        //                 id: childSnapshot.key,
-        //                 ...childSnapshot.val()
-        //             })
-        //         });
-        //         console.log(companies)
-        //     });
-
-
-
-
-
-        db.ref(path).on('value',(snapshot)=>{
-            const companies = [];
-            snapshot.forEach(childSnapshot => {
-                companies.push({
-                    id: childSnapshot.key,
-                    ...childSnapshot.val()
-                })
-            });
-            console.log(companies)
-        });
 
         this.setState({
             name: '',
@@ -75,22 +45,12 @@ class CompanyRegistration extends Component {
             password: '',
             image: '',
         });
-
-
     }
 
-    signUpCompany(){
-        firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.password)
-            .catch(function (error) {
-
-                console.log(error);
-            });
-    }
 
     handleSubmit(e) {
         e.preventDefault();
-        this.makeRequeststoFirebase();
-        this.signUpCompany();
+        this.signUpCompanie();
     }
 
 
@@ -107,10 +67,8 @@ class CompanyRegistration extends Component {
                         changeField={this.changeField.bind(this)}
                         arr={[name, surname, email, phone, password]}
                     />
-
                     <input type="submit"/>
                 </div>
-
 
             </form>
 
@@ -120,13 +78,3 @@ class CompanyRegistration extends Component {
 }
 
 export default CompanyRegistration;
-
-
-// createUser() {
-//     const user = firebase.auth();
-//     user.createUserWithEmailAndPassword(this.state.email, this.state.password)
-//         .then(res => {
-//             console.log(res)
-//             user.currentUser.sendEmailVerification();
-//         });
-// }
