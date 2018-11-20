@@ -1,256 +1,317 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import QuestionCreater from './QuestionCreater/QuestionCreater';
-import {connect} from 'react-redux';
-import {deleteQuestions} from '../../store/actions/testCreater';
-import {firebase} from '../../firebase/firebase';
+import { connect } from 'react-redux';
+import { deleteQuestions } from '../../store/actions/testCreater';
+import { firebase } from '../../firebase/firebase';
 
-const Ul = styled.ul`
-	margin:0;
-	padding: 0;
-	list-style: none;
-	width: 100%;
-`;
-const Li = styled.li`
-	border-bottom: 1px solid grey
-`;
-const Modal= styled.div`
-	width: 90%;
-	height: 500px;
-	background-color: rgba(255, 255, 255, 0.5);
-	position: absolute;
+const Main = styled.div`
 	margin: auto;
-	border: 1px solid black;
+	max-width: 1200px;
+	overflow: auto;
 `;
-const Div = styled.div`
-	display: table-cell;
-	padding: 10px;
-	width: ${props => props.width + '%' || '100%'};
-	text-align: ${props => props.align  || 'left'}
+const Test = styled.div` 
+	width: 100%;
+	margin-bottom: 30px;
+	border: 1px solid #D6D6D6;
+	border-right: 0px;
+	border-left: 0px;
+`;
+const TestCreaterLink = styled.div`
+	margin: 30px 0;
+	font-size: 14px;
+`;
+const FlexRow = styled.div`
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	margin: 30px 0;
+	justify-content: space-between;
+	align-items: center;
+	width: ${props => props.width || '100%'};
+	box-sizing: border-box;
+
+	@media screen and (max-width: 1190px) {
+		min-width: 100%;
+	}
+`;
+const Title = styled.div`
+	flex: 50%;
+    flex-shrink: 1;
+	box-sizing: border-box;
+`;
+const Type = styled.div`
+	flex: 25%;
+	text-align: right;
+	box-sizing: border-box;
+`;
+const Company = styled.div`
+	flex: 25%;
+	box-sizing: border-box;
+`;
+const TestDetails = styled.input`
+	min-width: ${props => props.minWidth || 'calc(100% - 16px)'};
+	width: ${props => props.width || 'calc(100% - 16px)'};
+	height: 60px;
+	padding-left: 16px;
+	color: rgba(79, 157, 166, ${props => props.opacity || '1'});
+	font-size: 24px;
+	overflow: hidden; 
+	border: 1px solid #4F9DA6;
+	box-sizing: border-box;
+
+	:disabled {
+		background-color: white;
+	}
+	@media screen and (max-width: 1190px) {
+		margin-top: 5px;
+		min-width: 100%;
+	}
+	@media screen and (max-width: 580px) {
+		font-size: 12px;
+	}
+	::-webkit-input-placeholder {color: rgba(79, 157, 166, 0.5)}
+	::-moz-placeholder          {color:rgba(79, 157, 166, 0.5)}/* Firefox 19+ */
+	:-moz-placeholder           {color:rgba(79, 157, 166, 0.5)}/* Firefox 18- */
+	:-ms-input-placeholder      {color:rgba(79, 157, 166, 0.5)}
 `;
 const Select = styled.select`
-	margin: 5px;
-	width: 100px;
-	height: 30px;
+	min-width: calc(100% - 8px);
+	height: 60px;
+	padding-left: 16px;
+	color: #4F9DA6;
+	font-size: 24px;
+	overflow: hidden; 
+	border: 1px solid #4F9DA6;
+	box-sizing: border-box;
+	
+	@media screen and (max-width: 1190px) {
+		margin-top: 5px;
+		min-width: 100%;
+	}
+
+	@media screen and (max-width: 580px) {
+		font-size: 12px;
+	}
+	::-webkit-input-placeholder {color: rgba(79, 157, 166, 0.5)}
+	::-moz-placeholder          {color:rgba(79, 157, 166, 0.5)}/* Firefox 19+ */
+	:-moz-placeholder           {color:rgba(79, 157, 166, 0.5)}/* Firefox 18- */
+	:-ms-input-placeholder      {color:rgba(79, 157, 166, 0.5)}
 `;
-const Input = styled.input`
-	margin: 5px;
-	padding: 10px 5px;
-	width: 80%;
-	height: 10px;
-	font-size: 12px;
+const Description = styled.textarea`
+	width: 100%;
+	height: 120px;
+	padding: 16px;
+	color: #4F9DA6;
+	border: 1px solid #4F9DA6;
+	font-size: 24px;
+
+	@media screen and (max-width: 580px) {
+		font-size: 12px;
+	}
+	::-webkit-input-placeholder {color: rgba(79, 157, 166, 0.5)}
+	::-moz-placeholder          {color:rgba(79, 157, 166, 0.5)}/* Firefox 19+ */
+	:-moz-placeholder           {color:rgba(79, 157, 166, 0.5)}/* Firefox 18- */
+	:-ms-input-placeholder      {color:rgba(79, 157, 166, 0.5)}
 `;
-const FlexContainer = styled.div`
-  display: flex;
-  word-break: break-word;
-  margin: auto;
-  padding: 0 10px;
-  margin-top: 5px;
-  font-size: 14px;
-  align-items: center;
-  justify-content: space-between;
-  width: ${props => props.width + '%' || '100%'};
-  flex-direction: ${props => props.dir || 'row'};
-  flex-wrap: wrap;
-  box-sizing: border-box;
+const AddButton = styled.button`
+	margin-bottom: 30px;
+	width: 234px;
+	height: 60px;
+	border-radius: 4px;
+	border: 0px;
+	background-color: #4F9DA6;
+	box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.16);
+	color: white;
+	font-size: 24px;
 `;
-const QuestionsDiv = styled.div`
-  display: flex;
-  margin: auto;
-  padding: 0 10px;
-  margin-top: 10px;
-  font-size: 14px;
-  border-top: 1px solid grey;
-  align-items: center;
-  width: ${props => props.width + '%' || '200px'};
-  flex-direction: ${props => props.dir || 'row'};
-  flex-wrap: wrap;
-  box-sizing: border-box;
-`;
-const Button = styled.button`
-  margin: 5px;
-  font-size: 14px;
-  background: transparent;
-  border-radius: 5px;
-  border: 1px solid ${props => props.color  || ''};
-  background-color: ${props => props.color || 'white'};
-  width: ${props => props.width + 'px' || '100px'};
-  height:${props => props.height + 'px' || '10px'};
-`;
-const TitleField = styled.textarea`
-  rows: ${props => props.rows  || '4'};
-  width: 100%;
+const AddTest = styled.div`
+	width: 100%;
+	text-align: center;
 `;
 
-class TestCreater extends  Component {
+class TestCreater extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			id: Date.now(), 
-			testTitle: '', 
-			testDeadline: '', 
-			testType: '', 
-			company: '', 
-			isEdites: false,
+			questions: [],
+			id: Date.now(),
+			testTitle: '',
+			description: '',
+			testDeadline: '',
+			testType: '',
+			company: '',
+			time: '',
+			passScore: '',
+			totalScore: '',
+			isEditing: false,
 		}
 	}
 	componentDidMount() {
-		fetch('https://testing-f6114.firebaseio.com/.json')
-		.then(responce => console.log(responce.json()));
-		
 	}
-	clearWordFromSpaces = (word) => {
-		return  word.replace(/^[ ]+/g, '').replace(/\s*$/, '');
-	}
-	postData = () => {
-		let db = firebase.database();
-		this.setState ({
-			...this.state,
-			passers: 0,
-			testTitle: this.clearWordFromSpaces(this.state.testTitle),
-			testDeadline: Date(this.state.testDeadline),
-			company: this.clearWordFromSpaces(this.state.company),
-			question: this.props.questions,
+	getQuestionValues = (item, type, id) => {
+		let questions = this.state.questions.map(question => {
+			console.log(question.id); console.log(this.props.id);
+			if (question.id === id) {
+				console.log('yesss there is no problem')
+				type === 'title' && (question.questionTitle = this.clearWordFromSpaces(item));
+				type === 'isRight' && (question.isRight = item);
+				type === 'answers' && (question.answers = item);
+				type === 'score' && (question.score = item);
+			}
+			return question;
 		})
-
-		db.ref('tests').push({...this.state});
-
-		this.setState({
-			id: Date.now(),
-			testTitle: '', 
-			testDeadline: '',
-			testType: '', 
-			company: '', 
-			isEdites: false
-		})
+		this.setState({ questions: questions });
 	}
 	selectBox = () => {
 		const languages = ['JavaScript', 'Java', "PHP", 'C#', 'MySQL', 'Python', 'Ruby', 'Swift', 'React', 'Redux'];
-		return(
-			<Select 
+		return (
+			<Select
+				minWidth={'calc(100% - 8px)'}
 				required
-				onChange={(e) => this.setState({testType: e.target.value})} 
+				onChange={(e) => this.setState({ testType: e.target.value })}
 				value={this.state.testType}>
 				{
 					languages.map((option, index) => (
-					<option key={index + 1}> {option} </option>
-				))}
+						<option key={index + 1}> {option} </option>
+					))}
 			</Select>
 		);
 	}
-	questionsListCreater = () => {
-		return ( 
-			<QuestionsDiv width={90}>
-			<Ul>
-				{this.props.questions.map((question, index) => (
-					<Li key={question.id}>
-						<Div width={84}>
-							{this.props.questions[index].questionTitle}
-						</Div>
-						<Div width={100} align={'right'}>
-							<Button 
-								onClick={() => this.editChosenQuestion()}
-								width={60} 
-								type='button'
-							> 
-								edit
-							</Button>
-							<Button 
-								onClick={() => this.deleteChosenQuestion(question.id)}
-								width={60} 
-								type='button'
-							> 
-								delete
-							</Button>
-						</Div>
-					</Li>))}
-			</Ul>
-			</QuestionsDiv>
-		)
+	addQuestion = () => {
+		let oneQuestion = {
+			id: Date.now(),
+			answers: [{ id: Date.now(), title: '', isRight: false }, { id: Date.now() + 1, title: '', isRight: false }],
+			isRight: 0,
+			questionTitle: '',
+			time: '',
+			score: '',
+			isEditing: false,
+		}
+		this.setState({ questions: this.state.questions.concat(oneQuestion) })
 	}
-	editChosenQuestion = () => {
-		return <Modal> <QuestionCreater /></Modal>
-	} 
+	clearWordFromSpaces = (word) => {
+		return word.replace(/^[ ]+/g, '').replace(/\s*$/, '');
+	}
+	postData = () => {
+		let db = firebase.database();
+			this.setState({
+				...this.state,
+				passers: 0,
+				testTitle: this.clearWordFromSpaces(this.state.testTitle),
+				testDeadline: Date(this.state.testDeadline),
+				company: this.clearWordFromSpaces(this.state.company),
+				description: this.clearWordFromSpaces(this.state.description),
+				question: this.state.questions
+			})
+	
+			db.ref('tests').push({ ...this.state });
+	
+			this.setState({
+				questions: [],
+				id: Date.now(),
+				testTitle: '',
+				description: '',
+				testDeadline: '',
+				testType: '',
+				company: '',
+				time: '',
+				totalScore: '',
+				passScore: '',
+				isEditing: false,
+			})
+		
+	}
 	submitHandler = (e) => {
 		e.preventDefault();
 		this.postData();
 		this.props.deleteQuestions();
-	}	 
-
+	}
 	render() {
-		return(
-			<div>
-			<form onSubmit={this.submitHandler}>
-			<Div width={100}>
-			<FlexContainer width={100} dir={'column'}>
-				 <FlexContainer width={100} dir={'column'}>
-					<span>Input title of Test</span>
-						<TitleField
-							required
-							rows={2} 
-							value={this.state.testTitle}
-							onChange={(e) => {this.setState({testTitle: e.target.value})}}
-						/>
-					  
-	          		</FlexContainer>
-					  <FlexContainer width={100}>
-						<FlexContainer dir='column' >
-							Test type  
-							{this.selectBox()}
-						</FlexContainer>
-						<FlexContainer dir='column' >
-							Company name
-							<Input 
-								required
-								type='text' 
-								placeholder='Input company'
-								value={this.state.company}
-								onChange={(e) => {this.setState({company: e.target.value})}}
+		return (
+			<Main>
+				<TestCreaterLink> Home / My Account / Test Create </TestCreaterLink>
+				<form onSubmit={this.submitHandler}>
+					<Test>
+						<FlexRow width={'100%'}>
+							<Title>
+								<TestDetails
+									width={'calc(100% - 16px)'}
+									type="text"
+									placeholder="Test Title"
+									value={this.state.testTitle}
+									onChange={(e) => { this.setState({ testTitle: e.target.value }) }} />
+							</Title>
+							<Company>
+								<TestDetails
+									minWidth={'calc(100% - 8px)'}
+									type="text"
+									placeholder="Company"
+									value={this.state.company}
+									onChange={(e) => { this.setState({ company: e.target.value }) }} />
+							</Company>
+							<Type> {this.selectBox()}  </Type>
+						</FlexRow>
+						<FlexRow width={'100%'}>
+							<Description 
+								placeholder="Description" 
+								value={this.state.description}
+								onChange={(e) => { this.setState({ description: e.target.value }) }} 
 							/>
-						</FlexContainer>
-						<FlexContainer dir='column' >
-							Test deadline
-							<Input 
-								required
-								type='date' 
-								placeholder='Input deadline of test'
-								value={this.state.testDeadline}
-								onChange={(e) => {this.setState({testDeadline: e.target.value})}}
-								
-							/>
-						</FlexContainer>
-						</FlexContainer>
-	            </FlexContainer>
-				</Div>
-				<Div width={20}>
-					{this.props.questions.length > 0 && <Button width={100}>Add Test</Button>} 	
-				</Div>
-			</form>
-			<Div width={90}>
-				<QuestionCreater />
-			</Div>
-			<Div width={20}></Div>	
-			<FlexContainer dir={'column'} width={100}>
-				<FlexContainer width={100}>
-					{this.props.questions.length > 0 && this.questionsListCreater()}
-				</FlexContainer>
-			</FlexContainer>
-		</div>
-		
-	);
-}
+						</FlexRow>
+						<FlexRow width={'100%'}>
+							<div><TestDetails
+								width={'292px'}
+								type='text'
+								placeholder="Test Deadline"
+								onFocus={(e) => e.target.type = 'date'}
+								onChange={(e) => { this.setState({ testDeadline: e.target.value }) }} /></div>
+							<div><TestDetails
+								width={'292px'}
+								type='number' min="0"
+								placeholder="Minutes"
+								value={this.state.time}
+								onChange={(e) => { this.setState({ time: e.target.value }) }} /></div>
+
+							<div><TestDetails
+								width={'292px'}
+								type='number' min="0" placeholder="Total Score" disabled /></div>
+							<div><TestDetails
+								width={'292px'}
+								type='number'
+								min="0"
+								placeholder="Passing Score" value={this.state.passScore}
+								onChange={(e) => { this.setState({ passScore: +e.target.value }) }} /></div>
+						</FlexRow>
+						<AddButton type='button' onClick={this.addQuestion}>ADD QUESTION</AddButton>
+					</Test>
+					{this.state.questions.length > 0 && this.state.questions.map((question, index) =>
+						<QuestionCreater
+							key={question.id + index}
+							id={question.id}
+							count={index + 1}
+							getQuestionValues={this.getQuestionValues} />
+					)}
+					
+					{this.state.questions.length > 0 && <AddTest><AddButton onClick={this.submitHandler}>ADD TEST</AddButton></AddTest> }
+				</form>
+			</Main>
+		);
+	}
+
 }
 
 function mapStateToProps(state) {
 	console.log(state.test.questions);
-  return {
-	  questions: state.test.questions,
+	return {
+		questions: state.test.questions,
 	}
 }
 function mapDispatchToProps(dispatch) {
-  return {
-	deleteQuestions: () => dispatch(deleteQuestions()),
-  }
+	return {
+		deleteQuestions: () => dispatch(deleteQuestions()),
+	}
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(TestCreater)
+
