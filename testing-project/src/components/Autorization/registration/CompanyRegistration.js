@@ -17,55 +17,23 @@ class CompanyRegistration extends Component {
         }
     }
 
-
     changeField(e, field) {
         this.setState({
             [field]: e.target.value,
         })
     }
 
-    //
-    // componentDidMount() {
-    //     const db = firebase.database();
-    //     console.log(db.ref().child('companies'). ===' ');
-    // }
-
-    makeRequeststoFirebase() {
+    registrateCompanie() {
 
         const db = firebase.database();
-        const path = 'companies';
+        const auth = firebase.auth();
         const singleCompanie = {...this.state};
 
-        // db um sarqum em companies array u iran talis em singlecompanie
-        db.ref(path).push(singleCompanie);
+        db.ref('companies').push(singleCompanie);
 
+        auth.createUserWithEmailAndPassword(singleCompanie.email, singleCompanie.password)
+            .catch(e => console.log(e.message));
 
-        // db.ref(path).once('value')
-        //     .then(snapshot => {
-        //         const companies = [];
-        //         snapshot.forEach(childSnapshot => {
-        //             companies.push({
-        //                 id: childSnapshot.key,
-        //                 ...childSnapshot.val()
-        //             })
-        //         });
-        //         console.log(companies)
-        //     });
-
-
-
-
-
-        db.ref(path).on('value',(snapshot)=>{
-            const companies = [];
-            snapshot.forEach(childSnapshot => {
-                companies.push({
-                    id: childSnapshot.key,
-                    ...childSnapshot.val()
-                })
-            });
-            console.log(companies)
-        });
 
         this.setState({
             name: '',
@@ -75,22 +43,12 @@ class CompanyRegistration extends Component {
             password: '',
             image: '',
         });
-
-
     }
 
-    signUpCompany(){
-        firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.password)
-            .catch(function (error) {
-
-                console.log(error);
-            });
-    }
 
     handleSubmit(e) {
         e.preventDefault();
-        this.makeRequeststoFirebase();
-        this.signUpCompany();
+        this.registrateCompanie();
     }
 
 
@@ -107,7 +65,6 @@ class CompanyRegistration extends Component {
                         changeField={this.changeField.bind(this)}
                         arr={[name, surname, email, phone, password]}
                     />
-
                     <input type="submit"/>
                 </div>
 
@@ -130,3 +87,31 @@ export default CompanyRegistration;
 //             user.currentUser.sendEmailVerification();
 //         });
 // }
+
+
+// db.ref(path).once('value')
+//     .then(snapshot => {
+//         const companies = [];
+//         snapshot.forEach(childSnapshot => {
+//             companies.push({
+//                 id: childSnapshot.key,
+//                 ...childSnapshot.val()
+//             })
+//         });
+//         console.log(companies)
+//     });
+//
+
+//
+//
+//
+// db.ref(path).on('value',(snapshot)=>{
+//     const companies = [];
+//     snapshot.forEach(childSnapshot => {
+//         companies.push({
+//             id: childSnapshot.key,
+//             ...childSnapshot.val()
+//         })
+//     });
+//     console.log(companies)
+// });
