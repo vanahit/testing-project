@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import QuestionCreater from './QuestionCreater/QuestionCreater';
 import { connect } from 'react-redux';
-import { deleteQuestions } from '../../store/actions/testCreater';
+import {  } from '../../store/actions/testCreater';
 import { firebase } from '../../firebase/firebase';
 
 const Main = styled.div`
@@ -32,6 +32,7 @@ const FlexRow = styled.div`
 	box-sizing: border-box;
 
 	@media screen and (max-width: 1190px) {
+		flex-direction: column;
 		min-width: 100%;
 	}
 `;
@@ -145,6 +146,7 @@ class TestCreater extends Component {
 			passScore: '',
 			totalScore: '',
 			isEditing: false,
+			isValid: '',
 		}
 	}
 	componentDidMount() {
@@ -225,7 +227,12 @@ class TestCreater extends Component {
 	submitHandler = (e) => {
 		e.preventDefault();
 		this.postData();
-		this.props.deleteQuestions();
+	}
+	isValid() {
+
+	}
+	componentDidUpdate (prevState) {
+
 	}
 	render() {
 		return (
@@ -236,6 +243,7 @@ class TestCreater extends Component {
 						<FlexRow width={'100%'}>
 							<Title>
 								<TestDetails
+									required
 									width={'calc(100% - 16px)'}
 									type="text"
 									placeholder="Test Title"
@@ -244,6 +252,7 @@ class TestCreater extends Component {
 							</Title>
 							<Company>
 								<TestDetails
+									required
 									minWidth={'calc(100% - 8px)'}
 									type="text"
 									placeholder="Company"
@@ -261,12 +270,14 @@ class TestCreater extends Component {
 						</FlexRow>
 						<FlexRow width={'100%'}>
 							<div><TestDetails
+								required
 								width={'292px'}
 								type='text'
 								placeholder="Test Deadline"
 								onFocus={(e) => e.target.type = 'date'}
 								onChange={(e) => { this.setState({ testDeadline: e.target.value }) }} /></div>
 							<div><TestDetails
+								required
 								width={'292px'}
 								type='number' min="0"
 								placeholder="Minutes"
@@ -274,8 +285,13 @@ class TestCreater extends Component {
 								onChange={(e) => { this.setState({ time: e.target.value }) }} /></div>
 
 							<div><TestDetails
+								required
 								width={'292px'}
-								type='number' min="0" placeholder="Total Score" disabled /></div>
+								type='number'
+								min="0" 
+								placeholder="Total Score"  
+								disabled 
+								value={this.props.totalScore}/></div>
 							<div><TestDetails
 								width={'292px'}
 								type='number'
@@ -293,7 +309,8 @@ class TestCreater extends Component {
 							getQuestionValues={this.getQuestionValues} />
 					)}
 					
-					{this.state.questions.length > 0 && <AddTest><AddButton onClick={this.submitHandler}>ADD TEST</AddButton></AddTest> }
+					{this.state.questions.length > 0 && <AddTest>
+						<AddButton  onClick={this.submitHandler}>CREATE TEST</AddButton></AddTest> }
 				</form>
 			</Main>
 		);
@@ -304,12 +321,12 @@ class TestCreater extends Component {
 function mapStateToProps(state) {
 	console.log(state.test.questions);
 	return {
-		questions: state.test.questions,
+		totalScore: state.test.totalScore,
 	}
 }
 function mapDispatchToProps(dispatch) {
 	return {
-		deleteQuestions: () => dispatch(deleteQuestions()),
+	
 	}
 }
 

@@ -57,12 +57,14 @@ export default class OneAnswerCreater extends React.Component {
   componentDidUpdate(prevProps) {
     prevProps.isRight !== this.props.isRight && this.props.getInputValue(this.state.title, this.props.id, this.props.isRight);
   }
+  isValid = () => {
+  }
  	render() {
     return ( 
             <AnswerInput 
-              type="text" 
+              type="text"
+              required 
               placeholder={`Answer ${this.props.count}`}
-              required
               id={this.props.id} 
               value={this.state.title} 
               onChange={this.inputChangeHandler} 

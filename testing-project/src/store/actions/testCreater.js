@@ -1,14 +1,9 @@
-import {ADD_QUESTION,  DELETE_QUESTIONS} from './actionTypes'
+import {INCREASE_TOTAL_SCORE} from './actionTypes'
 
-export function addQuestion(question) {
+export function increaseTotalScore(score) {
   return {
-    type: ADD_QUESTION,
-    question
-  }
-}
-export function deleteQuestions() {
-  return {
-    type: DELETE_QUESTIONS,
+    type: INCREASE_TOTAL_SCORE,
+    score
     
   }
 }

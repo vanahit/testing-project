@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import OneAnswerCreater from './OneAnswerCreater';
 import styled from 'styled-components'
 import {connect} from 'react-redux';
-import {addQuestion} from '../../../store/actions/testCreater';
+import {increaseTotalScore} from '../../../store/actions/testCreater';
 
 const Radio = styled.input`
   width: 24px;
@@ -107,7 +107,8 @@ class QuestionCreater extends Component {
 					resolve(this.state.questionTitle);
 					break;
 				case 'score':
-				  this.setState({score: +e.target.value});
+					this.props.increaseTotalScore(-this.state.score);
+					this.setState({score: +e.target.value});
 					resolve(this.state.score);
 					break;
 				case 'isRight':
@@ -137,13 +138,17 @@ class QuestionCreater extends Component {
 			let updatedItem;
 				switch (e.target.id) {
 					case 'title':	updatedItem = this.state.questionTitle;	break;
-					case 'score': updatedItem = this.state.score;	break;
+					case 'score': 
+						updatedItem = this.state.score;	
+						this.props.increaseTotalScore((updatedItem));
+						break;
 					case 'isRight':	updatedItem = this.state.isRight;	break;
 					case 'delete': updatedItem = this.state.answers; break;
 					case 'minus':	updatedItem = this.state.answers;	break;
 					case 'plus':	updatedItem = this.state.answers;	break;
 					default:			updatedItem = this.state.answers;
 				}
+				
 		    this.props.getQuestionValues(updatedItem, e.target.id, this.props.id);
     })
 	}
@@ -165,6 +170,7 @@ class QuestionCreater extends Component {
 								onClick={(e) => this.updateQuestionValues(e)}
 							/>
 							<OneAnswerCreater
+								required
 								count={index + 1}
 								id = {input.id}
 								isRight={input.id === this.state.isRight ? true : false}
@@ -242,12 +248,12 @@ class QuestionCreater extends Component {
 }
 function mapStateToProps(state) {
   return {
-   	questions: state.test.questions,
+   totalScore: state.test.totalScore,
   }
 }
 function mapDispatchToProps(dispatch) {
   return {
-   	addQuestion: (question) => dispatch(addQuestion(question)),
+		increaseTotalScore: (score) => dispatch(increaseTotalScore(score)),
   }
 }
 
