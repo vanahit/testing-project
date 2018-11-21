@@ -1,23 +1,50 @@
 import React, { Component } from 'react';
 import OneAnswerCreater from './OneAnswerCreater';
-import styled from 'styled-components'
+import styled, {css} from 'styled-components'
 import {connect} from 'react-redux';
-import {increaseTotalScore} from '../../../store/actions/testCreater';
+import {increaseTotalScore, submittedFalse} from '../../../store/actions/testCreater';
 
 const Radio = styled.input`
-  width: 24px;
-  height: 24px;
-  border: 1px solid #4F9DA6;
-  background: #4F9DA6;
+  width: 21px;
+  height: 21px;
+
+			:before {
+				width: 21px;
+				height: 21px;
+				border-radius: 15px;
+				top: -1px;
+				left: -1px;
+				position: relative;
+				background-color: white;
+				content: '';
+				display: inline-block;
+				visibility: visible;
+				border: 1px solid rgba(79, 157, 166, 1);
+		}
+
+		:checked:after {
+				width: 11px;
+				height: 11px;
+				border-radius: 15px;
+				top: -23px;
+				left: 4px;
+				position: relative;
+				background-color: rgba(79, 157, 166, 1);
+				content: '';
+				display: inline-block;
+				visibility: visible;
+				border: 1px solid rgba(79, 157, 166, 1);
+		}
+
 `;
 const DeleteAnswer = styled.button`
-	margin-left: 8px;
-  width: 40px;
-	height: 40px;
-	color:rgba(230, 36, 22, 1);
-  font-size: 24px;
-  background-color: white;
-	border: 1px solid rgba(231, 231, 231, 1);
+		margin-left: 8px;
+		width: 40px;
+		height: 40px;
+		color:rgba(230, 36, 22, 1);
+		font-size: 24px;
+		background-color: white;
+		border: 1px solid rgba(231, 231, 231, 1);
 `;
 const Column = styled.td`
 	padding: 0;
@@ -44,6 +71,18 @@ const QuestionDetails = styled.input`
 	::-moz-placeholder          {color:rgba(79, 157, 166, 0.5)}/* Firefox 19+ */
 	:-moz-placeholder           {color:rgba(79, 157, 166, 0.5)}/* Firefox 18- */
 	:-ms-input-placeholder      {color:rgba(79, 157, 166, 0.5)}
+
+	${props => props.invalid && css`
+		font-size: 24px;
+		color: rgba(185, 4, 46, 0.5);
+    border-bottom: 1px solid rgba(185, 4, 46, 1);
+    ::-webkit-input-placeholder {color: rgba(185, 4, 46, 0.5)}
+    ::-moz-placeholder          {color: rgba(185, 4, 46, 0.5)}/* Firefox 19+ */
+    :-moz-placeholder           {color: rgba(185, 4, 46, 0.5)}/* Firefox 18- */
+    :-ms-input-placeholder      {color: rgba(185, 4, 46, 0.5)}
+  `}
+
+
 `;
 const AddAnswerDiv = styled.div`
 	font-size: 14px;
@@ -81,6 +120,8 @@ class QuestionCreater extends Component {
 				isRight: 0,
 				questionTitle: '',
 				score: '',
+				invalid: false,
+				submitted: this.props.submitted
 			}
 		}
 	getInputValue = (title, id, isRight) => {
@@ -103,8 +144,7 @@ class QuestionCreater extends Component {
 		return new Promise((resolve, reject) => {
 			switch (e.target.id) {
 				case 'title':
-				  this.setState({questionTitle: e.target.value});
-					resolve(this.state.questionTitle);
+				  this.setState({questionTitle: e.target.value});	resolve(this.state.questionTitle);
 					break;
 				case 'score':
 					this.props.increaseTotalScore(-this.state.score);
@@ -128,6 +168,7 @@ class QuestionCreater extends Component {
 					resolve(this.state.answers);
 					break;
 				case 'plus':
+					this.props.submittedFalse();
 					e.target.id === 'plus' && this.state.answers.length <= 5 && 
 					this.setState({answers: this.state.answers.concat(newAnswer)});
 					resolve(this.state.answers);
@@ -152,17 +193,39 @@ class QuestionCreater extends Component {
 		    this.props.getQuestionValues(updatedItem, e.target.id, this.props.id);
     })
 	}
-	componentDidUpdate(prevState) {
-	 if((prevState.isRight !== this.state.isRight) || (prevState.answers.length !== this.state.answers.length)) {
-			 this.props.getQuestionValues(this.state.isRight, 'isRight', this.props.id);
-			 this.props.getQuestionValues(this.state.answers, 'answers', this.props.id);
-	 } 
+	checkValidation = (inputName) => {
+		let placeholderText = '';
+		switch (inputName) {
+			case 'title' :
+				placeholderText = (this.props.submitted && !this.state.questionTitle) 
+					? `${this.props.count}. Fill Question Title` 
+					: `${this.props.count}. Question Title`;
+					break;
+			case 'score' :
+				placeholderText = this.props.submitted && !this.state.score 
+					? `Fill Score` 
+					: `Score`;
+					break;
+			default:
+		}
+		return placeholderText;
 	}
+	isValid = (inputValue) => {
+		return this.props.submitted && !inputValue ? true : false;
+	}
+
+	componentDidUpdate(prevProps, prevState) {
+	 if((prevState.isRight !== this.state.isRight) || (prevState.answers.length !== this.state.answers.length)) {
+			this.props.getQuestionValues(this.state.isRight, 'isRight', this.props.id);
+			this.props.getQuestionValues(this.state.answers, 'answers', this.props.id);
+	 } 
+	 }
 	answersListCreater = () => {
 		return ( 
 				this.state.answers.map((input, index) => (
 						<div key={input.id}>
 							<Radio
+								required={true}
 								type='radio'
 								name={`question${this.props.id}`} 
 								value={input.id} 
@@ -178,7 +241,6 @@ class QuestionCreater extends Component {
 							/>
 							{this.state.answers.length > 2 && 
 							<DeleteAnswer 
-								width={30} 
 								type='button'
 								id='delete'
 								onClick={(e) => this.updateQuestionValues(e, input.id)}
@@ -195,21 +257,25 @@ class QuestionCreater extends Component {
 							<thead>
 									<tr>
 										<Column width={'1068'}>
-													<QuestionDetails
-														type='text' 
-														placeholder={`${this.props.count}. Question Title`}
-														value={this.state.questionTitle}
-														id='title'
-														onChange={(e) => this.updateQuestionValues(e)} 
-													/>
+											<QuestionDetails
+												type='text' 
+												placeholder={this.checkValidation('title')}
+												value={this.state.questionTitle}
+												invalid = {this.isValid(this.state.questionTitle)}
+												id='title'
+												name ='question title'
+												onChange={(e) => this.updateQuestionValues(e)} 
+											/>
 										</Column>
 										<Column minWidth={'132'} verAlign={'top'}>
 											<QuestionDetails
 												width={'100%'}
-												type='number' 
-												min='0' 
-												placeholder="Score" 
-												value={this.state.score}
+												type='text' 
+												min='0'
+												onFocus = {(e) => e.target.type = 'number'} 
+												placeholder= {this.checkValidation('score')}
+												value={this.state.score < 0 ? (-1 * this.state.score) : this.state.score}
+												invalid = {this.isValid(this.state.score)}
 												id='score'
 												onChange={(e) => this.updateQuestionValues(e)} 
 											/>
@@ -248,12 +314,14 @@ class QuestionCreater extends Component {
 }
 function mapStateToProps(state) {
   return {
-   totalScore: state.test.totalScore,
+	 totalScore: state.test.totalScore,
+	 submitted: state.test.submitted,
   }
 }
 function mapDispatchToProps(dispatch) {
   return {
 		increaseTotalScore: (score) => dispatch(increaseTotalScore(score)),
+		submittedFalse: () => dispatch( submittedFalse()),
   }
 }
 

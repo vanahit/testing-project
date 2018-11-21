@@ -1,5 +1,6 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled, {css} from 'styled-components'
+import {connect} from 'react-redux';
 
 const AnswerInput = styled.input`
   margin-bottom: 30px;
@@ -18,7 +19,16 @@ const AnswerInput = styled.input`
   ::-webkit-input-placeholder {color: rgba(79, 157, 166, 0.5)}
 	::-moz-placeholder          {color:rgba(79, 157, 166, 0.5)}/* Firefox 19+ */
 	:-moz-placeholder           {color:rgba(79, 157, 166, 0.5)}/* Firefox 18- */
-	:-ms-input-placeholder      {color:rgba(79, 157, 166, 0.5)}
+  :-ms-input-placeholder      {color:rgba(79, 157, 166, 0.5)}
+
+  ${props => props.invalid && css`
+    color: rgba(185, 4, 46, 0.5);
+    border-bottom: 1px solid rgba(185, 4, 46, 1);
+    ::-webkit-input-placeholder {color: rgba(185, 4, 46, 0.5)}
+    ::-moz-placeholder          {color: rgba(185, 4, 46, 0.5)}/* Firefox 19+ */
+    :-moz-placeholder           {color: rgba(185, 4, 46, 0.5)}/* Firefox 18- */
+    :-ms-input-placeholder      {color: rgba(185, 4, 46, 0.5)}
+`}
 `;
 
 const Radio = styled.input`
@@ -37,7 +47,7 @@ const DeleteAnswer = styled.button`
 
 `;
 
-export default class OneAnswerCreater extends React.Component {
+class OneAnswerCreater extends React.Component {
   constructor(props){
      super(props);
      this.state = {title: ''}
@@ -57,19 +67,35 @@ export default class OneAnswerCreater extends React.Component {
   componentDidUpdate(prevProps) {
     prevProps.isRight !== this.props.isRight && this.props.getInputValue(this.state.title, this.props.id, this.props.isRight);
   }
-  isValid = () => {
-  }
+  checkValidation = (inputName) => {
+    let placeholderText ='';
+		return placeholderText = (this.props.submitted && !this.state.questionTitle) 
+			? `Fill Answer ${this.props.count}` 
+			: `Answer ${this.props.count}`;
+	}
+	isValid = () => {
+		return this.props.submitted && !this.state.title ? true : false;
+	}
  	render() {
     return ( 
             <AnswerInput 
               type="text"
-              required 
-              placeholder={`Answer ${this.props.count}`}
+              placeholder={this.checkValidation()}
+              invalid = {this.isValid()}
               id={this.props.id} 
               value={this.state.title} 
               onChange={this.inputChangeHandler} 
           />
-         
     )
+   }
+  }
+function mapStateToProps(state) {
+  return {
+	 submitted: state.test.submitted,
   }
 }
+function mapDispatchToProps(dispatch) {
+  return {
+	}
+}
+export default connect(mapStateToProps, mapDispatchToProps)(OneAnswerCreater)

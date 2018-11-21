@@ -1,14 +1,15 @@
 import React, { Component } from 'react';
-import styled from 'styled-components';
+import styled, {css} from 'styled-components'
 import QuestionCreater from './QuestionCreater/QuestionCreater';
 import { connect } from 'react-redux';
-import {  } from '../../store/actions/testCreater';
+import {submittedFalse, submittedTrue} from '../../store/actions/testCreater';
 import { firebase } from '../../firebase/firebase';
 
 const Main = styled.div`
 	margin: auto;
 	max-width: 1200px;
 	overflow: auto;
+	
 `;
 const Test = styled.div` 
 	width: 100%;
@@ -16,10 +17,12 @@ const Test = styled.div`
 	border: 1px solid #D6D6D6;
 	border-right: 0px;
 	border-left: 0px;
+	
 `;
 const TestCreaterLink = styled.div`
 	margin: 30px 0;
 	font-size: 14px;
+
 `;
 const FlexRow = styled.div`
 	display: flex;
@@ -36,19 +39,13 @@ const FlexRow = styled.div`
 		min-width: 100%;
 	}
 `;
-const Title = styled.div`
-	flex: 50%;
-    flex-shrink: 1;
-	box-sizing: border-box;
-`;
-const Type = styled.div`
-	flex: 25%;
-	text-align: right;
-	box-sizing: border-box;
-`;
-const Company = styled.div`
-	flex: 25%;
-	box-sizing: border-box;
+const FlexChild = styled.div`
+	width:  ${props => props.width || '25%'};
+	   box-sizing: border-box;
+	   
+	@media screen and (max-width: 1190px) {
+		min-width: 100%;
+	}
 `;
 const TestDetails = styled.input`
 	min-width: ${props => props.minWidth || 'calc(100% - 16px)'};
@@ -75,9 +72,19 @@ const TestDetails = styled.input`
 	::-moz-placeholder          {color:rgba(79, 157, 166, 0.5)}/* Firefox 19+ */
 	:-moz-placeholder           {color:rgba(79, 157, 166, 0.5)}/* Firefox 18- */
 	:-ms-input-placeholder      {color:rgba(79, 157, 166, 0.5)}
+
+	${props => props.invalid && css`
+		font-size: 24px;
+		color: rgba(185, 4, 46, 0.5);
+		border-bottom: 1px solid rgba(185, 4, 46, 1);
+		::-webkit-input-placeholder {color: rgba(185, 4, 46, 0.5)}
+		::-moz-placeholder          {color: rgba(185, 4, 46, 0.5)}/* Firefox 19+ */
+		:-moz-placeholder           {color: rgba(185, 4, 46, 0.5)}/* Firefox 18- */
+		:-ms-input-placeholder      {color: rgba(185, 4, 46, 0.5)}
+	`}
 `;
 const Select = styled.select`
-	min-width: calc(100% - 8px);
+	width: calc(100% - 8px);
 	height: 60px;
 	padding-left: 16px;
 	color: #4F9DA6;
@@ -106,7 +113,6 @@ const Description = styled.textarea`
 	color: #4F9DA6;
 	border: 1px solid #4F9DA6;
 	font-size: 24px;
-
 	@media screen and (max-width: 580px) {
 		font-size: 12px;
 	}
@@ -114,6 +120,17 @@ const Description = styled.textarea`
 	::-moz-placeholder          {color:rgba(79, 157, 166, 0.5)}/* Firefox 19+ */
 	:-moz-placeholder           {color:rgba(79, 157, 166, 0.5)}/* Firefox 18- */
 	:-ms-input-placeholder      {color:rgba(79, 157, 166, 0.5)}
+
+	${props => props.invalid && css`
+		font-size: 24px;
+		color: rgba(185, 4, 46, 0.5);
+    border-bottom: 1px solid rgba(185, 4, 46, 1);
+    ::-webkit-input-placeholder {color: rgba(185, 4, 46, 0.5)}
+    ::-moz-placeholder          {color: rgba(185, 4, 46, 0.5)}/* Firefox 19+ */
+    :-moz-placeholder           {color: rgba(185, 4, 46, 0.5)}/* Firefox 18- */
+    :-ms-input-placeholder      {color: rgba(185, 4, 46, 0.5)}
+  `}
+	
 `;
 const AddButton = styled.button`
 	margin-bottom: 30px;
@@ -130,7 +147,15 @@ const AddTest = styled.div`
 	width: 100%;
 	text-align: center;
 `;
-
+const DeleteQuestion = styled.button`
+	margin-left: 8px;
+	width: 40px;
+	height: 40px;
+	color:rgba(230, 36, 22, 1);
+	font-size: 24px;
+	background-color: white;
+	border: 1px solid rgba(231, 231, 231, 1);
+`;
 class TestCreater extends Component {
 	constructor(props) {
 		super(props);
@@ -146,7 +171,6 @@ class TestCreater extends Component {
 			passScore: '',
 			totalScore: '',
 			isEditing: false,
-			isValid: '',
 		}
 	}
 	componentDidMount() {
@@ -169,7 +193,7 @@ class TestCreater extends Component {
 		const languages = ['JavaScript', 'Java', "PHP", 'C#', 'MySQL', 'Python', 'Ruby', 'Swift', 'React', 'Redux'];
 		return (
 			<Select
-				minWidth={'calc(100% - 8px)'}
+				width={'calc(100% - 8px)'}
 				required
 				onChange={(e) => this.setState({ testType: e.target.value })}
 				value={this.state.testType}>
@@ -191,6 +215,7 @@ class TestCreater extends Component {
 			isEditing: false,
 		}
 		this.setState({ questions: this.state.questions.concat(oneQuestion) })
+		this.props.submittedFalse();
 	}
 	clearWordFromSpaces = (word) => {
 		return word.replace(/^[ ]+/g, '').replace(/\s*$/, '');
@@ -206,7 +231,6 @@ class TestCreater extends Component {
 				description: this.clearWordFromSpaces(this.state.description),
 				question: this.state.questions
 			})
-	
 			db.ref('tests').push({ ...this.state });
 	
 			this.setState({
@@ -217,7 +241,7 @@ class TestCreater extends Component {
 				testDeadline: '',
 				testType: '',
 				company: '',
-				time: '',
+				testDuration: '',
 				totalScore: '',
 				passScore: '',
 				isEditing: false,
@@ -226,13 +250,31 @@ class TestCreater extends Component {
 	}
 	submitHandler = (e) => {
 		e.preventDefault();
-		this.postData();
+		this.props.submittedTrue();
+		this.state.isValid && this.postData();
 	}
-	isValid() {
-
+	checkValidation = (inputName) => {
+		let placeholderText = '';
+		switch (inputName) {
+			case 'title' :
+				placeholderText = (this.props.submitted && !this.state.testTitle) ?  `Fill Test Title` : `Test Title`;	break;
+			case 'company' :
+				placeholderText = this.props.submitted && !this.state.company ? `Fill company` : `Company`;	break;
+			case 'description' :
+				placeholderText = this.props.submitted && !this.state.description 
+					? `Fill description of test/n  its complexity , target audience etc` : `Description`; 	break;
+			case 'deadline' :
+				placeholderText = this.props.submitted && !this.state.testDeadline ? `Fill deadline of test` : `Deadline`;	break;
+			case 'duration' :
+				placeholderText = this.props.submitted && !this.state.testDuration ? `Fill test duration` : `Test Duration`;	break;
+			case 'score' :
+				placeholderText = this.props.submitted && !this.state.passScore ? `Fill passing score` : `Passing Score`; break;
+			default:
+		}
+		return placeholderText;
 	}
-	componentDidUpdate (prevState) {
-
+	isValid = (inputValue) => {
+		return this.props.submitted && !inputValue ? true : false;
 	}
 	render() {
 		return (
@@ -240,64 +282,80 @@ class TestCreater extends Component {
 				<TestCreaterLink> Home / My Account / Test Create </TestCreaterLink>
 				<form onSubmit={this.submitHandler}>
 					<Test>
-						<FlexRow width={'100%'}>
-							<Title>
+						<FlexRow>
+							<FlexChild width={'50%'}>
 								<TestDetails
-									required
 									width={'calc(100% - 16px)'}
 									type="text"
-									placeholder="Test Title"
+									placeholder={this.checkValidation('title')}
 									value={this.state.testTitle}
-									onChange={(e) => { this.setState({ testTitle: e.target.value }) }} />
-							</Title>
-							<Company>
+									onChange={(e) => { this.setState({ testTitle: e.target.value }) }} 
+									invalid = {this.isValid(this.state.testTitle)} 
+								/>
+							</FlexChild>
+							<FlexChild width={'25%'}>
 								<TestDetails
-									required
-									minWidth={'calc(100% - 8px)'}
+									width={'calc(100% - 8px)'}
 									type="text"
-									placeholder="Company"
+									placeholder={this.checkValidation('company')}
 									value={this.state.company}
-									onChange={(e) => { this.setState({ company: e.target.value }) }} />
-							</Company>
-							<Type> {this.selectBox()}  </Type>
+									onChange={(e) => { this.setState({ company: e.target.value }) }}
+									invalid = {this.isValid(this.state.company)} 
+								/>
+							</FlexChild>
+							<FlexChild width={'25%'}> {this.selectBox()}  </FlexChild>
 						</FlexRow>
 						<FlexRow width={'100%'}>
 							<Description 
-								placeholder="Description" 
+								placeholder={this.checkValidation('description')} 
 								value={this.state.description}
 								onChange={(e) => { this.setState({ description: e.target.value }) }} 
+								invalid = {this.isValid(this.state.description)}
 							/>
 						</FlexRow>
 						<FlexRow width={'100%'}>
-							<div><TestDetails
-								required
+							<FlexChild>
+								<TestDetails
 								width={'292px'}
 								type='text'
-								placeholder="Test Deadline"
+								placeholder={this.checkValidation('deadline')}
 								onFocus={(e) => e.target.type = 'date'}
-								onChange={(e) => { this.setState({ testDeadline: e.target.value }) }} /></div>
-							<div><TestDetails
+								onBlur={(e) => {e.target.type = !this.state.testDeadline ? 'text' : 'date'}}
+								onChange={(e) => { this.setState({ testDeadline: e.target.value }) }}
+								invalid = {this.isValid(this.state.testDeadline)} 
+								/>
+							</FlexChild>
+							<FlexChild>
+								<TestDetails
 								required
 								width={'292px'}
 								type='number' min="0"
-								placeholder="Minutes"
-								value={this.state.time}
-								onChange={(e) => { this.setState({ time: e.target.value }) }} /></div>
-
-							<div><TestDetails
-								required
+								placeholder={this.checkValidation('duration')}
+								value={this.state.testDuration < 0 ? (-1 * this.state.testDuration) : this.state.testDuration}
+								onChange={(e) => { this.setState({ testDuration: e.target.value}) }}
+								invalid = {this.isValid(this.state.testDuration)}  
+								/>
+							</FlexChild>
+							<FlexChild>
+								<TestDetails
 								width={'292px'}
 								type='number'
 								min="0" 
 								placeholder="Total Score"  
 								disabled 
-								value={this.props.totalScore}/></div>
-							<div><TestDetails
+								value={this.props.totalScore}/>
+							</FlexChild>
+							<FlexChild>
+								<TestDetails
 								width={'292px'}
 								type='number'
 								min="0"
-								placeholder="Passing Score" value={this.state.passScore}
-								onChange={(e) => { this.setState({ passScore: +e.target.value }) }} /></div>
+								placeholder={this.checkValidation('score')} 
+								value={this.state.passScore < 0 ? (-1 * this.state.passScore) : this.state.passScore}
+								onChange={(e) => { this.setState({ passScore: +e.target.value }) }}
+								invalid = {this.isValid(this.state.passScore)}  
+								/>
+							</FlexChild>
 						</FlexRow>
 						<AddButton type='button' onClick={this.addQuestion}>ADD QUESTION</AddButton>
 					</Test>
@@ -322,11 +380,13 @@ function mapStateToProps(state) {
 	console.log(state.test.questions);
 	return {
 		totalScore: state.test.totalScore,
+		submitted: state.test.submitted,
 	}
 }
 function mapDispatchToProps(dispatch) {
 	return {
-	
+	 submittedTrue: () => dispatch( submittedTrue()),
+	 submittedFalse: () => dispatch( submittedFalse()),
 	}
 }
 
