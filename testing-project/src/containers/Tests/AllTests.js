@@ -9,6 +9,8 @@ export default class AllTests extends Component {
 		this.state = {
 			data: [],
 			search: "",
+			currentPage: 1,
+			dataPerPage: 2,
 		}
 	}
 
@@ -26,11 +28,25 @@ export default class AllTests extends Component {
     });
 	}
 
+	pageClick (e) {
+		this.setState({ currentPage: Number(e.target.id) })
+	}
+
 
 	render(){
-		const filterData = this.state.data.filter( item => {
-			return item.testTitle.toLowerCase().substr(0,this.state.search.length) === this.state.search.toLowerCase()
+		const { data, search, currentPage, dataPerPage } = this.state;
+		const filterData = data.filter( item => {
+			return item.testTitle.toLowerCase().substr(0,search.length) === search.toLowerCase()
 		} )
+
+		const indexOfLastData = currentPage * dataPerPage;
+    const indexOfFirstData = indexOfLastData - dataPerPage;
+    const currentData = filterData.slice(indexOfFirstData, indexOfLastData);
+
+    const pages = [];
+    for (let i = 1; i <= Math.ceil(data.length / dataPerPage); i++) {
+      pages.push(i);
+    }
 
 
 		const languages = ['JavaScript', 'Java', "PHP", 'C#', 'MySQL', 'Python', 'Ruby', 'Swift', 'React', 'Redux'];
@@ -44,14 +60,14 @@ export default class AllTests extends Component {
 					<input type="text" 
 						className="search" 
 						placeholder="Search" 
-						value={this.state.search} 
+						value={search} 
 						onChange={ e => this.setState({ search: e.target.value })} 
 						/>
 					<span>8/200</span>
 				</div>
 				<div className="content-grid">
 					{
-						filterData.map( item => {
+						currentData.map( item => {
 							return (
 								<div key={item.id} className="grid">
 									<img src={src} alt="Type test" />
@@ -71,6 +87,30 @@ export default class AllTests extends Component {
 					
 					
 					<button className="viewMore">View More</button>
+					<div className="pagination">
+						<div className="paginationContent">
+							<span> Previous </span>
+							<div className="pages">
+								<span>Pages:</span>
+								<ul>
+								{
+									pages.map( page => {
+										return (
+											<li 
+												key={page} 
+												id={page}
+												onClick={this.pageClick.bind(this)}>
+												{page}
+											</li>
+										)	
+									} )
+								}
+								</ul>
+							</div>
+							<span> Next </span>
+						</div>
+					</div>
+
 					<div className="pagination">
 						<div className="paginationContent">
 							<span> Previous </span>
