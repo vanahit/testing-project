@@ -4,6 +4,7 @@ import CompanyRegistration from "./registration/CompanyRegistration";
 import {connect} from 'react-redux';
 import * as firebase from "firebase";
 import CompanyPage from "../CompanyPage";
+import {Route} from "react-router";
 
 class AutorizationCompany extends Component {
 
@@ -56,7 +57,7 @@ class AutorizationCompany extends Component {
             <div>
                 {this.state.currentCompany ?
                     <div>
-                        <CompanyPage/>
+                        <Route path='/eritueriou' component={CompanyPage}/>
                     </div> :
                     <div className='container'>
                         <Login

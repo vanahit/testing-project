@@ -3,20 +3,75 @@
     margin: 0;
     padding: 0;
     outline: none;
+    font-family: 'Roboto', sans-serif;
 }
 
-.switch-buttons{
+/*-----------------------------------------*/
+/*Header*/
+/*------------------------------------------*/
+
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    height: 60px;
+    background-color: rgba(34, 34, 34, 0.83);
+    padding: 0 220px;
+}
+
+.header * {
+    text-decoration: none;
+}
+
+.logo,
+.header-log-in {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 120px;
+    height: 40px;
+    color: white;
+}
+
+.logo {
+    font-size: 20px;
+    background-color: #FF5959;
+}
+
+.navigation {
+    display: flex;
+    width: 320px;
+    justify-content: space-between;
+}
+
+.navigation * {
+    color: white;
+    font-size: 14px;
+    font-weight: bold;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.header-log-in {
+    font-size: 20px;
+    border: 1px solid black;
+}
+
+/*---------------------------------------------*/
+
+.switch-buttons {
     width: 1200px;
     margin: 0 auto;
 }
 
-.switch-buttons p{
+.switch-buttons p {
     tab-size: 14px;
     color: #201C16;
     margin: 20px 0;
 }
 
-.switch-buttons button{
+.switch-buttons button {
     width: 200px;
     height: 60px;
     font-size: 24px;
@@ -24,7 +79,7 @@
     color: #D6D6D6;
 }
 
-.selected-tab{
+.selected-tab {
     background-color: #4F9DA6;
 }
 
@@ -65,7 +120,7 @@
 }
 
 .login:after,
-.registration:after{
+.registration:after {
     content: "";
     display: block;
     position: absolute;
@@ -77,13 +132,12 @@
     background-position: center center;
     width: 100%;
     height: 100%;
-    opacity : 0.8;
+    opacity: 0.8;
     z-index: -1;
 }
 
 .login h5,
-.registration h5{
-    font-family: 'Roboto', sans-serif;
+.registration h5 {
     font-weight: bold;
     font-size: 34px;
     color: white;
@@ -96,7 +150,6 @@
     padding: 5px;
     text-align: center;
     font-size: 20px;
-    font-family: 'Roboto', sans-serif;
     border: 0;
     background: none;
     border-bottom: 2px solid #eeeeff;
@@ -130,11 +183,10 @@
 }
 
 .login .submit,
-.registration .submit{
+.registration .submit {
     width: 504px;
     height: 60px;
     font-size: 24px;
-    font-family: 'Roboto', sans-serif;
     font-weight: bold;
     margin-bottom: 30px;
     cursor: pointer;
@@ -143,7 +195,6 @@
 
 .login p {
     color: white;
-    font-family: 'Roboto', sans-serif;
     font-size: 16px;
     text-align: center;
     height: 19px;
@@ -156,7 +207,6 @@
     width: 50%;
     font-size: 24px;
     color: white;
-    font-family: 'Roboto', sans-serif;
     font-weight: bold;
     cursor: pointer;
 }
@@ -231,3 +281,16 @@
 /*Registration part*/
 /*----------------------------------------------------*/
 
+
+/*-----------------------------------------------------*/
+
+.not-found {
+    top: 60px;
+    bottom: 0;
+    left: 50%;
+    right: 0;
+    transform: translateX(-25%);
+    position: absolute;
+    background-image: url("../src/images/404.jpg");
+    background-repeat: no-repeat;
+}

@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import ImgComponent from "./ImgComponent";
 import InfoComponent from "./InfoComponent";
 import * as firebase from "firebase";
 

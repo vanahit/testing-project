@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-// import {Route} from "react-router-dom";
 import AutorizationUser from "./AutorizationUser";
 import AutorizationCompany from "./AutorizationCompany";
 import '../../App.css';
