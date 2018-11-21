@@ -61,13 +61,12 @@ class CompanyRegistration extends Component {
             <form onSubmit={this.handleSubmit.bind(this)}>
 
                 <div className='registration'>
-                    <h2>Registration</h2>
-                    <ImgComponent/>
+                    <h5>Registration</h5>
                     <InfoComponent
                         changeField={this.changeField.bind(this)}
                         arr={[name, surname, email, phone, password]}
                     />
-                    <input type="submit"/>
+                    <input className='submit' type="submit"/>
                 </div>
 
             </form>

@@ -59,12 +59,12 @@ class AutorizationCompany extends Component {
                         <CompanyPage/>
                     </div> :
                     <div className='container'>
-                        <CompanyRegistration/>
                         <Login
                             login={this.state.pass}
                             email={this.state.email}
                             changeHandler={this.changeHandler}
                             signInCompany={this.signInCompany.bind(this)}/>
+                        <CompanyRegistration/>
                     </div>}
             </div>
 
