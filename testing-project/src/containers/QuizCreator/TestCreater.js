@@ -290,7 +290,7 @@ class TestCreater extends Component {
 				questions: this.state.questions,
 				passers: 0,
 			};
-			db.ref('tests').push({ test });
+			db.ref('tests').push({...test });
 	
 			this.setState({
 				questions: [],
