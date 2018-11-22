@@ -3,7 +3,6 @@ import {INCREASE_TOTAL_SCORE, SUBMITTED_FALSE, SUBMITTED_TRUE} from '../actions/
 const initialState = {
   questions: [],
   totalScore: 0,
-  isValid: false,
   submitted: false,
 }
 
