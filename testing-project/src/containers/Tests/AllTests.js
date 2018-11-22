@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import src from '../../images/is.jpg';
 import {firebase} from '../../firebase/firebase';
+import Pagination from './Pagination';
 
 export default class AllTests extends Component {
 	constructor(props){
@@ -9,8 +10,9 @@ export default class AllTests extends Component {
 		this.state = {
 			data: [],
 			search: "",
+			type:"",
 			currentPage: 1,
-			dataPerPage: 2,
+			dataPerPage: 3,
 		}
 	}
 
@@ -28,23 +30,34 @@ export default class AllTests extends Component {
     });
 	}
 
+	searching (e, searchProp) {
+		this.setState({ 
+			[searchProp]: e.target.value,
+			currentPage: 1 
+		})
+	}
+
 	pageClick (e) {
 		this.setState({ currentPage: Number(e.target.id) })
 	}
 
 
 	render(){
-		const { data, search, currentPage, dataPerPage } = this.state;
-		const filterData = data.filter( item => {
+		const { data, search, type, currentPage, dataPerPage } = this.state;
+		let filterData = data.filter( item => {
 			return item.testTitle.toLowerCase().substr(0,search.length) === search.toLowerCase()
 		} )
+
+		if(type !== ""){
+			filterData = filterData.filter( item => item.testType === type)
+		}
 
 		const indexOfLastData = currentPage * dataPerPage;
     const indexOfFirstData = indexOfLastData - dataPerPage;
     const currentData = filterData.slice(indexOfFirstData, indexOfLastData);
 
     const pages = [];
-    for (let i = 1; i <= Math.ceil(data.length / dataPerPage); i++) {
+    for (let i = 1; i <= Math.ceil(filterData.length / dataPerPage); i++) {
       pages.push(i);
     }
 
@@ -53,7 +66,9 @@ export default class AllTests extends Component {
 		return (
 			<div className="container-fluid">
 				<div className="searching">
-					<select className="searchingSelect">
+					<select 
+						className="searchingSelect" 
+						onChange={e => this.searching(e,'type')} value={type} >
 						<option className="hidden" value="">All Types</option>
 						{languages.map( item => <option key={item} value={item}>{item}</option> )}
 					</select>
@@ -61,9 +76,9 @@ export default class AllTests extends Component {
 						className="search" 
 						placeholder="Search" 
 						value={search} 
-						onChange={ e => this.setState({ search: e.target.value })} 
+						onChange={e => this.searching(e,'search')} 
 						/>
-					<span>8/200</span>
+					<span>{dataPerPage}/{data.length}</span>
 				</div>
 				<div className="content-grid">
 					{
@@ -87,7 +102,7 @@ export default class AllTests extends Component {
 					
 					
 					<button className="viewMore">View More</button>
-					<div className="pagination">
+					{pages.length>1 && <div className="pagination">
 						<div className="paginationContent">
 							<span> Previous </span>
 							<div className="pages">
@@ -96,7 +111,8 @@ export default class AllTests extends Component {
 								{
 									pages.map( page => {
 										return (
-											<li 
+											<li
+												className={`${page == currentPage ? 'active' : ""}`} 
 												key={page} 
 												id={page}
 												onClick={this.pageClick.bind(this)}>
@@ -109,25 +125,9 @@ export default class AllTests extends Component {
 							</div>
 							<span> Next </span>
 						</div>
-					</div>
+					</div>}
 
-					<div className="pagination">
-						<div className="paginationContent">
-							<span> Previous </span>
-							<div className="pages">
-								<span>Pages:</span>
-								<ul>
-									<li>1</li>
-									<li>2</li>
-									<li>3</li>
-									<li>...</li>
-									<li>4</li>
-									<li>5</li>
-								</ul>
-							</div>
-							<span> Next </span>
-						</div>
-					</div>
+					
 				</div>
 			</div>
 		);

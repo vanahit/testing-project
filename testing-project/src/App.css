@@ -280,6 +280,10 @@
     margin: 2px;
 }
 
+.pages ul li.active{
+    background: #E7E7E7;
+}
+
 .pages ul li:hover{
     background: #E7E7E7;
 }
