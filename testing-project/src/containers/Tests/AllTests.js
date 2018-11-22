@@ -13,6 +13,7 @@ export default class AllTests extends Component {
 			type:"",
 			currentPage: 1,
 			dataPerPage: 3,
+			loadMore: 0,
 		}
 	}
 
@@ -38,12 +39,19 @@ export default class AllTests extends Component {
 	}
 
 	pageClick (e) {
-		this.setState({ currentPage: Number(e.target.id) })
+		this.setState({ 
+			currentPage: Number(e.target.id),
+			loadMore: 0 
+		})
+	}
+
+	loadMore (e) {
+		this.setState({ loadMore: this.state.loadMore+1 })
 	}
 
 
 	render(){
-		const { data, search, type, currentPage, dataPerPage } = this.state;
+		const { data, search, type, currentPage, dataPerPage, loadMore } = this.state;
 		let filterData = data.filter( item => {
 			return item.testTitle.toLowerCase().substr(0,search.length) === search.toLowerCase()
 		} )
@@ -54,7 +62,7 @@ export default class AllTests extends Component {
 
 		const indexOfLastData = currentPage * dataPerPage;
     const indexOfFirstData = indexOfLastData - dataPerPage;
-    const currentData = filterData.slice(indexOfFirstData, indexOfLastData);
+    const currentData = filterData.slice(indexOfFirstData, indexOfLastData+loadMore*dataPerPage);
 
     const pages = [];
     for (let i = 1; i <= Math.ceil(filterData.length / dataPerPage); i++) {
@@ -101,10 +109,10 @@ export default class AllTests extends Component {
 					
 					
 					
-					<button className="viewMore">View More</button>
+					{loadMore + currentPage !== pages.length && <button className="viewMore" onClick={this.loadMore.bind(this)}>Load More</button>}
 					{pages.length>1 && <div className="pagination">
 						<div className="paginationContent">
-							<span> Previous </span>
+							{loadMore + currentPage !== 1 && <span> Previous </span>}
 							<div className="pages">
 								<span>Pages:</span>
 								<ul>
@@ -112,7 +120,7 @@ export default class AllTests extends Component {
 									pages.map( page => {
 										return (
 											<li
-												className={`${page == currentPage ? 'active' : ""}`} 
+												className={`${page == (currentPage+loadMore) ? 'active' : ""}`} 
 												key={page} 
 												id={page}
 												onClick={this.pageClick.bind(this)}>
@@ -123,7 +131,7 @@ export default class AllTests extends Component {
 								}
 								</ul>
 							</div>
-							<span> Next </span>
+							{loadMore + currentPage !== pages.length && <span> Next </span>}
 						</div>
 					</div>}
 
