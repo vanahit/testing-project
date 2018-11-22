@@ -1,15 +1,23 @@
-import {ADD_QUESTION,  DELETE_QUESTIONS} from './actionTypes'
+import {INCREASE_TOTAL_SCORE, SUBMITTED_FALSE, SUBMITTED_TRUE} from './actionTypes'
 
-export function addQuestion(question) {
+export function increaseTotalScore(score) {
   return {
-    type: ADD_QUESTION,
-    question
+    type: INCREASE_TOTAL_SCORE,
+    score
+    
   }
 }
-export function deleteQuestions() {
+
+export function submittedFalse() {
   return {
-    type: DELETE_QUESTIONS,
-    
+    type: SUBMITTED_FALSE,
+   
+  }
+}
+export function submittedTrue() {
+  return {
+    type: SUBMITTED_TRUE,
+   
   }
 }
 
