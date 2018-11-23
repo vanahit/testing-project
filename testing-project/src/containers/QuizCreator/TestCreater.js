@@ -2,9 +2,11 @@ import React, { Component } from 'react';
 import styled, {css} from 'styled-components'
 import QuestionCreater from './QuestionCreater/QuestionCreater';
 import InvalidScoreFlag from '../../components/QuizCreater/InvalidScoreFlag';
+import SuccessText from '../../components/QuizCreater/TestCreateSuccessText';
 import { connect } from 'react-redux';
 import {submittedFalse, submittedTrue,  increaseTotalScore} from '../../store/actions/testCreater';
 import { firebase } from '../../firebase/firebase';
+
 
 const Main = styled.div`
 	margin: auto;
@@ -178,7 +180,6 @@ const AddTest = styled.div`
 	width: 100%;
 	text-align: center;
 `;
-
 class TestCreater extends Component {
 	constructor(props) {
 		super(props);
@@ -197,6 +198,7 @@ class TestCreater extends Component {
 			isAnswerValid: false,
 			isQuestionValid: false,
 			isFormValid: false,
+			testCreated: false,
 			
 		}
 	}
@@ -250,7 +252,7 @@ class TestCreater extends Component {
 			questionTitle: '',
 			score: '',
 	}
-		this.setState({ questions: this.state.questions.concat(oneQuestion) })
+		this.setState({ questions: this.state.questions.concat(oneQuestion), testCreated:false })
 		this.props.submittedFalse();
 	}
 	deleteQuestion = (id) => {
@@ -275,23 +277,22 @@ class TestCreater extends Component {
 				passers: 0,
 			};
 			db.ref('tests').push({...test });
-	
-			this.setState({
-				questions: [],
-				id: Date.now(),
-				testTitle: '',
-				description: '',
-				testDeadline: '',
-				testType: '',
-				company: '',
-				testDuration: '',
-				totalScore: '',
-				passScore: '',
-				isEditing: false,
-			})
-			this.props.submittedFalse();
-			this.props.increaseTotalScore(-this.props.totalScore);
-		
+				this.setState({
+					questions: [],
+					id: Date.now(),
+					testTitle: '',
+					description: '',
+					testDeadline: '',
+					testType: '',
+					company: '',
+					testDuration: '',
+					totalScore: '',
+					passScore: '',
+					isEditing: false,
+					testCreated: false,
+				})
+				this.props.submittedFalse();
+				this.props.increaseTotalScore(-this.props.totalScore);
 	}	
 	submitHandler = (e) => {
 		e.preventDefault();
@@ -302,7 +303,8 @@ class TestCreater extends Component {
 			this.formValidation();
 		}).then(isFormValid => {
 			this.state.isFormValid && this.postData();
-		});
+			this.setState({testCreated: true})
+		})
 	}
 	formValidation = () => {
 		let state = {...this.state};
@@ -348,6 +350,19 @@ class TestCreater extends Component {
 				? this.setState({passScoreInvalid: true}) : this.setState({passScoreInvalid: false})
 		}
 	}
+	getTodayDate = () => {
+		let today = new Date();
+		let dd = today.getDate();
+		let mm = today.getMonth() + 1;
+		let yyyy = today.getFullYear();
+		if(dd < 10){
+			dd = '0' + dd
+		} 
+		if (mm < 10){
+			mm = '0' + mm
+		} 
+   		return	today = yyyy + '-' + mm + '-' + dd;
+	}
 	render() {
 		return (
 			<Main>
@@ -392,6 +407,7 @@ class TestCreater extends Component {
 								<TestDetails
 									width={'292px'}
 									type='text'
+									min={this.getTodayDate()}
 									placeholder={this.checkInputValidation('deadline')}
 									value = {this.state.testDeadline}
 									onFocus={(e) => e.target.type = 'date'}
@@ -420,7 +436,7 @@ class TestCreater extends Component {
 									value={`Total Score ${this.props.totalScore}`}/>
 							</FlexChild>
 							<FlexChild>
-								{ this.state.passScoreInvalid && <InvalidScoreFlag>  sdasdasd </InvalidScoreFlag> }
+								{ this.state.passScoreInvalid && <InvalidScoreFlag />}
 								<TestDetails
 									width={'292px'}
 									type='number'
@@ -451,6 +467,9 @@ class TestCreater extends Component {
 							<AddButton>CREATE TEST</AddButton>
 						</AddTest> }
 				</form>
+					<FlexRow>{ this.state.testCreated && <SuccessText />} </FlexRow>	
+				
+								
 			</Main>
 		);
 	}
