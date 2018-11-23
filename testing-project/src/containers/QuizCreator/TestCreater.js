@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import styled, {css} from 'styled-components'
 import QuestionCreater from './QuestionCreater/QuestionCreater';
+import InvalidScoreFlag from '../../components/QuizCreater/InvalidScoreFlag';
 import { connect } from 'react-redux';
 import {submittedFalse, submittedTrue,  increaseTotalScore} from '../../store/actions/testCreater';
 import { firebase } from '../../firebase/firebase';
@@ -46,7 +47,8 @@ const FlexChild = styled.div`
 	box-sizing: border-box;
 		   
 	@media screen and (max-width: 1190px) {
-		min-width: 98%;
+		margin: 5px;
+		min-width: 100%;
 	}
 `;
 const TestDetails = styled.input`
@@ -59,7 +61,7 @@ const TestDetails = styled.input`
 	overflow: hidden; 
 	border: 1px solid #4F9DA6;
 	box-sizing: border-box;
-	transition: font-size 1s ease-in;
+	transition: font-size 0.5s ease-in-out;
 	:disabled {
 		background-color: white;
 	}
@@ -76,7 +78,7 @@ const TestDetails = styled.input`
 	:-ms-input-placeholder      {color:rgba(79, 157, 166, 0.5)}
 
 	${props => props.invalid && css`
-		font-size: 16px;
+		font-size: 22px;
 		color: rgba(185, 4, 46, 0.5);
 		border-bottom: 1px solid rgba(185, 4, 46, 1);
 		::-webkit-input-placeholder {color: rgba(185, 4, 46, 0.5)}
@@ -94,7 +96,7 @@ const Select = styled.select`
 	overflow: hidden; 
 	border: 1px solid #4F9DA6;
 	box-sizing: border-box;
-	transition: font-size 1s ease-in-out;
+	transition: font-size 0.5s ease-in-out;
 
 	@media screen and (max-width: 1190px) {
 		margin-top: 5px;
@@ -109,7 +111,7 @@ const Select = styled.select`
 	:-moz-placeholder           {color:rgba(79, 157, 166, 0.5)}/* Firefox 18- */
 	:-ms-input-placeholder      {color:rgba(79, 157, 166, 0.5)}
 	${props => props.invalid && css`
-		font-size: 16px;
+		font-size: 22px;
 		transition: font-size 1s ease-in-out;
 		color: rgba(185, 4, 46, 0.5);
 		border-bottom: 1px solid rgba(185, 4, 46, 1);
@@ -127,25 +129,23 @@ const Description = styled.textarea`
 	font-size: 24px;
 	border: 1px solid #4F9DA6;
 	box-sizing: border-box;
-	transition: font-size 1s ease-in-out;
+	transition: font-size 0.5s ease-in-out;
 	
 	@media screen and (max-width: 1190px) {
 		margin-top: 5px;
 		min-width: 100%;
 	}
-
 	@media screen and (max-width: 580px) {
 		font-size: 16px;
 	}
-
 	::-webkit-input-placeholder {color: rgba(79, 157, 166, 0.5)}
 	::-moz-placeholder          {color:rgba(79, 157, 166, 0.5)}/* Firefox 19+ */
 	:-moz-placeholder           {color:rgba(79, 157, 166, 0.5)}/* Firefox 18- */
 	:-ms-input-placeholder      {color:rgba(79, 157, 166, 0.5)}
 
 	${props => props.invalid && css`
-		font-size: 16px;
-		transition: font-size 1s ease-in-out;
+		font-size: 22px;
+		transition: font-size 0.5s ease-in-out;
 		color: rgba(185, 4, 46, 0.5);
 		border-bottom: 1px solid rgba(185, 4, 46, 1);
 		::-webkit-input-placeholder {color: rgba(185, 4, 46, 0.5)}
@@ -178,26 +178,7 @@ const AddTest = styled.div`
 	width: 100%;
 	text-align: center;
 `;
-const InvalidScoreText = styled.div`
-		position: absolute;
-		padding: 5px 10px;
-		left: 2px;
-		top: -35px;
-		color:rgba(230, 36, 22, 1);
-		font-size: 14px;
-		background-color: rgba(79, 157, 166, 0.2);
-		border-radius: 4px;
-		
-`;
-const Trinagle = styled.div`
-		position: absolute;
-		top: 28px;
-		width: 0;
-		height: 0;
-		border-left: 5px solid transparent;
-		border-right: 5px solid transparent;
-		border-top: 15px solid rgba(79, 157, 166, 0.2);
-`;
+
 class TestCreater extends Component {
 	constructor(props) {
 		super(props);
@@ -208,6 +189,7 @@ class TestCreater extends Component {
 			testDeadline: '',
 			testType: '',
 			company: '',
+			totalScore: '',
 			passScore: '',
 			testDuration: '',
 			passScoreInvalid: false,
@@ -225,13 +207,10 @@ class TestCreater extends Component {
 		}).then((passScore) => {
 			this.state.passScore > this.props.totalScore 
 				? this.setState({passScoreInvalid: true}) : this.setState({passScoreInvalid: false})
-			
 		})
 	}
-
 	getQuestionValues = (item, type, id) => {
 		let questions = this.state.questions.map(question => {
-			console.log(question.id); console.log(this.props.id);
 			if (question.id === id) {
 				console.log('yesss there is no problem')
 				type === 'title' && (question.questionTitle = this.clearWordFromSpaces(item));
@@ -244,7 +223,7 @@ class TestCreater extends Component {
 		this.setState({ questions: questions });
 	}
 	selectBox = () => {
-		const languages = ['JavaScript', 'Java', "PHP", 'C#', 'MySQL', 'Python', 'Ruby', 'Swift', 'React', 'Redux'];
+		const languages = ['Choose Type', 'JavaScript', 'Java', "PHP", 'C#', 'MySQL', 'Python', 'Ruby', 'Swift', 'React', 'Redux'];
 		return (
 			<Select
 				width={'calc(100% - 8px)'}
@@ -253,7 +232,12 @@ class TestCreater extends Component {
 				value={this.state.testType}>
 				{
 					languages.map((option, index) => (
-						<option key={index + 1}> {option} </option>
+						<option 
+							key={index + 1}
+							disabled = {index === 0 && this.state.testType ? true : false}
+						> 
+						{option} 
+						</option>
 					))}
 			</Select>
 		);
@@ -306,7 +290,7 @@ class TestCreater extends Component {
 				isEditing: false,
 			})
 			this.props.submittedFalse();
-			this.props. increaseTotalScore(-this.props.totalScore);
+			this.props.increaseTotalScore(-this.props.totalScore);
 		
 	}	
 	submitHandler = (e) => {
@@ -318,7 +302,6 @@ class TestCreater extends Component {
 			this.formValidation();
 		}).then(isFormValid => {
 			this.state.isFormValid && this.postData();
-
 		});
 	}
 	formValidation = () => {
@@ -337,7 +320,7 @@ class TestCreater extends Component {
 				placeholderText = this.props.submitted && !this.state.company ? `Fill company` : `Company`;	break;
 			case 'description' :
 				placeholderText = this.props.submitted && !this.state.description 
-					? `Fill description of test/n  its complexity , target audience etc` : `Description`; 	break;
+					? `Fill description of test its complexity , target audience etc` : `Description`; 	break;
 			case 'deadline' :
 				placeholderText = this.props.submitted && !this.state.testDeadline ? `Fill deadline of test` : `Deadline`;	break;
 			case 'duration' :
@@ -351,7 +334,7 @@ class TestCreater extends Component {
 		return placeholderText;
 	}
 	isFilled = (inputValue) => {
-		return this.props.submitted && !inputValue ? true : false;
+		return this.props.submitted &&  !inputValue ? true : false;
 	}
 	isAnswerValid = (validBoolean) => {
 		this.setState({isAnswerValid: validBoolean});
@@ -410,6 +393,7 @@ class TestCreater extends Component {
 									width={'292px'}
 									type='text'
 									placeholder={this.checkInputValidation('deadline')}
+									value = {this.state.testDeadline}
 									onFocus={(e) => e.target.type = 'date'}
 									onBlur={(e) => {e.target.type = !this.state.testDeadline ? 'text' : 'date'}}
 									onChange={(e) => { this.setState({ testDeadline: e.target.value }) }}
@@ -429,16 +413,14 @@ class TestCreater extends Component {
 							<FlexChild>
 								<TestDetails
 									width={'292px'}
-									type='number'
+									type='text'
 									min="0" 
 									placeholder="Total Score"  
 									disabled 
-									value={this.props.totalScore}/>
+									value={`Total Score ${this.props.totalScore}`}/>
 							</FlexChild>
 							<FlexChild>
-								{ this.state.passScoreInvalid &&
-									<InvalidScoreText><Trinagle></Trinagle>Passing Score must be less then total score</InvalidScoreText>
-								}
+								{ this.state.passScoreInvalid && <InvalidScoreFlag>  sdasdasd </InvalidScoreFlag> }
 								<TestDetails
 									width={'292px'}
 									type='number'
@@ -475,7 +457,6 @@ class TestCreater extends Component {
 }
 
 function mapStateToProps(state) {
-	console.log(state.test.questions);
 	return {
 		totalScore: state.test.totalScore,
 		submitted: state.test.submitted,

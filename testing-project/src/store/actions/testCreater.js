@@ -4,10 +4,8 @@ export function increaseTotalScore(score) {
   return {
     type: INCREASE_TOTAL_SCORE,
     score
-    
-  }
+   }
 }
-
 export function submittedFalse() {
   return {
     type: SUBMITTED_FALSE,
