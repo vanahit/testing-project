@@ -303,7 +303,7 @@ class TestCreater extends Component {
 			this.formValidation();
 		}).then(isFormValid => {
 			this.state.isFormValid && this.postData();
-			this.setState({testCreated: true})
+			this.state.isFormValid && this.setState({testCreated: true})
 		})
 	}
 	formValidation = () => {
@@ -469,7 +469,6 @@ class TestCreater extends Component {
 				</form>
 					<FlexRow>{ this.state.testCreated && <SuccessText />} </FlexRow>	
 				
-								
 			</Main>
 		);
 	}
