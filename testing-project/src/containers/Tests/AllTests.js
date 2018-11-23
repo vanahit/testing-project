@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import src from '../../images/is.jpg';
 import {firebase} from '../../firebase/firebase';
 import Pagination from './Pagination';
+import { CSSTransition, TransitionGroup } from "react-transition-group";
 
 export default class AllTests extends Component {
 	constructor(props){
@@ -49,6 +50,20 @@ export default class AllTests extends Component {
 		this.setState({ loadMore: this.state.loadMore+1 })
 	}
 
+	prev () { 
+		this.setState({ 
+			currentPage: this.state.currentPage + this.state.loadMore - 1,
+			loadMore: 0  
+		}) 
+	}
+
+	next () { 
+		this.setState({ 
+			currentPage: this.state.currentPage + this.state.loadMore + 1,
+			loadMore: 0  
+		}) 
+	}
+
 
 	render(){
 		const { data, search, type, currentPage, dataPerPage, loadMore } = this.state;
@@ -92,16 +107,26 @@ export default class AllTests extends Component {
 					{
 						currentData.map( item => {
 							return (
-								<div key={item.id} className="grid">
-									<img src={src} alt="Type test" />
-									<div  className="grid-info">
-										<p className="blue">{item.testTitle}</p>
-										<p className="yellow">{item.company}</p>
-										<p><span>Passes: </span><span className="blue">0</span></p>
-										<p><span>DeadLine: </span><span className="blue">{item.testDeadline}</span></p>
-										<button className="addButton"><span >Add</span> <span className='add'>></span></button>
-									</div>
-								</div>
+								<TransitionGroup className="grid">
+									<CSSTransition 
+										key={item.id}
+										in={true}
+										appear={true}
+										timeout={450}
+										classNames="slide"
+									>
+										<div key={item.id} >
+											<img src={src} alt="Type test" />
+											<div  className="grid-info">
+												<p className="blue">{item.testTitle}</p>
+												<p className="yellow">{item.company}</p>
+												<p><span>Passes: </span><span className="blue">0</span></p>
+												<p><span>DeadLine: </span><span className="blue">{item.testDeadline}</span></p>
+												<button className="addButton"><span >Add</span> <span className='add'>></span></button>
+											</div>
+										</div>
+									</CSSTransition>
+								</TransitionGroup>
 							)
 						} )
 					}
@@ -112,7 +137,7 @@ export default class AllTests extends Component {
 					{loadMore + currentPage !== pages.length && <button className="viewMore" onClick={this.loadMore.bind(this)}>Load More</button>}
 					{pages.length>1 && <div className="pagination">
 						<div className="paginationContent">
-							{loadMore + currentPage !== 1 && <span> Previous </span>}
+							{loadMore + currentPage !== 1 && <span onClick={this.prev.bind(this)}> Previous </span>}
 							<div className="pages">
 								<span>Pages:</span>
 								<ul>
@@ -131,7 +156,7 @@ export default class AllTests extends Component {
 								}
 								</ul>
 							</div>
-							{loadMore + currentPage !== pages.length && <span> Next </span>}
+							{loadMore + currentPage !== pages.length && <span onClick={this.next.bind(this)}> Next </span>}
 						</div>
 					</div>}
 
