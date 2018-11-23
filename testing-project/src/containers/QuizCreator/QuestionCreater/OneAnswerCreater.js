@@ -12,7 +12,7 @@ const AnswerInput = styled.input`
   overflow: hidden; 
   border: 1px solid #4F9DA6;
   box-sizing: border-box; 
-  transition: font-size 1s ease-in-out;
+  transition: font-size 0.5s ease-in-out;
     @media screen and (max-width: 580px) {
 		font-size: 12px;
   }
@@ -22,7 +22,7 @@ const AnswerInput = styled.input`
   :-ms-input-placeholder      {color:rgba(79, 157, 166, 0.5)}
 
   ${props => props.invalid && css`
-    font-size: 16px;
+    font-size: 22px;
     color: rgba(185, 4, 46, 0.5);
     border-bottom: 1px solid rgba(185, 4, 46, 1);
     ::-webkit-input-placeholder {color: rgba(185, 4, 46, 0.5)}
@@ -53,8 +53,7 @@ class OneAnswerCreater extends React.Component {
     return  word && word.replace(/^[ ]+/g, '').replace(/\s*$/, '');
   }
    checkInputValidation = (inputName) => {
-    let placeholderText = '';
-		return placeholderText = (this.props.submitted && !this.state.questionTitle) 
+   	return (this.props.submitted && !this.state.questionTitle) 
 			? `Fill Answer ${this.props.count}` 
 			: `Answer ${this.props.count}`;
 	}
