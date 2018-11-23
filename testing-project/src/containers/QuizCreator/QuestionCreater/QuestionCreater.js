@@ -1,12 +1,15 @@
 import React, { Component } from 'react';
 import OneAnswerCreater from './OneAnswerCreater';
+import QuestionDeleteFlag from '../../../components/QuizCreater/QuestionDeleteFlag';
+import RadioFlag from '../../../components/QuizCreater/RadioFlag';
 import styled, {css} from 'styled-components'
 import {connect} from 'react-redux';
 import {increaseTotalScore, submittedFalse} from '../../../store/actions/testCreater';
 
 const Radio = styled.input`
-  width: 21px;
-  height: 21px;
+	margin: 5px;
+  width: 22px;
+  height: 22px;
 
 			:before {
 				width: 21px;
@@ -25,7 +28,7 @@ const Radio = styled.input`
 				width: 11px;
 				height: 11px;
 				border-radius: 15px;
-				top: -23px;
+				top: -22px;
 				left: 4px;
 				position: relative;
 				background-color: rgba(79, 157, 166, 1);
@@ -34,6 +37,15 @@ const Radio = styled.input`
 				visibility: visible;
 				border: 1px solid rgba(79, 157, 166, 1);
 		}
+`;
+const DeleteQuestion = styled.button`
+		position: absolute;
+		right: 5px;
+		top: -25px;
+		color: rgba(230, 36, 22, 1);
+		font-size: 24px;
+		background-color: transparent;
+		border: 0;
 `;
 const DeleteAnswer = styled.button`
 		margin-left: 8px;
@@ -53,7 +65,7 @@ const QuestionDetails = styled.input`
 	overflow: hidden; 
 	border: 1px solid #4F9DA6;
 	box-sizing: border-box; 
-	transition: font-size 1s ease-in-out;
+	transition: font-size 0.5s ease-in-out;
 	
 	@media screen and (max-width: 1190px) {
 		margin-top: 5px;
@@ -68,7 +80,7 @@ const QuestionDetails = styled.input`
 	:-ms-input-placeholder      {color:rgba(79, 157, 166, 0.5)}
 
 	${props => props.invalid && css`
-		font-size: 16px;
+		font-size: 22px;
 		color: rgba(185, 4, 46, 0.5);
     border-bottom: 1px solid rgba(185, 4, 46, 1);
     ::-webkit-input-placeholder {color: rgba(185, 4, 46, 0.5)}
@@ -129,48 +141,6 @@ const FlexChild = styled.div`
 		min-width: 100%;
 	}
 `;
-
-const DeleteQuestion = styled.button`
-		position: absolute;
-		right: 0px;
-		top: -20px;
-		color:rgba(230, 36, 22, 1);
-		font-size: 24px;
-		background-color: transparent;
-		border: 0;
-`;
-const DeleteAnswerText = styled.div`
-		position: absolute;
-		padding: 5px 10px;
-		right: 30px;
-		top: -30px;
-		color:rgba(230, 36, 22, 1);
-		font-size: 14px;
-		background-color: rgba(79, 157, 166, 0.2);
-		border-radius: 4px;
-		
-`; 
-const RadioText = styled.div`
-		position: absolute;
-		padding: 5px 10px;
-		left: 2px;
-		top: 150px;
-		color:rgba(230, 36, 22, 1);
-		font-size: 14px;
-		background-color: rgba(79, 157, 166, 0.2);
-		border-radius: 4px;
-		
-`;
-const Trinagle = styled.div`
-		position: absolute;
-		top: -19px;
-		width: 0;
-		height: 0;
-		border-left: 5px solid transparent;
-		border-right: 5px solid transparent;
-		border-bottom: 20px solid rgba(79, 157, 166, 0.2);
-`;
-
 class QuestionCreater extends Component {
    	constructor(props) {
 			super(props);
@@ -211,7 +181,7 @@ class QuestionCreater extends Component {
 					break;
 				case 'score':
 					this.props.increaseTotalScore(-this.state.score);
-					this.setState({score: +e.target.value});
+					e.target.value < 0 ? this.setState({score: (-1 * (+e.target.value))}) : this.setState({score: +e.target.value}); 
 					resolve(this.state.score);
 					break;
 				case 'isRight':
@@ -321,8 +291,8 @@ class QuestionCreater extends Component {
 				  <Question>
 					    	<FlexRow width={'98%'}>
 										<FlexChild width={'1068px'}>
-												{this.state.closeOver && <DeleteAnswerText >Delete question {this.props.count} </DeleteAnswerText>}
-												{!this.state.isRight && this.props.submitted && <RadioText>Please choose one as right<Trinagle></Trinagle></RadioText>}
+												{this.state.closeOver && <QuestionDeleteFlag count={this.props.count}/>}
+												{!this.state.isRight && this.props.submitted && <RadioFlag count={this.props.count}/>}
 												<DeleteQuestion 
 													type='button'
 													onMouseOver= {()=> this.setState({closeOver: true})}
@@ -373,7 +343,7 @@ class QuestionCreater extends Component {
 													onClick={(e) => this.updateQuestionValues(e)}>
 														+
 												</ButtonsFlexChild>
-											</ButtonsDiv>
+										</ButtonsDiv>
 										</FlexChild>
 						</FlexRow>
         </Question>
