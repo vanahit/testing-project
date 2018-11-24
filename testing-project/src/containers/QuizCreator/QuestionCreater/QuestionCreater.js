@@ -89,6 +89,7 @@ const QuestionDetails = styled.input`
     :-ms-input-placeholder      {color: rgba(185, 4, 46, 0.5)}
   `}
 `;
+
 const AddAnswerDiv = styled.div`
 	font-size: 14px;
 	color: #4F9DA6;
@@ -260,12 +261,12 @@ class QuestionCreater extends Component {
 		return ( 
 				this.state.answers.map((input, index) => (
 						<div key={input.id}>
-								<Radio
-									type='radio'
-									name={`question${this.props.id}`} 
-									value={input.id} 
-									id='isRight'
-									onClick={(e) => this.updateQuestionValues(e)}
+							<Radio
+								type='radio'
+								name={`question${this.props.id}`} 
+								value={input.id} 
+								id='isRight'
+								onClick={(e) => this.updateQuestionValues(e)}
 							/>
 							<OneAnswerCreater
 								isAnswerValid={this.props.isAnswerValid}

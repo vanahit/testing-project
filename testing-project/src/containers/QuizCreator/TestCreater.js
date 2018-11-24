@@ -263,6 +263,7 @@ class TestCreater extends Component {
 	}
 	postData = () => {
 		let db = firebase.database();
+		let firestore = firebase.firestore();
 			let test = {
 				id: Date.now(),
 				testTitle: this.clearWordFromSpaces(this.state.testTitle),
@@ -276,7 +277,14 @@ class TestCreater extends Component {
 				questions: this.state.questions,
 				passers: 0,
 			};
-			db.ref('tests').push({...test });
+			//db.ref('tests').push({...test });
+			firestore.collection("tests").doc(this.state.testTitle).set({...test})
+			.then(function() {
+				console.log("Document successfully written!");
+			})
+			.catch(function(error) {
+				console.error("Error writing document: ", error);
+			});
 				this.setState({
 					questions: [],
 					id: Date.now(),

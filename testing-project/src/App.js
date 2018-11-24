@@ -5,7 +5,7 @@ import {Route} from "react-router-dom";
 
 
 import TestCreater from './containers/QuizCreator/TestCreater';
-
+import TestPassPanel from './containers/TestPassPanel/TestPassPanel';
 import './App.css';
 import AutorizationUser from "./components/Autorization/AutorizationUser";
 import AutorizationCompany from "./components/Autorization/AutorizationCompany";
@@ -17,6 +17,7 @@ import {firebase} from './firebase/firebase';
 class App extends Component {
 
 
+
     render() {
         return (
             <div className="App">
@@ -25,6 +26,7 @@ class App extends Component {
                <Route path='/registration/company' component={AutorizationCompany}/>
                <Route path="/AboutUs/" component={AboutUs} />
                <Route path="/TestCreater/" component={TestCreater} />
+               <Route path="/TestPassPanel/" component={TestPassPanel} />
                <Route path="/Tests/" component={AllTests} />
             </div>
     );
