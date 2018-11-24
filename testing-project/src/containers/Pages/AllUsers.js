@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import src from '../../images/is.jpg';
 import {firebase} from '../../firebase/firebase';
+import Searching from './Searching';
 import Pagination from './Pagination';
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 
-export default class AllTests extends Component {
+export default class AllCompanies extends Component {
 	constructor(props){
 		super(props);
 
@@ -13,7 +14,7 @@ export default class AllTests extends Component {
 			search: "",
 			type:"",
 			currentPage: 1,
-			dataPerPage: 3,
+			dataPerPage: 4,
 			loadMore: 0,
 		}
 	}
@@ -64,8 +65,8 @@ export default class AllTests extends Component {
 		}) 
 	}
 
-
 	render(){
+		const selectSearchData = ['JavaScript', 'Java', "PHP", 'C#', 'MySQL', 'Python', 'Ruby', 'Swift', 'React', 'Redux'];
 		const { data, search, type, currentPage, dataPerPage, loadMore } = this.state;
 		let filterData = data.filter( item => {
 			return item.testTitle.toLowerCase().substr(0,search.length) === search.toLowerCase()
@@ -84,25 +85,14 @@ export default class AllTests extends Component {
       pages.push(i);
     }
 
-
-		const languages = ['JavaScript', 'Java', "PHP", 'C#', 'MySQL', 'Python', 'Ruby', 'Swift', 'React', 'Redux'];
 		return (
 			<div className="container-fluid">
-				<div className="searching">
-					<select 
-						className="searchingSelect" 
-						onChange={e => this.searching(e,'type')} value={type} >
-						<option className="hidden" value="">All Types</option>
-						{languages.map( item => <option key={item} value={item}>{item}</option> )}
-					</select>
-					<input type="text" 
-						className="search" 
-						placeholder="Search" 
-						value={search} 
-						onChange={e => this.searching(e,'search')} 
-						/>
-					<span>{dataPerPage}/{data.length}</span>
-				</div>
+				<Searching 
+					{...this.state}
+					searching={this.searching.bind(this)}
+					currentDataLength={currentData.length}
+					selectSearchData={selectSearchData}
+				/>
 				<div className="content-grid">
 					{
 						currentData.map( item => {
@@ -130,37 +120,15 @@ export default class AllTests extends Component {
 							)
 						} )
 					}
-					
-					
-					
-					
-					{loadMore + currentPage !== pages.length && <button className="viewMore" onClick={this.loadMore.bind(this)}>Load More</button>}
-					{pages.length>1 && <div className="pagination">
-						<div className="paginationContent">
-							{loadMore + currentPage !== 1 && <span onClick={this.prev.bind(this)}> Previous </span>}
-							<div className="pages">
-								<span>Pages:</span>
-								<ul>
-								{
-									pages.map( page => {
-										return (
-											<li
-												className={`${page == (currentPage+loadMore) ? 'active' : ""}`} 
-												key={page} 
-												id={page}
-												onClick={this.pageClick.bind(this)}>
-												{page}
-											</li>
-										)	
-									} )
-								}
-								</ul>
-							</div>
-							{loadMore + currentPage !== pages.length && <span onClick={this.next.bind(this)}> Next </span>}
-						</div>
-					</div>}
-
-					
+					<Pagination 
+						load_More={loadMore}
+						loadMore={this.loadMore.bind(this)}
+						currentPage={currentPage}
+						prev={this.prev.bind(this)}
+						pageClick={this.pageClick.bind(this)}
+						next={this.next.bind(this)}
+						pages={pages}
+					/>					
 				</div>
 			</div>
 		);

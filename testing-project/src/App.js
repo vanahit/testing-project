@@ -9,7 +9,9 @@ import TestCreater from './containers/QuizCreator/TestCreater';
 import './App.css';
 import AutorizationUser from "./components/Autorization/AutorizationUser";
 import AutorizationCompany from "./components/Autorization/AutorizationCompany";
-import AllTests from "./containers/Tests/AllTests";
+import AllTests from "./containers/Pages/AllTests";
+import AllCompanies from "./containers/Pages/AllCompanies";
+import AllUsers from "./containers/Pages/AllUsers";
 import {firebase} from './firebase/firebase';
 
 
@@ -26,6 +28,8 @@ class App extends Component {
                <Route path="/AboutUs/" component={AboutUs} />
                <Route path="/TestCreater/" component={TestCreater} />
                <Route path="/Tests/" component={AllTests} />
+               <Route path="/Companies/" component={AllCompanies} />
+               <Route path="/Users/" component={AllUsers} />
             </div>
     );
   }
