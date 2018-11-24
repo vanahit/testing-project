@@ -1,4 +1,3 @@
-
 * {
     box-sizing: border-box;
     margin: 0;
@@ -217,6 +216,40 @@
 .add{
     margin: 0 0 0 20px;
 }
+
+/*Company Styles*/
+
+.logoCompany, .imgUser{
+    width: 100px !important;
+    height:100px;
+    border-radius: 100%;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.companyUser h2{
+    text-align: center;
+    color: #4F9DA6;
+    font-size: 16px;
+}
+.companyUser p{
+    font-size: 14px;
+    line-height: 20px;
+}
+
+.testsDiv{
+    float: right;
+}
+
+.testsDiv span{
+    color: #4F9DA6;
+    font-size: 16px;
+    line-height: 44px;
+    cursor: pointer;
+}
+
+
 
 .viewMore{
     width: 100%;
