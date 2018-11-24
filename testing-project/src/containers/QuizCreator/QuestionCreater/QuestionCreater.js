@@ -242,13 +242,19 @@ class QuestionCreater extends Component {
 		}
 			return placeholderText;
 	}
+
 	isFilled = (inputValue) => {
 		return this.props.submitted && !inputValue ? true : false;
 	}
+
 	isQuestionValid = () => {
-		(this.state.isRight && this.state.questionTitle && this.state.score && this.props.submitted) 
-		 ? this.props.isQuestionValid(true) : this.props.isQuestionValid(false);
+		if (this.state.isRight && this.state.questionTitle && this.state.score) {
+			this.props.isQuestionValid(true);
+		} else {
+			this.props.isQuestionValid(false);
+		}
 	}
+
 	componentDidUpdate(prevProps, prevState) {
 	 if((prevState.isRight !== this.state.isRight) || (prevState.answers.length !== this.state.answers.length)) {
 			this.props.getQuestionValues(this.state.isRight, 'isRight', this.props.id);
@@ -260,12 +266,12 @@ class QuestionCreater extends Component {
 		return ( 
 				this.state.answers.map((input, index) => (
 						<div key={input.id}>
-								<Radio
-									type='radio'
-									name={`question${this.props.id}`} 
-									value={input.id} 
-									id='isRight'
-									onClick={(e) => this.updateQuestionValues(e)}
+							<Radio
+								type='radio'
+								name={`question${this.props.id}`} 
+								value={input.id} 
+								id='isRight'
+								onClick={(e) => this.updateQuestionValues(e)}
 							/>
 							<OneAnswerCreater
 								isAnswerValid={this.props.isAnswerValid}

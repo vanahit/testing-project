@@ -6,7 +6,7 @@ import SuccessText from '../../components/QuizCreater/TestCreateSuccessText';
 import { connect } from 'react-redux';
 import {submittedFalse, submittedTrue,  increaseTotalScore} from '../../store/actions/testCreater';
 import { firebase } from '../../firebase/firebase';
-
+import { BrowserRouter as  Router } from "react-router-dom";
 
 const Main = styled.div`
 	margin: auto;
@@ -229,7 +229,7 @@ class TestCreater extends Component {
 		return (
 			<Select
 				width={'calc(100% - 8px)'}
-				invalid = {this.checkInputValidation('type')}
+				invalid = {this.showErrorMessage('type')}
 				onChange={(e) => this.setState({ testType: e.target.value })}
 				value={this.state.testType}>
 				{
@@ -294,49 +294,57 @@ class TestCreater extends Component {
 				this.props.submittedFalse();
 				this.props.increaseTotalScore(-this.props.totalScore);
 	}	
+
 	submitHandler = (e) => {
 		e.preventDefault();
-		return new Promise((resolve, reject) => {
-			this.props.submittedTrue();
-			resolve(this.props.submitted)
-		}).then(submitted => {
-			this.formValidation();
-		}).then(isFormValid => {
-			this.state.isFormValid && this.postData();
-			this.setState({testCreated: true})
-		})
+		if (this.formValidation()) {
+			this.postData();
+			console.log('if valid -> send request');
+		} else {
+			this.showErrorMessage();
+			console.log('if !valid -> show error messages');
+		}
+		
 	}
-	formValidation = () => {
-		let state = {...this.state};
-		(state.testTitle && state.description && state.testDeadline && state.passScore 
-			&& state.description && state.company && state.testDuration 
-			&& state.isAnswerValid && state.testType && state.isQuestionValid && !state.passScoreInvalid) 
-				? this.setState({isFormValid: true}) : this.setState({isFormValid: false});
-	}
-	checkInputValidation = (inputName) => {
+
+	formValidation = () => (
+		this.state.testTitle 
+		&& this.state.description 
+		&& this.state.testDeadline 
+		&& this.state.passScore 
+		&& this.state.description 
+		&& this.state.company 
+		&& this.state.testDuration 
+		&& this.state.isAnswerValid 
+		&& this.state.testType 
+		&& this.state.isQuestionValid 
+		&& !this.state.passScoreInvalid
+	);
+	showErrorMessage = (inputName) => {
 		let placeholderText = '';
 		switch (inputName) {
 			case 'title' :
-				placeholderText = (this.props.submitted && !this.state.testTitle) ?  `Fill Test Title` : `Test Title`;	break;
-			case 'company' :
-				placeholderText = this.props.submitted && !this.state.company ? `Fill company` : `Company`;	break;
+				placeholderText = !this.state.testTitle ?  `Fill Test Title` : `Test Title`;	break;
+			case 'company' : placeholderText = !this.state.company ? `Fill company` : `Company`;	break;
 			case 'description' :
-				placeholderText = this.props.submitted && !this.state.description 
-					? `Fill description of test its complexity , target audience etc` : `Description`; 	break;
+				placeholderText = !this.state.description 
+					? `Fill description of test its complexity , target audience etc`
+					: `Description`; 	
+					break;
 			case 'deadline' :
-				placeholderText = this.props.submitted && !this.state.testDeadline ? `Fill deadline of test` : `Deadline`;	break;
+				placeholderText = !this.state.testDeadline ? `Fill deadline of test` : `Deadline`;	break;
 			case 'duration' :
-				placeholderText = this.props.submitted && !this.state.testDuration ? `Fill test duration` : `Test Duration`;	break;
+				placeholderText = !this.state.testDuration ? `Fill test duration` : `Test Duration`;	break;
 			case 'score' :
-				placeholderText = this.props.submitted && !this.state.passScore ? `Fill passing score` : `Passing Score`; break;
+				placeholderText = !this.state.passScore ? `Fill passing score` : `Passing Score`; break;
 			case 'type' :
-				placeholderText = this.props.submitted && !this.state.testType ? `Choose type` : ``; break;
+				placeholderText =  !this.state.testType ? `Choose type` : ``; break;
 			default:
 		}
 		return placeholderText;
 	}
 	isFilled = (inputValue) => {
-		return this.props.submitted &&  !inputValue ? true : false;
+		return !inputValue ? true : false;
 	}
 	isAnswerValid = (validBoolean) => {
 		this.setState({isAnswerValid: validBoolean});
@@ -367,14 +375,14 @@ class TestCreater extends Component {
 		return (
 			<Main>
 				<TestCreaterLink> Home / My Account / Test Create </TestCreaterLink>
-				<form onSubmit={this.submitHandler}>
+				<form>
 					<Test>
 						<FlexRow>
 							<FlexChild width={'50%'}>
 								<TestDetails
 									width={'calc(100% - 16px)'}
 									type="text"
-									placeholder={this.checkInputValidation('title')}
+									placeholder={this.showErrorMessage('title')}
 									value={this.state.testTitle}
 									onChange={(e) => { this.setState({ testTitle: e.target.value }) }} 
 									invalid = {this.isFilled(this.state.testTitle)} 
@@ -384,7 +392,7 @@ class TestCreater extends Component {
 								<TestDetails
 									width={'calc(100% - 8px)'}
 									type="text"
-									placeholder={this.checkInputValidation('company')}
+									placeholder={this.showErrorMessage('company')}
 									value={this.state.company}
 									onChange={(e) => { this.setState({ company: e.target.value }) }}
 									invalid = {this.isFilled(this.state.company)} 
@@ -395,7 +403,7 @@ class TestCreater extends Component {
 						<FlexRow width={'100%'}>
 							<FlexChild width={'100%'}>
 								<Description 
-									placeholder={this.checkInputValidation('description')} 
+									placeholder={this.showErrorMessage('description')} 
 									value={this.state.description}
 									onChange={(e) => { this.setState({ description: e.target.value }) }} 
 									invalid = {this.isFilled(this.state.description)}
@@ -408,7 +416,7 @@ class TestCreater extends Component {
 									width={'292px'}
 									type='text'
 									min={this.getTodayDate()}
-									placeholder={this.checkInputValidation('deadline')}
+									placeholder={this.showErrorMessage('deadline')}
 									value = {this.state.testDeadline}
 									onFocus={(e) => e.target.type = 'date'}
 									onBlur={(e) => {e.target.type = !this.state.testDeadline ? 'text' : 'date'}}
@@ -420,7 +428,7 @@ class TestCreater extends Component {
 								<TestDetails
 									width={'292px'}
 									type='number' min="0"
-									placeholder={this.checkInputValidation('duration')}
+									placeholder={this.showErrorMessage('duration')}
 									value={this.state.testDuration < 0 ? (-1 * this.state.testDuration) : this.state.testDuration}
 									onChange={(e) => { this.setState({ testDuration: +e.target.value}) }}
 									invalid = {this.isFilled(this.state.testDuration)}  
@@ -442,7 +450,7 @@ class TestCreater extends Component {
 									type='number'
 									min="0"
 									max={this.state.totalScore}
-									placeholder={this.checkInputValidation('score')} 
+									placeholder={this.showErrorMessage('score')} 
 									value={this.state.passScore < 0 ? (-1 * this.state.passScore) : this.state.passScore}
 									onChange={this.passScoreHandleChange}
 									invalid = {this.isFilled(this.state.passScore)}  
@@ -464,13 +472,14 @@ class TestCreater extends Component {
 					)}
 					{this.state.questions.length > 0 && 
 						<AddTest>
-							<AddButton>CREATE TEST</AddButton>
+							<AddButton type="button" onClick={this.submitHandler}>CREATE TEST</AddButton>
 						</AddTest> }
 				</form>
-					<FlexRow>{ this.state.testCreated && <SuccessText />} </FlexRow>	
-				
-								
+				<FlexRow>
+					{ this.state.testCreated && <SuccessText />} 
+				</FlexRow>			
 			</Main>
+			
 		);
 	}
 }

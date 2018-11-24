@@ -46,9 +46,15 @@ class OneAnswerCreater extends React.Component {
       this.props.getInputValue(title, this.props.id, this.props.isRight);
     }) 
   }
+
   isAnswerValid =() => {
-    (this.props.submitted && this.state.title) ? this.props.isAnswerValid(true) : this.props.isAnswerValid(false)
+    if (this.state.title) { 
+      this.props.isAnswerValid(true);
+    } else {
+      this.props.isAnswerValid(false);
+    } 
   }
+
   clearWordFromSpaces = (word) => {
     return  word && word.replace(/^[ ]+/g, '').replace(/\s*$/, '');
   }
