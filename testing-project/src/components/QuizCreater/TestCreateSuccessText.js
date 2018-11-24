@@ -12,7 +12,7 @@ const SuccessText = styled.div`
 export default function successText (props) {
     return (
         <SuccessText>
-            Test created successfully. <RouterLink > See All Tests. </RouterLink> 
+            Test created successfully. <RouterLink ><Link to='/'> See All Tests. </Link></RouterLink> 
         </SuccessText>
         
 	)
