@@ -7,8 +7,8 @@ class AutorizationUser extends Component {
     render() {
         return (
             <div className='container'>
-                <UserRegistration />
                 <Login/>
+                <UserRegistration />
             </div>
         );
     }

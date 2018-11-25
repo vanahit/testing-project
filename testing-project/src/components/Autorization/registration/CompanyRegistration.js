@@ -1,19 +1,20 @@
 import React, {Component} from 'react';
-import InfoComponent from "./InfoComponent";
 import * as firebase from "firebase";
 
 class CompanyRegistration extends Component {
     constructor(props) {
         super(props);
 
+        this.changeField = this.changeField.bind(this);
+
         this.state = {
             name: '',
-            surname: '',
-            phone: '',
             email: '',
             password: '',
-            image: '',
+            confirmedPassword: '',
         }
+
+
     }
 
     changeField(e, field) {
@@ -24,25 +25,27 @@ class CompanyRegistration extends Component {
 
     signUpCompanie() {
 
-        const companie = {...this.state};
+        if (this.state.password === this.state.confirmedPassword && this.state.password) {
 
-        firebase.database().ref('companies').push(companie);
+            const companie = {...this.state};
 
-        firebase.auth().createUserWithEmailAndPassword(companie.email, companie.password)
-            .then(res => {
-                firebase.auth().currentUser.sendEmailVerification();
-                console.log(res);
-            })
-            .catch(e => console.log(e.message));
+            firebase.database().ref('companies').push(companie);
 
+            firebase.auth().createUserWithEmailAndPassword(companie.email, companie.password)
+                .then(res => {
+                    firebase.auth().currentUser.sendEmailVerification();
+                    console.log(res);
+                })
+                .catch(e => console.log(e.message));
 
+        } else {
+            console.log('not equal');
+        }
         this.setState({
             name: '',
-            surname: '',
-            phone: '',
             email: '',
             password: '',
-            image: '',
+            confirmedPassword: '',
         });
     }
 
@@ -54,17 +57,49 @@ class CompanyRegistration extends Component {
 
 
     render() {
-        const {name, surname, email, phone, password, img} = this.state;
+        const {name, email, password, confirmedPassword} = this.state;
 
         return (
             <form onSubmit={this.handleSubmit.bind(this)}>
 
                 <div className='registration'>
-                    <h5>Registration</h5>
-                    <InfoComponent
-                        changeField={this.changeField.bind(this)}
-                        arr={[name, surname, email, phone, password]}
+                    <h5>Register</h5>
+
+                    <input
+                        className='info-field'
+                        type="text"
+                        placeholder='COMPANY NAME *'
+                        value={name}
+                        onChange={(e) => this.changeField(e, 'name')}
                     />
+
+                    <input
+                        className='info-field'
+                        type="email"
+                        placeholder='EMAIL *'
+                        value={email}
+                        onChange={(e) => this.changeField(e, 'email')}
+                    />
+
+                    <input
+                        className='info-field'
+                        type="password"
+                        placeholder='PASSWORD *'
+                        value={password}
+                        onChange={(e) => this.changeField(e, 'password')}
+                    />
+
+                    <input
+                        className='info-field'
+                        type="password"
+                        placeholder='CONFIRM PASSWORD *'
+                        value={confirmedPassword}
+                        onChange={(e) => this.changeField(e, 'confirmedPassword')}
+                    />
+
+                    <p>By creating an account,you agree to
+                        DigiLearn <span style={{color:'#FFAD5A'}}>Privacy Policy</span> and <br/><span style={{color:'#FFAD5A', marginBottom: '15px'}}>Terms of use</span>.</p>
+
                     <input className='submit' type="submit"/>
                 </div>
 
