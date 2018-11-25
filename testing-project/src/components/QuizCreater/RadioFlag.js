@@ -10,7 +10,13 @@ const RadioText = styled.div`
 		font-size: 14px;
 		background-color: rgba(79, 157, 166, 0.2);
 		border-radius: 4px;
-		
+		transition: top 1s ;
+
+		@media screen and (max-width: 1190px) {
+			font-size: 12px;
+			left: 0px;
+			top:303px;
+		}		
 `;
 const Trinagle = styled.div`
 		position: absolute;
@@ -20,6 +26,11 @@ const Trinagle = styled.div`
 		border-left: 10px solid transparent;
 		border-right: 10px solid transparent;
 		border-top: 15px solid rgba(79, 157, 166, 0.2);
+
+		@media screen and (max-width: 1190px) {
+			left: 0px;
+			top:24px;
+		}	
 `;
 export default function radioFlag (props) {
     return (

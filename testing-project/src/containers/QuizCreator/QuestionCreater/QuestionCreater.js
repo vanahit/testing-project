@@ -8,44 +8,44 @@ import {increaseTotalScore, submittedFalse} from '../../../store/actions/testCre
 
 const Radio = styled.input`
 	margin: 5px;
-  width: 22px;
-  height: 22px;
+	width: 22px;
+	height: 22px;
 
-			:before {
-				width: 21px;
-				height: 21px;
-				border-radius: 15px;
-				top: -1px;
-				left: -1px;
-				position: relative;
-				background-color: white;
-				content: '';
-				display: inline-block;
-				visibility: visible;
-				border: 1px solid rgba(79, 157, 166, 1);
-		}
-		:checked:after {
-				width: 11px;
-				height: 11px;
-				border-radius: 15px;
-				top: -22px;
-				left: 4px;
-				position: relative;
-				background-color: rgba(79, 157, 166, 1);
-				content: '';
-				display: inline-block;
-				visibility: visible;
-				border: 1px solid rgba(79, 157, 166, 1);
-		}
+	:before {
+		width: 21px;
+		height: 21px;
+		border-radius: 15px;
+		top: -1px;
+		left: -1px;
+		position: relative;
+		background-color: white;
+		content: '';
+		display: inline-block;
+		visibility: visible;
+		border: 1px solid rgba(79, 157, 166, 1);
+	}
+	:checked:after {
+		width: 11px;
+		height: 11px;
+		border-radius: 15px;
+		top: -22px;
+		left: 4px;
+		position: relative;
+		background-color: rgba(79, 157, 166, 1);
+		content: '';
+		display: inline-block;
+		visibility: visible;
+		border: 1px solid rgba(79, 157, 166, 1);
+	}
 `;
 const DeleteQuestion = styled.button`
-		position: absolute;
-		right: 5px;
-		top: -25px;
-		color: rgba(230, 36, 22, 1);
-		font-size: 24px;
-		background-color: transparent;
-		border: 0;
+	position: absolute;
+	right: 5px;
+	top: -25px;
+	color: rgba(230, 36, 22, 1);
+	font-size: 24px;
+	background-color: transparent;
+	border: 0;	
 `;
 const DeleteAnswer = styled.button`
 		margin-left: 8px;
@@ -147,209 +147,199 @@ class QuestionCreater extends Component {
 			super(props);
   		 this.state = {
 				id: this.props.id,
-				answers: [{id: Date.now(), title: '', isRight: false}, {id: Date.now() + 1, title: '', isRight: false}],
+				answers: [{id: Date.now(), title: ''}, {id: Date.now() + 1, title: '',}],
 				isRight: 0,
 				questionTitle: '',
 				score: '',
 				invalid: false,
-				submitted: this.props.submitted,
 				closeOver: false,
 			}
-			this.validatedItemsCount = 0; 
+			
 	}
-	getInputValue = (title, id, isRight) => {
-    let answers = this.state.answers.map(answer => {
-      if (answer.id === id) {
-        answer.title = this.clearWordFromSpaces(title);
-        answer.isRight = isRight; 
-      } 
-      return answer; 
+	getInputValue = (title, id) => {
+    	let answers = this.state.answers.map(answer => {
+			if (answer.id === id) {
+				answer.title = this.clearWordFromSpaces(title);
+			} 
+			return answer; 
 		})
 		this.setState({answers: answers});
 	}
-	
-  clearWordFromSpaces = (word) => {
+
+    clearWordFromSpaces = (word) => {
 		return  word.replace(/^[ ]+/g, '').replace(/\s*$/, '');
 	}
-	updateQuestionValues = (e, id = '') => {
-		let updatedItem;
-		e.persist();
-		const newAnswer = {id: Date.now(), title: '', isRight: false};
-		return new Promise((resolve, reject) => {
-			switch (e.target.id) {
-				case 'title':
-				  this.setState({questionTitle: e.target.value});	resolve(this.state.questionTitle);
-					break;
-				case 'score':
-					this.props.increaseTotalScore(-this.state.score);
-					e.target.value < 0 ? this.setState({score: (-1 * (+e.target.value))}) : this.setState({score: +e.target.value}); 
-					resolve(this.state.score);
-					break;
-				case 'isRight':
-				  this.setState({isRight: +e.target.value});
-					resolve(this.state.isRight);
-					break;
-				case 'delete':
-					if (this.state.answers.length > 2) {
-						this.setState( {answers: this.state.answers.filter(answer => answer.id !== id) });
-						this.state.isRight === id && this.setState({isRight: 0});
-						resolve(this.state.answers);
-					}
-					break;
-				case 'minus':
-					e.target.id === 'minus' && this.state.answers.length >= 3 && 
-					this.setState({answers: this.state.answers.splice(1)});
-					resolve(this.state.answers);
-					break;
-				case 'plus':
-					this.props.submittedFalse();
-					e.target.id === 'plus' && this.state.answers.length < 5 && 
-					this.setState({answers: this.state.answers.concat(newAnswer)});
-					resolve(this.state.answers);
-					break;
-				default:
-			}
-     }).then(item => {
-				switch (e.target.id) {
-					case 'title':	updatedItem = this.state.questionTitle;	break;
-					case 'score': 
-						updatedItem = this.state.score;	
-						this.props.increaseTotalScore((updatedItem));
-						break;
-					case 'isRight':	updatedItem = this.state.isRight;	break;
-					case 'delete': updatedItem = this.state.answers; break;
-					case 'minus':	updatedItem = this.state.answers;	break;
-					case 'plus':	updatedItem = this.state.answers;	break;
-					default:			updatedItem = this.state.answers;
-				}
-				this.isQuestionValid();
-			  this.props.getQuestionValues(updatedItem, e.target.id, this.props.id);
-    })
-	}
-	checkInputValidation = (inputName) => {
-		let placeholderText = '';
-		switch (inputName) {
-			case 'title' :
-				placeholderText = (this.props.submitted && !this.state.questionTitle) 
-					? `${this.props.count}. Fill Question Title` 
-					: `${this.props.count}. Question Title`;
-					break;
-			case 'score' :
-				placeholderText = this.props.submitted && !this.state.score 
-					? `Fill Score` 
-					: `Score`;
-					break;
-			default:
+
+	scoreHandler = (e) => {
+		let score = 1;
+		if (e.target.value < 0) {
+			score = +e.target.value * (-1);
+		} else if (e.target.value > 0) {
+			score = +e.target.value;
+		} else {
+			score = '';
 		}
-			return placeholderText;
+		this.props.increaseTotalScore((score - this.state.score));
+		this.setState({score:  score});
 	}
+
+	answersCountHandler =(e, id='') => {
+		if (e.target.id === 'minus') {
+			if (this.state.answers.length > 2) {
+				this.setState({answers: this.state.answers.splice(1)});
+			} 
+		}
+		if (e.target.id === 'plus') {
+			let newAnswer = {id: Date.now(), title: '', isRight: false};
+			if (this.state.answers.length < 5) {
+				this.setState({answers: this.state.answers.concat(newAnswer)});
+			}
+		}
+		if (e.target.id === 'delete') {
+			if (this.state.answers.length > 2) {
+				this.setState( {answers: this.state.answers.filter(answer => answer.id !== id) });
+				this.state.isRight === id && this.setState({isRight: 0});
+			}
+		}
+	}
+
+	updateQuestionValues = () => {
+		console.log(this.props.id)
+		this.getInputValue();
+		let state = {
+			questionTitle: this.clearWordFromSpaces(this.state.questionTitle),
+			score: this.state.score,
+			answers: this.state.answers,
+			isRight: this.state.isRight,
+		}
+		this.isQuestionValid();
+		this.props.getQuestionValues(this.props.id, state);
+	}
+
+	checkInputValidation = (inputName) => {
+		if (inputName === 'title') {
+			return  (this.props.submitted && !this.state.questionTitle)
+				? `${this.props.count}. Fill Question Title` 
+				: `${this.props.count}. Question Title`;
+		}
+		if (inputName === 'score') {
+			return (this.props.submitted && !this.state.score) 
+				? `Fill Score` 
+				: `Score`;
+		}
+	}
+
 	isFilled = (inputValue) => {
 		return this.props.submitted && !inputValue ? true : false;
 	}
+
 	isQuestionValid = () => {
-		(this.state.isRight && this.state.questionTitle && this.state.score && this.props.submitted) 
-		 ? this.props.isQuestionValid(true) : this.props.isQuestionValid(false);
+		if (this.state.isRight && this.state.questionTitle && this.state.score) {
+			this.props.isQuestionValid(true)
+		} else {
+			this.props.isQuestionValid(false);
+		}
 	}
 	componentDidUpdate(prevProps, prevState) {
-	 if((prevState.isRight !== this.state.isRight) || (prevState.answers.length !== this.state.answers.length)) {
-			this.props.getQuestionValues(this.state.isRight, 'isRight', this.props.id);
-			this.props.getQuestionValues(this.state.answers, 'answers', this.props.id);
-		 }
-		 prevProps.submitted !== this.props.submitted && this.isQuestionValid();
+		if (this.props.submitted && 
+			((prevProps.submitted !== this.props.submitted)
+			|| (prevState.questionTitle !== this.state.questionTitle) 
+			|| (prevState.score !== this.state.score) 
+			|| (prevState.isRight !== this.state.isRight)
+			|| (prevState.answers.length !== this.state.answers.length))) {
+		
+			this.isQuestionValid();
+			this.updateQuestionValues() ;
+		}
 	}
+
 	answersListCreater = () => {
 		return ( 
-				this.state.answers.map((input, index) => (
-						<div key={input.id}>
-							<Radio
-								type='radio'
-								name={`question${this.props.id}`} 
-								value={input.id} 
-								id='isRight'
-								onClick={(e) => this.updateQuestionValues(e)}
-							/>
-							<OneAnswerCreater
-								isAnswerValid={this.props.isAnswerValid}
-								valid={this.props.answerValid}
-								count={index + 1}
-								id = {input.id}
-								isRight={input.id === this.state.isRight ? true : false}
-								getInputValue={this.getInputValue}
-							/>
-							{this.state.answers.length > 2 && 
-							<DeleteAnswer 
-								type='button'
-								id='delete'
-								onClick={(e) => this.updateQuestionValues(e, input.id)}
-							>
-								X 
-							</DeleteAnswer>}
-						</div>))
+			this.state.answers.map((input, index) => (
+				<div key={input.id}>
+					<Radio
+						type='radio'
+						name={`question${this.props.id}`} 
+						value={input.id} 
+						onClick={(e) => this.setState({isRight: +e.target.value})}
+					/>
+					<OneAnswerCreater
+						isAnswerValid={this.props.isAnswerValid}
+						valid={this.props.answerValid}
+						count={index + 1}
+						id = {input.id}
+						getInputValue={this.getInputValue}
+					/>
+					{this.state.answers.length > 2 && 
+					<DeleteAnswer 
+						type='button'
+						id='delete'
+						onClick={(e) => this.answersCountHandler(e, input.id)}
+					>
+						X 
+					</DeleteAnswer>}
+				</div>))
 		);
 	} 	  
     render() {
       return (
-				  <Question>
-					    	<FlexRow width={'98%'}>
-										<FlexChild width={'1068px'}>
-												{this.state.closeOver && <QuestionDeleteFlag count={this.props.count}/>}
-												{!this.state.isRight && this.props.submitted && <RadioFlag count={this.props.count}/>}
-												<DeleteQuestion 
-													type='button'
-													onMouseOver= {()=> this.setState({closeOver: true})}
-													onMouseOut= {()=> this.setState({closeOver: false})}
-													onClick= {() => this.props.deleteQuestion(this.props.id)}	
-													> X  
-												</DeleteQuestion>
-											<QuestionDetails
-												type='text' 
-												placeholder={this.checkInputValidation('title')}
-												value={this.state.questionTitle}
-												invalid = {this.isFilled (this.state.questionTitle)}
-												id='title'
-												name ='question title'
-												onChange={(e) => this.updateQuestionValues(e)} 
-											/>
-										</FlexChild>
-										<FlexChild width={'132px'} verAlign={'top'}>
-											<QuestionDetails
-												width={'100%'}
-												type='number' 
-												min='0'
-												placeholder= {this.checkInputValidation('score')}
-												value={this.state.score < 0 ? (-1 * this.state.score) : this.state.score}
-												invalid = {this.isFilled(this.state.score)}
-												id='score'
-												onChange={(e) => this.updateQuestionValues(e)} 
-											/>
-										</FlexChild>
-								</FlexRow>
-								<FlexRow  width={'98%'} wrap={'wrap-reverse'}>
-									<FlexChild maxWidth={'1060px'}>
-												{this.answersListCreater()}     
-									</FlexChild>
-									<FlexChild width={'140px'} verAlign={'top'} >
-										<AddAnswerDiv>Add more answers</AddAnswerDiv>
-										<ButtonsDiv>
-												<ButtonsFlexChild 
-													type='button'
-													id='minus'
-													onClick={(e) => this.updateQuestionValues(e)}>
-													-
-												</ButtonsFlexChild>
-													<CountFlexChild>{this.state.answers.length}</CountFlexChild>
-												<ButtonsFlexChild 
-													type='button'
-													id='plus'
-													onClick={(e) => this.updateQuestionValues(e)}>
-														+
-												</ButtonsFlexChild>
-										</ButtonsDiv>
-										</FlexChild>
-						</FlexRow>
-        </Question>
-	  );
-  }
+		<Question>
+			<FlexRow width={'98%'}>
+				<FlexChild width={'1068px'}>
+					{this.state.closeOver && <QuestionDeleteFlag count={this.props.count}/>}
+					{!this.state.isRight && this.props.submitted && <RadioFlag count={this.props.count}/>}
+					<DeleteQuestion 
+						type='button'
+						onMouseOver= {()=> this.setState({closeOver: true})}
+						onMouseOut= {()=> this.setState({closeOver: false})}
+						onClick= {() => this.props.deleteQuestion(this.props.id)}	
+					> X  
+					</DeleteQuestion>
+					<QuestionDetails
+						type='text' 
+						placeholder={this.checkInputValidation('title')}
+						value={this.state.questionTitle}
+						invalid = {this.isFilled (this.state.questionTitle)}
+						onChange={(e) => this.setState({questionTitle: e.target.value})} 
+					/>
+					</FlexChild>
+					<FlexChild width={'132px'} verAlign={'top'}>
+						<QuestionDetails
+							width={'100%'}
+							type='number' 
+							placeholder= {this.checkInputValidation('score')}
+							value={this.state.score}
+							invalid = {this.isFilled(this.state.score)}
+							onChange={this.scoreHandler} 
+						/>
+					</FlexChild>
+				</FlexRow>
+				<FlexRow width={'98%'} wrap={'wrap-reverse'}>
+					<FlexChild maxWidth={'1060px'}>
+						{this.answersListCreater()}     
+					</FlexChild>
+					<FlexChild width={'140px'} verAlign={'top'} >
+						<AddAnswerDiv>Add more answers</AddAnswerDiv>
+						<ButtonsDiv>
+							<ButtonsFlexChild 
+								type='button'
+								id='minus'
+								onClick={this.answersCountHandler}>
+									-
+							</ButtonsFlexChild>							
+							<CountFlexChild>{this.state.answers.length}</CountFlexChild>
+							<ButtonsFlexChild 
+								type='button'
+								id='plus'
+								onClick={this.answersCountHandler}>
+									+
+							</ButtonsFlexChild>
+						</ButtonsDiv>
+					</FlexChild>						
+				</FlexRow>			
+        	</Question>
+	    );
+  	}
 }
 function mapStateToProps(state) {
   return {

@@ -194,35 +194,10 @@ class TestCreater extends Component {
 			passScore: '',
 			testDuration: '',
 			passScoreInvalid: false,
-			isEditing: false,
 			isAnswerValid: false,
 			isQuestionValid: false,
-			isFormValid: false,
 			testCreated: false,
-			
 		}
-	}
-	passScoreHandleChange = (e) => {
-		return new Promise((resolve, reject) => {
-			this.setState({ passScore: +e.target.value }) 
-			resolve(this.state.passScore)
-		}).then((passScore) => {
-			this.state.passScore > this.props.totalScore 
-				? this.setState({passScoreInvalid: true}) : this.setState({passScoreInvalid: false})
-		})
-	}
-	getQuestionValues = (item, type, id) => {
-		let questions = this.state.questions.map(question => {
-			if (question.id === id) {
-				console.log('yesss there is no problem')
-				type === 'title' && (question.questionTitle = this.clearWordFromSpaces(item));
-				type === 'isRight' && (question.isRight = item);
-				type === 'answers' && (question.answers = item);
-				type === 'score' && (question.score = item);
-			}
-			return question;
-		})
-		this.setState({ questions: questions });
 	}
 	selectBox = () => {
 		const languages = ['Choose Type', 'JavaScript', 'Java', "PHP", 'C#', 'MySQL', 'Python', 'Ruby', 'Swift', 'React', 'Redux'];
@@ -244,6 +219,37 @@ class TestCreater extends Component {
 			</Select>
 		);
 	}
+
+	numberFieldsHandler = (e) => {
+		let value = 1;
+		if (e.target.value < 0) {
+			value = +e.target.value * (-1);
+		} else if (e.target.value > 0) {
+			value = +e.target.value;
+		} else {
+			value = '';
+		}
+		if (e.target.name === 'passScore') {
+			this.setState({ passScore: value }) 
+		} 
+		if (e.target.name === 'duration') {
+			this.setState({ testDuration: value }) 
+		}
+	}
+
+	getQuestionValues = (id, state) => {
+		let questions = this.state.questions.map(question => {
+			if (question.id === id) {
+				question.questionTitle = state.questionTitle;
+				question.isRight = state.isRight; 
+				question.score = state.score;
+				question.answers = state.answers;
+			}
+			return question;
+		})
+		this.setState({ questions: questions });
+	}
+	
 	addQuestion = () => {
 		let oneQuestion = {
 			id: Date.now(),
@@ -252,19 +258,19 @@ class TestCreater extends Component {
 			questionTitle: '',
 			score: '',
 	}
-		this.setState({ questions: this.state.questions.concat(oneQuestion), testCreated:false })
-		this.props.submittedFalse();
+		this.setState({ questions: this.state.questions.concat(oneQuestion), testCreated: false});
 	}
-	deleteQuestion = (id) => {
+
+	deleteQuestion = (id, score) => {
 		this.setState({questions: this.state.questions.filter(question => question.id !== id)});
+		this.props.increaseTotalScore(-score);
 	}
 	clearWordFromSpaces = (word) => {
 		return word.replace(/^[ ]+/g, '').replace(/\s*$/, '');
 	}
 	postData = () => {
 		let db = firebase.database();
-		let firestore = firebase.firestore();
-			let test = {
+		let test = {
 				id: Date.now(),
 				testTitle: this.clearWordFromSpaces(this.state.testTitle),
 				testDeadline: Date(this.state.testDeadline),
@@ -276,15 +282,14 @@ class TestCreater extends Component {
 				testDuration: this.state.testDuration,
 				questions: this.state.questions,
 				passers: 0,
-			};
-			//db.ref('tests').push({...test });
-			firestore.collection("tests").doc(this.state.testTitle).set({...test})
-			.then(function() {
-				console.log("Document successfully written!");
-			})
-			.catch(function(error) {
-				console.error("Error writing document: ", error);
-			});
+		};
+		
+		db.ref('tests').push({...test })
+			.then(() => {
+				console.log('data posted');
+				this.props.submittedFalse();
+				this.props.increaseTotalScore(-this.props.totalScore);
+				this.setState({testCreated: true});
 				this.setState({
 					questions: [],
 					id: Date.now(),
@@ -297,81 +302,104 @@ class TestCreater extends Component {
 					totalScore: '',
 					passScore: '',
 					isEditing: false,
-					testCreated: false,
-				})
-				this.props.submittedFalse();
-				this.props.increaseTotalScore(-this.props.totalScore);
-	}	
-	submitHandler = (e) => {
-		e.preventDefault();
-		return new Promise((resolve, reject) => {
-			this.props.submittedTrue();
-			resolve(this.props.submitted)
-		}).then(submitted => {
-			this.formValidation();
-		}).then(isFormValid => {
-			this.state.isFormValid && this.postData();
-			this.state.isFormValid && this.setState({testCreated: true})
-		})
+				})	
+			}).catch(() => console.log('something went wrong'));
+			
 	}
-	formValidation = () => {
-		let state = {...this.state};
-		(state.testTitle && state.description && state.testDeadline && state.passScore 
-			&& state.description && state.company && state.testDuration 
-			&& state.isAnswerValid && state.testType && state.isQuestionValid && !state.passScoreInvalid) 
-				? this.setState({isFormValid: true}) : this.setState({isFormValid: false});
-	}
+	
 	checkInputValidation = (inputName) => {
-		let placeholderText = '';
 		switch (inputName) {
 			case 'title' :
-				placeholderText = (this.props.submitted && !this.state.testTitle) ?  `Fill Test Title` : `Test Title`;	break;
+				return this.props.submitted && !this.state.testTitle ?  `Fill Test Title` : `Test Title`;
 			case 'company' :
-				placeholderText = this.props.submitted && !this.state.company ? `Fill company` : `Company`;	break;
+				return this.props.submitted && !this.state.company ? `Fill company` : `Company`;	
 			case 'description' :
-				placeholderText = this.props.submitted && !this.state.description 
-					? `Fill description of test its complexity , target audience etc` : `Description`; 	break;
+				return this.props.submitted && !this.state.description 
+					? `Fill description of test its complexity , target audience etc` : `Description`; 	
 			case 'deadline' :
-				placeholderText = this.props.submitted && !this.state.testDeadline ? `Fill deadline of test` : `Deadline`;	break;
+				return this.props.submitted && !this.state.testDeadline ? `Fill deadline of test` : `Deadline`;
 			case 'duration' :
-				placeholderText = this.props.submitted && !this.state.testDuration ? `Fill test duration` : `Test Duration`;	break;
+				return this.props.submitted && !this.state.testDuration ? `Fill test duration` : `Test Duration`;	
 			case 'score' :
-				placeholderText = this.props.submitted && !this.state.passScore ? `Fill passing score` : `Passing Score`; break;
+				return this.props.submitted && !this.state.passScore ? `Fill passing score` : `Passing Score`;
 			case 'type' :
-				placeholderText = this.props.submitted && !this.state.testType ? `Choose type` : ``; break;
+				return this.props.submitted && !this.state.testType ? `Choose type` : ``; 
 			default:
 		}
-		return placeholderText;
 	}
+	
 	isFilled = (inputValue) => {
 		return this.props.submitted &&  !inputValue ? true : false;
 	}
+
 	isAnswerValid = (validBoolean) => {
 		this.setState({isAnswerValid: validBoolean});
 	}
+
 	isQuestionValid = (validBoolean) => {
 		this.setState({isQuestionValid: validBoolean});
 	}
-	componentDidUpdate(prevProps) {
-		if(prevProps.totalScore !== this.props.totalScore) {
-			this.state.passScore > this.props.totalScore 
-				? this.setState({passScoreInvalid: true}) : this.setState({passScoreInvalid: false})
-		}
+
+	formValidation = () => {
+		let state = this.state;
+		return state.testTitle 
+				&& state.description
+				&& state.testDeadline 
+				&& state.passScore 
+				&& state.description 
+				&& state.company 
+				&& state.testDuration 
+				&& state.testType 
+				&& state.isQuestionValid
+				&& !state.passScoreInvalid
 	}
+	submitted = () => {
+		return new Promise((resolve, reject) => {
+			this.props.submittedTrue();
+			resolve(this.props.submitted);
+		})
+	}
+
+	submitHandler = (e) => {
+		e.preventDefault();
+		this.submitted()
+		.then(() => {
+			if (this.formValidation()) {
+				console.log('yes')
+				this.postData();
+			} else {
+				this.checkInputValidation();
+			}
+		})
+	}
+
 	getTodayDate = () => {
 		let today = new Date();
 		let dd = today.getDate();
 		let mm = today.getMonth() + 1;
 		let yyyy = today.getFullYear();
-		if(dd < 10){
+		if(dd < 10) {
 			dd = '0' + dd
 		} 
-		if (mm < 10){
+		if (mm < 10) {
 			mm = '0' + mm
 		} 
    		return	today = yyyy + '-' + mm + '-' + dd;
 	}
+	 
+	componentDidUpdate(prevProps, prevState) {
+		if ((prevProps.totalScore !== this.props.totalScore) || (prevState.passScore !== this.state.passScore)) {
+			if(this.state.passScore > this.props.totalScore) {
+				this.setState({passScoreInvalid: true})
+			} else {
+				this.setState({passScoreInvalid: false})
+			}
+		}
+	}
+	
+	
 	render() {
+		console.log(this.state.questions)
 		return (
 			<Main>
 				<TestCreaterLink> Home / My Account / Test Create </TestCreaterLink>
@@ -427,10 +455,11 @@ class TestCreater extends Component {
 							<FlexChild>
 								<TestDetails
 									width={'292px'}
-									type='number' min="0"
+									type='number'
+									name='duration' 
 									placeholder={this.checkInputValidation('duration')}
-									value={this.state.testDuration < 0 ? (-1 * this.state.testDuration) : this.state.testDuration}
-									onChange={(e) => { this.setState({ testDuration: +e.target.value}) }}
+									value={this.state.testDuration}
+									onChange={this.numberFieldsHandler}
 									invalid = {this.isFilled(this.state.testDuration)}  
 								/>
 							</FlexChild>
@@ -438,7 +467,6 @@ class TestCreater extends Component {
 								<TestDetails
 									width={'292px'}
 									type='text'
-									min="0" 
 									placeholder="Total Score"  
 									disabled 
 									value={`Total Score ${this.props.totalScore}`}/>
@@ -448,11 +476,10 @@ class TestCreater extends Component {
 								<TestDetails
 									width={'292px'}
 									type='number'
-									min="0"
-									max={this.state.totalScore}
+									name='passScore'
 									placeholder={this.checkInputValidation('score')} 
-									value={this.state.passScore < 0 ? (-1 * this.state.passScore) : this.state.passScore}
-									onChange={this.passScoreHandleChange}
+									value={this.state.passScore}
+									onChange={this.numberFieldsHandler}
 									invalid = {this.isFilled(this.state.passScore)}  
 								/>
 							</FlexChild>
@@ -475,7 +502,9 @@ class TestCreater extends Component {
 							<AddButton>CREATE TEST</AddButton>
 						</AddTest> }
 				</form>
-					<FlexRow>{ this.state.testCreated && <SuccessText />} </FlexRow>	
+					<FlexRow>
+						{this.state.testCreated && <SuccessText/>} 
+					</FlexRow>	
 				
 			</Main>
 		);
