@@ -1,22 +1,23 @@
-import { BrowserRouter as Link, Router } from "react-router-dom";
-import styled, {css} from 'styled-components';
-import React, { Component } from 'react';
-import AllTests from '../../containers/Pages/AllTests';
+
+import {Link} from "react-router-dom";
+import styled from 'styled-components';
+import React from 'react';
 
 const RouterLink = styled.span`
 	color: #4F9DA6;
-	font-style: underline;
+	text-decoration: underline;
 `;
-const SuccessText = styled.div`
+const TextDiv = styled.div`
 	font-size: 20px;
 `;
-export default function successText (props) {
+export default function SuccessText (props) {
     return (
-        <SuccessText>
-            <Link to='/Tests'>link to tests</Link> 
-            {/* <RouterLink > 
-                 <span>Test</span> 
-            </RouterLink>  */}
-        </SuccessText>        
+        <TextDiv>
+            Test created successfully. 
+            <Link to='/tests'> 
+                <RouterLink >See All Tests. </RouterLink> 
+            </Link>
+        </TextDiv>
+        
 	)
 }
