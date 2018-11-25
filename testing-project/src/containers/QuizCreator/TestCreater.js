@@ -204,7 +204,7 @@ class TestCreater extends Component {
 		return (
 			<Select
 				width={'calc(100% - 8px)'}
-				invalid = {this.showErrorMessage('type')}
+				invalid = {this.checkInputValidation('type')}
 				onChange={(e) => this.setState({ testType: e.target.value })}
 				value={this.state.testType}>
 				{
@@ -409,7 +409,7 @@ class TestCreater extends Component {
 								<TestDetails
 									width={'calc(100% - 16px)'}
 									type="text"
-									placeholder={this.showErrorMessage('title')}
+									placeholder={this.checkInputValidation('title')}
 									value={this.state.testTitle}
 									onChange={(e) => { this.setState({ testTitle: e.target.value }) }} 
 									invalid = {this.isFilled(this.state.testTitle)} 
@@ -419,7 +419,7 @@ class TestCreater extends Component {
 								<TestDetails
 									width={'calc(100% - 8px)'}
 									type="text"
-									placeholder={this.showErrorMessage('company')}
+									placeholder={this.checkInputValidation('company')}
 									value={this.state.company}
 									onChange={(e) => { this.setState({ company: e.target.value }) }}
 									invalid = {this.isFilled(this.state.company)} 
@@ -430,7 +430,7 @@ class TestCreater extends Component {
 						<FlexRow width={'100%'}>
 							<FlexChild width={'100%'}>
 								<Description 
-									placeholder={this.showErrorMessage('description')} 
+									placeholder={this.checkInputValidation('description')} 
 									value={this.state.description}
 									onChange={(e) => { this.setState({ description: e.target.value }) }} 
 									invalid = {this.isFilled(this.state.description)}
@@ -443,7 +443,7 @@ class TestCreater extends Component {
 									width={'292px'}
 									type='text'
 									min={this.getTodayDate()}
-									placeholder={this.showErrorMessage('deadline')}
+									placeholder={this.checkInputValidation('deadline')}
 									value = {this.state.testDeadline}
 									onFocus={(e) => e.target.type = 'date'}
 									onBlur={(e) => {e.target.type = !this.state.testDeadline ? 'text' : 'date'}}
