@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import styled from 'styled-components'
 import { connect } from 'react-redux';
-import Timer from './Timer';
+import Timer from '../../components/TestPassPanel/Timer';
 import {increaseUserScore} from '../../store/actions/testPasser';
 
 const Main = styled.div`
