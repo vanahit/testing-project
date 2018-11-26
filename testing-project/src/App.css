@@ -67,12 +67,17 @@
 .switch-buttons {
     width: 1200px;
     margin: 0 auto;
+
 }
 
 .switch-buttons p {
     tab-size: 14px;
-    color: #201C16;
+    color: #D6D6D6;
     margin: 20px 0;
+}
+
+.selected-tab {
+    background-color: #4F9DA6 !important;
 }
 
 .switch-buttons button {
@@ -81,11 +86,14 @@
     font-size: 24px;
     font-weight: bold;
     color: #D6D6D6;
+    border: 1px solid #D6D6D6;
+    background-color: white;
 }
 
-.selected-tab {
-    background-color: #4F9DA6;
+.switch-buttons button:hover{
+    opacity: 0.8;
 }
+
 
 
 .container {
@@ -197,7 +205,7 @@
     background-color: #D6D6D6;
 }
 
-.login p , .registration p{
+.login p, .registration p {
     color: white;
     font-size: 16px;
     text-align: center;
@@ -282,9 +290,102 @@
 }
 
 /*--------------------------------------------------*/
-/*Registration part*/
+/*Company  profile*/
 /*----------------------------------------------------*/
 
+.company-profile {
+    width: 1200px;
+    max-width: 100%;
+    margin: 30px auto;
+    display: flex;
+}
+
+.profile-logo {
+    min-width: 250px;
+    height: 250px;
+    background-color: #4267B2;
+    margin-right: 30px;
+    border-radius: 50%;
+}
+
+.profile-synopsis-name {
+    color: #4F9DA6;
+    font-size: 34px;
+    margin-bottom: 30px;
+}
+
+.quote {
+    margin-bottom: 16px;
+    font-size: 24px;
+}
+
+.profile-synopsis {
+
+}
+
+.company-profile span {
+    color: #FFAD5A;
+}
+
+.profile-find-employee {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 360px;
+    width: 1200px;
+    background-color: #eeeeff;
+    margin: 76px auto;
+
+}
+
+.profile-create-test {
+    width: 1000px;
+    height: 182px;
+    background-color: black;
+    opacity: 0.8;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    color: white;
+}
+
+img {
+    width: 24px;
+    height: 24px;
+    margin-right: 16px;
+}
+
+.checked-icon {
+    display: flex;
+    margin: 16px 16px 0 16px;
+    align-items: center;
+}
+
+.checked-icon span {
+    font-size: 20px;
+}
+
+.profile-buttons {
+    display: flex;
+    justify-content: flex-end;
+    margin: 16px;
+}
+
+.profile-buttons button {
+    background-color: #FF5959;
+    height: 60px;
+    width: 202px;
+    border: none;
+    color: white;
+    font-size: 20px;
+    border-radius: 3px;
+    margin-left: 16px;
+    cursor: pointer;
+}
+
+.profile-buttons button:hover {
+    opacity: 0.4;
+}
 
 /*-----------------------------------------------------*/
 
