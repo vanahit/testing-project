@@ -76,7 +76,7 @@ export default class AllCompanies extends Component {
 			filterData = filterData.filter( item => item.testType === type)
 		}
 
-		const indexOfLastData = currentPage * dataPerPage;
+	const indexOfLastData = currentPage * dataPerPage;
     const indexOfFirstData = indexOfLastData - dataPerPage;
     const currentData = filterData.slice(indexOfFirstData, indexOfLastData+loadMore*dataPerPage);
 
@@ -105,14 +105,16 @@ export default class AllCompanies extends Component {
 										timeout={450}
 										classNames="slide"
 									>
-										<div key={item.id} >
-											<img src={src} alt="Type test" />
+										<div key={item.id} className="companyUser">
+											<img src={src} alt="User Image" className="imgUser" />
 											<div  className="grid-info">
-												<p className="blue">{item.testTitle}</p>
-												<p className="yellow">{item.company}</p>
-												<p><span>Passes: </span><span className="blue">0</span></p>
-												<p><span>DeadLine: </span><span className="blue">{item.testDeadline}</span></p>
-												<button className="addButton"><span >Add</span> <span className='add'>></span></button>
+												<h2>{item.testTitle}</h2>
+												<p>
+													Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+												</p>
+												<div className="testsDiv">
+													<span>All Tests</span>
+												</div>
 											</div>
 										</div>
 									</CSSTransition>
