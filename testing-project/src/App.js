@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import AboutUs from './components/AboutUs/AboutUs';
 import {Route} from "react-router-dom";
-import TestCreater from './containers/QuizCreator/TestCreater';
+import TestCreator from './containers/QuizCreator/TestCreator';
 import TestPassPanel from './containers/TestPassPanel/TestPassPanel';
 import './App.css';
 import AutorizationUser from "./components/Autorization/AutorizationUser";
@@ -13,7 +13,6 @@ import User from "./containers/Pages/User";
 import {firebase} from './firebase/firebase';
 
 class App extends Component {
-
   render() {
     return (
       <div className="App">
@@ -27,7 +26,6 @@ class App extends Component {
         <Route path="/testPassPanel/" component={TestPassPanel} />
          <Route path="/tests/" component={AllTests} />
        </div>
-
     );
   }
 }

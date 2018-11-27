@@ -4,7 +4,8 @@ import {Link} from "react-router-dom";
 import { connect } from 'react-redux';
 
 const Main = styled.div`
-	margin: auto;
+    margin: auto;
+    margin-top: 100px;
     max-width: 1200px;
     min-height: 260px;
     background-color: #F5F5F5;
@@ -66,6 +67,11 @@ const RouterLink = styled.span`
 `;
 
 class TestFinished extends Component {
+    
+    componentDidMount() {
+
+    }
+    
 	render() {
 		return (
 			<Main>
