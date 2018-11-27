@@ -12,25 +12,25 @@ import AutorizationCompany from "./components/Autorization/AutorizationCompany";
 import AllTests from "./containers/Pages/AllTests";
 import AllCompanies from "./containers/Pages/AllCompanies";
 import AllUsers from "./containers/Pages/AllUsers";
+import User from "./containers/Pages/User";
 import {firebase} from './firebase/firebase';
 
 
 
 class App extends Component {
-
-
-    render() {
-        return (
-            <div className="App">
-            
-               <Route path='/registration/user' component={AutorizationUser}/>
-               <Route path='/registration/company' component={AutorizationCompany}/>
-               <Route path="/AboutUs/" component={AboutUs} />
-               <Route path="/TestCreater/" component={TestCreater} />
-               <Route path="/Tests/" component={AllTests} />
-               <Route path="/Companies/" component={AllCompanies} />
-               <Route path="/Users/" component={AllUsers} />
-            </div>
+  render() {
+    return (
+      <div className="App">
+        <Route path='/registration/user' component={AutorizationUser}/>
+        <Route path='/registration/company' component={AutorizationCompany}/>
+        <Route path="/AboutUs/" component={AboutUs} />
+        <Route path="/TestCreater/" component={TestCreater} />
+        <Route path="/Tests/" component={AllTests} />
+        <Route path="/Companies/" component={AllCompanies} />
+        <Route path="/Users/" component={AllUsers} />
+        <Route path="/User/:Text" component={User} />
+        
+      </div>
     );
   }
 }
