@@ -4,7 +4,6 @@ import CompanyRegistration from "./registration/CompanyRegistration";
 import {connect} from 'react-redux';
 import * as firebase from "firebase";
 import CompanyPage from "./CompanyPage";
-import {Route} from "react-router";
 
 class AutorizationCompany extends Component {
 
@@ -21,10 +20,7 @@ class AutorizationCompany extends Component {
     }
 
     componentDidMount() {
-        firebase.auth().signOut().then(function () {
-        }, function (error) {
-            console.error('Sign Out Error', error);
-        });
+
         firebase.auth().onAuthStateChanged((currentCompany) => {
             if (currentCompany) {
                 console.log('log in');

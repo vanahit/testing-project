@@ -7,8 +7,6 @@ import './App.css';
 import NoMatch from "./components/NoMatch";
 import HomePage from "./components/HomePage";
 import Header from "./components/Header";
-import CompanyPage from "./components/Autorization/CompanyPage";
-
 
 
 class App extends Component {
