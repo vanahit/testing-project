@@ -1,20 +1,15 @@
 import React, {Component} from 'react';
-import ImgComponent from "./ImgComponent";
-import InfoComponent from "./InfoComponent";
 
 class UserRegistration extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            data: [],
-            languages: [],
-            name: '',
-            surname: '',
-            phone: '',
+            firstName: '',
+            lastName: '',
             email: '',
             password: '',
-            image: '',
+            confirmedPassword:'',
         }
     }
 
@@ -36,49 +31,63 @@ class UserRegistration extends Component {
 
     handleSubmit(e) {
         e.preventDefault();
-        const obj = {...this.state};
-        delete obj.data;
 
-        this.setState({ data:[...this.state.data,obj] })
         this.setState({
-            languages: [],
-            name: '',
-            surname: '',
-            phone: '',
+            firstName: '',
+            lastName: '',
             email: '',
             password: '',
-            image: '',
+            confirmedPassword:'',
         })
     }
 
     render() {
 
-        const languages = ['JavaScript', 'Java', "PHP", 'C#', 'MySQL', 'Python', 'Ruby', 'Swift', 'React', 'Redux'];
+        // const languages = ['JavaScript', 'Java', "PHP", 'C#', 'MySQL', 'Python', 'Ruby', 'Swift', 'React', 'Redux'];
 
-        const {name, surname, email, phone, password, img} = this.state;
+        const {firstName, lastName, email, password,confirmedPassowrd} = this.state;
         return (
             <form onSubmit={this.handleSubmit.bind(this)}>
 
                 <div className='registration'>
-                    <h2>Registration</h2>
-                    <ImgComponent/>
-                    <InfoComponent
-                        changeField={this.changeField.bind(this)}
-                        arr={[name, surname, email, phone, password]}
+                    <h5>Register</h5>
+
+                    <input
+                        className='info-field'
+                        type="text"
+                        placeholder='FIRST NAME *'
+                        value={firstName}
+                        onChange={(e) => this.changeField(e, 'name')}
+                    />
+                    <input
+                        className='info-field'
+                        type="text"
+                        placeholder='LAST NAME *'
+                        value={lastName}
+                        onChange={(e) => this.changeField(e, 'name')}
+                    />
+                    <input
+                        className='info-field'
+                        type="email"
+                        placeholder='EMAIL *'
+                        value={email}
+                        onChange={(e) => this.changeField(e, 'name')}
+                    />
+                    <input
+                        className='info-field'
+                        type="password"
+                        placeholder='PASSWORD *'
+                        value={password}
+                        onChange={(e) => this.changeField(e, 'name')}
+                    />
+                    <input
+                        className='info-field'
+                        type="password"
+                        placeholder='CONFIRM PASSWORD *'
+                        value={confirmedPassowrd}
+                        onChange={(e) => this.changeField(e, 'name')}
                     />
 
-
-                    <div className='skills'>
-                        <h4>Skills</h4>
-                        {languages.map((item,index) => (
-                            <div key={item} className='language'>
-                                <input type="checkbox"
-                                       checked={this.state.languages.includes(item)}
-                                       onChange={(e) => this.changeCheckboxHandler(e, item)}/>
-                                <span>{item}</span>
-                            </div>
-                        ))}
-                    </div>
                     <input type="submit"/>
                 </div>
             </form>
