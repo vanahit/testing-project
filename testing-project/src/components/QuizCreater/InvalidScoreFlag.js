@@ -1,5 +1,5 @@
-import styled, {css} from 'styled-components';
-import React, { Component } from 'react';
+import styled  from 'styled-components';
+import React from 'react';
 
 const InvalidScoreText = styled.div`
 		position: absolute;
