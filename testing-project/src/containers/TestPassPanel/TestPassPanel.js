@@ -25,7 +25,7 @@ class TestPassPanel extends Component {
 	}
 
 	componentDidMount() {	
-        axios.get('https://test-project-4ab6b.firebaseio.com/tests/-LS0j3a0GongklJjoPEw.json')
+        axios.get('https://test-project-4ab6b.firebaseio.com/tests/-LSExdm_TRHxxmwgYi-N.json')
             .then((response) => {
 				this.props.addTest(response.data);
 				if (this.props.test) {

@@ -3,7 +3,7 @@ import Login from "./login/Login";
 import CompanyRegistration from "./registration/CompanyRegistration";
 import {connect} from 'react-redux';
 import * as firebase from "firebase";
-import CompanyPage from "../CompanyPage";
+import CompanyPage from "./CompanyPage";
 
 class AutorizationCompany extends Component {
 
@@ -20,10 +20,7 @@ class AutorizationCompany extends Component {
     }
 
     componentDidMount() {
-        firebase.auth().signOut().then(function () {
-        }, function (error) {
-            console.error('Sign Out Error', error);
-        });
+
         firebase.auth().onAuthStateChanged((currentCompany) => {
             if (currentCompany) {
                 console.log('log in');
@@ -59,12 +56,12 @@ class AutorizationCompany extends Component {
                         <CompanyPage/>
                     </div> :
                     <div className='container'>
-                        <CompanyRegistration/>
                         <Login
                             login={this.state.pass}
                             email={this.state.email}
                             changeHandler={this.changeHandler}
                             signInCompany={this.signInCompany.bind(this)}/>
+                        <CompanyRegistration/>
                     </div>}
             </div>
 

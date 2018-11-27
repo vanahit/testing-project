@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
 import styled from 'styled-components'
 import { connect } from 'react-redux';
-import Timer from '../../components/TestPassPanel/Timer';
 import {increaseUserScore} from '../../store/actions/testPasser';
+import Timer from '../../components/TestPassPanel/Timer';
+import img from './img/74668_1528021881.jpg'
 
 const Main = styled.div`
 	margin: auto;
+	margin-top: 45px;
+	margin-bottom: 45px;
 	max-width: 1200px;
 	font-size: 24px;
 	color: white;
@@ -66,13 +69,30 @@ const QuestionNumber = styled.div`
 	box-sizing: border-box;
 `;
 const AnswerTitle = styled.div`
-	margin-bottom: 16px;
+	position: relative;		
 	padding: 32px 16px;
-	background-color: rgba(20, 18, 24, 0.8);
+	background-image: url(${img});
+    background-position: center; 
+ 	background-repeat: no-repeat; 
 	width: 100%;
-	min-height: 100px;
+	min-height: 200px;
 	box-sizing: border-box;
-	
+
+	::before {
+		position: absolute;
+		left: 0px;
+		top: 0px;
+		background-color: rgba(20, 18, 24, 0.8);
+		content: '';
+		min-height: 200px;
+		width: 100%;
+	  }
+`;
+
+const AnswerText = styled.span`
+	  position: absolute;
+	  z-index: 1;
+	  color: white;
 `;
 
 class TestPasser extends Component {
@@ -122,28 +142,29 @@ class TestPasser extends Component {
             questions = this.state.testData.questions;
             answers = this.sortRandomAnswers();
         } 
-
        	return (
 			<Main>
                 {this.state.testData 
-                ?
-                    <div>
+               		?  <div>
                         <FlexRow>
-                            <FlexChild width={'calc(100% - 144px)'}>
-                                <QuestionNumber>Question {this.id + 1}/{questions.length}</QuestionNumber>
+						   <FlexChild width={'calc(100% - 144px)'}>
+							   <QuestionNumber> 
+								   Question {this.id + 1}/{questions.length}
+								</QuestionNumber>
                             </FlexChild>
                             <FlexChild width={'144px'}>
                                 <Timer 
                                     time={this.state.testData.testDuration}
                                     testEnded={this.props.testEnded}
-                                    questionsEnded={this.questionsEnded}
                                 /> 
                             </FlexChild>
                         </FlexRow>
                         <FlexRow >
                             <FlexChild width={'100%'}>
                                 <AnswerTitle>
-                                    {questions.length && this.state.currentQuesion.questionTitle}
+									<AnswerText>
+										{questions.length && this.state.currentQuesion.questionTitle}
+									</AnswerText>
                                 </AnswerTitle>
                             </FlexChild>
                         </FlexRow>
@@ -163,7 +184,7 @@ class TestPasser extends Component {
                         }
                     </div>
 
-				: 'LOADER'
+					: 'LOADER'
 				}
 			</Main>
 		);

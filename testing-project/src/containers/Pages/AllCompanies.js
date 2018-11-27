@@ -66,14 +66,21 @@ export default class AllCompanies extends Component {
 	}
 
 	render(){
-		const selectSearchData = ['JavaScript', 'Java', "PHP", 'C#', 'MySQL', 'Python', 'Ruby', 'Swift', 'React', 'Redux'];
+		// const selectSearchData = ['JavaScript', 'Java', "PHP", 'C#', 'MySQL', 'Python', 'Ruby', 'Swift', 'React', 'Redux'];
+		
 		const { data, search, type, currentPage, dataPerPage, loadMore } = this.state;
+		let selectSearchData = [];
+		data.reduce( (acc,item) => {
+			acc.push(item.name);
+			return acc
+		},selectSearchData )
+		console.log(selectSearchData)
 		let filterData = data.filter( item => {
 			return item.name.toLowerCase().substr(0,search.length) === search.toLowerCase()
 		} )
 
 		if(type !== ""){
-			filterData = filterData.filter( item => item.testType === type)
+			filterData = filterData.filter( item => item.name === type)
 		}
 
 		const indexOfLastData = currentPage * dataPerPage;
@@ -105,14 +112,16 @@ export default class AllCompanies extends Component {
 										timeout={450}
 										classNames="slide"
 									>
-										<div key={item.id} >
-											<img src={src} alt="Type test" />
+										<div key={item.id} className="companyUser">
+											<img src={src} alt="Company Logo" className="logoCompany" />
 											<div  className="grid-info">
 												<h2>{item.name}</h2>
-												<p className="yellow">
+												<p>
 													Lorem Ipsum is simply dummy text of the printing and typesetting industry.
 												</p>
-												<span>All Tests</span>
+												<div className="testsDiv">
+													<span>All Tests</span>
+												</div>
 											</div>
 										</div>
 									</CSSTransition>

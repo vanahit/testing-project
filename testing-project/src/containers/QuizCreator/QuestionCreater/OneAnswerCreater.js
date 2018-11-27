@@ -2,17 +2,19 @@ import React from 'react';
 import styled, {css} from 'styled-components'
 import {connect} from 'react-redux';
 
-const AnswerInput = styled.input`
-  margin-bottom: 30px;
+const AnswerInput = styled.textarea`
   width: calc(100% - 96px);
   height: 60px;
-  padding-left: 16px;
+  padding: 16px 16px;
+  margin-bottom: 15px;
   color: #4F9DA6;
   font-size: 24px;
-  overflow: hidden; 
+  overflow: hidden;
+  overflow-wrap: break-word;
   border: 1px solid #4F9DA6;
   box-sizing: border-box; 
   transition: font-size 0.5s ease-in-out;
+
     @media screen and (max-width: 580px) {
 		font-size: 12px;
   }

@@ -4,10 +4,10 @@ import QuestionDeleteFlag from '../../../components/QuizCreater/QuestionDeleteFl
 import RadioFlag from '../../../components/QuizCreater/RadioFlag';
 import styled, {css} from 'styled-components'
 import {connect} from 'react-redux';
-import {increaseTotalScore, submittedFalse} from '../../../store/actions/testCreater';
+import {changeTotalScore, submittedFalse} from '../../../store/actions/testCreater';
 
 const Radio = styled.input`
-	margin: 5px;
+	margin: 16px 5px;
 	width: 22px;
 	height: 22px;
 
@@ -48,7 +48,7 @@ const DeleteQuestion = styled.button`
 	border: 0;	
 `;
 const DeleteAnswer = styled.button`
-		margin-left: 8px;
+		margin: 8px 8px;
 		width: 40px;
 		height: 40px;
 		color:rgba(230, 36, 22, 1);
@@ -56,7 +56,8 @@ const DeleteAnswer = styled.button`
 		background-color: white;
 		border: 1px solid rgba(231, 231, 231, 1);
 `;
-const QuestionDetails = styled.input`
+const QuestionDetails = styled.textarea`
+	padding: 16px 16px;
 	width: ${props => props.width  || 'calc(100% - 16px)'};
 	height: 60px;
 	padding-left: 16px;
@@ -68,8 +69,8 @@ const QuestionDetails = styled.input`
 	transition: font-size 0.5s ease-in-out;
 	
 	@media screen and (max-width: 1190px) {
-		margin-top: 5px;
-		min-width: 100%;
+		margin: 10px 5px;
+		max-width: 99%;
 	}
 	@media screen and (max-width: 580px) {
 		font-size: 12px;
@@ -82,11 +83,11 @@ const QuestionDetails = styled.input`
 	${props => props.invalid && css`
 		font-size: 22px;
 		color: rgba(185, 4, 46, 0.5);
-    border-bottom: 1px solid rgba(185, 4, 46, 1);
-    ::-webkit-input-placeholder {color: rgba(185, 4, 46, 0.5)}
-    ::-moz-placeholder          {color: rgba(185, 4, 46, 0.5)}/* Firefox 19+ */
-    :-moz-placeholder           {color: rgba(185, 4, 46, 0.5)}/* Firefox 18- */
-    :-ms-input-placeholder      {color: rgba(185, 4, 46, 0.5)}
+		border-bottom: 1px solid rgba(185, 4, 46, 1);
+		::-webkit-input-placeholder {color: rgba(185, 4, 46, 0.5)}
+		::-moz-placeholder          {color: rgba(185, 4, 46, 0.5)}/* Firefox 19+ */
+		:-moz-placeholder           {color: rgba(185, 4, 46, 0.5)}/* Firefox 18- */
+		:-ms-input-placeholder      {color: rgba(185, 4, 46, 0.5)}
   `}
 `;
 
@@ -115,15 +116,14 @@ const CountFlexChild = styled.div`
 	border-left: 0;
 `;
 const Question = styled.div`
-	margin-top: 15px;
+	margin: 30px 0;
 	position: relative;
 `;
 const FlexRow = styled.div`
 	display: flex;
 	flex-direction: row;
-	align-items: flex-start; 
-	margin: 30px 0;
-	justify-content: space-between;
+	align-items: flex-start;
+	margin: 15px 0;
 	width: ${props => props.width || '100%'};
 	box-sizing: border-box;
 
@@ -138,8 +138,7 @@ const FlexChild = styled.div`
 	width: ${props => props.width || '100%'};
 	box-sizing: border-box;
 	@media screen and (max-width: 1190px) {
-		margin-top: 5px;
-		min-width: 100%;
+		min-width: 99%;
 	}
 `;
 class QuestionCreater extends Component {
@@ -179,7 +178,7 @@ class QuestionCreater extends Component {
 		} else {
 			score = '';
 		}
-		this.props.increaseTotalScore((score - this.state.score));
+		this.props.changeTotalScore((score - this.state.score));
 		this.setState({score:  score});
 	}
 
@@ -204,7 +203,7 @@ class QuestionCreater extends Component {
 	}
 
 	updateQuestionValues = () => {
-		console.log(this.props.id)
+		
 		this.getInputValue();
 		let state = {
 			questionTitle: this.clearWordFromSpaces(this.state.questionTitle),
@@ -258,7 +257,7 @@ class QuestionCreater extends Component {
 	answersListCreater = () => {
 		return ( 
 			this.state.answers.map((input, index) => (
-				<div key={input.id}>
+				<FlexRow key={input.id} width={'100%'}>
 					<Radio
 						type='radio'
 						name={`question${this.props.id}`} 
@@ -280,7 +279,7 @@ class QuestionCreater extends Component {
 					>
 						X 
 					</DeleteAnswer>}
-				</div>))
+				</FlexRow>))
 		);
 	} 	  
     render() {
@@ -351,7 +350,7 @@ function mapStateToProps(state) {
 }
 function mapDispatchToProps(dispatch) {
   return {
-		increaseTotalScore: (score) => dispatch(increaseTotalScore(score)),
+		changeTotalScore: (score) => dispatch(changeTotalScore(score)),
 		submittedFalse: () => dispatch( submittedFalse()),
   }
 }

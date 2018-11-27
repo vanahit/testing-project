@@ -1,8 +1,8 @@
-import {INCREASE_TOTAL_SCORE, SUBMITTED_FALSE, SUBMITTED_TRUE} from './actionTypes'
+import {CHANGE_TOTAL_SCORE, SUBMITTED_FALSE, SUBMITTED_TRUE} from './actionTypes'
 
-export function increaseTotalScore(score) {
+export function changeTotalScore(score) {
   return {
-    type: INCREASE_TOTAL_SCORE,
+    type: CHANGE_TOTAL_SCORE,
     score
    }
 }
