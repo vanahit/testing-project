@@ -3,9 +3,8 @@ import src from '../../images/is.jpg';
 import {firebase} from '../../firebase/firebase';
 import Searching from './Searching';
 import Pagination from './Pagination';
-import { CSSTransition, TransitionGroup } from "react-transition-group";
 
-export default class AllTests extends Component {
+export default class PassedTests extends Component {
 	constructor(props){
 		super(props);
 
@@ -65,10 +64,6 @@ export default class AllTests extends Component {
 		}) 
 	}
 
-	deadline (day) {
-	    return `${new Date(day).getFullYear()}.${new Date(day).getMonth()}.${new Date(day).getDate()}`
-	}
-
 	render(){
 		const selectSearchData = ['JavaScript', 'Java', "PHP", 'C#', 'MySQL', 'Python', 'Ruby', 'Swift', 'React', 'Redux'];
 		const { data, search, type, currentPage, dataPerPage, loadMore } = this.state;
@@ -90,41 +85,39 @@ export default class AllTests extends Component {
 	    }
 
 		return (
-			<div className="container-fluid">
+			<div className="container-table">
 				<Searching 
 					{...this.state}
 					searching={this.searching.bind(this)}
 					currentDataLength={currentData.length}
 					selectSearchData={selectSearchData}
 				/>
-				<div className="content-grid">
+				<table className="dataTable">
+					<thead>
+						<tr>
+							<th>Title</th>
+							<th>Type</th>
+							<th>Company</th>
+							<th>Score</th>
+						</tr>
+					</thead>
+					<tbody>
 					{
 						currentData.map( item => {
 							return (
-								<TransitionGroup className="grid">
-									<CSSTransition 
-										key={item.id}
-										in={true}
-										appear={true}
-										timeout={450}
-										classNames="slide"
-									>
-										<div key={item.id} >
-											<img src={src} alt="Type test" />
-											<div  className="grid-info">
-												<p className="blue">{item.testTitle}</p>
-												<p className="yellow">{item.company}</p>
-												<p><span>Passes: </span><span className="blue">0</span></p>
-												<p><span>DeadLine: </span><span className="blue">{this.deadline(item.testDeadline)}</span></p>
-												<button className="addButton"><span >Add</span> <span className='add'>></span></button>
-											</div>
-										</div>
-									</CSSTransition>
-								</TransitionGroup>
+								<tr key={item.id} >
+									<td>{item.testTitle}</td>
+									<td>{item.testType}</td>
+									<td>{item.company}</td>
+									<td>{item.passScore}/{item.totalScore}</td>
+								</tr>
 							)
 						} )
 					}
-					<Pagination 
+					</tbody>
+					
+				</table>
+				<Pagination 
 						load_More={loadMore}
 						loadMore={this.loadMore.bind(this)}
 						currentPage={currentPage}
@@ -133,7 +126,6 @@ export default class AllTests extends Component {
 						next={this.next.bind(this)}
 						pages={pages}
 					/>					
-				</div>
 			</div>
 		);
 	}
