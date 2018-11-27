@@ -12,7 +12,7 @@ const TextDiv = styled.div`
 export default function SuccessText (props) {
     return (
         <TextDiv>
-            Test created successfully. 
+            Test created successfully.{' '} 
             <Link to='/tests'> 
                 <RouterLink >See All Tests. </RouterLink> 
             </Link>

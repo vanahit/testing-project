@@ -10,12 +10,12 @@ const RadioText = styled.div`
 		font-size: 14px;
 		background-color: rgba(79, 157, 166, 0.2);
 		border-radius: 4px;
-		transition: top 1s ;
+		transition: top 0.5s ;
 
-		@media screen and (max-width: 1190px) {
+		@media screen and (max-width: 1188.5px) {
 			font-size: 12px;
-			left: 0px;
-			top:303px;
+			left: 10px;
+			top: 328px;
 		}		
 `;
 const Trinagle = styled.div`
@@ -29,13 +29,13 @@ const Trinagle = styled.div`
 
 		@media screen and (max-width: 1190px) {
 			left: 0px;
-			top:24px;
+			top: 23px;
 		}	
 `;
 export default function radioFlag (props) {
     return (
 		<RadioText>
-				<Trinagle ></Trinagle> 
+				<Trinagle></Trinagle> 
 				  choose right answer of question {props.count}
 		</RadioText>
 	)

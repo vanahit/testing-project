@@ -1,4 +1,4 @@
-import {INCREASE_TOTAL_SCORE, SUBMITTED_FALSE, SUBMITTED_TRUE} from '../actions/actionTypes';
+import {CHANGE_TOTAL_SCORE, SUBMITTED_FALSE, SUBMITTED_TRUE} from '../actions/actionTypes';
 
 const initialState = {
   questions: [],
@@ -8,7 +8,7 @@ const initialState = {
 
 export default function testReducer(state = initialState, action) {
   switch (action.type) {
-    case INCREASE_TOTAL_SCORE:
+    case CHANGE_TOTAL_SCORE:
       return {
         ...state,
         totalScore: state.totalScore + action.score,
