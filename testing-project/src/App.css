@@ -4,6 +4,7 @@
     padding: 0;
     outline: none;
     font-family: 'Roboto', sans-serif;
+
 }
 
 ::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
@@ -95,6 +96,10 @@
 }
 
 
+
+
+    
+}
 
 .container {
     width: 1200px;
@@ -300,6 +305,7 @@
     display: flex;
 }
 
+
 .profile-logo {
     min-width: 250px;
     height: 250px;
@@ -399,4 +405,475 @@ img {
     background-image: url("../src/images/404.jpg");
     background-repeat: no-repeat;
 }
+
+
+
+/*Tests styles*/
+
+.container-fluid{
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    margin-top: 177px;
+}
+
+.searchingSelect {
+    width: 292px;
+    max-width: 100%;
+    height: 44px;
+    padding: 10px;
+    box-sizing: border-box;
+    border: 1px solid #4F9DA6;
+    border-radius: 4px;
+    outline: none;
+    margin: 0px 16px 10px 0px;
+}
+
+.search {
+    width: 480px;
+    max-width: 100%;
+    height: 44px;
+    padding: 10px;
+    box-sizing: border-box;
+    border: 1px solid #4F9DA6;
+    border-radius: 4px;
+    outline: none;
+    margin: 0px 0px 10px 0px;
+}
+
+.searching span{
+    float: right;
+    margin: 16px 20px;
+    color: #100529;
+    font-size: 20px;
+    display: block;
+}
+
+.content-grid{
+    display: flex;
+    justify-content: space-between;
+    margin: 20px 0;
+    flex-wrap: wrap;
+    width: 100%;
+}
+
+.content-grid .grid{
+    width: 276px;
+    margin: 15px 0;
+    position: relative;
+}
+
+.grid img{
+    width: 100%;
+}
+
+.grid-info{
+    padding: 5px;
+    box-sizing: border-box;
+}
+
+.grid-info p{
+    font-size: 16px;
+    margin: 8px 0;
+}
+
+.blue{
+    color: #4F9DA6;
+}
+
+.yellow{
+    color: #FFAD5A;
+}
+
+.addButton{
+    display: inline-block;
+    float: right;
+    width: 100px;
+    height: 44px;
+    box-sizing: border-box;
+    background: #FF5959;
+    box-shadow: 0px 3px 6px #000000;
+    border: none;
+    padding: 7px 10px;
+    margin-top: 20px;
+}
+
+.addButton span{
+    font-size: 20px;
+    color: #FFFFFF;
+
+}
+
+.add{
+    margin: 0 0 0 20px;
+}
+
+/*Company Styles*/
+
+.logoCompany, .imgUser{
+    width: 100px !important;
+    height:100px;
+    border-radius: 100%;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.companyUser h2{
+    text-align: center;
+    color: #4F9DA6;
+    font-size: 16px;
+}
+.companyUser p{
+    font-size: 14px;
+    line-height: 20px;
+}
+
+.testsDiv{
+    float: right;
+}
+
+.testsDiv span{
+    color: #4F9DA6;
+    font-size: 16px;
+    line-height: 44px;
+    cursor: pointer;
+}
+
+
+
+.viewMore{
+    width: 100%;
+    margin-top: 15px;
+    box-sizing: border-box;
+    height: 44px;
+    background: #4F9DA6;
+    border: none;
+    outline: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 20px;
+    color: #FFFFFF;
+
+}
+
+
+.pagination{
+    justify-content: center;
+    display: flex;
+    width: 100%;
+    margin-top: 30px;
+    flex-wrap: wrap;
+}
+
+.paginationContent{
+    width: 614px;
+    margin: 0 auto; 
+    height: 32px;
+    line-height: 1;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.paginationContent > span{
+    text-decoration: underline;
+    color: #4F9DA6;
+    display: inline-block;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.pages{
+    width: 320px;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.pages ul{
+    display: flex;
+    flex: 1;
+    justify-content: center;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    margin-top: -8px;
+}
+
+.pages ul li{
+    width: 32px;
+    height: 32px;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    color: #100529;
+    background: #FFFFFF;
+    border: 1px solid #E7E7E7;
+    margin: 2px;
+}
+
+.pages ul li.active{
+    background: #E7E7E7;
+}
+
+.pages ul li:hover{
+    background: #E7E7E7;
+}
+
+@media screen and (max-width: 570px){
+   .content-grid{
+        display: flex;
+        justify-content: space-around;
+    }
+}
+
+
+
+/*Animation*/
+
+/*slide enter*/
+
+.slide-enter{
+    opacity: 0;
+    transform: scale(0.97) translateY(5px);
+    padding: 8px;
+    z-index: 1;
+}
+
+.slide-enter.slide-enter-active{
+    opacity: 1;
+    transform: scale(1) translateY(0);
+    padding: 8px;
+    transition: opacity 300ms linear 100ms, transform 300ms ease-in-out 100ms; 
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+.slide-enter-done{
+    overflow: auto;
+    padding: 8px;
+    box-shadow: 0px 3px 6px #DCDCDC;
+}
+
+
+.slide-exit{
+    opacity: 1;
+
+    transform: scale(1) translateY(0);
+}
+
+.slide-exit.slide-exit-active{
+    opacity: 0;
+    transform: scale(0.5) translateY(5px);
+    transition: opacity 150ms linear, transform 150ms ease-out;
+}
+
+.slide-exit-done {
+    opacity: 0;
+}
+
+
+.slide-appear{
+    opacity: 0;
+    padding: 8px;
+    transform: scale(0.5) translateY(5px);
+    z-index: 1;
+}
+
+.slide-appear.slide-appear-active{
+    opacity: 1;
+    transform: scale(1) translateY(0);
+    transition: opacity 300ms linear 100ms, transform 300ms ease-in-out 100ms; 
+}
+
+
+
+
+/*User Page Styles*/
+.containerUser{
+    width: 100%;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.tabBar{
+    border-bottom: 1px solid #4F9DA6;
+    margin-top: 177px;
+    width: 100%;
+}
+
+.tabBar a{
+    width: 240px;
+    height: 60px;
+    box-sizing: border-box;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+    border: 1px solid #D6D6D6;
+    border-bottom: none;
+    font-size: 24px;
+    color: #D6D6D6;
+}
+
+.tabBar a.active{
+    background: #4F9DA6;
+    border: 1px solid #4F9DA6;
+    color: #FFFFFF;
+}
+
+.userContent{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+
+.imgDiv{
+    width: 250px;
+    height: 250px;
+    object-fit: cover;
+    border-radius: 100%;
+    position: relative;
+    overflow: hidden;
+    margin-top: 20px;
+}
+
+.imgDiv img{
+    width: 100%;
+    height: 100%;
+}
+
+.infoUser{
+    flex: 1;
+    padding: 20px;
+    padding-right: 0px; 
+    box-sizing: border-box;
+}
+
+.infoUser h2{
+    color: #4F9DA6;
+    font-size: 34px;
+    font-weight: bold;
+}
+
+.infoUser div{
+    width: 100%;
+    height: 166px;
+    box-sizing: border-box;
+    border: 1px solid #E7E7E7;
+    padding: 20px;
+
+    margin-top: 20px;
+    overflow-x: hidden;
+}
+
+.settings{
+    text-align: right;
+    color: #4F9DA6;
+}
+
+.settings span{
+    font-size: 20px;
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+.labelHeader{
+    color: #4F9DA6;
+    width: 100%;
+    padding: 10px 0;
+    border-bottom: 1px solid #E7E7E7;
+    font-size: 34px;
+    margin-top: 30px;
+}
+
+.container-table{
+    margin-top: 30px;
+}
+
+
+/*tests table styles*/
+
+
+.dataTable{
+    width: 100%;
+    margin-top: 25px;
+}
+
+.dataTable tr td{
+    border-bottom: 1px solid #E7E7E7;
+}
+
+.dataTable tr td:nth-child(1), .dataTable tr th:nth-child(1){
+    width: 25%;
+}
+
+.dataTable tr td, .dataTable tr th{
+    width: 15%;
+}
+
+.dataTable tr td, .dataTable tr th{
+    text-align: center;
+    padding: 20px;
+}
+
+.dataTable tr th{
+    text-transform: uppercase;
+    background: #D6D6D6;
+    position: relative;
+    cursor: pointer;
+}
+
+.dataTable tr th:nth-child(even){
+    background: #E7E7E7;
+}
+
+.dataTable tr td span{
+    color: #E62416;
+    font-size: 20px;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.dataTable tr td button{
+    width: 94px;
+    height: 44px;
+    background: #FF5959;
+    border-radius: 4px;
+    color: #FFFFFF;
+    font-size: 20px;
+    border: none;
+    text-transform: uppercase;
+    cursor: pointer;
+}
+
+.sortArrowBottom, .sortArrowTop{
+    width: 0;
+    height: 0;
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.sortArrowBottom{
+    border-top: 8px solid #4F9DA6;
+    border-right: 8px solid transparent;
+    border-bottom: 8px solid transparent;
+    border-left: 8px solid transparent;
+}
+
+.sortArrowTop{
+    border-top: 8px solid transparent;
+    border-right: 8px solid transparent;
+    border-bottom: 8px solid #4F9DA6;
+    border-left: 8px solid transparent;
+}
+
+
 
