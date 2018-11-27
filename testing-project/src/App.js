@@ -6,7 +6,10 @@ import TestPassPanel from './containers/TestPassPanel/TestPassPanel';
 import './App.css';
 import AutorizationUser from "./components/Autorization/AutorizationUser";
 import AutorizationCompany from "./components/Autorization/AutorizationCompany";
-import AllTests from "./containers/Tests/AllTests";
+import AllTests from "./containers/Pages/AllTests";
+import AllCompanies from "./containers/Pages/AllCompanies";
+import AllUsers from "./containers/Pages/AllUsers";
+import {firebase} from './firebase/firebase';
 
 class App extends Component {
 
@@ -17,7 +20,7 @@ class App extends Component {
                <Route path='/registration/company' component={AutorizationCompany}/>
                <Route path="/aboutUs/" component={AboutUs} />
                <Route path="/testCreater/" component={TestCreator} />
-               <Route path="/TestPassPanel/" component={TestPassPanel} />
+               <Route path="/testPassPanel/" component={TestPassPanel} />
                <Route path="/tests/" component={AllTests} />
             </div>
     );
