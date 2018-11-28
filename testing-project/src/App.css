@@ -96,11 +96,6 @@
 }
 
 
-
-
-    
-}
-
 .container {
     width: 1200px;
     max-width: 100%;
@@ -706,7 +701,13 @@ img {
     width: 100%;
 }
 
-.tabBar a{
+.bar{
+    border-bottom: 1px solid #D6D6D6;
+    text-align: left;
+    margin-top: 90px;
+}
+
+.tabBar a, .bar span{
     width: 240px;
     height: 60px;
     box-sizing: border-box;
@@ -718,6 +719,28 @@ img {
     border-bottom: none;
     font-size: 24px;
     color: #D6D6D6;
+}
+
+.settings button{
+    width: 230px;
+    height: 60px;
+    background: #FF5959;
+    color: #ffffff;
+    border: none;
+    text-transform: uppercase;
+    font-size: 24px;
+}
+
+.infoUser .desc{
+    border: none;
+}
+
+.bar span{
+    border: none;
+    color: #4F9DA6;
+    width: unset;
+    height: unset;
+    font-size: 34px;
 }
 
 .tabBar a.active{
@@ -803,6 +826,15 @@ img {
 .dataTable{
     width: 100%;
     margin-top: 25px;
+}
+
+.dataTable tr td span.edit{
+    color: #4F9DA6;
+}
+
+.dataTable tr td span.passer{
+    color: #4F9DA6;
+    text-decoration: underline;
 }
 
 .dataTable tr td{
