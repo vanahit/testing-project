@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import AutorizationUser from "./AutorizationUser";
 import AutorizationCompany from "./AutorizationCompany";
-import CompanyPage from "./CompanyPage";
 
 import '../../App.css';
 import {Redirect} from "react-router";
@@ -26,7 +25,7 @@ class Authorization extends Component {
     render() {
         return (
             <div>
-                {this.props.currentCompany ? <CompanyPage/>
+                {this.props.currentCompany ? <Redirect to='/companyPage'/>
                     : <div className='switch-buttons'>
                         <p>Home/Login Company</p>
                         <button className={this.state.selectedTab === 'company' ? 'selected-tab' : null}

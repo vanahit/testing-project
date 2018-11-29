@@ -6,8 +6,10 @@ import TestCreater from './containers/QuizCreator/TestCreater';
 import './App.css';
 import NoMatch from "./components/NoMatch";
 import HomePage from "./components/HomePage";
-import Header from "./components/Header";
+import Header from "./components/Header_footer/Header";
 import * as firebase from "firebase";
+import Footer from "./components/Header_footer/Footer";
+import CompanyPage from "./components/Autorization/CompanyPage";
 
 
 class App extends Component {
@@ -35,6 +37,7 @@ class App extends Component {
                 <Header isLogged={this.state.currentLog}/>
                 <Switch className="App">
                     <Route exact path={'/'} component={HomePage}/>
+                    <Route path={'/companyPage'} component={()=><CompanyPage  currentCompany={this.state.currentLog}/>}/>
                     <Route
                         path='/authorization/'
                         component={() => <Authorization currentCompany={this.state.currentLog}
@@ -44,9 +47,8 @@ class App extends Component {
                     <Route path="/TestCreater/" component={TestCreater}/>
                     <Route component={NoMatch}/>
                 </Switch>
-                {/*<CompanyPage/>*/}
+                {/*<Footer/>*/}
             </div>
-
         );
     }
 }

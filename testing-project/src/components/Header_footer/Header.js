@@ -1,18 +1,22 @@
 import React from 'react';
-import {NavLink, Route, Switch} from "react-router-dom";
+import {Link, NavLink, Route, Switch} from "react-router-dom";
 import * as firebase from "firebase";
-import AboutUs from "./AboutUs/AboutUs";
-import CompanyPage from "./Autorization/CompanyPage";
+import AboutUs from "../AboutUs/AboutUs";
+import CompanyPage from "../Autorization/CompanyPage";
+import {Redirect} from "react-router";
 
 
 const Header = (props) => {
 
     const logOut = () => {
+
         firebase.auth().signOut().then(function () {
         }, function (error) {
             console.error('Sign Out Error', error);
         });
     };
+
+
 
     return (
         <header className='header'>
@@ -32,7 +36,9 @@ const Header = (props) => {
                     display: 'flex',
                     alignItems: 'center'
                 }}>
-                    <NavLink to={''}>MY ACCOUNT</NavLink>
+                    <NavLink
+                        style={{color:'white',marginRight:'10px',border:'1px solid black', padding:'10px'}}
+                        to={'/companyPage'}>MY ACCOUNT</NavLink>
                     <div className='header-log-in' onClick={() => logOut()}>LOG OUT</div>
                 </div>
 
