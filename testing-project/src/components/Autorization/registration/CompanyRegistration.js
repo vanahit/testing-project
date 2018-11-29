@@ -23,7 +23,7 @@ class CompanyRegistration extends Component {
         })
     }
 
-    signUpCompanie() {
+    signUpCompany() {
 
         if (this.state.password === this.state.confirmedPassword && this.state.password) {
 
@@ -31,7 +31,10 @@ class CompanyRegistration extends Component {
 
             firebase.database().ref('companies').push(companie);
 
-            firebase.auth().createUserWithEmailAndPassword(companie.email, companie.password)
+            firebase.auth()
+                .createUserWithEmailAndPassword(
+                    companie.email,
+                    companie.password)
                 .then(res => {
                     firebase.auth().currentUser.sendEmailVerification();
                     console.log(res);
@@ -52,7 +55,7 @@ class CompanyRegistration extends Component {
 
     handleSubmit(e) {
         e.preventDefault();
-        this.signUpCompanie();
+        this.signUpCompany();
     }
 
 
@@ -98,7 +101,8 @@ class CompanyRegistration extends Component {
                     />
 
                     <p>By creating an account,you agree to
-                        DigiLearn <span style={{color:'#FFAD5A'}}>Privacy Policy</span> and <br/><span style={{color:'#FFAD5A', marginBottom: '15px'}}>Terms of use</span>.</p>
+                        DigiLearn <span style={{color: '#FFAD5A'}}>Privacy Policy</span> and <br/><span
+                            style={{color: '#FFAD5A', marginBottom: '15px'}}>Terms of use</span>.</p>
 
                     <input className='submit' type="submit"/>
                 </div>

@@ -7,18 +7,39 @@ import './App.css';
 import NoMatch from "./components/NoMatch";
 import HomePage from "./components/HomePage";
 import Header from "./components/Header";
+import * as firebase from "firebase";
 
 
 class App extends Component {
+
+    state = {
+        currentLog: null,
+    };
+
+    componentDidMount() {
+        firebase.auth().onAuthStateChanged((currentLog) => {
+            if (currentLog) {
+                this.setState({currentLog});
+                console.log(`log in `);
+            } else {
+                console.log('log out');
+                this.setState({currentLog: null})
+            }
+        });
+    }
 
 
     render() {
         return (
             <div>
-                <Header/>
+                <Header isLogged={this.state.currentLog}/>
                 <Switch className="App">
                     <Route exact path={'/'} component={HomePage}/>
-                    <Route path='/authorization/' component={Authorization}/>
+                    <Route
+                        path='/authorization/'
+                        component={() => <Authorization currentCompany={this.state.currentLog}
+                        />}
+                    />
                     <Route path="/AboutUs/" component={AboutUs}/>
                     <Route path="/TestCreater/" component={TestCreater}/>
                     <Route component={NoMatch}/>
