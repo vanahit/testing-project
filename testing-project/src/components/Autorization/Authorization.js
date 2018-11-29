@@ -1,7 +1,10 @@
 import React, {Component} from 'react';
 import AutorizationUser from "./AutorizationUser";
 import AutorizationCompany from "./AutorizationCompany";
+
 import '../../App.css';
+import {Redirect} from "react-router";
+
 
 class Authorization extends Component {
 
@@ -22,18 +25,21 @@ class Authorization extends Component {
     render() {
         return (
             <div>
-                <div className='switch-buttons'>
-                    <p>Home/Login Company</p>
-                    <button className={this.state.selectedTab === 'company' ? 'selected-tab' : null}
-                            onClick={() => this.changeTab('company')}>COMPANY
-                    </button>
-                    <button className={this.state.selectedTab === 'user' ? 'selected-tab' : null}
-                            onClick={() => this.changeTab('user')}>USER
-                    </button>
-                </div>
-                {this.state.selectedTab === 'company' ?
-                    <AutorizationCompany/> :
-                    <AutorizationUser/>}
+                {this.props.currentCompany ? <Redirect to='/companyPage'/>
+                    : <div className='switch-buttons'>
+                        <p>Home/Login Company</p>
+                        <button className={this.state.selectedTab === 'company' ? 'selected-tab' : null}
+                                onClick={() => this.changeTab('company')}>COMPANY
+                        </button>
+                        <button className={this.state.selectedTab === 'user' ? 'selected-tab' : null}
+                                onClick={() => this.changeTab('user')}>USER
+                        </button>
+                        {this.state.selectedTab === 'company' ?
+                            <AutorizationCompany/> :
+                            <AutorizationUser/>}
+                    </div>}
+                }
+
             </div>
         );
     }

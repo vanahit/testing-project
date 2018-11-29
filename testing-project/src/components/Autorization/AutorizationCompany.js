@@ -3,7 +3,6 @@ import Login from "./login/Login";
 import CompanyRegistration from "./registration/CompanyRegistration";
 import {connect} from 'react-redux';
 import * as firebase from "firebase";
-import CompanyPage from "./CompanyPage";
 
 class AutorizationCompany extends Component {
 
@@ -15,21 +14,7 @@ class AutorizationCompany extends Component {
         this.state = {
             pass: '',
             email: '',
-            currentCompany: null,
         }
-    }
-
-    componentDidMount() {
-
-        firebase.auth().onAuthStateChanged((currentCompany) => {
-            if (currentCompany) {
-                console.log('log in');
-                this.setState({currentCompany})
-            } else {
-                console.log('log out');
-                this.setState({currentCompany: null})
-            }
-        });
     }
 
 
@@ -43,29 +28,23 @@ class AutorizationCompany extends Component {
     signInCompany(e) {
         e.preventDefault();
         firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.pass)
-            .then(r => console.log(r))
-            .catch(err => console.log(err))
-
+            .then(r => console.log(r.user.uid))
+            .catch(err => console.log(err));
     }
 
     render() {
         return (
             <div>
-                {this.state.currentCompany ?
-                    <div>
-                        <CompanyPage/>
-                    </div> :
-                    <div className='container'>
-                        <Login
-                            login={this.state.pass}
-                            email={this.state.email}
-                            changeHandler={this.changeHandler}
-                            signInCompany={this.signInCompany.bind(this)}/>
-                        <CompanyRegistration/>
-                    </div>}
+                <div className='container'>
+                    <Login
+                        login={this.state.pass}
+                        email={this.state.email}
+                        changeHandler={this.changeHandler}
+                        signInCompany={this.signInCompany.bind(this)}/>
+                    <CompanyRegistration/>
+                </div>
+
             </div>
-
-
         );
     }
 }
