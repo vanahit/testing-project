@@ -18,7 +18,6 @@ import {firebase} from './firebase/firebase';
 import NoMatch from "./components/NoMatch";
 import HomePage from "./components/HomePage";
 import Header from "./components/Header_footer/Header";
-import * as firebase from "firebase";
 import Footer from "./components/Header_footer/Footer";
 import CompanyPage from "./components/Autorization/CompanyPage";
 
@@ -68,7 +67,7 @@ class App extends Component {
                         />}
                     />
                     <Route path="/aboutUs/" component={AboutUs}/>
-                    <Route path="/testCreater/" component={TestCreater}/>
+                    <Route path="/testCreater/" component={TestCreator}/>
                     <Route path="/testPassPanel/" component={TestPassPanel} />
                     <Route path="/tests/" component={AllTests} />
                     <Route component={NoMatch}/>
