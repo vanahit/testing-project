@@ -1,20 +1,31 @@
-import {ADD_QUESTION, DELETE_QUESTIONS} from '../actions/actionTypes';
+import {CHANGE_TOTAL_SCORE, SUBMITTED_FALSE, SUBMITTED_TRUE} from '../actions/actionTypes';
 
 const initialState = {
   questions: [],
+  totalScore: 0,
+  submitted: false,
 }
 
 export default function testReducer(state = initialState, action) {
   switch (action.type) {
-    case ADD_QUESTION:
+    case CHANGE_TOTAL_SCORE:
       return {
-        questions: state.questions.concat(action.question),
+        ...state,
+        totalScore: state.totalScore + action.score,
       }
-    case DELETE_QUESTIONS:
+    case SUBMITTED_FALSE:
       return {
-        questions: [],
+        ...state,
+        submitted: false,
+      }
+    case SUBMITTED_TRUE:
+      return {
+        ...state,
+        submitted: true,
       }
     default:
       return state
+    
   }
-}
+  
+} 
