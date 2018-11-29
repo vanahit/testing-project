@@ -1,3 +1,4 @@
+import React, { Component } from 'react';
 import './App.css';
 import {Switch, Route} from "react-router-dom";
 import TestCreator from './containers/QuizCreator/TestCreator';
@@ -6,6 +7,9 @@ import AboutUs from './components/AboutUs/AboutUs';
 import Authorization from "./components/Autorization/Authorization";
 import AutorizationUser from "./components/Autorization/AutorizationUser";
 import AutorizationCompany from "./components/Autorization/AutorizationCompany";
+import Company from "./containers/Pages/Company";
+import CompaniesInUser from "./containers/Pages/CompaniesInUser";
+import UsersInCompany from "./containers/Pages/UsersInCompany";
 import AllTests from "./containers/Pages/AllTests";
 import AllCompanies from "./containers/Pages/AllCompanies";
 import AllUsers from "./containers/Pages/AllUsers";
@@ -18,7 +22,9 @@ import * as firebase from "firebase";
 import Footer from "./components/Header_footer/Footer";
 import CompanyPage from "./components/Autorization/CompanyPage";
 
+
 class App extends Component {
+
 
 
     state = {
@@ -47,8 +53,14 @@ class App extends Component {
                 <Route path='/registration/user' component={AutorizationUser}/>
                   <Route path='/registration/company' component={AutorizationCompany}/>
                     
-                <Route path="/Users/" component={AllUsers} />
+                    <Route path="/Users/" component={AllUsers} />
+                    <Route path="/Companies/" component={AllCompanies} />
+          
+            <Route path="/CompaniesInUser/" component={CompaniesInUser} />
+            <Route path="/UsersInCompany/" component={UsersInCompany} />
+          
                   <Route path="/User/:Text" component={User} />
+                   <Route path="/Company/:Text" component={Company} />
                     <Route path={'/companyPage'} component={()=><CompanyPage  currentCompany={this.state.currentLog}/>}/>
                     <Route
                         path='/authorization/'
@@ -56,7 +68,6 @@ class App extends Component {
                         />}
                     />
                     <Route path="/aboutUs/" component={AboutUs}/>
-                    <Route path="/Companies/" component={AllCompanies} />
                     <Route path="/testCreater/" component={TestCreater}/>
                     <Route path="/testPassPanel/" component={TestPassPanel} />
                     <Route path="/tests/" component={AllTests} />
@@ -66,6 +77,7 @@ class App extends Component {
             </div>
         );
     }
+
 
 }
 

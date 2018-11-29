@@ -4,7 +4,7 @@ import {firebase} from '../../firebase/firebase';
 import Searching from './Searching';
 import Pagination from './Pagination';
 
-export default class PassedTests extends Component {
+export default class CompanyTests extends Component {
 	constructor(props){
 		super(props);
 
@@ -73,6 +73,10 @@ export default class PassedTests extends Component {
 		}) 
 	}
 
+	deadline (day) {
+	    return `${new Date(day).getFullYear()}.${new Date(day).getMonth()}.${new Date(day).getDate()}`
+	}
+
 	render(){
 		const selectSearchData = ['JavaScript', 'Java', "PHP", 'C#', 'MySQL', 'Python', 'Ruby', 'Swift', 'React', 'Redux'];
 		const { data, search, type, currentPage, dataPerPage, loadMore, sortType, orderAscanding } = this.state;
@@ -85,8 +89,15 @@ export default class PassedTests extends Component {
 		}
 
 		filterData.sort((a, b) => {
-			let nameA = a[sortType].toUpperCase();
-			let nameB = b[sortType].toUpperCase();
+			let nameA;
+			let nameB
+			if(sortType !== "testDeadline"){
+				nameA = a[sortType].toUpperCase(); 
+			  nameB = b[sortType].toUpperCase();
+			} else {
+				nameA = new Date(a.testDeadline)
+				nameB = new Date(b.testDeadline)
+			}
 			if(orderAscanding){
 		 		if (nameA < nameB) {
 			    return -1;
@@ -103,7 +114,7 @@ export default class PassedTests extends Component {
 			  }
 		  }
 	  	return 0;
-		});
+		})
 
 		const indexOfLastData = currentPage * dataPerPage;
 	    const indexOfFirstData = indexOfLastData - dataPerPage;
@@ -113,6 +124,8 @@ export default class PassedTests extends Component {
 	    for (let i = 1; i <= Math.ceil(filterData.length / dataPerPage); i++) {
 	      pages.push(i);
 	    }
+
+	    
 
 		return (
 			<div className="container-table">
@@ -132,6 +145,13 @@ export default class PassedTests extends Component {
 									<span className="sortArrowTop"></span>}
 								Title
 							</th>
+							<th onClick={this.sorting.bind(this, "testDeadline")}>
+								{sortType === "testDeadline" && orderAscanding && 
+									<span className="sortArrowBottom"></span>}
+								{sortType === "testDeadline" && !orderAscanding && 
+									<span className="sortArrowTop"></span>}
+								Deadline
+							</th>
 							<th onClick={this.sorting.bind(this, "testType")}>
 								{sortType === "testType" && orderAscanding && 
 									<span className="sortArrowBottom"></span>}
@@ -139,14 +159,9 @@ export default class PassedTests extends Component {
 									<span className="sortArrowTop"></span>}
 								Type
 							</th>
-							<th onClick={this.sorting.bind(this, "company")}>
-								{sortType === "company" && orderAscanding && 
-									<span className="sortArrowBottom"></span>}
-								{sortType === "company" && !orderAscanding && 
-									<span className="sortArrowTop"></span>}
-								Company
-							</th>
-							<th>Score</th>
+							<th>Edit</th>
+							<th>Delete</th>
+							<th>Passes</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -155,9 +170,17 @@ export default class PassedTests extends Component {
 							return (
 								<tr key={item.id} >
 									<td>{item.testTitle}</td>
+									<td>
+										{this.deadline(item.testDeadline)}
+									</td>
 									<td>{item.testType}</td>
-									<td>{item.company}</td>
-									<td>{item.passScore}/{item.totalScore}</td>
+									<td>
+										<span className="edit">Edit</span>
+									</td>
+									<td >
+										<span>Delete</span>
+									</td>
+									<td><span className="passer">{item.passers}</span></td>
 								</tr>
 							)
 						} )
