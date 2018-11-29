@@ -1,4 +1,5 @@
 import './App.css';
+import React, { Component}  from 'react'
 import {Switch, Route} from "react-router-dom";
 import TestCreator from './containers/QuizCreator/TestCreator';
 import TestPassPanel from './containers/TestPassPanel/TestPassPanel';
@@ -32,6 +33,7 @@ class App extends Component {
             <Route path="/testPassPanel/" component={TestPassPanel} />
             <Route path="/tests/" component={AllTests} />
             <Route component={NoMatch}/>
+           
          </Switch>
        </div>
     );

@@ -1,6 +1,7 @@
 import React from 'react';
 import styled, {css} from 'styled-components'
 import {connect} from 'react-redux';
+import { answerValid, answerNotValid } from '../../../../../store/actions/testCreator';
 
 const AnswerInput = styled.textarea`
   width: calc(100% - 96px);
@@ -34,46 +35,29 @@ const AnswerInput = styled.textarea`
   `}
 `;
 
-class OneAnswerCreater extends React.Component {
-  constructor(props){
-     super(props);
-     this.state = {title: ''}
+class OneAnswer extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {title: ''};
+  }
+    handleChange = (e) => {
+      this.setState({title: e.target.value});
+      this.isAnswerValid();
   }
 
-  inputChangeHandler = (e) => {
-    this.setState({title: e.target.value})
-  }
-
-  isAnswerValid =() => {
-    if (this.state.title) {
-      this.props.isAnswerValid(true)
+  isAnswerValid = () => {
+    if (this.props.value && this.props.submitted) {
+      this.props.answerValid();
     } else {
-      this.props.isAnswerValid(false);
+      this.props.answerNotValid();
     }
   }
-
-  clearWordFromSpaces = (word) => {
-    return  word && word.replace(/^[ ]+/g, '').replace(/\s*$/, '');
-  }
-
-  checkInputValidation = () => {
-   	return (this.props.submitted && !this.state.questionTitle) 
-			? `Fill Answer ${this.props.count}` 
-			: `Answer ${this.props.count}`;
-  }
   
-	isFilled = () => {
-		return this.props.submitted && !this.state.title ? true : false;
-  }
-
   componentDidUpdate(prevProps, prevState) {
-     if (prevProps.submitted !== this.props.submitted 
-        || (this.props.submitted && (prevState.title !== this.state.title))) {
-      if (this.props.submitted) {
-        this.isAnswerValid();
-        this.props.getInputValue(this.clearWordFromSpaces(this.state.title), this.props.id, this.props.isRight);
-       }
-      
+    if (this.props.submitted !== prevProps.submitted 
+      || (this.props.value !== prevState.value && this.props.submitted)) {
+      this.isAnswerValid();
+      this.props.getAnswersValues(this.props.id,  this.state.title);
     }
   }
 
@@ -81,20 +65,26 @@ class OneAnswerCreater extends React.Component {
     return ( 
       <AnswerInput 
         type="text"
-        placeholder={this.checkInputValidation()}
-        invalid = {this.isFilled()}
-        id={this.props.id} 
-        value={this.state.title} 
-        onChange={this.inputChangeHandler} 
-       />
+        placeholder={`Answer ${this.props.count}`} 
+        onChange={this.handleChange} 
+        invalid = {this.props.isFilled(this.props.value)}
+      />
     );
    }
   }
 
 function mapStateToProps(state) {
   return {
-	 submitted: state.test.submitted,
+	 submitted: state.testCreator.submitted,
   }
 }
 
-export default connect(mapStateToProps, null)(OneAnswerCreater)
+function mapDispatchToProps(dispatch) {
+  return {
+    answerValid: () => dispatch(answerValid()),
+    answerNotValid: () => dispatch(answerNotValid()),
+ 
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(OneAnswer)

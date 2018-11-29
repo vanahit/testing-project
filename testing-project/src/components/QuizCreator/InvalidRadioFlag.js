@@ -15,7 +15,7 @@ const RadioText = styled.div`
 		@media screen and (max-width: 1188.5px) {
 			font-size: 12px;
 			left: 10px;
-			top: 328px;
+			top: 380px;
 		}		
 `;
 const Trinagle = styled.div`
@@ -32,7 +32,7 @@ const Trinagle = styled.div`
 			top: 23px;
 		}	
 `;
-export default function radioFlag (props) {
+export default function InvalidRadioFlag (props) {
     return (
 		<RadioText>
 				<Trinagle></Trinagle> 
