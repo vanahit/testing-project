@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import * as firebase from "firebase";
 
 class UserRegistration extends Component {
     constructor(props) {
@@ -10,6 +11,9 @@ class UserRegistration extends Component {
             email: '',
             password: '',
             confirmedPassword:'',
+            languages: [],
+            description: "",
+            skillsContent: false
         }
     }
 
@@ -27,25 +31,54 @@ class UserRegistration extends Component {
             languages = languages.filter(item => item !== lang);
         }
         this.setState({ languages });
+        console.log(languages)
     }
 
-    handleSubmit(e) {
-        e.preventDefault();
+    showSkills () {
+        this.setState({skillsContent: !this.state.skillsContent})
+    }
 
+    signUpUser() {
+
+        if (this.state.password === this.state.confirmedPassword && this.state.password) {
+
+            const user = {...this.state};
+
+            
+
+            firebase.auth().createUserWithEmailAndPassword(user.email, user.password)
+                .then(res => {
+                    firebase.auth().currentUser.sendEmailVerification();
+                    firebase.database().ref('user').push(user);
+                    console.log(res);
+                })
+                .catch(e => console.log(e.message));
+
+        } else {
+            console.log('not equal');
+        }
         this.setState({
             firstName: '',
             lastName: '',
             email: '',
             password: '',
             confirmedPassword:'',
-        })
+            languages: []
+        });
     }
+
+
+    handleSubmit(e) {
+        e.preventDefault();
+        this.signUpUser();
+    }
+
 
     render() {
 
-        // const languages = ['JavaScript', 'Java', "PHP", 'C#', 'MySQL', 'Python', 'Ruby', 'Swift', 'React', 'Redux'];
+        const languages = ['JavaScript', 'Java', "PHP", 'C#', 'MySQL', 'Python', 'Ruby', 'Swift', 'React', 'Redux'];
 
-        const {firstName, lastName, email, password,confirmedPassowrd} = this.state;
+        const {firstName, lastName, email, password, confirmedPassword, skillsContent} = this.state;
         return (
             <form onSubmit={this.handleSubmit.bind(this)}>
 
@@ -57,38 +90,67 @@ class UserRegistration extends Component {
                         type="text"
                         placeholder='FIRST NAME *'
                         value={firstName}
-                        onChange={(e) => this.changeField(e, 'name')}
+                        onChange={(e) => this.changeField(e, 'firstName')}
                     />
                     <input
                         className='info-field'
                         type="text"
                         placeholder='LAST NAME *'
                         value={lastName}
-                        onChange={(e) => this.changeField(e, 'name')}
+                        onChange={(e) => this.changeField(e, 'lastName')}
                     />
                     <input
                         className='info-field'
                         type="email"
                         placeholder='EMAIL *'
                         value={email}
-                        onChange={(e) => this.changeField(e, 'name')}
+                        onChange={(e) => this.changeField(e, 'email')}
                     />
                     <input
                         className='info-field'
                         type="password"
                         placeholder='PASSWORD *'
                         value={password}
-                        onChange={(e) => this.changeField(e, 'name')}
+                        onChange={(e) => this.changeField(e, 'password')}
                     />
                     <input
                         className='info-field'
                         type="password"
                         placeholder='CONFIRM PASSWORD *'
-                        value={confirmedPassowrd}
-                        onChange={(e) => this.changeField(e, 'name')}
+                        value={confirmedPassword}
+                        onChange={(e) => this.changeField(e, 'confirmedPassword')}
                     />
-
-                    <input type="submit"/>
+                    <div className="skills">
+                        Skills
+                        {skillsContent ? 
+                            <span 
+                                className="sortArrowBottom" 
+                                 >
+                            </span> : 
+                            <span 
+                                className="sortArrowTop" 
+                                onClick={this.showSkills.bind(this)}>
+                            </span>}
+                            <div className="absolute" onClick={this.showSkills.bind(this)}></div>
+                        {<div className={skillsContent ? "skills-content" : "skills-content-none"}>
+                            { 
+                                languages.map(item => {
+                                    return (
+                                        <div className="skill">
+                                            <input key={item} 
+                                                type="checkbox"
+                                                onChange={e => this.changeCheckboxHandler(e,item)} />
+                                            <span>{item}</span>
+                                        </div>
+                                    )
+                                })
+                            }
+                        </div>}
+                    </div>
+                    <div className="textInformation">
+                        By creating an account, you creating to DigiLearn <span>Privacy Policy</span> and <span>Terms of use</span>
+                    </div>
+                    <input type="submit" className="registr" value="Create Acount" />
                 </div>
             </form>
 
