@@ -62,7 +62,9 @@ class TestPassScore extends Component {
     }
     
 	shouldComponentUpdate (nextProps, nextState) {
-		return nextProps.value !== this.props.value || nextProps.submitted !== this.props.submitted;
+		return nextProps.value !== this.props.value 
+			|| nextProps.submitted !== this.props.submitted
+			|| nextProps.questionsCount !== this.props.questionsCount;
 	}
 
 	render() {
@@ -86,7 +88,9 @@ class TestPassScore extends Component {
 
 function mapStateToProps(state) {
 	return {
-        submitted: state.testCreator.submitted,
+		submitted: state.testCreator.submitted,
+		totalScore: state.testCreator.totalScore,
+		questionsCount: state.testCreator.questions.length,
     }
 }
 

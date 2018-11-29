@@ -118,7 +118,8 @@ class QuestionCreator extends Component {
 			(this.state.questionTitle !== prevState.questionTitle)
 			|| (this.state.isRight !== prevState.isRight)
 			|| (this.state.score !== prevState.score)
-			|| (this.state.answers.length !== prevState.answers.length)))) {
+			|| (this.state.answers.length !== prevState.answers.length)
+			|| (this.props.questionsCount !== prevProps.questionsCount)))) {
 
 			this.isQuestionValid();
 			this.props.getQuestionValues(this.props.id,  this.state);
