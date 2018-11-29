@@ -32,6 +32,7 @@
 .logo,
 .header-log-in {
     display: flex;
+    cursor: pointer;
     justify-content: center;
     align-items: center;
     width: 120px;
@@ -394,6 +395,89 @@ img {
 }
 
 /*-----------------------------------------------------*/
+
+
+/*-----------------------Footer--------------------------*/
+
+.footer{
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+}
+
+.footer_up{
+    display: flex;
+    background-color: #141218;
+    color: white;
+    font-size: 34px;
+    padding: 25px 360px;
+    justify-content: space-between;
+    align-items: center;
+}
+.footer_up button{
+    background-color: #FF5959;
+    width: 44px;
+    height: 44px;
+    font-size: 30px;
+    border: none;
+}
+
+.footer_up input{
+    width: 400px;
+    height: 44px;
+    font-size: 20px;
+}
+
+.footer_middle{
+    padding: 34px 360px;
+    display: flex;
+    font-size: 14px;
+    color:#201C16;
+    justify-content: space-between;
+    border-bottom: 1px solid #DCDCDC;
+}
+
+.footer_middle .contact_us :first-child,
+.footer_middle .support >div:first-child,
+.footer_middle .about_digi >div:first-child{
+    font-weight: bold;
+    border-bottom: 1px solid #DCDCDC;
+    padding-bottom: 10px;
+}
+
+.footer_middle .contact_us *,
+.footer_middle .support *,
+.footer_middle .about_digi *{
+    padding-bottom: 3px;
+}
+
+.services{
+    display: flex;
+    justify-content: space-between;
+    width: 226px;
+}
+
+.footer_middle .down_buttons{
+    display: flex;
+    flex-direction: column;
+}
+
+.footer_bottom{
+    display: flex;
+    justify-content: center;
+    padding:40px 0;
+}
+
+
+.footer_bottom button{
+    width: 24px;
+    height: 24px;
+    margin: 0 10px;
+    background-color: #100529;
+}
+
+
+/*--------------------------------------------------------*/
 
 .not-found {
     top: 60px;
