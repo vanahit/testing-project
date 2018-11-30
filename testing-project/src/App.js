@@ -1,66 +1,92 @@
+import React, {Component} from 'react';
 import './App.css';
-import React, { Component}  from 'react'
-import {Switch, Route} from "react-router-dom";
+import {Route, Switch} from "react-router-dom";
 import TestCreator from './containers/QuizCreator/TestCreator';
 import TestPassPanel from './containers/TestPassPanel/TestPassPanel';
 import AboutUs from './components/AboutUs/AboutUs';
 import Authorization from "./components/Autorization/Authorization";
 import AutorizationUser from "./components/Autorization/AutorizationUser";
 import AutorizationCompany from "./components/Autorization/AutorizationCompany";
+import Company from "./containers/Pages/Company";
+import CompaniesInUser from "./containers/Pages/CompaniesInUser";
+import UsersInCompany from "./containers/Pages/UsersInCompany";
 import AllTests from "./containers/Pages/AllTests";
 import AllCompanies from "./containers/Pages/AllCompanies";
 import AllUsers from "./containers/Pages/AllUsers";
 import User from "./containers/Pages/User";
 import NoMatch from "./components/NoMatch";
 import HomePage from "./containers/HomePage/HomePage";
-import Header from "./components/Header";
 import { connect } from 'react-redux';
 import { getTests, getUsers, getCompanies } from './store/actions/appAction';
+import * as firebase from "firebase";
+import CompanyPage from "./components/Autorization/CompanyPage";
+import Header from './components/Header';
 
 class App extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {testsLoaded: this.props.testsLoaded}
-    }
+    state = {
+        currentLog: null,
+      testsLoaded: this.props.testsLoaded
+    };
 
     componentDidMount() {
-        this.props.getCompanies();
+        firebase.auth().onAuthStateChanged((currentLog) => {
+            if (currentLog) {
+                this.setState({currentLog});
+                console.log(`log in `);
+            } else {
+                console.log('log out');
+                this.setState({currentLog: null})
+            }
+        });
+       this.props.getCompanies();
         this.props.getTests();
         this.props.getUsers();
-        
-  }
+    }
 
-  componentDidUpdate(prevProps, prevState) {
+    componentDidUpdate(prevProps, prevState) {
         if (this.props.testsLoaded === true && this.props.testsLoaded !== prevProps.testsLoaded) {
             
             this.setState({testsLoaded: this.props.testsLoaded})
         }
   }
+ 
+   render() {
+        return (
+            <div>
+                    <Header />
+                    <Switch className="App">
+                        <Route exact path={'/'} component={HomePage}/>
+                        <Route path='/registration/user'  component={AutorizationUser}/>
+                        <Route path='/registration/company'  component={AutorizationCompany}/>
 
-  render() {
-    console.log(this.state.testsLoaded);
-    return (
-      <div>
-        <Header/>
-          <Switch className="App">
-            <Route exact path={'/'} component={HomePage}/>
-            <Route path='/authorization/' component={Authorization}/>
-            <Route path='/registration/user' component={AutorizationUser}/>
-            <Route path='/registration/company' component={AutorizationCompany}/>
-            <Route path="/Companies/" component={AllCompanies} />
-            <Route path="/Users/" component={AllUsers} />
-            <Route path="/User/:Text" component={User} />
-            <Route path="/aboutUs/" component={AboutUs} />
-            <Route path="/testCreator/" component={TestCreator} />
-            <Route path="/testPassPanel/" component={TestPassPanel} />
-            <Route path="/tests/" component={AllTests} />
-            <Route component={NoMatch}/>
-           
-         </Switch>
-       </div>
-    );
-  }
+                        <Route path="/Users/" component={AllUsers}/>
+                        <Route path="/Companies/" component={AllCompanies}/>
+
+                        <Route path="/CompaniesInUser/" component={CompaniesInUser}/>
+                        <Route path="/UsersInCompany/" component={UsersInCompany}/>
+
+                        <Route path="/User/:Text" component={User}/>
+                        <Route path="/Company/:Text" component={Company}/>
+                        <Route path={'/companyPage'}
+                               component={() => <CompanyPage currentCompany={this.state.currentLog}/>}/>
+                        <Route
+                            path='/authorization/'
+                            component={() => <Authorization currentCompany={this.state.currentLog}
+                            />}
+                        />
+                        <Route path="/aboutUs/"  component={AboutUs}/>
+                        <Route path="/testCreator/"  component={TestCreator}/>
+                        <Route path="/testPassPanel/" component={TestPassPanel}/>
+                        <Route path="/tests/" component={AllTests}/>
+                        <Route component={NoMatch}/>
+                    </Switch>
+            </div>
+        );
+    }
+
+
 }
+
 function mapStateToProps(state) {
 	return {
         testsLoaded: state.appReducer.testsLoaded
