@@ -1,7 +1,6 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import './App.css';
-import React, { Component}  from 'react'
-import {Switch, Route} from "react-router-dom";
+import {Route, Switch} from "react-router-dom";
 import TestCreator from './containers/QuizCreator/TestCreator';
 import TestPassPanel from './containers/TestPassPanel/TestPassPanel';
 import AboutUs from './components/AboutUs/AboutUs';
@@ -23,8 +22,8 @@ import { getTests, getUsers, getCompanies } from './store/actions/appAction';
 
 import Header from "./components/Header_footer/Header";
 import * as firebase from "firebase";
-import Footer from "./components/Header_footer/Footer";
 import CompanyPage from "./components/Autorization/CompanyPage";
+import Layout from "./Hoc/Layout";
 
 
 class App extends Component {
@@ -65,33 +64,34 @@ class App extends Component {
     render() {
         return (
             <div>
-                <Header isLogged={this.state.currentLog}/>
-                <Switch className="App">
-                    <Route exact path={'/'} component={HomePage}/>
-                <Route path='/registration/user' component={AutorizationUser}/>
-                  <Route path='/registration/company' component={AutorizationCompany}/>
-                    
-                    <Route path="/Users/" component={AllUsers} />
-                    <Route path="/Companies/" component={AllCompanies} />
-          
-            <Route path="/CompaniesInUser/" component={CompaniesInUser} />
-            <Route path="/UsersInCompany/" component={UsersInCompany} />
-          
-                  <Route path="/User/:Text" component={User} />
-                   <Route path="/Company/:Text" component={Company} />
-                    <Route path={'/companyPage'} component={()=><CompanyPage  currentCompany={this.state.currentLog}/>}/>
-                    <Route
-                        path='/authorization/'
-                        component={() => <Authorization currentCompany={this.state.currentLog}
-                        />}
-                    />
-                    <Route path="/aboutUs/" component={AboutUs}/>
-                    <Route path="/testCreater/" component={TestCreater}/>
-                    <Route path="/testPassPanel/" component={TestPassPanel} />
-                    <Route path="/tests/" component={AllTests} />
-                    <Route component={NoMatch}/>
-                </Switch>
-                {/*<Footer/>*/}
+                <Layout>
+                    <Switch className="App">
+                        <Route exact path={'/'} component={HomePage}/>
+                        <Route path='/registration/user' component={AutorizationUser}/>
+                        <Route path='/registration/company' component={AutorizationCompany}/>
+
+                        <Route path="/Users/" component={AllUsers}/>
+                        <Route path="/Companies/" component={AllCompanies}/>
+
+                        <Route path="/CompaniesInUser/" component={CompaniesInUser}/>
+                        <Route path="/UsersInCompany/" component={UsersInCompany}/>
+
+                        <Route path="/User/:Text" component={User}/>
+                        <Route path="/Company/:Text" component={Company}/>
+                        <Route path={'/companyPage'}
+                               component={() => <CompanyPage currentCompany={this.state.currentLog}/>}/>
+                        <Route
+                            path='/authorization/'
+                            component={() => <Authorization currentCompany={this.state.currentLog}
+                            />}
+                        />
+                        <Route path="/aboutUs/" component={AboutUs}/>
+                        <Route path="/testCreator/" component={TestCreator}/>
+                        <Route path="/testPassPanel/" component={TestPassPanel}/>
+                        <Route path="/tests/" component={AllTests}/>
+                        <Route component={NoMatch}/>
+                    </Switch>
+                </Layout>
             </div>
         );
     }

@@ -78,7 +78,7 @@
     tab-size: 14px;
     color: #D6D6D6;
     margin: 20px 0;
-}
+    }
 
 .selected-tab {
     background-color: #4F9DA6 !important;
@@ -394,12 +394,6 @@ img {
 
 
 /*-----------------------Footer--------------------------*/
-
-.footer{
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-}
 
 .footer_up{
     display: flex;

@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Redirect} from "react-router";
-import * as firebase from "firebase";
-
+// import database from '../../firebase/firebase';
+import firebase from 'firebase';
 
 class CompanyPage extends Component {
 
@@ -9,6 +9,7 @@ class CompanyPage extends Component {
         super(props);
 
         this.state = {
+            data:[],
             selectedTab: 'profile',
         }
     }
@@ -20,7 +21,21 @@ class CompanyPage extends Component {
         })
     }
 
+    componentDidMount() {
+        console.log(this.props.currentCompany);
+        firebase.database().ref('companies').on('value', (snapshot) => {
+            const companies = [];
+            snapshot.forEach(childSnapshot => {
+                companies.push({
+                    id: childSnapshot.key,
+                    ...childSnapshot.val()
+                })
+            });
+            this.setState({data: companies});
+            console.log(this.state.data)
 
+        });
+    }
 
     render() {
         return (
