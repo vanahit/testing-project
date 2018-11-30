@@ -18,9 +18,6 @@ import NoMatch from "./components/NoMatch";
 import HomePage from "./containers/HomePage/HomePage";
 import { connect } from 'react-redux';
 import { getTests, getUsers, getCompanies } from './store/actions/appAction';
-
-
-import Header from "./components/Header_footer/Header";
 import * as firebase from "firebase";
 import CompanyPage from "./components/Autorization/CompanyPage";
 import Layout from "./Hoc/Layout";
@@ -52,7 +49,7 @@ class App extends Component {
     }
 
 
-  componentDidUpdate(prevProps, prevState) {
+    componentDidUpdate(prevProps, prevState) {
         if (this.props.testsLoaded === true && this.props.testsLoaded !== prevProps.testsLoaded) {
             
             this.setState({testsLoaded: this.props.testsLoaded})
@@ -67,8 +64,8 @@ class App extends Component {
                 <Layout>
                     <Switch className="App">
                         <Route exact path={'/'} component={HomePage}/>
-                        <Route path='/registration/user' component={AutorizationUser}/>
-                        <Route path='/registration/company' component={AutorizationCompany}/>
+                        <Route path='/registration/user'  component={AutorizationUser}/>
+                        <Route path='/registration/company'  component={AutorizationCompany}/>
 
                         <Route path="/Users/" component={AllUsers}/>
                         <Route path="/Companies/" component={AllCompanies}/>
@@ -85,8 +82,8 @@ class App extends Component {
                             component={() => <Authorization currentCompany={this.state.currentLog}
                             />}
                         />
-                        <Route path="/aboutUs/" component={AboutUs}/>
-                        <Route path="/testCreator/" component={TestCreator}/>
+                        <Route path="/aboutUs/"  component={AboutUs}/>
+                        <Route path="/testCreator/"  component={TestCreator}/>
                         <Route path="/testPassPanel/" component={TestPassPanel}/>
                         <Route path="/tests/" component={AllTests}/>
                         <Route component={NoMatch}/>

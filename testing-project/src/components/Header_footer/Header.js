@@ -13,7 +13,7 @@ const Header = (props) => {
         });
     };
 
-
+  
     return (
         <header className='header'>
             <NavLink to={'/'}>
