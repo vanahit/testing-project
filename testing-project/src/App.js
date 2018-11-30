@@ -21,6 +21,7 @@ import { getTests, getUsers, getCompanies } from './store/actions/appAction';
 
 
 import Header from "./components/Header_footer/Header";
+import Footer from "./components/Header_footer/Footer";
 import * as firebase from "firebase";
 import CompanyPage from "./components/Autorization/CompanyPage";
 import Layout from "./Hoc/Layout";
