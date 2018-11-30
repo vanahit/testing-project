@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
+import React, { Component}  from 'react'
 import {Switch, Route} from "react-router-dom";
 import TestCreator from './containers/QuizCreator/TestCreator';
 import TestPassPanel from './containers/TestPassPanel/TestPassPanel';
@@ -14,9 +15,12 @@ import AllTests from "./containers/Pages/AllTests";
 import AllCompanies from "./containers/Pages/AllCompanies";
 import AllUsers from "./containers/Pages/AllUsers";
 import User from "./containers/Pages/User";
-import {firebase} from './firebase/firebase';
 import NoMatch from "./components/NoMatch";
-import HomePage from "./components/HomePage";
+import HomePage from "./containers/HomePage/HomePage";
+import { connect } from 'react-redux';
+import { getTests, getUsers, getCompanies } from './store/actions/appAction';
+
+
 import Header from "./components/Header_footer/Header";
 import * as firebase from "firebase";
 import Footer from "./components/Header_footer/Footer";
@@ -26,10 +30,12 @@ import CompanyPage from "./components/Autorization/CompanyPage";
 class App extends Component {
 
 
-
     state = {
         currentLog: null,
+      testsLoaded: this.props.testsLoaded
     };
+
+
 
     componentDidMount() {
         firebase.auth().onAuthStateChanged((currentLog) => {
@@ -41,7 +47,19 @@ class App extends Component {
                 this.setState({currentLog: null})
             }
         });
+       this.props.getCompanies();
+        this.props.getTests();
+        this.props.getUsers();
     }
+
+
+  componentDidUpdate(prevProps, prevState) {
+        if (this.props.testsLoaded === true && this.props.testsLoaded !== prevProps.testsLoaded) {
+            
+            this.setState({testsLoaded: this.props.testsLoaded})
+        }
+  }
+ 
 
 
     render() {
@@ -80,6 +98,19 @@ class App extends Component {
 
 
 }
+function mapStateToProps(state) {
+	return {
+        testsLoaded: state.appReducer.testsLoaded
+	}
+}
 
-
-export default App;
+const mapDispatchToProps = dispatch => {
+    return {
+        getCompanies: companies => dispatch(getCompanies(companies)),
+        getTests: tests =>  dispatch(getTests(tests)),
+        getUsers: users =>  dispatch(getUsers(users)),
+        
+    };
+  };
+  
+export default connect(mapStateToProps, mapDispatchToProps)(App);
