@@ -1,9 +1,6 @@
 import React from 'react';
-import {Link, NavLink, Route, Switch} from "react-router-dom";
+import {NavLink} from "react-router-dom";
 import * as firebase from "firebase";
-import AboutUs from "../AboutUs/AboutUs";
-import CompanyPage from "../Autorization/CompanyPage";
-import {Redirect} from "react-router";
 
 
 const Header = (props) => {
@@ -15,7 +12,6 @@ const Header = (props) => {
             console.error('Sign Out Error', error);
         });
     };
-
 
 
     return (
@@ -37,7 +33,7 @@ const Header = (props) => {
                     alignItems: 'center'
                 }}>
                     <NavLink
-                        style={{color:'white',marginRight:'10px',border:'1px solid black', padding:'10px'}}
+                        style={{color: 'white', marginRight: '10px', border: '1px solid black', padding: '10px'}}
                         to={'/companyPage'}>MY ACCOUNT</NavLink>
                     <div className='header-log-in' onClick={() => logOut()}>LOG OUT</div>
                 </div>
