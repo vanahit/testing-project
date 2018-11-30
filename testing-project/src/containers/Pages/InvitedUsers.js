@@ -4,7 +4,7 @@ import {firebase} from '../../firebase/firebase';
 import Searching from './Searching';
 import Pagination from './Pagination';
 
-export default class PassedTests extends Component {
+export default class InvitedUsers extends Component {
 	constructor(props){
 		super(props);
 
@@ -130,23 +130,17 @@ export default class PassedTests extends Component {
 									<span className="sortArrowBottom"></span>}
 								{sortType === "testTitle" && !orderAscanding && 
 									<span className="sortArrowTop"></span>}
-								Title
+								Full Name
 							</th>
 							<th onClick={this.sorting.bind(this, "testType")}>
 								{sortType === "testType" && orderAscanding && 
 									<span className="sortArrowBottom"></span>}
 								{sortType === "testType" && !orderAscanding && 
 									<span className="sortArrowTop"></span>}
-								Type
+								Passes Test
 							</th>
-							<th onClick={this.sorting.bind(this, "company")}>
-								{sortType === "company" && orderAscanding && 
-									<span className="sortArrowBottom"></span>}
-								{sortType === "company" && !orderAscanding && 
-									<span className="sortArrowTop"></span>}
-								Company
-							</th>
-							<th>Score</th>
+							<th>Profile</th>
+							<th>Delete</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -156,8 +150,12 @@ export default class PassedTests extends Component {
 								<tr key={item.id} >
 									<td>{item.testTitle}</td>
 									<td>{item.testType}</td>
-									<td>{item.company}</td>
-									<td>{item.passScore}/{item.totalScore}</td>
+									<td>
+										<span className="passer">View</span>
+									</td>
+									<td >
+										<span>Delete</span>
+									</td>
 								</tr>
 							)
 						} )

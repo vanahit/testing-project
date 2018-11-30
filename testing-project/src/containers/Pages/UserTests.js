@@ -89,47 +89,32 @@ export default class UserTests extends Component {
 		}
 
 		filterData.sort((a, b) => {
+			let nameA;
+			let nameB
 			if(sortType !== "testDeadline"){
-				let nameA = a[sortType].toUpperCase(); 
-			  let nameB = b[sortType].toUpperCase();
-			  if(orderAscanding){
-			  	if (nameA < nameB) {
-				    return -1;
-				  }
-				  if (nameA > nameB) {
-				    return 1;
-				  }
-			  } else {
-			  	if (nameA < nameB) {
-				    return 1;
-				  }
-				  if (nameA > nameB) {
-				    return -1;
-				  }
-			  }
-			  return 0;
+				nameA = a[sortType].toUpperCase(); 
+			  nameB = b[sortType].toUpperCase();
 			} else {
-				let number1 = new Date(a.testDeadline)
-				let number2 = new Date(b.testDeadline)
-				if(orderAscanding){
-			  	if (number1 < number2) {
-				    return -1;
-				  }
-				  if (number1 > number2) {
-				    return 1;
-				  }
-			  } else {
-			  	if (number1 < number2) {
-				    return 1;
-				  }
-				  if (number1 > number2) {
-				    return -1;
-				  }
-			  }
-			  return 0;
+				nameA = new Date(a.testDeadline)
+				nameB = new Date(b.testDeadline)
 			}
-		  
-		});
+			if(orderAscanding){
+		 		if (nameA < nameB) {
+			    return -1;
+			  }
+			  if (nameA > nameB) {
+			    return 1;
+			  }
+		  } else {
+		  	if (nameA < nameB) {
+			    return 1;
+			  }
+			  if (nameA > nameB) {
+			    return -1;
+			  }
+		  }
+	  	return 0;
+		})
 
 		const indexOfLastData = currentPage * dataPerPage;
 	    const indexOfFirstData = indexOfLastData - dataPerPage;
