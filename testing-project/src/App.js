@@ -12,11 +12,33 @@ import AllCompanies from "./containers/Pages/AllCompanies";
 import AllUsers from "./containers/Pages/AllUsers";
 import User from "./containers/Pages/User";
 import NoMatch from "./components/NoMatch";
-import HomePage from "./components/HomePage";
+import HomePage from "./containers/HomePage/HomePage";
 import Header from "./components/Header";
+import { connect } from 'react-redux';
+import { getTests, getUsers, getCompanies } from './store/actions/appAction';
 
 class App extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {testsLoaded: this.props.testsLoaded}
+    }
+
+    componentDidMount() {
+        this.props.getCompanies();
+        this.props.getTests();
+        this.props.getUsers();
+        
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+        if (this.props.testsLoaded === true && this.props.testsLoaded !== prevProps.testsLoaded) {
+            
+            this.setState({testsLoaded: this.props.testsLoaded})
+        }
+  }
+
   render() {
+    console.log(this.state.testsLoaded);
     return (
       <div>
         <Header/>
@@ -39,6 +61,19 @@ class App extends Component {
     );
   }
 }
+function mapStateToProps(state) {
+	return {
+        testsLoaded: state.appReducer.testsLoaded
+	}
+}
 
-
-export default App;
+const mapDispatchToProps = dispatch => {
+    return {
+        getCompanies: companies => dispatch(getCompanies(companies)),
+        getTests: tests =>  dispatch(getTests(tests)),
+        getUsers: users =>  dispatch(getUsers(users)),
+        
+    };
+  };
+  
+export default connect(mapStateToProps, mapDispatchToProps)(App);

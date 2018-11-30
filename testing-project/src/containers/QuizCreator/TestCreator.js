@@ -39,6 +39,7 @@ const FlexRow = styled.div`
 		min-width: 100%;
 	}
 `;
+
 const QuestionsDiv = styled.div`
     border-bottom: 1px solid #D6D6D6;
 `;
@@ -63,8 +64,6 @@ class TestCreator extends Component {
 	}
     getInputValue = (e, field) => {
         let value = e.target.value;
-        value = this.clearWordFromSpaces(value);
-        
         if (e.target.type === 'number') {
             if (value < 0) {
                 value = +value * (-1);
@@ -123,7 +122,10 @@ class TestCreator extends Component {
 		let db = firebase.database();
 		let test = {
 				id: Date.now(),
-                ...this.state,
+				...this.state,
+				testTitle: this.clearWordFromSpaces(this.state.testTitle),
+				description: this.clearWordFromSpaces(this.state.description),
+				company: this.clearWordFromSpaces(this.state.company),
                 questions: this.props.questions,
                 isEditing: false,
                 passers: 0,
