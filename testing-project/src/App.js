@@ -18,13 +18,6 @@ import NoMatch from "./components/NoMatch";
 import HomePage from "./containers/HomePage/HomePage";
 import { connect } from 'react-redux';
 import { getTests, getUsers, getCompanies } from './store/actions/appAction';
-<<<<<<< HEAD
-=======
-
-
-import Header from "./components/Header_footer/Header";
-import Footer from "./components/Header_footer/Footer";
->>>>>>> f69207b7008fbeffc0211597b2578ea807abafd6
 import * as firebase from "firebase";
 import CompanyPage from "./components/Autorization/CompanyPage";
 import Layout from "./Hoc/Layout";
