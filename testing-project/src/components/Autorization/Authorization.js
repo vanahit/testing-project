@@ -34,7 +34,7 @@ class Authorization extends Component {
                                 onClick={() => this.changeTab('user')}>USER
                         </button>
                         {this.state.selectedTab === 'company' ?
-                            <AutorizationCompany/> :
+                            <AutorizationCompany currentLog={this.props.currentLog}/> :
                             <AutorizationUser/>}
                     </div>}
                 }

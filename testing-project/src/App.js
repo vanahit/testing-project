@@ -55,6 +55,8 @@ class App extends Component {
     }
 
     render() {
+        console.log(this.state.currentLog);
+
         return (
             <div>
                 <Layout currentLog={this.state.currentLog}>
