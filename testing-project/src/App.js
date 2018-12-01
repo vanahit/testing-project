@@ -16,19 +16,19 @@ import AllUsers from "./containers/Pages/AllUsers";
 import User from "./containers/Pages/User";
 import NoMatch from "./components/NoMatch";
 import HomePage from "./components/HomePage/HomePage";
-import { connect } from 'react-redux';
-import { getTests, getUsers, getCompanies } from './store/thunks/thunks';
+import {connect} from 'react-redux';
+import {getCompanies, getTests, getUsers} from './store/thunks/thunks';
 import * as firebase from "firebase";
-import CompanyPage from "./components/Autorization/CompanyPage";
 import Layout from "./Hoc/Layout";
+import CompanyProfile from "./containers/Pages/CompanyProfile";
 
 
 class App extends Component {
 
 
     state = {
-        currentLog: null,
-      testsLoaded: this.props.testsLoaded
+        currentLog: [],
+        testsLoaded: this.props.testsLoaded
     };
 
     componentDidMount() {
@@ -42,7 +42,6 @@ class App extends Component {
                 this.setState({currentLog: null})
             }
         });
-
         this.props.getCompanies();
         this.props.getTests();
         this.props.getUsers();
@@ -50,19 +49,19 @@ class App extends Component {
 
     componentDidUpdate(prevProps, prevState) {
         if (this.props.testsLoaded === true && this.props.testsLoaded !== prevProps.testsLoaded) {
-            
+
             this.setState({testsLoaded: this.props.testsLoaded})
         }
     }
- 
+
     render() {
         return (
             <div>
                 <Layout currentLog={this.state.currentLog}>
                     <Switch className="App">
                         <Route exact path={'/'} component={HomePage}/>
-                        <Route path='/registration/user'  component={AutorizationUser}/>
-                        <Route path='/registration/company'  component={AutorizationCompany}/>
+                        <Route path='/registration/user' component={AutorizationUser}/>
+                        <Route path='/registration/company' component={AutorizationCompany}/>
 
                         <Route path="/Users/" component={AllUsers}/>
                         <Route path="/Companies/" component={AllCompanies}/>
@@ -71,16 +70,15 @@ class App extends Component {
                         <Route path="/UsersInCompany/" component={UsersInCompany}/>
 
                         <Route path="/User/:Text" component={User}/>
-                        <Route path="/Company/:Text" component={Company}/>
-                        <Route path={'/companyPage'}
-                               component={() => <CompanyPage currentCompany={this.state.currentLog}/>}/>
+                        <Route path="/Company/:Text" component={() => <Company currentCompany={this.state.currentLog}/>}/>
+                        {/*<Route path='/company/profile'*/}
+                               {/*component={() => <CompanyProfile currentCompany={this.state.currentLog}/>}/>*/}
                         <Route
                             path='/authorization/'
-                            component={() => <Authorization currentCompany={this.state.currentLog}
-                            />}
+                            component={() => <Authorization currentCompany={this.state.currentLog}/>}
                         />
-                        <Route path="/aboutUs/"  component={AboutUs}/>
-                        <Route path="/testCreator/"  component={TestCreator}/>
+                        <Route path="/aboutUs/" component={AboutUs}/>
+                        <Route path="/testCreator/" component={TestCreator}/>
                         <Route path="/testPassPanel/" component={TestPassPanel}/>
                         <Route path="/tests/" component={AllTests}/>
                         <Route component={NoMatch}/>
@@ -93,18 +91,18 @@ class App extends Component {
 }
 
 function mapStateToProps(state) {
-	return {
+    return {
         testsLoaded: state.appReducer.testsLoaded
-	}
+    }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
         getCompanies: companies => dispatch(getCompanies(companies)),
-        getTests: tests =>  dispatch(getTests(tests)),
-        getUsers: users =>  dispatch(getUsers(users)),
-        
+        getTests: tests => dispatch(getTests(tests)),
+        getUsers: users => dispatch(getUsers(users)),
+
     };
-  };
-  
+};
+
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(App));
