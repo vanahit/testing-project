@@ -15,15 +15,16 @@
 /*Header*/
 /*------------------------------------------*/
 
-.header {
+.header_wrapper {
+    margin: 0 auto;
+    width: 1200px;
+    height: 100px;
     display: flex;
-    align-items: center;
     justify-content: space-between;
-    width: 100%;
-    height: 60px;
-    background-color: rgba(34, 34, 34, 0.83);
-    padding: 0 220px;
+    align-items: center;
+
 }
+
 
 .header * {
     text-decoration: none;
@@ -31,35 +32,36 @@
 
 .logo,
 .header-log-in {
+    height: 60px;
     display: flex;
     cursor: pointer;
     justify-content: center;
     align-items: center;
-    width: 120px;
-    height: 40px;
     color: white;
 }
 
 .logo {
+    width: 195px;
     font-size: 20px;
     background-color: #FF5959;
 }
 
 .navigation {
     display: flex;
-    width: 320px;
+    width: 430px;
     justify-content: space-between;
 }
 
 .navigation * {
     color: white;
-    font-size: 14px;
+    font-size: 20px;
     font-weight: bold;
     text-decoration: none;
     cursor: pointer;
 }
 
 .header-log-in {
+    width: 155px;
     font-size: 20px;
     border: 1px solid black;
 }
@@ -76,7 +78,7 @@
     tab-size: 14px;
     color: #D6D6D6;
     margin: 20px 0;
-    }
+}
 
 .selected-tab {
     background-color: #4F9DA6 !important;
@@ -92,7 +94,7 @@
     background-color: white;
 }
 
-.switch-buttons button:hover{
+.switch-buttons button:hover {
     opacity: 0.8;
 }
 
@@ -394,7 +396,7 @@ img {
 
 /*-----------------------Footer--------------------------*/
 
-.footer_up{
+.footer_up {
     display: flex;
     background-color: #141218;
     color: white;
@@ -403,7 +405,8 @@ img {
     justify-content: space-between;
     align-items: center;
 }
-.footer_up button{
+
+.footer_up button {
     background-color: #FF5959;
     width: 44px;
     height: 44px;
@@ -411,24 +414,24 @@ img {
     border: none;
 }
 
-.footer_up input{
+.footer_up input {
     width: 400px;
     height: 44px;
     font-size: 20px;
 }
 
-.footer_middle{
+.footer_middle {
     padding: 34px 360px;
     display: flex;
     font-size: 14px;
-    color:#201C16;
+    color: #201C16;
     justify-content: space-between;
     border-bottom: 1px solid #DCDCDC;
 }
 
 .footer_middle .contact_us :first-child,
-.footer_middle .support >div:first-child,
-.footer_middle .about_digi >div:first-child{
+.footer_middle .support > div:first-child,
+.footer_middle .about_digi > div:first-child {
     font-weight: bold;
     border-bottom: 1px solid #DCDCDC;
     padding-bottom: 10px;
@@ -436,29 +439,29 @@ img {
 
 .footer_middle .contact_us *,
 .footer_middle .support *,
-.footer_middle .about_digi *{
+.footer_middle .about_digi * {
     padding-bottom: 3px;
 }
 
-.services{
+.services {
     display: flex;
     justify-content: space-between;
     width: 226px;
 }
 
-.footer_middle .down_buttons{
+.footer_middle .down_buttons {
     display: flex;
     flex-direction: column;
 }
 
-.footer_bottom{
+.footer_bottom {
     display: flex;
     justify-content: center;
-    padding:40px 0;
+    padding: 40px 0;
 }
 
 
-.footer_bottom button{
+.footer_bottom button {
     width: 24px;
     height: 24px;
     margin: 0 10px;
@@ -480,10 +483,9 @@ img {
 }
 
 
-
 /*Tests styles*/
 
-.container-fluid{
+.container-fluid {
     width: 100%;
     max-width: 1200px;
     margin: 0 auto;
@@ -514,7 +516,7 @@ img {
     margin: 0px 0px 10px 0px;
 }
 
-.searching span{
+.searching span {
     float: right;
     margin: 16px 20px;
     color: #100529;
@@ -522,7 +524,7 @@ img {
     display: block;
 }
 
-.content-grid{
+.content-grid {
     display: flex;
     justify-content: space-between;
     margin: 20px 0;
@@ -530,35 +532,35 @@ img {
     width: 100%;
 }
 
-.content-grid .grid{
+.content-grid .grid {
     width: 276px;
     margin: 15px 0;
     position: relative;
 }
 
-.grid img{
+.grid img {
     width: 100%;
 }
 
-.grid-info{
+.grid-info {
     padding: 5px;
     box-sizing: border-box;
 }
 
-.grid-info p{
+.grid-info p {
     font-size: 16px;
     margin: 8px 0;
 }
 
-.blue{
+.blue {
     color: #4F9DA6;
 }
 
-.yellow{
+.yellow {
     color: #FFAD5A;
 }
 
-.addButton{
+.addButton {
     display: inline-block;
     float: right;
     width: 100px;
@@ -571,42 +573,43 @@ img {
     margin-top: 20px;
 }
 
-.addButton span{
+.addButton span {
     font-size: 20px;
     color: #FFFFFF;
 
 }
 
-.add{
+.add {
     margin: 0 0 0 20px;
 }
 
 /*Company Styles*/
 
-.logoCompany, .imgUser{
+.logoCompany, .imgUser {
     width: 100px !important;
-    height:100px;
+    height: 100px;
     border-radius: 100%;
     position: relative;
     left: 50%;
     transform: translateX(-50%);
 }
 
-.companyUser h2{
+.companyUser h2 {
     text-align: center;
     color: #4F9DA6;
     font-size: 16px;
 }
-.companyUser p{
+
+.companyUser p {
     font-size: 14px;
     line-height: 20px;
 }
 
-.testsDiv{
+.testsDiv {
     float: right;
 }
 
-.testsDiv span{
+.testsDiv span {
     color: #4F9DA6;
     font-size: 16px;
     line-height: 44px;
@@ -614,8 +617,7 @@ img {
 }
 
 
-
-.viewMore{
+.viewMore {
     width: 100%;
     margin-top: 15px;
     box-sizing: border-box;
@@ -631,7 +633,7 @@ img {
 }
 
 
-.pagination{
+.pagination {
     justify-content: center;
     display: flex;
     width: 100%;
@@ -639,9 +641,9 @@ img {
     flex-wrap: wrap;
 }
 
-.paginationContent{
+.paginationContent {
     width: 614px;
-    margin: 0 auto; 
+    margin: 0 auto;
     height: 32px;
     line-height: 1;
     display: flex;
@@ -649,7 +651,7 @@ img {
     flex-wrap: wrap;
 }
 
-.paginationContent > span{
+.paginationContent > span {
     text-decoration: underline;
     color: #4F9DA6;
     display: inline-block;
@@ -657,14 +659,14 @@ img {
     cursor: pointer;
 }
 
-.pages{
+.pages {
     width: 320px;
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
 }
 
-.pages ul{
+.pages ul {
     display: flex;
     flex: 1;
     justify-content: center;
@@ -674,7 +676,7 @@ img {
     margin-top: -8px;
 }
 
-.pages ul li{
+.pages ul li {
     width: 32px;
     height: 32px;
     display: inline-flex;
@@ -687,58 +689,57 @@ img {
     margin: 2px;
 }
 
-.pages ul li.active{
+.pages ul li.active {
     background: #E7E7E7;
 }
 
-.pages ul li:hover{
+.pages ul li:hover {
     background: #E7E7E7;
 }
 
-@media screen and (max-width: 570px){
-   .content-grid{
+@media screen and (max-width: 570px) {
+    .content-grid {
         display: flex;
         justify-content: space-around;
     }
 }
 
 
-
 /*Animation*/
 
 /*slide enter*/
 
-.slide-enter{
+.slide-enter {
     opacity: 0;
     transform: scale(0.97) translateY(5px);
     padding: 8px;
     z-index: 1;
 }
 
-.slide-enter.slide-enter-active{
+.slide-enter.slide-enter-active {
     opacity: 1;
     transform: scale(1) translateY(0);
     padding: 8px;
-    transition: opacity 300ms linear 100ms, transform 300ms ease-in-out 100ms; 
+    transition: opacity 300ms linear 100ms, transform 300ms ease-in-out 100ms;
     position: absolute;
     width: 100%;
     height: 100%;
 }
 
-.slide-enter-done{
+.slide-enter-done {
     overflow: auto;
     padding: 8px;
     box-shadow: 0px 3px 6px #DCDCDC;
 }
 
 
-.slide-exit{
+.slide-exit {
     opacity: 1;
 
     transform: scale(1) translateY(0);
 }
 
-.slide-exit.slide-exit-active{
+.slide-exit.slide-exit-active {
     opacity: 0;
     transform: scale(0.5) translateY(5px);
     transition: opacity 150ms linear, transform 150ms ease-out;
@@ -749,43 +750,41 @@ img {
 }
 
 
-.slide-appear{
+.slide-appear {
     opacity: 0;
     padding: 8px;
     transform: scale(0.5) translateY(5px);
     z-index: 1;
 }
 
-.slide-appear.slide-appear-active{
+.slide-appear.slide-appear-active {
     opacity: 1;
     transform: scale(1) translateY(0);
-    transition: opacity 300ms linear 100ms, transform 300ms ease-in-out 100ms; 
+    transition: opacity 300ms linear 100ms, transform 300ms ease-in-out 100ms;
 }
 
 
-
-
 /*User Page Styles*/
-.containerUser{
+.containerUser {
     width: 100%;
     max-width: 1200px;
     margin-left: auto;
     margin-right: auto;
 }
 
-.tabBar{
+.tabBar {
     border-bottom: 1px solid #4F9DA6;
     margin-top: 177px;
     width: 100%;
 }
 
-.bar{
+.bar {
     border-bottom: 1px solid #D6D6D6;
     text-align: left;
     margin-top: 90px;
 }
 
-.tabBar a, .bar span{
+.tabBar a, .bar span {
     width: 240px;
     height: 60px;
     box-sizing: border-box;
@@ -799,7 +798,7 @@ img {
     color: #D6D6D6;
 }
 
-.settings button{
+.settings button {
     width: 230px;
     height: 60px;
     background: #FF5959;
@@ -809,11 +808,11 @@ img {
     font-size: 24px;
 }
 
-.infoUser .desc{
+.infoUser .desc {
     border: none;
 }
 
-.bar span{
+.bar span {
     border: none;
     color: #4F9DA6;
     width: unset;
@@ -821,20 +820,20 @@ img {
     font-size: 34px;
 }
 
-.tabBar a.active{
+.tabBar a.active {
     background: #4F9DA6;
     border: 1px solid #4F9DA6;
     color: #FFFFFF;
 }
 
-.userContent{
+.userContent {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
 }
 
 
-.imgDiv{
+.imgDiv {
     width: 250px;
     height: 250px;
     object-fit: cover;
@@ -844,25 +843,25 @@ img {
     margin-top: 20px;
 }
 
-.imgDiv img{
+.imgDiv img {
     width: 100%;
     height: 100%;
 }
 
-.infoUser{
+.infoUser {
     flex: 1;
     padding: 20px;
-    padding-right: 0px; 
+    padding-right: 0px;
     box-sizing: border-box;
 }
 
-.infoUser h2{
+.infoUser h2 {
     color: #4F9DA6;
     font-size: 34px;
     font-weight: bold;
 }
 
-.infoUser div{
+.infoUser div {
     width: 100%;
     height: 166px;
     box-sizing: border-box;
@@ -873,18 +872,18 @@ img {
     overflow-x: hidden;
 }
 
-.settings{
+.settings {
     text-align: right;
     color: #4F9DA6;
 }
 
-.settings span{
+.settings span {
     font-size: 20px;
     cursor: pointer;
     text-decoration: underline;
 }
 
-.labelHeader{
+.labelHeader {
     color: #4F9DA6;
     width: 100%;
     padding: 10px 0;
@@ -893,7 +892,7 @@ img {
     margin-top: 30px;
 }
 
-.container-table{
+.container-table {
     margin-top: 30px;
 }
 
@@ -901,56 +900,56 @@ img {
 /*tests table styles*/
 
 
-.dataTable{
+.dataTable {
     width: 100%;
     margin-top: 25px;
 }
 
-.dataTable tr td span.edit{
+.dataTable tr td span.edit {
     color: #4F9DA6;
 }
 
-.dataTable tr td span.passer{
+.dataTable tr td span.passer {
     color: #4F9DA6;
     text-decoration: underline;
 }
 
-.dataTable tr td{
+.dataTable tr td {
     border-bottom: 1px solid #E7E7E7;
 }
 
-.dataTable tr td:nth-child(1), .dataTable tr th:nth-child(1){
+.dataTable tr td:nth-child(1), .dataTable tr th:nth-child(1) {
     width: 25%;
 }
 
-.dataTable tr td, .dataTable tr th{
+.dataTable tr td, .dataTable tr th {
     width: 15%;
 }
 
-.dataTable tr td, .dataTable tr th{
+.dataTable tr td, .dataTable tr th {
     text-align: center;
     padding: 20px;
 }
 
-.dataTable tr th{
+.dataTable tr th {
     text-transform: uppercase;
     background: #D6D6D6;
     position: relative;
     cursor: pointer;
 }
 
-.dataTable tr th:nth-child(even){
+.dataTable tr th:nth-child(even) {
     background: #E7E7E7;
 }
 
-.dataTable tr td span{
+.dataTable tr td span {
     color: #E62416;
     font-size: 20px;
     text-decoration: underline;
     cursor: pointer;
 }
 
-.dataTable tr td button{
+.dataTable tr td button {
     width: 94px;
     height: 44px;
     background: #FF5959;
@@ -962,7 +961,7 @@ img {
     cursor: pointer;
 }
 
-.sortArrowBottom, .sortArrowTop{
+.sortArrowBottom, .sortArrowTop {
     width: 0;
     height: 0;
     position: absolute;
@@ -971,14 +970,14 @@ img {
     transform: translateY(-50%);
 }
 
-.sortArrowBottom{
+.sortArrowBottom {
     border-top: 8px solid #4F9DA6;
     border-right: 8px solid transparent;
     border-bottom: 8px solid transparent;
     border-left: 8px solid transparent;
 }
 
-.sortArrowTop{
+.sortArrowTop {
     border-top: 8px solid transparent;
     border-right: 8px solid transparent;
     border-bottom: 8px solid #4F9DA6;
@@ -987,7 +986,7 @@ img {
 
 /*User Registration Styles*/
 
-.skills{
+.skills {
     position: relative;
     width: 100%;
     height: 44px;
@@ -1000,7 +999,7 @@ img {
     cursor: pointer;
 }
 
-.skills-content{
+.skills-content {
     position: absolute;
     top: 100%;
     display: flex;
@@ -1010,7 +1009,7 @@ img {
     padding: 10px;
 }
 
-.absolute{
+.absolute {
     width: 100%;
     height: 100%;
     position: absolute;
@@ -1018,22 +1017,22 @@ img {
     left: 0;
 }
 
-.skills-content-none{
+.skills-content-none {
     display: none;
 }
 
-.skill{
+.skill {
     margin: 10px;
     display: flex;
 }
 
-.skill input{
+.skill input {
     margin-right: 5px;
     width: 20px;
     height: 20px;
 }
 
-.registr{
+.registr {
     width: 100%;
     height: 60px;
     display: flex;
@@ -1048,14 +1047,14 @@ img {
     text-transform: uppercase;
 }
 
-.textInformation{
+.textInformation {
     margin: 10px 0;
     font-size: 16px;
     color: #FFFFFF;
     text-align: center;
 }
 
-.textInformation span{
+.textInformation span {
     color: #FFAD5A;
     text-decoration: underline;
 }
