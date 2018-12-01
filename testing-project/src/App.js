@@ -65,7 +65,7 @@ class App extends Component {
     render() {
         return (
             <div>
-                <Layout>
+                <Layout currentLog={this.state.currentLog}>
                     <Switch className="App">
                         <Route exact path={'/'} component={HomePage}/>
                         <Route path='/registration/user'  component={AutorizationUser}/>
