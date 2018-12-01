@@ -83,7 +83,9 @@ class QuestionCreator extends Component {
  	answersCountHandler =(actionName, id = '') => {
 		if (actionName === 'minus') {
 			if (this.state.answers.length > 2) {
-				this.setState({answers: this.state.answers.splice(1)});
+				let answers = this.state.answers;
+				answers.pop();
+				this.setState({answers: answers});
 			} 
 		}
 		if (actionName === 'plus') {
