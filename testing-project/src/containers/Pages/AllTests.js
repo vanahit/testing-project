@@ -3,7 +3,7 @@ import src from '../../images/is.jpg';
 import {firebase} from '../../firebase/firebase';
 import Searching from './Searching';
 import Pagination from './Pagination';
-import TestComponent from '../TestRenderComponents/TestRender'
+import TestComponent from '../../components/OneTestComponent/TestRender';
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 
 export default class AllTests extends Component {

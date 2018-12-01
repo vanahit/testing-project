@@ -76,7 +76,7 @@ class UserRegistration extends Component {
 
     render() {
 
-        const languages = ['JavaScript', 'Java', "PHP", 'C#', 'MySQL', 'Python', 'Ruby', 'Swift', 'React', 'Redux'];
+        const languages = ['HTML', 'CSS', 'JavaScript', 'Java', 'Python', 'C#', 'Ruby', 'Swift', 'React', 'Redux', 'C++', 'PHP', 'MySQL'];
 
         const {firstName, lastName, email, password, confirmedPassword, skillsContent} = this.state;
         return (

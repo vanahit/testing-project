@@ -38,8 +38,10 @@
     display: flex;
     cursor: pointer;
     justify-content: center;
-    align-items: center;
+    align-items: center;  
     color: white;
+    text-decoration: underline;
+  
 }
 
 .logo {
@@ -64,8 +66,9 @@
 
 .header-log-in {
     width: 155px;
+    height: 60px;
     font-size: 20px;
-    border: 1px solid black;
+    border: 1px solid #FFFFFF;
 }
 
 /*---------------------------------------------*/

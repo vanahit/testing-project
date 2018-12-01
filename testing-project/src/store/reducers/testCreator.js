@@ -97,6 +97,5 @@ export default function testCreator(state = initialState, action) {
 
       default:
         return state
-  }
-  
+    }
 } 
