@@ -3,6 +3,7 @@ import src from '../../images/is.jpg';
 import {firebase} from '../../firebase/firebase';
 import Searching from './Searching';
 import Pagination from './Pagination';
+import TestComponent from '../TestRenderComponents/TestRender'
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 
 export default class AllTests extends Component {
@@ -21,16 +22,16 @@ export default class AllTests extends Component {
 
 	componentDidMount() {
 		firebase.database().ref('tests').on('value',(snapshot)=>{
-        const tests = [];
-        snapshot.forEach(childSnapshot => {
-            tests.push({
-                id: childSnapshot.key,
-                ...childSnapshot.val()
-            })
-        });
-        this.setState({data: tests})
-        console.log(tests)
-    });
+	        const tests = [];
+	        snapshot.forEach(childSnapshot => {
+	            tests.push({
+	                id: childSnapshot.key,
+	                ...childSnapshot.val()
+	            })
+	        });
+	        this.setState({data: tests})
+	        console.log(tests)
+	    });
 	}
 
 	searching (e, searchProp) {
@@ -109,16 +110,7 @@ export default class AllTests extends Component {
 										timeout={450}
 										classNames="slide"
 									>
-										<div key={item.id} >
-											<img src={src} alt="Type test" />
-											<div  className="grid-info">
-												<p className="blue">{item.testTitle}</p>
-												<p className="yellow">{item.company}</p>
-												<p><span>Passes: </span><span className="blue">0</span></p>
-												<p><span>DeadLine: </span><span className="blue">{this.deadline(item.testDeadline)}</span></p>
-												<button className="addButton"><span >Add</span> <span className='add'>></span></button>
-											</div>
-										</div>
+									<TestComponent test={item} />
 									</CSSTransition>
 								</TransitionGroup>
 							)
