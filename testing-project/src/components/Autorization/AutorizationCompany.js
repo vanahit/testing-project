@@ -28,7 +28,7 @@ class AutorizationCompany extends Component {
     signInCompany(e) {
         e.preventDefault();
         firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.pass)
-            .then(r => console.log(r.user.uid))
+            .then(r => console.log(r.user))
             .catch(err => console.log(err));
     }
 

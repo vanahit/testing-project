@@ -25,11 +25,13 @@ import { GET_TESTS_STARTED,
   
   export default function appReducer(state = initialState, action) {
     switch (action.type) {
+      
       case GET_TESTS_STARTED:
         return {
           ...state,
           testsLoading: true
         };
+
       case GET_TESTS_SUCCESS:
         return {
           ...state,
@@ -37,17 +39,20 @@ import { GET_TESTS_STARTED,
           testsError: null,
           tests: [action.payload]
         };
+
       case GET_TESTS_FAILURE:
         return {
           ...state,
           testsLoading: false,
           testsError: action.payload.error
         };
-        case GET_USERS_STARTED:
+
+      case GET_USERS_STARTED:
         return {
           ...state,
           usersLoading: true
         };
+
       case GET_USERS_SUCCESS:
         return {
           ...state,
@@ -61,11 +66,13 @@ import { GET_TESTS_STARTED,
           usersLoading: false,
           usersError: action.payload.error
         };
-        case GET_COMPANIES_STARTED:
+
+      case GET_COMPANIES_STARTED:
         return {
           ...state,
           companiesLoading: true
         };
+
       case GET_COMPANIES_SUCCESS:
         return {
           ...state,
@@ -73,6 +80,7 @@ import { GET_TESTS_STARTED,
           companiesError: null,
           companies: [action.payload]
         };
+
       case GET_COMPANIES_FAILURE:
         return {
           ...state,

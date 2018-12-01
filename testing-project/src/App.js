@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import './App.css';
-import {Route, Switch} from "react-router-dom";
+import {Route, Switch, withRouter} from "react-router-dom";
 import TestCreator from './containers/QuizCreator/TestCreator';
 import TestPassPanel from './containers/TestPassPanel/TestPassPanel';
 import AboutUs from './components/AboutUs/AboutUs';
@@ -31,9 +31,8 @@ class App extends Component {
       testsLoaded: this.props.testsLoaded
     };
 
-
-
     componentDidMount() {
+
         firebase.auth().onAuthStateChanged((currentLog) => {
             if (currentLog) {
                 this.setState({currentLog});
@@ -43,21 +42,19 @@ class App extends Component {
                 this.setState({currentLog: null})
             }
         });
-       this.props.getCompanies();
+
+        this.props.getCompanies();
         this.props.getTests();
         this.props.getUsers();
     }
-
 
     componentDidUpdate(prevProps, prevState) {
         if (this.props.testsLoaded === true && this.props.testsLoaded !== prevProps.testsLoaded) {
             
             this.setState({testsLoaded: this.props.testsLoaded})
         }
-  }
+    }
  
-
-
     render() {
         return (
             <div>
@@ -93,8 +90,8 @@ class App extends Component {
         );
     }
 
-
 }
+
 function mapStateToProps(state) {
 	return {
         testsLoaded: state.appReducer.testsLoaded
@@ -110,4 +107,4 @@ const mapDispatchToProps = dispatch => {
     };
   };
   
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(App));
