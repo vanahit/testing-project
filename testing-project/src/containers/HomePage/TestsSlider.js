@@ -151,6 +151,7 @@ class TestSlider extends Component {
 				}
 			})
 		} 
+		console.log(fillteredTests)
 		return (
 			<>
 				<FlexRow>

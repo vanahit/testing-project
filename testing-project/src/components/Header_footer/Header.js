@@ -20,12 +20,12 @@ const Header = (props) => {
                 <div className='logo'>LOGO</div>
             </NavLink>
 
-            <div className='navigation'>
-                <NavLink to={'/tests'}>TESTS</NavLink>
+            <nav className='navigation'>
+                <NavLink to={'/tests/'}>TESTS</NavLink>
                 <NavLink to={'/companies'}>COMPANIES</NavLink>
                 <NavLink to={'/users'}>USERS</NavLink>
                 <NavLink to={'/AboutUs'}>ABOUT US</NavLink>
-            </div>
+            </nav>
 
             {props.isLogged ?
                 <div style={{
@@ -39,7 +39,7 @@ const Header = (props) => {
                 </div>
 
                 : <NavLink to={'/authorization'}>
-                    <div className='header-log-in'>LOG IN</div>
+                    <div className='header-log-in' onClick={() => logOut()}>LOG IN</div>
                 </NavLink>}
         </header>
     )
