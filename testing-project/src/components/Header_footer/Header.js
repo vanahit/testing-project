@@ -13,8 +13,9 @@ const Header = (props) => {
         });
     };
 
-
+  
     return (
+
         <header style={{
             backgroundColor:'#141218',
             width:'100%',
@@ -47,7 +48,6 @@ const Header = (props) => {
                         <div className='header-log-in'>LOG IN</div>
                     </NavLink>}
             </div>
-
 
         </header>
     )

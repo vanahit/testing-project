@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import './App.css';
-import {Route, Switch} from "react-router-dom";
+import {Route, Switch, withRouter} from "react-router-dom";
 import TestCreator from './containers/QuizCreator/TestCreator';
 import TestPassPanel from './containers/TestPassPanel/TestPassPanel';
 import AboutUs from './components/AboutUs/AboutUs';
@@ -15,8 +15,16 @@ import AllCompanies from "./containers/Pages/AllCompanies";
 import AllUsers from "./containers/Pages/AllUsers";
 import User from "./containers/Pages/User";
 import NoMatch from "./components/NoMatch";
-import HomePage from "./components/HomePage";
+import HomePage from "./containers/HomePage/HomePage";
+import { connect } from 'react-redux';
+import { getTests, getUsers, getCompanies } from './store/actions/appAction';
+<<<<<<< HEAD
+=======
+
+
 import Header from "./components/Header_footer/Header";
+import Footer from "./components/Header_footer/Footer";
+>>>>>>> f69207b7008fbeffc0211597b2578ea807abafd6
 import * as firebase from "firebase";
 import CompanyPage from "./components/Autorization/CompanyPage";
 import Layout from "./Hoc/Layout";
@@ -27,9 +35,11 @@ class App extends Component {
 
     state = {
         currentLog: null,
+      testsLoaded: this.props.testsLoaded
     };
 
     componentDidMount() {
+
         firebase.auth().onAuthStateChanged((currentLog) => {
             if (currentLog) {
                 this.setState({currentLog});
@@ -39,17 +49,27 @@ class App extends Component {
                 this.setState({currentLog: null})
             }
         });
+
+        this.props.getCompanies();
+        this.props.getTests();
+        this.props.getUsers();
     }
 
-
+    componentDidUpdate(prevProps, prevState) {
+        if (this.props.testsLoaded === true && this.props.testsLoaded !== prevProps.testsLoaded) {
+            
+            this.setState({testsLoaded: this.props.testsLoaded})
+        }
+    }
+ 
     render() {
         return (
             <div>
                 <Layout currentLog={this.state.currentLog}>
                     <Switch className="App">
                         <Route exact path={'/'} component={HomePage}/>
-                        <Route path='/registration/user' component={AutorizationUser}/>
-                        <Route path='/registration/company' component={AutorizationCompany}/>
+                        <Route path='/registration/user'  component={AutorizationUser}/>
+                        <Route path='/registration/company'  component={AutorizationCompany}/>
 
                         <Route path="/Users/" component={AllUsers}/>
                         <Route path="/Companies/" component={AllCompanies}/>
@@ -66,8 +86,8 @@ class App extends Component {
                             component={() => <Authorization currentCompany={this.state.currentLog}
                             />}
                         />
-                        <Route path="/aboutUs/" component={AboutUs}/>
-                        <Route path="/testCreator/" component={TestCreator}/>
+                        <Route path="/aboutUs/"  component={AboutUs}/>
+                        <Route path="/testCreator/"  component={TestCreator}/>
                         <Route path="/testPassPanel/" component={TestPassPanel}/>
                         <Route path="/tests/" component={AllTests}/>
                         <Route component={NoMatch}/>
@@ -77,8 +97,21 @@ class App extends Component {
         );
     }
 
-
 }
 
+function mapStateToProps(state) {
+	return {
+        testsLoaded: state.appReducer.testsLoaded
+	}
+}
 
-export default App;
+const mapDispatchToProps = dispatch => {
+    return {
+        getCompanies: companies => dispatch(getCompanies(companies)),
+        getTests: tests =>  dispatch(getTests(tests)),
+        getUsers: users =>  dispatch(getUsers(users)),
+        
+    };
+  };
+  
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(App));
