@@ -21,7 +21,7 @@ class AllTests extends Component {
 	}
 
 	componentDidUpdate(prevProps, prevState) {
-        if (this.props.tests === true && this.props.tests !== prevProps.tests.testsLoaded) {
+        if (this.props.tests === true && this.props.tests.testsLoaded !== prevProps.tests.testsLoaded) {
             this.setState({data: this.props.tests});
         }
 	}

@@ -31,6 +31,7 @@ class App extends Component {
     state = {
         currentLog: null,
         testsLoaded: this.props.testsLoaded,
+        companiesLoaded: this.props.companiesLoaded,
         testAddClicked: false,
     };
 
@@ -55,6 +56,10 @@ class App extends Component {
 
             this.setState({testsLoaded: this.props.testsLoaded})
         }
+        if (this.props.companiesLoaded === true && this.props.companiesLoaded !== prevProps.companiesLoaded) {
+
+            this.setState({companiesLoaded: this.props.companiesLoaded})
+        }
     }
 
    testAddClicked = () => {
@@ -76,7 +81,7 @@ class App extends Component {
                         <Route path='/registration/user'  component={AutorizationUser}/>
                         <Route path='/registration/company'  component={AutorizationCompany}/>
                         <Route path="/Users/" component={AllUsers}/>
-                        <Route path="/Companies/" component={AllCompanies}/>
+                        <Route path="/companies/" component={AllCompanies}/>
 
                         <Route path="/CompaniesInUser/" component={CompaniesInUser}/>
                         <Route path="/UsersInCompany/" component={UsersInCompany}/>
@@ -104,7 +109,8 @@ class App extends Component {
 
 function mapStateToProps(state) {
     return {
-        testsLoaded: state.appReducer.testsLoaded
+        testsLoaded: state.appReducer.testsLoaded,
+        companiesLoaded: state.appReducer.companiesLoaded,
     }
 }
 
