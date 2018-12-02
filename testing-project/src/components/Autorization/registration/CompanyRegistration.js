@@ -13,8 +13,6 @@ class CompanyRegistration extends Component {
             password: '',
             confirmedPassword: '',
         }
-
-
     }
 
     changeField(e, field) {
@@ -30,16 +28,15 @@ class CompanyRegistration extends Component {
             const companie = {...this.state};
 
             firebase.auth()
-                .createUserWithEmailAndPassword(companie.email, companie.password )
+                .createUserWithEmailAndPassword(companie.email, companie.password)
                 .then(res => {
                     companie.description = '';
                     companie.image = '';
                     companie.test = {};
                     companie.id = res.uid;
-                    companie.type='company';
+                    companie.type = 'company';
 
                     firebase.database().ref('companies').push(companie);
-
 
 
                     firebase.auth().currentUser.sendEmailVerification();
