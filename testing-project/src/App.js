@@ -20,26 +20,18 @@ import {connect} from 'react-redux';
 import {getCompanies, getTests, getUsers} from './store/thunks/thunks';
 import * as firebase from "firebase";
 import Layout from "./Hoc/Layout";
-<<<<<<< HEAD
 import PopUpLogin from './components/PopUps/PopUpLogin';
-=======
 import CompanyProfile from "./containers/Pages/CompanyProfile";
->>>>>>> 32c0f3e8b6fc80e6964c8064b2fdaee91fbb1ebd
+
 
 
 class App extends Component {
 
 
     state = {
-<<<<<<< HEAD
         currentLog: null,
         testsLoaded: this.props.testsLoaded,
         testAddClicked: false,
-
-=======
-        currentLog: [],
-        testsLoaded: this.props.testsLoaded
->>>>>>> 32c0f3e8b6fc80e6964c8064b2fdaee91fbb1ebd
     };
 
     componentDidMount() {
@@ -65,13 +57,10 @@ class App extends Component {
         }
     }
 
-<<<<<<< HEAD
-    testAddClicked = () => {
+   testAddClicked = () => {
         this.setState({testAddClicked: !this.state.testAddClicked});
     }
- 
-=======
->>>>>>> 32c0f3e8b6fc80e6964c8064b2fdaee91fbb1ebd
+
     render() {
         console.log(this.state.currentLog);
 
@@ -80,16 +69,9 @@ class App extends Component {
                 {this.state.testAddClicked && <PopUpLogin testAddClicked={this.testAddClicked}/>} 
                 <Layout currentLog={this.state.currentLog}>
                     <Switch className="App">
-<<<<<<< HEAD
                         <Route exact path={'/'} component={() => <HomePage  testAddClicked={this.testAddClicked} />}/>
                         <Route path='/registration/user'  component={AutorizationUser}/>
                         <Route path='/registration/company'  component={AutorizationCompany}/>
-=======
-                        <Route exact path={'/'} component={HomePage}/>
-                        <Route path='/registration/user' component={AutorizationUser}/>
-                        <Route path='/registration/company' component={AutorizationCompany}/>
->>>>>>> 32c0f3e8b6fc80e6964c8064b2fdaee91fbb1ebd
-
                         <Route path="/Users/" component={AllUsers}/>
                         <Route path="/Companies/" component={AllCompanies}/>
 
