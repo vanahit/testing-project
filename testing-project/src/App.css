@@ -17,16 +17,6 @@
 /*Header*/
 /*------------------------------------------*/
 
-.header_wrapper {
-    margin: 0 auto;
-    width: 1200px;
-    height: 100px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-
-}
-
 
 .header * {
     text-decoration: none;
@@ -42,26 +32,6 @@
     color: white;
     text-decoration: underline;
 
-}
-
-.logo {
-    width: 195px;
-    font-size: 20px;
-    background-color: #FF5959;
-}
-
-.navigation {
-    display: flex;
-    width: 430px;
-    justify-content: space-between;
-}
-
-.navigation * {
-    color: white;
-    font-size: 20px;
-    font-weight: bold;
-    text-decoration: none;
-    cursor: pointer;
 }
 
 .header-log-in {
@@ -124,19 +94,24 @@
     position: relative;
     background: url('images/Photos/skyscrapers.jpg')  no-repeat center;
     background-size: cover;
+
 }
-/*.registration:after,*/
-/*.login:after {*/
-    /*position: absolute;*/
-    /*content: "";*/
-    /*top: 0;*/
-    /*left: 0;*/
-    /*width: 100%;*/
-    /*height: 100%;*/
-    /*z-index: 0;*/
-    /*background-color: #141218;*/
-    /*opacity: 0.7;*/
-/*}*/
+.registration:after,
+.login:after {
+    position: absolute;
+    content: "";
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    background-color: #141218;
+    opacity: 0.7;
+}
+
+.Logwrapper{
+    z-index: 1;
+}
 
 
 .registration h2 {

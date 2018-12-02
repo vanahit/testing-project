@@ -10,7 +10,7 @@ class UserRegistration extends Component {
             lastName: '',
             email: '',
             password: '',
-            confirmedPassword:'',
+            confirmedPassword: '',
             languages: [],
             description: "",
             skillsContent: false
@@ -19,7 +19,7 @@ class UserRegistration extends Component {
 
     changeField(e, field) {
         console.log(field);
-        this.setState({ [field]: e.target.value })
+        this.setState({[field]: e.target.value})
     }
 
 
@@ -30,11 +30,11 @@ class UserRegistration extends Component {
         } else {
             languages = languages.filter(item => item !== lang);
         }
-        this.setState({ languages });
+        this.setState({languages});
         console.log(languages)
     }
 
-    showSkills () {
+    showSkills() {
         this.setState({skillsContent: !this.state.skillsContent})
     }
 
@@ -44,7 +44,6 @@ class UserRegistration extends Component {
 
             const user = {...this.state};
 
-            
 
             firebase.auth().createUserWithEmailAndPassword(user.email, user.password)
                 .then(res => {
@@ -62,7 +61,7 @@ class UserRegistration extends Component {
             lastName: '',
             email: '',
             password: '',
-            confirmedPassword:'',
+            confirmedPassword: '',
             languages: []
         });
     }
@@ -83,74 +82,77 @@ class UserRegistration extends Component {
             <form onSubmit={this.handleSubmit.bind(this)}>
 
                 <div className='registration'>
-                    <h5>Register</h5>
+                    <div className='Logwrapper'>
+                        <h5>Register</h5>
 
-                    <input
-                        className='info-field'
-                        type="text"
-                        placeholder='FIRST NAME *'
-                        value={firstName}
-                        onChange={(e) => this.changeField(e, 'firstName')}
-                    />
-                    <input
-                        className='info-field'
-                        type="text"
-                        placeholder='LAST NAME *'
-                        value={lastName}
-                        onChange={(e) => this.changeField(e, 'lastName')}
-                    />
-                    <input
-                        className='info-field'
-                        type="email"
-                        placeholder='EMAIL *'
-                        value={email}
-                        onChange={(e) => this.changeField(e, 'email')}
-                    />
-                    <input
-                        className='info-field'
-                        type="password"
-                        placeholder='PASSWORD *'
-                        value={password}
-                        onChange={(e) => this.changeField(e, 'password')}
-                    />
-                    <input
-                        className='info-field'
-                        type="password"
-                        placeholder='CONFIRM PASSWORD *'
-                        value={confirmedPassword}
-                        onChange={(e) => this.changeField(e, 'confirmedPassword')}
-                    />
-                    <div className="skills">
-                        Skills
-                        {skillsContent ? 
-                            <span 
-                                className="sortArrowBottom" 
-                                 >
-                            </span> : 
-                            <span 
-                                className="sortArrowTop" 
-                                onClick={this.showSkills.bind(this)}>
+                        <input
+                            className='info-field'
+                            type="text"
+                            placeholder='FIRST NAME *'
+                            value={firstName}
+                            onChange={(e) => this.changeField(e, 'firstName')}
+                        />
+                        <input
+                            className='info-field'
+                            type="text"
+                            placeholder='LAST NAME *'
+                            value={lastName}
+                            onChange={(e) => this.changeField(e, 'lastName')}
+                        />
+                        <input
+                            className='info-field'
+                            type="email"
+                            placeholder='EMAIL *'
+                            value={email}
+                            onChange={(e) => this.changeField(e, 'email')}
+                        />
+                        <input
+                            className='info-field'
+                            type="password"
+                            placeholder='PASSWORD *'
+                            value={password}
+                            onChange={(e) => this.changeField(e, 'password')}
+                        />
+                        <input
+                            className='info-field'
+                            type="password"
+                            placeholder='CONFIRM PASSWORD *'
+                            value={confirmedPassword}
+                            onChange={(e) => this.changeField(e, 'confirmedPassword')}
+                        />
+                        <div className="skills">
+                            Skills
+                            {skillsContent ?
+                                <span
+                                    className="sortArrowBottom"
+                                >
+                            </span> :
+                                <span
+                                    className="sortArrowTop"
+                                    onClick={this.showSkills.bind(this)}>
                             </span>}
-                            <div className="absolute" onClick={this.showSkills.bind(this)}></div>
-                        {<div className={skillsContent ? "skills-content" : "skills-content-none"}>
-                            { 
-                                languages.map(item => {
-                                    return (
-                                        <div className="skill">
-                                            <input key={item} 
-                                                type="checkbox"
-                                                onChange={e => this.changeCheckboxHandler(e,item)} />
-                                            <span>{item}</span>
-                                        </div>
-                                    )
-                                })
-                            }
-                        </div>}
+                            <div className="absolute" onClick={this.showSkills.bind(this)}/>
+                            {<div className={skillsContent ? "skills-content" : "skills-content-none"}>
+                                {
+                                    languages.map(item => {
+                                        return (
+                                            <div className="skill">
+                                                <input key={item}
+                                                       type="checkbox"
+                                                       onChange={e => this.changeCheckboxHandler(e, item)}/>
+                                                <span>{item}</span>
+                                            </div>
+                                        )
+                                    })
+                                }
+                            </div>}
+                        </div>
+                        <div className="textInformation">
+                            By creating an account, you creating to DigiLearn <span>Privacy Policy</span> and <span>Terms of use</span>
+                        </div>
+                        <input type="submit" className="registr" value="Create Acount"/>
                     </div>
-                    <div className="textInformation">
-                        By creating an account, you creating to DigiLearn <span>Privacy Policy</span> and <span>Terms of use</span>
-                    </div>
-                    <input type="submit" className="registr" value="Create Acount" />
+
                 </div>
             </form>
 
