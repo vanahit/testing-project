@@ -1,22 +1,12 @@
 import React, {Component} from 'react';
 
 
-export default class CompanyProfile extends Component {
-
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            
-        }
-    }
-
-
-    
+class CompanyProfile extends Component {
 
 
     render() {
         return (
+
             <div>
                 <div>
                     <div className='company-profile'>
@@ -61,3 +51,4 @@ export default class CompanyProfile extends Component {
     }
 }
 
+export default CompanyProfile;

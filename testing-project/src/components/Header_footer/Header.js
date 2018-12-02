@@ -40,7 +40,7 @@ const Header = (props) => {
                     }}>
                         <NavLink
                             style={{color: 'white', marginRight: '10px', border: '1px solid black', padding: '10px'}}
-                            to={'/companyPage'}>MY ACCOUNT</NavLink>
+                            to={'/company/profile'}>MY ACCOUNT</NavLink>
                         <div className='header-log-in' onClick={() => logOut()}>LOG OUT</div>
                     </div>
 

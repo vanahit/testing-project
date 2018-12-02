@@ -41,7 +41,7 @@ class AutorizationCompany extends Component {
                         email={this.state.email}
                         changeHandler={this.changeHandler}
                         signIn={this.signIn.bind(this)}/>
-                    <CompanyRegistration/>
+                    <CompanyRegistration  currentLog={this.props.currentLog}/>
                 </div>
 
             </div>

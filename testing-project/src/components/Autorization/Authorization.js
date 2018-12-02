@@ -8,13 +8,11 @@ import {Redirect} from "react-router";
 
 class Authorization extends Component {
 
-    constructor(props) {
-        super(props);
 
-        this.state = {
-            selectedTab: 'company'
-        }
-    }
+    state = {
+        selectedTab: 'company'
+    };
+
 
     changeTab(tab) {
         this.setState({
@@ -25,8 +23,9 @@ class Authorization extends Component {
     render() {
         return (
             <div>
-                {this.props.currentCompany ? <Redirect to='/companyPage'/>
-                    : <div className='switch-buttons'>
+                {this.props.currentCompany ? <Redirect to='/company/profile'/>
+                    :
+                    <div className='switch-buttons'>
                         <p>Home/Login Company</p>
                         <button className={this.state.selectedTab === 'company' ? 'selected-tab' : null}
                                 onClick={() => this.changeTab('company')}>COMPANY
@@ -35,7 +34,7 @@ class Authorization extends Component {
                                 onClick={() => this.changeTab('user')}>USER
                         </button>
                         {this.state.selectedTab === 'company' ?
-                            <AutorizationCompany/> :
+                            <AutorizationCompany currentLog={this.props.currentLog}/> :
                             <AutorizationUser/>}
                     </div>}
                 }
