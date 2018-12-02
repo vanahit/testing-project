@@ -98,16 +98,20 @@ class TestSlider extends Component {
     }
 
 	componentDidUpdate(prevProps, prevState) {
-        if (this.props.tests === true && this.props.tests !== prevProps.tests.testsLoaded) {
+        if (this.props.tests === true && this.props.tests !== prevProps.tests) {
             this.setState({tests: this.props.tests});
         }
 	}
 	
 	componentDidMount () {
 
-		setInterval(() => {
+		this.IntervalId = setInterval(() => {
 			this.setState({ translate : this.state.translate === -percent ? 0 : this.state.translate - 12 })
-		}, 10000)
+		}, 10000);
+	}
+
+	componentWillUnmount () {
+		clearInterval (this.IntervalId);
 	}
 
 	ToLeft () {
@@ -144,7 +148,6 @@ class TestSlider extends Component {
 		let fillteredTests = [];
 		let tests = [];
 		if (this.state.tests) {
-			console.log(this.state.tests)
 			tests = this.state.tests;
 			fillteredTests = tests.filter(item => {
 				if (this.compareDates(item.testDeadline)) {

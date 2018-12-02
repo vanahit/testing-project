@@ -61,6 +61,9 @@ class App extends Component {
         this.setState({testAddClicked: !this.state.testAddClicked});
     }
 
+    componentWillUnmount() {
+        this.setState({testAddClicked: false});
+    }
     render() {
         console.log(this.state.currentLog);
 
@@ -89,7 +92,7 @@ class App extends Component {
                         <Route path="/aboutUs/" component={AboutUs}/>
                         <Route path="/testCreator/" component={TestCreator}/>
                         <Route path="/testPassPanel/" component={TestPassPanel}/>
-                        <Route path="/tests/" component={AllTests}/>
+                        <Route path="/tests/" component={ () => <AllTests  testAddClicked={this.testAddClicked} />}/>
                         <Route component={NoMatch}/>
                     </Switch>
                 </Layout>
