@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import styled, {css} from 'styled-components'
+import styled from 'styled-components'
 import { connect } from 'react-redux';
 import mainBackground from '../../images/home-page-bg.jpg';
 import BecomeCompany from './components/BecomeCompany';
@@ -7,12 +7,13 @@ import BecomeUser from './components/BecomeUser';
 import ForOurUser from './components/ForOurUser'
 import ForOurCompany from './components/ForOurCompany'
 import TestSlider from './components/TestsSlider';
-
+import { Link } from 'react-router-dom';
 
 const Main = styled.div`
 	margin: auto;
 	max-width: 100%;
-	font-size: 24px;
+    font-size: 24px;
+    position:relative;
     overflow: auto;
 `; 
 
@@ -93,17 +94,31 @@ const Title = styled.div`
     color:rgba(79, 157, 166, 1);
     border-bottom: 1px solid rgba(220, 220, 220, 1);
 `;
-
-
-const Description = styled.div`
+const AllTestsDiv = styled.div`
+    width: 100%;
+    text-align: right;
+    margin-top: 16px;
+    margin-right: 16px;
+    margin-bottom: 76px;
+`;
+const AllTestsSpan = styled.span`
+    color: #0286CD;
     font-size: 20px;
-    color: #100529;
+    text-decoration: underline;
+    
+`;
+const Body = styled.div`
+    max-width: 1200px;
+    margin: auto;
+   
 `;
 
 class HomePage extends Component {
 	constructor(props) {
 		super(props);
-        this.state ={testsLoaded: this.props.testsLoaded};
+        this.state ={
+            testsLoaded: this.props.testsLoaded,
+        };
         
     }
  
@@ -113,11 +128,13 @@ class HomePage extends Component {
         }
      }
 
+   
+
 	render() {
-        console.log(this.state.testsLoaded)
-       	return (
+        return (
 			<Main>
                 <Header>
+                
                     <GetStartedDiv>
                         <FlexRow>
                             <FlexChild width={'1018px'}>
@@ -134,31 +151,34 @@ class HomePage extends Component {
                         </FlexRow>
                     </GetStartedDiv>
                 </Header>
-                <FlexRow>
-                    <Title>
-                         YOUR FIRST DESTINATION 
-                    </Title>
-                    <BecomeCompany />
-                    <BecomeUser />
-                    <ForOurUser />
-                    <ForOurCompany />
+                <Body>
+                    <FlexRow>
+                        <Title>
+                            YOUR FIRST DESTINATION 
+                        </Title>
 
-                    <Title>
-                        MOST POPULAR TESTS
-                    </Title>
+                        <BecomeCompany />
+                        <BecomeUser />
+                        <ForOurUser />
+                        <ForOurCompany />
 
-                </FlexRow>
+                        <Title>
+                            MOST POPULAR TESTS
+                        </Title>
 
-                <FlexRow>
-                    {
-                        this.state.testsLoaded 
-                        ? <TestSlider />
-                        : 'loading'
-                    }
-                </FlexRow>
-                   
-                      
-            
+                    </FlexRow>
+
+                    <FlexRow>
+                        {
+                            this.state.testsLoaded 
+                            ? <TestSlider testAddClicked={this.props.testAddClicked} />
+                            : 'loading'
+                        }
+                    </FlexRow>
+                    <AllTestsDiv>
+                        <Link to='/tests'> <AllTestsSpan>View All Tests</AllTestsSpan> </Link>
+                    </AllTestsDiv>
+                </Body>   
             </Main>
 		);
 	}
@@ -173,16 +193,3 @@ function mapStateToProps(state) {
 
 export default connect(mapStateToProps, null)(HomePage)
 
-
-{/* <FlexChild width={'48%'}>
-<TestPassVideo />
-</FlexChild>  
-<FlexChild width={'48%'}>
- <Description>
-     Our main goal is cooperation, which we founded between our users and companies .We give opportunity to our 
-     users to make achievements by completing tests which created by our companies . It is important for us to 
-     create reliable collaboration. The best achievement will be for our users , to receive invitation from leading companies. 
-     For our companies the best achievement will be invitation the best users to their company.<br /> 
-     <b>DESTINATION WAS ACHIEVES.</b>
- </Description>
-</FlexChild>    */}

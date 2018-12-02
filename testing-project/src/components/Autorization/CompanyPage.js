@@ -21,21 +21,21 @@ class CompanyPage extends Component {
         })
     }
 
-    componentDidMount() {
-        console.log(this.props.currentCompany);
-        firebase.database().ref('companies').on('value', (snapshot) => {
-            const companies = [];
-            snapshot.forEach(childSnapshot => {
-                companies.push({
-                    id: childSnapshot.key,
-                    ...childSnapshot.val()
-                })
-            });
-            this.setState({data: companies});
-            console.log(this.state.data)
+    // componentDidMount() {
+    //     console.log(this.props.currentCompany);
+    //     firebase.database().ref('companies').on('value', (snapshot) => {
+    //         const companies = [];
+    //         snapshot.forEach(childSnapshot => {
+    //             companies.push({
+    //                 id: childSnapshot.key,
+    //                 ...childSnapshot.val()
+    //             })
+    //         });
+    //         this.setState({data: companies});
+    //         console.log(this.state.data)
 
-        });
-    }
+    //     });
+    // }
 
     render() {
         return (

@@ -21,6 +21,8 @@ import { GET_TESTS_STARTED,
     testsError: null,
     usersError: null,
     companiesError: null,
+    userLogin: false,
+    companyLogin: false,
   };
   
   export default function appReducer(state = initialState, action) {

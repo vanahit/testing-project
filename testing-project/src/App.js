@@ -21,6 +21,7 @@ import { getTests, getUsers, getCompanies } from './store/thunks/thunks';
 import * as firebase from "firebase";
 import CompanyPage from "./components/Autorization/CompanyPage";
 import Layout from "./Hoc/Layout";
+import PopUpLogin from './components/PopUps/PopUpLogin';
 
 
 class App extends Component {
@@ -28,7 +29,9 @@ class App extends Component {
 
     state = {
         currentLog: null,
-      testsLoaded: this.props.testsLoaded
+        testsLoaded: this.props.testsLoaded,
+        testAddClicked: false,
+
     };
 
     componentDidMount() {
@@ -54,13 +57,18 @@ class App extends Component {
             this.setState({testsLoaded: this.props.testsLoaded})
         }
     }
+
+    testAddClicked = () => {
+        this.setState({testAddClicked: !this.state.testAddClicked});
+    }
  
     render() {
         return (
             <div>
+                {this.state.testAddClicked && <PopUpLogin testAddClicked={this.testAddClicked}/>} 
                 <Layout currentLog={this.state.currentLog}>
                     <Switch className="App">
-                        <Route exact path={'/'} component={HomePage}/>
+                        <Route exact path={'/'} component={() => <HomePage  testAddClicked={this.testAddClicked} />}/>
                         <Route path='/registration/user'  component={AutorizationUser}/>
                         <Route path='/registration/company'  component={AutorizationCompany}/>
 

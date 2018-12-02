@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import styled, {css} from 'styled-components'
+import styled from 'styled-components'
 import js_svg from '../../images/typeIcons/js.svg';
 import cplus_svg from '../../images/typeIcons/cplus.svg';
 import php_svg from '../../images/typeIcons/php.svg';
@@ -8,6 +8,8 @@ import css_svg from '../../images/typeIcons/css.svg';
 import sharp_svg from '../../images/typeIcons/csharp.svg';
 import non_svg from '../../images/typeIcons/non-type.svg';
 import html_svg from '../../images/typeIcons/html.svg';
+import { connect } from 'react-redux';
+import PopUpLogin from '../PopUps/PopUpLogin';
 
 const TestBlock = styled.div`
 	width: 100%;
@@ -69,12 +71,12 @@ const ButtonDiv = styled.div`
 	text-align: right;
 `;
 
-export default class TestComponent extends Component {
+class TestComponent extends Component {
 	constructor(props){
 		super(props);
 		this.state = {
 			test: this.props.test,
-			img: '',
+			login: '',
 		}
 	}
 
@@ -115,6 +117,14 @@ export default class TestComponent extends Component {
 		}
 	}
 
+	add = () => {
+		if (this.props.userLogin) {
+
+		} else {
+			this.props.testAddClicked();
+		}
+	}
+
 	render() {
 	    return(
 			<TestBlock>
@@ -148,11 +158,20 @@ export default class TestComponent extends Component {
 					</DataTitle>
 				</Details>
 				<ButtonDiv>
-					<Button >Add ></Button>
+					<Button onClick={this.add}>Add ></Button>
 				</ButtonDiv>
 			</TestBlock>
+
         );
     
 	}
 }
 
+function mapStateToProps(state) {
+	return {
+        userLogin: state.appReducer.userLogin,
+        companyLogin: state.appReducer.companyLogin,
+	}
+}
+
+export default connect(mapStateToProps, null)(TestComponent)

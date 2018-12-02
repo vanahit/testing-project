@@ -10,7 +10,7 @@ function resp(){
 	if (window.innerWidth <= 500) {
 		percent = 90
 	} else {
-		percent = 75
+		percent = 70
 	}
 }
 
@@ -22,7 +22,7 @@ window.onresize=function(){ resp() }
 // styled carousel
 
 const CarouselContainer = styled.div`
-  width: 960px;
+  width: 95%;
   box-sizing: border-box;
   position: relative;
   overflow: hidden;
@@ -64,7 +64,7 @@ const FlexChild = styled.div`
 const Test = styled.div`
 	position: relative;
 	display: flex;
-	width: 3000px;
+	width: calc(350px * ${props => props.count || ''});
 	max-width: 333.3%;
 	box-sizing: border-box;
 	@media screen and (max-width: 500px){
@@ -83,6 +83,9 @@ const Padding = styled.div`
 }
   
 `;
+const OneTestSize = styled.div`
+	width: 350px;
+`;
 
 class TestSlider extends Component {
 	constructor(props){
@@ -93,9 +96,6 @@ class TestSlider extends Component {
 			tests: this.props.tests,
 		}
     }
-    setImage = () => {
-
-	}
 
 	componentDidUpdate(prevProps, prevState) {
         if (this.props.tests === true && this.props.tests !== prevProps.tests.testsLoaded) {
@@ -106,16 +106,16 @@ class TestSlider extends Component {
 	componentDidMount () {
 
 		setInterval(() => {
-			this.setState({ translate : this.state.translate === -percent ? 0 : this.state.translate - 10 })
+			this.setState({ translate : this.state.translate === -percent ? 0 : this.state.translate - 12 })
 		}, 10000)
 	}
 
 	ToLeft () {
-		this.setState({ translate : this.state.translate === 0 ? -percent : this.state.translate + 10 })
+		this.setState({ translate : this.state.translate === 0 ? -percent : this.state.translate + 12 })
 	}	
 
 	ToRight () {
-		this.setState({ translate : this.state.translate === -percent ? 0 : this.state.translate - 10 })
+		this.setState({ translate : this.state.translate === -percent ? 0 : this.state.translate - 12 })
 	}
 
 	getTodayDate = () => {
@@ -163,10 +163,12 @@ class TestSlider extends Component {
 								style={{ ...styles, transform: `translateX(${this.state.translate}%)` }}
 								count={fillteredTests.length}>
 								{this.state.tests 
-									?	fillteredTests.map( (item, index) => {
+									?	fillteredTests.map( (item) => {
 											return (
 												<Padding key={item.id}>
-													<TestRender test={item} />
+													<OneTestSize>
+														<TestRender test={item} testAddClicked={this.props.testAddClicked}/>
+													</OneTestSize>
 												</Padding>
 											);
 										})
