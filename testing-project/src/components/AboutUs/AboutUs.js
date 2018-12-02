@@ -1,7 +1,7 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import styled from 'styled-components';
 import img from '../../images/Photos/photo-1520492943297-59dc5f2d0fe6.jpg';
-
 import davit from '../../images/ourImages/davit.jpg';
 import mkrtich from '../../images/ourImages/mkrtich.jpg';
 import hayk from '../../images/ourImages/hayk.jpg';
@@ -54,7 +54,7 @@ const Box = ({boxItem, count}) => (
             borderColor: 'white',
             color: 'white',
         }}>
-            {count}
+            { count ? count : 'LOADER'}
         </div>
         <div style={{
             color: 'white',
@@ -94,7 +94,7 @@ const MemberBox = ({image, name, profession}) => (
 );
 
 const
-    AboutUs = () => {
+    AboutUs = (props) => {
         return (
             <div>
 
@@ -124,9 +124,9 @@ const
                             display: 'flex',
                             justifyContent: 'space-between',
                         }}>
-                            <Box count={345} boxItem={'TESTS'}/>
-                            <Box count={34534} boxItem={'COMPANIES'}/>
-                            <Box count={653} boxItem={'USERS'}/>
+                            <Box count={props.tests} boxItem={'TESTS'}/>
+                            <Box count={props.companies} boxItem={'COMPANIES'}/>
+                            <Box count={props.users} boxItem={'USERS'}/>
 
                         </div>
                     </Wrapper>
@@ -170,4 +170,13 @@ const
         );
     };
 
-export default AboutUs;
+    function mapStateToProps(state) {
+        return {
+            tests: state.appReducer.tests.length,
+            companies: state.appReducer.companies.length,
+            users: state.appReducer.users.length,
+        }
+        
+    }
+    
+    export default connect(mapStateToProps, null)(AboutUs)
