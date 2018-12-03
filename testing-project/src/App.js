@@ -33,6 +33,7 @@ class App extends Component {
         testsLoaded: this.props.testsLoaded,
         companiesLoaded: this.props.companiesLoaded,
         testAddClicked: false,
+        user: null
     };
 
     componentDidMount() {
@@ -40,15 +41,20 @@ class App extends Component {
         firebase.auth().onAuthStateChanged((currentLog) => {
             if (currentLog) {
                 this.setState({currentLog});
+                firebase.database().ref(`companies/${currentLog.uid}`).once('value',(snapshot)=>{
+                    this.setState({currentLog, user: {...snapshot.val()} })
+                    
+                });
                 console.log(`log in `);
             } else {
                 console.log('log out');
-                this.setState({currentLog: null})
+                this.setState({currentLog: null, user: null})
             }
         });
         this.props.getCompanies();
         this.props.getTests();
         this.props.getUsers();
+        console.log(this.state.currentLog)
     }
 
     componentDidUpdate(prevProps, prevState) {
@@ -70,12 +76,12 @@ class App extends Component {
         this.setState({testAddClicked: false});
     }
     render() {
-        console.log(this.state.currentLog);
+        this.state.user && console.log(this.state.user);
 
         return (
             <div>
                 {this.state.testAddClicked && <PopUpLogin testAddClicked={this.testAddClicked}/>} 
-                <Layout currentLog={this.state.currentLog}>
+                <Layout currentLog={this.state.currentLog} user={this.state.user}>
                     <Switch className="App">
                         <Route exact path={'/'} component={() => <HomePage  testAddClicked={this.testAddClicked} />}/>
                         <Route path='/registration/user'  component={AutorizationUser}/>
@@ -87,12 +93,12 @@ class App extends Component {
                         <Route path="/UsersInCompany/" component={UsersInCompany}/>
 
                         <Route path="/User/:Text" component={User}/>
-                        <Route path="/Company/:Text" component={() => <Company currentCompany={this.state.currentLog}/>}/>
+                        <Route path="/:Company/:Text" component={() => <Company currentCompany={this.state.currentLog} user={this.state.user} />}/>
                         {/*<Route path='/company/profile'*/}
                                {/*component={() => <CompanyProfile currentCompany={this.state.currentLog}/>}/>*/}
                         <Route
                             path='/authorization/'
-                            component={() => <Authorization currentCompany={this.state.currentLog}/>}
+                            component={() => <Authorization currentCompany={this.state.currentLog} user={this.state.user}/>}
                         />
                         <Route path="/aboutUs/" component={AboutUs}/>
                         <Route path="/testCreator/" component={TestCreator}/>

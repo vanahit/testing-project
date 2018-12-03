@@ -4,7 +4,7 @@ import CompanyRegistration from "./registration/CompanyRegistration";
 import {connect} from 'react-redux';
 import * as firebase from "firebase";
 
-class AutorizationCompany extends Component {
+export default class AutorizationCompany extends Component {
 
     constructor(props) {
         super(props);
@@ -41,18 +41,10 @@ class AutorizationCompany extends Component {
                         email={this.state.email}
                         changeHandler={this.changeHandler}
                         signIn={this.signIn.bind(this)}/>
-                    <CompanyRegistration  currentLog={this.props.currentLog}/>
+                    <CompanyRegistration />
                 </div>
 
             </div>
         );
     }
 }
-
-const mapStateToProps = (state) => {
-    return {
-        projects: state.project.projects,
-    }
-};
-
-export default connect(mapStateToProps)(AutorizationCompany);

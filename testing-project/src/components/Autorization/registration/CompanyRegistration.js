@@ -30,12 +30,13 @@ class CompanyRegistration extends Component {
             firebase.auth()
                 .createUserWithEmailAndPassword(company.email, company.password)
                 .then(res => {
-                    company.description = '';
-                    company.image = '';
-                    company.test = {};
-                    company.id = res.uid;
-                    company.type = 'company';
+                    companie.description = '';
+                    companie.image = '';
+                    companie.test = {};
+                    companie.id = res.uid;
+                    companie.type='company';
 
+                    firebase.database().ref(`companies/${res.uid}`).set(companie);
                     firebase.database().ref('companies').push(company);
 
 
