@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import styled, {css} from 'styled-components'
 import { connect } from 'react-redux';
 
@@ -36,26 +36,20 @@ const Description = styled.textarea`
 	`}
 `;
 
-class TestDescription extends Component {
+const TestDescription = props => {
 
-	handleChange = (e) => {
-		this.props.getInputValue(e, 'description');
+	const handleChange = (e) => {
+		props.getInputValue(e, 'description');
 	}
-		
-	shouldComponentUpdate (nextProps, nextState) {
-		return nextProps.value !== this.props.value || nextProps.submitted !== this.props.submitted;
-	}
-	
-	render() {
-		return (
-			<Description
-				value={this.props.value}
-				placeholder='Description' 
-				onChange={this.handleChange} 
-				invalid = {this.props.isFilled(this.props.value)}
-			/>		
-		);
-	}
+
+	return (
+		<Description
+			value={props.value}
+			placeholder='Description' 
+			onChange={handleChange} 
+			invalid = {props.isFilled(props.value)}
+		/>		
+	);
 }
 
 function mapStateToProps(state) {

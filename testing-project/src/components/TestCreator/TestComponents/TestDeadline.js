@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React  from 'react';
 import styled, {css} from 'styled-components'
 import { connect } from 'react-redux';
 
@@ -47,17 +47,13 @@ const TestDetails = styled.input`
 	`}
 `;
 
-class TestDeadline extends Component {
+const TestDeadline = props => {
 	
-	handleChange = (e) => {
-		this.props.getInputValue(e, 'testDeadline');
+	const handleChange = (e) => {
+		props.getInputValue(e, 'testDeadline');
 	}
-		
-	shouldComponentUpdate (nextProps, nextState) {
-		return nextProps.value !== this.props.value || nextProps.submitted !== this.props.submitted;
-	}
-	
-    getTodayDate = () => {
+
+    const getTodayDate = () => {
 		let today = new Date();
 		let dd = today.getDate();
 		let mm = today.getMonth() + 1;
@@ -73,22 +69,20 @@ class TestDeadline extends Component {
 		return	today = yyyy + '-' + mm + '-' + dd;
 	}
 
-	render() {
-		return (
-			<FlexChild width={'292px'}>
-				<TestDetails
-					type='text'
-					min={this.getTodayDate()}
-					placeholder='Test Deadline'
-					value={this.props.value}
-					onFocus={(e) => e.target.type = 'date'}
-					onBlur={(e) => {e.target.type = !this.props.value ? 'text' : 'date'}}
-					onChange={this.handleChange}
-					invalid={this.props.isFilled(this.props.value)}
-				/>
-			</FlexChild>					
-		)
-	}
+	return (
+		<FlexChild width={'292px'}>
+			<TestDetails
+				type='text'
+				min={getTodayDate()}
+				placeholder='Test Deadline'
+				value={props.value}
+				onFocus={(e) => e.target.type = 'date'}
+				onBlur={(e) => {e.target.type = !props.value ? 'text' : 'date'}}
+				onChange={handleChange}
+				invalid={props.isFilled(props.value)}
+			/>
+		</FlexChild>							
+	)
 }
 
 function mapStateToProps(state) {

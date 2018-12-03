@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import styled, {css} from 'styled-components'
 import { connect } from 'react-redux';
 import { changeTotalScore } from '../../../../store/actions/testCreator';
@@ -47,38 +47,28 @@ const QuestionDetails = styled.input`
   `}
 `;
 
-class QuestionScore extends Component {
-	constructor(props) {
-		super(props);
-	}
-	
-	handleChange = (e) => {
+const QuestionScore = props => {
+	const handleChange = (e) => {
 		let score = +e.target.value
-		this.props.getInputValue(e, 'score');
+		props.getInputValue(e, 'score');
 		if (score < 0) {
 			 score = -1 * score; 
 		}
-		this.props.changeTotalScore(score - this.props.value);
+		props.changeTotalScore(score - props.value);
 	}
-	
-	shouldComponentUpdate (nextProps, nextState) {
-		return nextProps.value !== this.props.value || nextProps.submitted !== this.props.submitted;
-	}
+	return (
+		<FlexChild width={'132px'} verAlign={'top'}>
+			<QuestionDetails
+				width={'100%'}
+				type='number' 
+				value={props.value}
+				placeholder='Score' 
+				onChange={handleChange} 
+				invalid = {props.isFilled(props.value)}
+			/>
+		</FlexChild>					
+	);
 
-	render() {
-		return (
-            <FlexChild width={'132px'} verAlign={'top'}>
-                <QuestionDetails
-                    width={'100%'}
-                    type='number' 
-                    value={this.props.value}
-                    placeholder='Score' 
-				    onChange={this.handleChange} 
-				    invalid = {this.props.isFilled(this.props.value)}
-                />
-            </FlexChild>					
-		);
-	}
 }
 
 

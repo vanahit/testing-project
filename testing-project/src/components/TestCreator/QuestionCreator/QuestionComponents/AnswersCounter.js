@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import styled from 'styled-components'
 import { connect } from 'react-redux';
 
@@ -37,32 +37,25 @@ const CountFlexChild = styled.div`
 	border-left: 0;
 `;
 
-class AnswersCounter extends Component {
-
-    shouldComponentUpdate (nextProps, nextState) {
-		return nextProps.answersCount !== this.props.answersCount 
-	}
-
-	render() {
-		return (
-            <FlexChild width={'140px'} verAlign={'top'} >
-                <AddAnswerDiv>Add more answers</AddAnswerDiv>
-                    <ButtonsDiv>
-                        <ButtonsFlexChild 
-                            type='button'
-                            onClick={() => this.props.answersCountHandler('minus')}>
-                                -
-                        </ButtonsFlexChild>							
-                        <CountFlexChild>{this.props.answersCount}</CountFlexChild>
-                        <ButtonsFlexChild 
-                            type='button'
-                            onClick={() => this.props.answersCountHandler('plus')}>
-                                +
-                        </ButtonsFlexChild>
-                    </ButtonsDiv>
-            </FlexChild>
-        );
-	}
+const AnswersCounter = props => {
+	return (
+		<FlexChild width={'140px'} verAlign={'top'} >
+			<AddAnswerDiv>Add more answers</AddAnswerDiv>
+				<ButtonsDiv>
+					<ButtonsFlexChild 
+						type='button'
+						onClick={() => props.answersCountHandler('minus')}>
+							-
+					</ButtonsFlexChild>							
+					<CountFlexChild>{props.answersCount}</CountFlexChild>
+					<ButtonsFlexChild 
+						type='button'
+						onClick={() => props.answersCountHandler('plus')}>
+							+
+					</ButtonsFlexChild>
+				</ButtonsDiv>
+		</FlexChild>
+	);
 }
 
 

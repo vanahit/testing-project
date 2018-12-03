@@ -47,25 +47,18 @@ const TestDetails = styled.input`
 	`}
 `;
 
-class TestTotalScore extends Component {
-
-    shouldComponentUpdate (nextProps, nextState) {
-		return nextProps.totalScore !== this.props.totalScore;
-	}
-
-	render() {
-		return (
-            <FlexChild  width={'292px'}>
-                <TestDetails
-					type='text'
-					value={this.props.value}
-                    placeholder="Total Score"  
-                    disabled 
-                    value={`Total Score ${this.props.totalScore}`}
-                />
-            </FlexChild>					
-		);
-	}
+const TestTotalScore = props => {
+	return (
+		<FlexChild  width={'292px'}>
+			<TestDetails
+				type='text'
+				value={props.value}
+				placeholder="Total Score"  
+				disabled 
+				value={`Total Score ${props.totalScore}`}
+			/>
+		</FlexChild>					
+	);	
 }
 
 

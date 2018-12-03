@@ -12,26 +12,16 @@ const DeleteAnswerButton = styled.button`
 		border: 1px solid rgba(231, 231, 231, 1);
 `;
 
-class DeleteAnswer extends React.Component {
-  constructor(props){
-     super(props);
-     this.state = {title: ''}
-  }
-  
-   componentDidUpdate(prevProps, prevState) {
-  
-  }
- 	render() {
-        return ( 
-            <DeleteAnswerButton 
-                type='button'
-                onClick={() => this.props.answersCountHandler('delete', this.props.id)}
-            >
-            X 
-            </DeleteAnswerButton> 
-        );
-    }
-  }
+const DeleteAnswer = props => {
+    return ( 
+      <DeleteAnswerButton 
+          type='button'
+          onClick={() => props.answersCountHandler('delete', props.id)}
+      >
+      X 
+      </DeleteAnswerButton> 
+    );
+}
 
 function mapStateToProps(state) {
   return {

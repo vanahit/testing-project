@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import styled, {css} from 'styled-components'
 import { connect } from 'react-redux';
 
@@ -47,29 +47,22 @@ const TestDetails = styled.input`
 	`}
 `;
 
-class TestDuration extends Component {
+const TestDuration = props => {
 	
-	handleChange = (e) => {
-        this.props.getInputValue(e, 'testDuration');
+	const handleChange = (e) => {
+        props.getInputValue(e, 'testDuration');
 	}
-	
-	shouldComponentUpdate (nextProps, nextState) {
-		return nextProps.value !== this.props.value || nextProps.submitted !== this.props.submitted;
-	}
-
-	render() {
-		return (
-			<FlexChild width={'300px'}>
-				<TestDetails
-					type='number'
-					value={this.props.value}
-					placeholder={'Duration in minutes'}
-					onChange={this.handleChange}
-					invalid = {this.props.isFilled(this.props.value)}  
-				/>
-			</FlexChild >					
-		);
-	}
+	return (
+		<FlexChild width={'300px'}>
+			<TestDetails
+				type='number'
+				value={props.value}
+				placeholder={'Duration in minutes'}
+				onChange={handleChange}
+				invalid = {props.isFilled(props.value)}  
+			/>
+		</FlexChild >						
+	);
 }
 
 

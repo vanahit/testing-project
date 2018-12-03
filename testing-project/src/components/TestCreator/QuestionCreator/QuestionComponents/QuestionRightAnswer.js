@@ -35,28 +35,21 @@ const Radio = styled.input`
 	}
 `;
 
-class QuestionRightAnswer extends React.Component {
-    constructor(props){
-        super(props);
-        this.state = {title: ''}
-    }
-  
-    handleChange = (e) => {
-        this.props.getInputValue(e, 'isRight');
-    }
-
-    render() {
-      return ( 
+const QuestionRightAnswer = props => {
+   const handleChange = (e) => {
+     props.getInputValue(e, 'isRight');
+		}
+		
+    return ( 
         <>
           <Radio
             type='radio'
-            name={this.props.name} 
-            value={this.props.id} 
-            onClick={this.handleChange}
+            name={props.name} 
+            value={props.id} 
+            onClick={handleChange}
           />
         </>
       );
-    }
   }
 
 function mapStateToProps(state) {

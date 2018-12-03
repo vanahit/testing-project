@@ -4,11 +4,12 @@ import Pagination from './Pagination';
 import TestComponent from '../../components/OneTestComponent/TestRender';
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 import { connect } from 'react-redux';
+import TestDescription from '../../components/OneTestComponent/TestDescription';
+
 
 class AllTests extends Component {
 	constructor(props){
 		super(props);
-
 		this.state = {
 			data: this.props.tests,
 			search: "",
@@ -16,13 +17,8 @@ class AllTests extends Component {
 			currentPage: 1,
 			dataPerPage: 4,
 			loadMore: 0,
+			hover: false,
 		}
-	}
-
-	componentDidUpdate(prevProps, prevState) {
-        if (this.props.tests === true && this.props.tests.testsLoaded !== prevProps.tests.testsLoaded) {
-            this.setState({data: this.props.tests});
-        }
 	}
 
 	searching (e, searchProp) {
@@ -82,6 +78,18 @@ class AllTests extends Component {
 		today = this.getTodayDate(today);
 		return Date.parse(stringDate) >= Date.parse(today);        
 	}
+	
+	componentDidUpdate(prevProps, prevState) {
+        if (this.props.testsLoaded !== prevProps.testsLoaded) {
+			this.setState({data: this.props.tests});
+        }
+	}
+	onOut = () => {
+		this.setState({hover: false});		
+	}
+	onOver = () => {
+		this.setState({hover: true});		
+	}
 
 	render(){
 		let fillteredTests = [];
@@ -96,7 +104,7 @@ class AllTests extends Component {
 		} 
 
 		const selectSearchData = ['JavaScript', 'Java', "PHP", 'C#', 'MySQL', 'Python', 'Ruby', 'Swift', 'React', 'Redux'];
-		const { data, search, type, currentPage, dataPerPage, loadMore } = this.state;
+		const {search, type, currentPage, dataPerPage, loadMore } = this.state;
 		let filterData = fillteredTests.filter( item => {
 			return item.testTitle.toLowerCase().substr(0,search.length) === search.toLowerCase()
 		} )
@@ -128,6 +136,14 @@ class AllTests extends Component {
 						?
 						currentData.map( item => {
 							return (
+								<>		
+								{this.state.hover &&
+									<TestDescription
+										description={item.description}  
+										//companyLogin={this.props.companyLogin}
+										
+									/>
+								}
 								<TransitionGroup className="grid" key={item.id}>
 									<CSSTransition 
 										in={true}
@@ -135,9 +151,11 @@ class AllTests extends Component {
 										timeout={450}
 										classNames="slide"
 									>
-									<TestComponent test={item} testAddClicked={this.props.testAddClicked}  />
+									
+									<TestComponent onOver={this.onOver}onOut={this.onOut} test={item} testAddClicked={this.props.testAddClicked}  />
 									</CSSTransition>
 								</TransitionGroup>
+								</>
 							)
 						} )
 						: 'Loader'
@@ -161,6 +179,7 @@ class AllTests extends Component {
 function mapStateToProps(state) {
 	return {
 		tests: state.appReducer.tests,
+		testsLoaded: state.appReducer.testsLoaded,
 	}
 	
 }
