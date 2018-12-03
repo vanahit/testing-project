@@ -49,10 +49,4 @@ class AutorizationCompany extends Component {
     }
 }
 
-const mapStateToProps = (state) => {
-    return {
-        projects: state.project.projects,
-    }
-};
-
-export default connect(mapStateToProps)(AutorizationCompany);
+export default AutorizationCompany;

@@ -91,7 +91,7 @@ class AllUsers extends Component {
 					selectSearchData={selectSearchData}
 				/>
 				<div className="content-grid">
-					{ this.props.usersLoaded
+					{ this.state.usersLoaded
 					?
 						users.map( item => {
 							return (
