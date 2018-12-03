@@ -3,6 +3,14 @@ import {NavLink} from "react-router-dom";
 import styled from 'styled-components';
 import * as firebase from "firebase";
 
+const HeaderC = styled.div`
+    background-color: #141218;
+    width: 100%;
+    
+    @media only screen and (max-width: 600px) {
+            background-color:red;
+    }
+`;
 
 const HeaderWrapper = styled.div`
        margin: 0 auto;
@@ -56,11 +64,7 @@ const Header = (props) => {
 
     return (
 
-        <header style={{
-            backgroundColor: '#141218',
-            width: '100%',
-        }}>
-
+      <HeaderC>
             <HeaderWrapper>
                 <NavLink to={'/'}>
                     <Logo>LOGO</Logo>
@@ -89,7 +93,7 @@ const Header = (props) => {
                     </NavLink>}
             </HeaderWrapper>
 
-        </header>
+      </HeaderC>
     )
 };
 
