@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import TestRender from '../../OneTestComponent/TestRender';
 import styled from 'styled-components'
 
+
 let percent;
 const styles = { transition: 'all 1s linear' }
 
@@ -94,6 +95,7 @@ class TestSlider extends Component {
 		this.state = {
 			translate : 0,
 			tests: this.props.tests,
+			
 		}
     }
 
@@ -170,7 +172,8 @@ class TestSlider extends Component {
 											return (
 												<Padding key={item.id}>
 													<OneTestSize>
-														<TestRender test={item} testAddClicked={this.props.testAddClicked}/>
+													
+														<TestRender  test={item} testAddClicked={this.props.testAddClicked}/>
 													</OneTestSize>
 												</Padding>
 											);

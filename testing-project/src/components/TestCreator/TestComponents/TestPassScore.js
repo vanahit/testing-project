@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import styled, {css} from 'styled-components'
 import { connect } from 'react-redux';
 import InvalidScoreFlag from '../TestComponents/InvalidScoreFlag';
@@ -48,41 +48,30 @@ const TestDetails = styled.input`
 	`}
 `;
 
-class TestPassScore extends Component {
-	constructor(props) {
-		super(props);
+const TestPassScore = props => {
+	
+	const handleChange = (e) => {
+        props.getInputValue(e, 'passScore');
+    }
+    
+    const isFilled = (inputValue) => {
+        return !inputValue && props.submitted ? true : false;
 	}
 	
-	handleChange = (e) => {
-        this.props.getInputValue(e, 'passScore');
-    }
-    
-    isFilled = (inputValue) => {
-        return !inputValue && this.props.submitted ? true : false;
-    }
-    
-	shouldComponentUpdate (nextProps, nextState) {
-		return nextProps.value !== this.props.value 
-			|| nextProps.submitted !== this.props.submitted
-			|| nextProps.questionsCount !== this.props.questionsCount;
-	}
-
-	render() {
-		return (
-            <>
-               {this.props.value > this.props.totalScore && <InvalidScoreFlag />}
-                <FlexChild width={'300px'}>
-                    <TestDetails
-                        type='number'
-                        value={this.props.value}
-                        placeholder={'Passing Score'}
-                        onChange={this.handleChange}
-                        invalid = {this.isFilled(this.props.value)}  
-                    />
-                </FlexChild >
-            </>					
-		);
-	}
+	return (
+		<>
+			{props.value > props.totalScore && <InvalidScoreFlag />}
+			<FlexChild width={'300px'}>
+				<TestDetails
+					type='number'
+					value={props.value}
+					placeholder={'Passing Score'}
+					onChange={handleChange}
+					invalid = {isFilled(props.value)}  
+				/>
+			</FlexChild >
+	 </>					       
+	);
 }
 
 

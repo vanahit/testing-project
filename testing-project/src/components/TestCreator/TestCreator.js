@@ -85,7 +85,7 @@ class TestCreator extends Component {
     
     addQuestion = () => {
         this.props.addQuestionSubmitted();
-        if (this.formValidation()) {
+        if (this.testHeaderValidation()) {
            this.props.addQuestion();
            this.props.questionNotValid();
 		   this.props.ansnwerNotValid();
@@ -106,7 +106,7 @@ class TestCreator extends Component {
 		this.props.updateQuestions(questions);
 	}
 
-	formValidation = () => {
+	testHeaderValidation = () => {
 		let state = this.state;
 		return state.testTitle 
 				&& state.description
@@ -130,7 +130,6 @@ class TestCreator extends Component {
                 passers: 0,
 		};
 		db.ref('tests').push({...test })
-			
 	}
 
     submitHandler = () => {
@@ -138,7 +137,7 @@ class TestCreator extends Component {
 			this.props.submittedTrue();
 			resolve(this.props.submitted)
 		}) .then (() => {
-			if (this.formValidation()
+			if (this.testHeaderValidation()
 				&& this.state.passScore
 				&& this.props.isAnswerValid
 				&& this.props.isQuestionValid 

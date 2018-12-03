@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import styled, {css} from 'styled-components'
 import { connect } from 'react-redux';
 
@@ -47,33 +47,23 @@ const TestDetails = styled.input`
 	`}
 `;
 
-class TestCreatorCompany extends Component {
-	constructor(props) {
-		super(props);
-		this.state = {value: this.props.value}
+const TestCreatorCompany = props => {
+	const handleChange = (e) => {
+		props.getInputValue(e, 'company');
 	}
-		
-	handleChange = (e) => {
-		this.props.getInputValue(e, 'company');
-	}
-		
-	shouldComponentUpdate (nextProps, nextState) {
-		return nextProps.value !== this.props.value 
-			|| nextProps.submitted !== this.props.submitted
-	}
-	render() {
-		return (
-			<FlexChild>
-				<TestDetails
+
+	return (
+		<FlexChild>
+			<TestDetails
 					type='text'
-					value={this.props.value}
+					value={props.value}
 					placeholder='Company name'
-					onChange={this.handleChange}
-					invalid = {this.props.isFilled(this.props.value)} 
+					onChange={handleChange}
+					invalid = {props.isFilled(props.value)} 
 				/>
 			</FlexChild>
 		);
-	}
+	
 }
 
 function mapStateToProps(state) {

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import styled, {css} from 'styled-components'
 import { connect } from 'react-redux';
 
@@ -48,38 +48,32 @@ const Select = styled.select`
 `;
 
 
-class TestType extends Component {
-	handleChange = (e) => {
-        this.props.getInputValue(e, 'testType');
-	}
-	
-	shouldComponentUpdate (nextProps, nextState) {
-		return nextProps.value !== this.props.value || nextProps.submitted !== this.props.submitted;
-			
+const  TestType = props => {
+
+	const handleChange = (e) => {
+        props.getInputValue(e, 'testType');
 	}
 
-	render() {
-		const languages = ['Choose Type', 'HTML', 'CSS', 'JavaScript', 'Java', 'Python', 'C#', 'Ruby', 'Swift', 'React', 'Redux', 'C++', 'PHP', 'MySQL'];
-		return (
-			<FlexChild>
-				<Select
-					value={this.props.value}
-					invalid = {this.props.isFilled(this.props.value)}
-					onChange={this.handleChange}
-				>
-					{
-						languages.map((option, index) => (
-							<option 
-								key={index + 1}
-								disabled = {index === 0 && this.props.value ? true : false}
-							> 
-								{option} 
-							</option>
-						))}
-				</Select>
-			</FlexChild>
-		);
-	}
+	const languages = ['Choose Type', 'HTML', 'CSS', 'JavaScript', 'Java', 'Python', 'C#', 'Ruby', 'Swift', 'React', 'Redux', 'C++', 'PHP', 'MySQL'];
+	return (
+		<FlexChild>
+			<Select
+				value={props.value}
+				invalid = {props.isFilled(props.value)}
+				onChange={handleChange}
+			>
+				{
+					languages.map((option, index) => (
+						<option 
+							key={index + 1}
+							disabled = {index === 0 && props.value ? true : false}
+						> 
+							{option} 
+						</option>
+					))}
+			</Select>
+		</FlexChild>
+	);	
 }
 
 

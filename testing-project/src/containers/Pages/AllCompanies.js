@@ -20,22 +20,9 @@ class AllCompanies extends Component {
 		}
 	}
 
-	// componentDidMount() {
-	// 	firebase.database().ref('companies').on('value',(snapshot)=>{
-    //   const companies = [];
-    //   snapshot.forEach(childSnapshot => {
-    //       companies.push({
-    //           id: childSnapshot.key,
-    //           ...childSnapshot.val()
-    //       })
-    //   });
-    //   this.setState({data: companies})
-    //   console.log(companies)
-    // });
-	// }
-
 	componentDidUpdate(prevProps, prevState) {
-        if (this.props.companies === true && this.props.companies.companiesLoaded !== prevProps.companies.companiesLoaded) {
+        if (this.props.companiesLoaded !== prevProps.companiesLoaded) {
+			console.log(this.props.companies);
             this.setState({data: this.props.companies});
         }
 	}
@@ -76,38 +63,35 @@ class AllCompanies extends Component {
 		// const selectSearchData = ['JavaScript', 'Java', "PHP", 'C#', 'MySQL', 'Python', 'Ruby', 'Swift', 'React', 'Redux'];
 		let selectSearchData = [];
 		let filterData = [];
-		let data = [];
-		const {search, type, currentPage, dataPerPage, loadMore } = this.state;
+		let companies = [];
+		const {data, search, type, currentPage, dataPerPage, loadMore } = this.state;
 
 		if (this.state.data) {
-			data = this.state.data;
+			companies = this.state.data;
+			console.log(this.state.data + 'this is companies');
 		}
-		
-		if (this.state.data) {
-				console.log(this.state.data + 'this is companies');
-			data.reduce( (acc,item) => {
+			
+			companies.reduce( (acc,item) => {
 				acc.push(item.name);
 				return acc
 			}, selectSearchData )
 	
-			filterData = data.filter( item => {
+			filterData = companies.filter( item => {
 				return item.name.toLowerCase().substr(0,search.length) === search.toLowerCase()
 			} )
-		}
 		
-
 		if(type !== ""){
 			filterData = filterData.filter( item => item.name === type)
 		}
 
 		const indexOfLastData = currentPage * dataPerPage;
-    const indexOfFirstData = indexOfLastData - dataPerPage;
-    const currentData = filterData.slice(indexOfFirstData, indexOfLastData+loadMore*dataPerPage);
+		const indexOfFirstData = indexOfLastData - dataPerPage;
+		const currentData = filterData.slice(indexOfFirstData, indexOfLastData+loadMore*dataPerPage);
 
-    const pages = [];
-    for (let i = 1; i <= Math.ceil(filterData.length / dataPerPage); i++) {
-      pages.push(i);
-   
+		const pages = [];
+		for (let i = 1; i <= Math.ceil(filterData.length / dataPerPage); i++) {
+		pages.push(i);
+	
 	}
 		return (
 			<div className="container-fluid">

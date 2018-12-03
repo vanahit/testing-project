@@ -41,7 +41,7 @@ class AutorizationCompany extends Component {
                         email={this.state.email}
                         changeHandler={this.changeHandler}
                         signIn={this.signIn.bind(this)}/>
-                    <CompanyRegistration  currentLog={this.props.currentLog}/>
+                    <CompanyRegistration />
                 </div>
 
             </div>
@@ -49,10 +49,5 @@ class AutorizationCompany extends Component {
     }
 }
 
-const mapStateToProps = (state) => {
-    return {
-        projects: state.project.projects,
-    }
-};
+export default AutorizationCompany;
 
-export default connect(mapStateToProps)(AutorizationCompany);

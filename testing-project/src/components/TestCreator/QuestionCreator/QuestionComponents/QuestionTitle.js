@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import styled, {css} from 'styled-components'
 import { connect } from 'react-redux';
 
@@ -46,31 +46,22 @@ const QuestionDetails = styled.textarea`
   `}
 `;
 
-class QuestionTitle extends Component {
-	constructor(props) {
-		super(props);
-	}
-	
-	handleChange = (e) => {
-       this.props.getInputValue(e, 'questionTitle');
-	}
-	
-	shouldComponentUpdate (nextProps, nextState) {
-		return nextProps.value !== this.props.value || nextProps.submitted !== this.props.submitted;
-	}
+const QuestionTitle = props => {
 
-	render() {
-		return (
-            <FlexChild>
-                <QuestionDetails
-					type='text' 
-                    placeholder={`${this.props.count}. Question title`} 
-				    onChange={this.handleChange} 
-				    invalid = {this.props.isFilled(this.props.value)}
-                />
-            </FlexChild>					
-		);
+	const handleChange = (e) => {
+      props.getInputValue(e, 'questionTitle');
 	}
+	
+	return (
+		<FlexChild>
+			<QuestionDetails
+				type='text' 
+				placeholder={`${props.count}. Question title`} 
+				onChange={handleChange} 
+				invalid = {props.isFilled(props.value)}
+			/>
+		</FlexChild>					
+	);
 }
 
 

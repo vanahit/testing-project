@@ -1,16 +1,9 @@
 import React from 'react';
 import {NavLink} from "react-router-dom";
-import styled from 'styled-components';
+import styled,{css} from 'styled-components';
 import * as firebase from "firebase";
+import Icon from './AccountSvg';
 
-const HeaderC = styled.div`
-    background-color: #141218;
-    width: 100%;
-    
-    @media only screen and (max-width: 600px) {
-            background-color:red;
-    }
-`;
 
 const HeaderWrapper = styled.div`
        margin: 0 auto;
@@ -43,19 +36,64 @@ const StyledLink = styled(NavLink)`
     color: white;
     font-size: 20px;
     font-weight: bold;
-    // text-decoration: none;
+    text-decoration: none;
     cursor: pointer;
 
-    &:focus, &:hover, &:visited, &:link, &:active {
+    &:link{
         text-decoration: none;
+     }
+
+    &:active, &:hover, &:focus {
+        color: #FFAD5A;
+        text-decoration: underline;
+        
     }
 `;
 
+const LoginLogout = styled(NavLink)`
+    color: white;
+    font-size: 20px;
+    font-weight: bold;
+    padding: 20px 40px;
+    border: 1px solid #FFFFFF;  
+    text-decoration: underline;
+    cursor: pointer;
+
+    :active, :hover, :focus {
+        border-color: #FFAD5A;
+        color: #FFAD5A;
+       
+    }
+ 
+`;
+
+const MyAccount = styled(NavLink)`
+    display: inline-block;
+    text-decoration: underline;
+    fill: white;
+    margin-right: 20px;
+    color: white; 
+    font-size: 20px;
+    cursor: pointer;
+    text-transform: uppercase;
+
+    :active, :hover, :focus {
+        color: #FFAD5A;
+        fill: #FFAD5A;
+    }
+   
+ `;
+const IconSizes = styled.span`
+    display: inline-block;
+    margin-left: 10px;
+    width: 25px;
+    height: 20px;
+`;
 
 const Header = (props) => {
 
     const logOut = () => {
-
+        console.log(props.currentLog)
         firebase.auth().signOut().then(function () {
         }, function (error) {
             console.error('Sign Out Error', error);
@@ -64,7 +102,11 @@ const Header = (props) => {
 
     return (
 
-      <HeaderC>
+        <header style={{
+            backgroundColor: '#141218',
+            width: '100%',
+        }}>
+
             <HeaderWrapper>
                 <NavLink to={'/'}>
                     <Logo>LOGO</Logo>
@@ -77,23 +119,28 @@ const Header = (props) => {
                     <StyledLink to={'/AboutUs'}>ABOUT US</StyledLink>
                 </HeaderNavigation>
 
-                {props.currentLog ?
+                {props.user?
                     <div style={{
                         display: 'flex',
                         alignItems: 'center'
                     }}>
-                        <NavLink
-                            style={{color: 'white', marginRight: '10px', border: '1px solid black', padding: '10px'}}
-                            to={'/company/profile'}>MY ACCOUNT</NavLink>
-                        <div className='header-log-in' onClick={() => logOut()}>LOG OUT</div>
+                      
+                           
+                            <MyAccount to={'/company/profile'}> 
+                                {props.user.name}
+                                <IconSizes><Icon /></IconSizes>
+                            </MyAccount>
+                        
+                        
+                        <LoginLogout to={'/company/profile'} onClick={() => logOut()}>LOG OUT</LoginLogout>
                     </div>
 
-                    : <NavLink to={'/authorization'}>
-                        <div className='header-log-in'>LOG IN</div>
-                    </NavLink>}
+                    : <LoginLogout to={'/authorization'}>
+                        LOG IN
+                    </LoginLogout>}
             </HeaderWrapper>
 
-      </HeaderC>
+        </header>
     )
 };
 
