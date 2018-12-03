@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import src from '../../images/is.jpg';
 import {firebase} from '../../firebase/firebase';
 import Searching from './Searching';
 import Pagination from './Pagination';

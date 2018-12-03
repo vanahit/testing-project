@@ -2,12 +2,15 @@ import React from 'react';
 import {connect} from 'react-redux';
 import styled from 'styled-components';
 import img from '../../images/Photos/photo-1520492943297-59dc5f2d0fe6.jpg';
+
 import davit from '../../images/ourImages/davit.jpg';
 import mkrtich from '../../images/ourImages/mkrtich.jpg';
 import hayk from '../../images/ourImages/hayk.jpg';
 import anahit from '../../images/ourImages/anahit.jpg';
-import Loader from '../Loader';
 
+import Loader from '../Loader';
+import Animate from 'react-move/Animate';
+import {easePolyOut} from 'd3-ease';
 
 
 const Main = styled.div`
@@ -50,6 +53,8 @@ const BoxStyle = styled.div`
 `;
 
 const OurTeam = styled.div`
+      display :flex;
+      justify-content:space-between;
       width: 1200px;
       color: #4F9DA6;
       font-size: 34px;
@@ -57,11 +62,13 @@ const OurTeam = styled.div`
       border-bottom: 1px solid #E7E7E7;
 `;
 
+
 const MemberBoxWrapper = styled.div`
        display: flex;
        width: 1200px;
        margin: 0 auto;
        justify-content: space-between;
+}
 `;
 
 
@@ -112,62 +119,143 @@ const MemberBox = ({image, name, profession}) => (
             <div style={{fontSize: '20px', color: '#FFAD5A'}}>{profession}</div>
         </div>
     </div>
-
 );
 
-const AboutUs = (props) => {
-    return (
-        <div>
-            <Main>
-                <Wrapper>
-                    <ABOUT_DIGILEARN>ABOUT DIGILEARN</ABOUT_DIGILEARN>
+class AboutUs extends React.Component {
 
-                    <Description>
-                        Our main goal is cooperation, which we founded between our users and companies .We give
-                        opportunity
-                        to our users to make achievements by completing tests which created by our companies . It is
-                        important for us to create reliable collaboration. The best achievement will be for our
-                        users ,
-                        to
-                        receive invitation from leading companies. For our companies the best achievement will be
-                        invitation
-                        the best users to their company. <span
-                        style={{color: '#FFAD5A'}}>DESTINATION WAS ACHIEVES.</span>
-                    </Description>
+    state = {
+        members: [
+            {
+                name: 'Anahit',
+                image: anahit,
+                profession: 'JavaScript Developer',
 
-                    <BoxWrapper>
-                        <Box count={props.tests} boxItem={'TESTS'}/>
-                        <Box count={props.companies} boxItem={'COMPANIES'}/>
-                        <Box count={props.users} boxItem={'USERS'}/>
-                    </BoxWrapper>
+                start: -500,
+                delay: 2000,
+            },
+            {
+                name: 'Davit',
+                image: davit,
+                profession: 'UI/UX Designer',
 
-                </Wrapper>
-            </Main>
+                start: -500,
+                delay: 1400,
+            },
+            {
+                name: 'Hayk',
+                image: hayk,
+                profession: 'JavaScript Developer',
 
-            <OurTeam>OUR TEAM</OurTeam>
+                start: -500,
+                delay: 800,
+            },
+            {
+                name: 'Mkrtich',
+                image: mkrtich,
+                profession: 'JavaScript Developer',
+
+                start: -500,
+                delay: 200,
+            },
+        ]
+    };
 
 
-            <MemberBoxWrapper>
-                <MemberBox name={'Anahit'} image={anahit} profession={'JavaScript Developer'}/>
-                <MemberBox name={'Davit'} image={davit} profession={'UI/UX Designer'}/>
-                <MemberBox name={'Hayk'} image={hayk} profession={'JavaScript Developer'}/>
-                <MemberBox name={'Mkrtich'} image={mkrtich} profession={'JavaScript Developer'}/>
-            </MemberBoxWrapper>
+    showMembers = () => (
+        this.state.members.map((member, i) => (
+            <Animate
+                key={i}
+                show={true}
+
+                start={{
+                    opacity: 0,
+                    left: member.start,
+                    rotate: 0,
+                }}
+                enter={{
+                    opacity: [1],
+                    left: [0],
+                    rotate: [360],
+                    timing: {delay: member.delay, duration: 1000, ease: easePolyOut}
+                }}
+            >
+                {({left, rotate, opacity}) => {
+                    return (
+                        <div style={{
+                            opacity,
+                            transform: `rotateY(${rotate}deg) translate(${left}px`
+                        }}>
+                            <MemberBox
+                                key={i}
+                                name={member.name}
+                                profession={member.profession}
+                                image={member.image}
+
+                            />
+                        </div>
+
+                    )
+                }}
+
+            </Animate>
+
+        ))
+    );
+
+    render() {
+        return (
+            <div>
+                <Main>
+                    <Wrapper>
+                        <ABOUT_DIGILEARN>ABOUT DIGILEARN</ABOUT_DIGILEARN>
+
+                        <Description>
+                            Our main goal is cooperation, which we founded between our users and companies .We give
+                            opportunity
+                            to our users to make achievements by completing tests which created by our companies . It is
+                            important for us to create reliable collaboration. The best achievement will be for our
+                            users ,
+                            to
+                            receive invitation from leading companies. For our companies the best achievement will be
+                            invitation
+                            the best users to their company. <span
+                            style={{color: '#FFAD5A'}}>DESTINATION WAS ACHIEVES.</span>
+                        </Description>
+
+                        <BoxWrapper>
+                            <Box count={this.props.tests} boxItem={'TESTS'}/>
+                            <Box count={this.props.companies} boxItem={'COMPANIES'}/>
+                            <Box count={this.props.users} boxItem={'USERS'}/>
+                        </BoxWrapper>
+
+                    </Wrapper>
+                </Main>
+
+                <OurTeam>
+                    <span>OUR TEAM</span>
+                </OurTeam>
 
 
-            <div style={{width: '1200px', margin: '0 auto 76px', color: '#100529'}}>
-                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the
-                industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type
-                and scrambled it to make a type specimen book. It has survived not only five centuries, but also the
-                leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s
-                with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop
-                publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+                <MemberBoxWrapper>
+                    {this.showMembers()}
+                </MemberBoxWrapper>
+
+
+                <div style={{width: '1200px', margin: '0 auto 76px', color: '#100529'}}>
+                    Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the
+                    industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type
+                    and scrambled it to make a type specimen book. It has survived not only five centuries, but also the
+                    leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s
+                    with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop
+                    publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+                </div>
+
             </div>
 
-        </div>
+        );
+    }
+}
 
-    );
-};
 
 function mapStateToProps(state) {
     return {
