@@ -4,13 +4,14 @@ import {firebase} from '../../firebase/firebase';
 import Searching from './Searching';
 import Pagination from './Pagination';
 import { CSSTransition, TransitionGroup } from "react-transition-group";
+import { connect } from 'react-redux';
 
-export default class AllCompanies extends Component {
+class AllCompanies extends Component {
 	constructor(props){
 		super(props);
 
 		this.state = {
-			data: [],
+			data: this.props.companies,
 			search: "",
 			type:"",
 			currentPage: 1,
@@ -19,18 +20,24 @@ export default class AllCompanies extends Component {
 		}
 	}
 
-	componentDidMount() {
-		firebase.database().ref('companies').on('value',(snapshot)=>{
-      const companies = [];
-      snapshot.forEach(childSnapshot => {
-          companies.push({
-              id: childSnapshot.key,
-              ...childSnapshot.val()
-          })
-      });
-      this.setState({data: companies})
-      console.log(companies)
-    });
+	// componentDidMount() {
+	// 	firebase.database().ref('companies').on('value',(snapshot)=>{
+    //   const companies = [];
+    //   snapshot.forEach(childSnapshot => {
+    //       companies.push({
+    //           id: childSnapshot.key,
+    //           ...childSnapshot.val()
+    //       })
+    //   });
+    //   this.setState({data: companies})
+    //   console.log(companies)
+    // });
+	// }
+
+	componentDidUpdate(prevProps, prevState) {
+        if (this.props.companies === true && this.props.companies.companiesLoaded !== prevProps.companies.companiesLoaded) {
+            this.setState({data: this.props.companies});
+        }
 	}
 
 	searching (e, searchProp) {
@@ -67,17 +74,27 @@ export default class AllCompanies extends Component {
 
 	render(){
 		// const selectSearchData = ['JavaScript', 'Java', "PHP", 'C#', 'MySQL', 'Python', 'Ruby', 'Swift', 'React', 'Redux'];
-		
-		const { data, search, type, currentPage, dataPerPage, loadMore } = this.state;
 		let selectSearchData = [];
-		data.reduce( (acc,item) => {
-			acc.push(item.name);
-			return acc
-		},selectSearchData )
-		console.log(selectSearchData)
-		let filterData = data.filter( item => {
-			return item.name.toLowerCase().substr(0,search.length) === search.toLowerCase()
-		} )
+		let filterData = [];
+		let data = [];
+		const {search, type, currentPage, dataPerPage, loadMore } = this.state;
+
+		if (this.state.data) {
+			data = this.state.data;
+		}
+		
+		if (this.state.data) {
+				console.log(this.state.data + 'this is companies');
+			data.reduce( (acc,item) => {
+				acc.push(item.name);
+				return acc
+			}, selectSearchData )
+	
+			filterData = data.filter( item => {
+				return item.name.toLowerCase().substr(0,search.length) === search.toLowerCase()
+			} )
+		}
+		
 
 		if(type !== ""){
 			filterData = filterData.filter( item => item.name === type)
@@ -90,8 +107,8 @@ export default class AllCompanies extends Component {
     const pages = [];
     for (let i = 1; i <= Math.ceil(filterData.length / dataPerPage); i++) {
       pages.push(i);
-    }
-
+   
+	}
 		return (
 			<div className="container-fluid">
 				<Searching 
@@ -101,12 +118,13 @@ export default class AllCompanies extends Component {
 					selectSearchData={selectSearchData}
 				/>
 				<div className="content-grid">
-					{
+					{ 
+						this.state.data 
+						?
 						currentData.map( item => {
 							return (
-								<TransitionGroup className="grid">
+								<TransitionGroup className="grid" key={item.id}>
 									<CSSTransition 
-										key={item.id}
 										in={true}
 										appear={true}
 										timeout={450}
@@ -128,6 +146,8 @@ export default class AllCompanies extends Component {
 								</TransitionGroup>
 							)
 						} )
+
+						: 'Loader'
 					}
 					<Pagination 
 						load_More={loadMore}
@@ -143,3 +163,13 @@ export default class AllCompanies extends Component {
 		);
 	}
 }
+
+function mapStateToProps(state) {
+	return {
+		companies: state.appReducer.companies,
+		companiesLoaded: state.appReducer.companiesLoaded,
+	}
+	
+}
+
+export default connect(mapStateToProps, null)(AllCompanies)

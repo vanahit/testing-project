@@ -1,17 +1,16 @@
 import React, { Component } from 'react';
-import src from '../../images/is.jpg';
-import {firebase} from '../../firebase/firebase';
 import Searching from './Searching';
 import Pagination from './Pagination';
 import TestComponent from '../../components/OneTestComponent/TestRender';
 import { CSSTransition, TransitionGroup } from "react-transition-group";
+import { connect } from 'react-redux';
 
-export default class AllTests extends Component {
+class AllTests extends Component {
 	constructor(props){
 		super(props);
 
 		this.state = {
-			data: [],
+			data: this.props.tests,
 			search: "",
 			type:"",
 			currentPage: 1,
@@ -20,18 +19,10 @@ export default class AllTests extends Component {
 		}
 	}
 
-	componentDidMount() {
-		firebase.database().ref('tests').on('value',(snapshot)=>{
-	        const tests = [];
-	        snapshot.forEach(childSnapshot => {
-	            tests.push({
-	                id: childSnapshot.key,
-	                ...childSnapshot.val()
-	            })
-	        });
-	        this.setState({data: tests})
-	        console.log(tests)
-	    });
+	componentDidUpdate(prevProps, prevState) {
+        if (this.props.tests === true && this.props.tests.testsLoaded !== prevProps.tests.testsLoaded) {
+            this.setState({data: this.props.tests});
+        }
 	}
 
 	searching (e, searchProp) {
@@ -69,11 +60,44 @@ export default class AllTests extends Component {
 	deadline (day) {
 	    return `${new Date(day).getFullYear()}.${new Date(day).getMonth()}.${new Date(day).getDate()}`
 	}
+	
+	getTodayDate = () => {
+		let today = new Date();
+		let dd = today.getDate();
+		let mm = today.getMonth() + 1;
+		let yyyy = today.getFullYear();
+
+		if(dd < 10) {
+			dd = '0' + dd
+		} 
+
+		if (mm < 10) {
+			mm = '0' + mm
+		} 
+		return	today = yyyy + '-' + mm + '-' + dd;
+	}
+
+	compareDates = (stringDate) => {
+		let today = new Date();
+		today = this.getTodayDate(today);
+		return Date.parse(stringDate) >= Date.parse(today);        
+	}
 
 	render(){
+		let fillteredTests = [];
+		let tests = [];
+		if (this.state.data) {
+			tests = this.state.data;
+			fillteredTests = tests.filter(item => {
+				if (this.compareDates(item.testDeadline)) {
+					return item;
+				}
+			});
+		} 
+
 		const selectSearchData = ['JavaScript', 'Java', "PHP", 'C#', 'MySQL', 'Python', 'Ruby', 'Swift', 'React', 'Redux'];
 		const { data, search, type, currentPage, dataPerPage, loadMore } = this.state;
-		let filterData = data.filter( item => {
+		let filterData = fillteredTests.filter( item => {
 			return item.testTitle.toLowerCase().substr(0,search.length) === search.toLowerCase()
 		} )
 
@@ -100,22 +124,25 @@ export default class AllTests extends Component {
 				/>
 				<div className="content-grid">
 					{
+						this.state.data 
+						?
 						currentData.map( item => {
 							return (
-								<TransitionGroup className="grid">
+								<TransitionGroup className="grid" key={item.id}>
 									<CSSTransition 
-										key={item.id}
 										in={true}
 										appear={true}
 										timeout={450}
 										classNames="slide"
 									>
-									<TestComponent test={item} />
+									<TestComponent test={item} testAddClicked={this.props.testAddClicked}  />
 									</CSSTransition>
 								</TransitionGroup>
 							)
 						} )
+						: 'Loader'
 					}
+
 					<Pagination 
 						load_More={loadMore}
 						loadMore={this.loadMore.bind(this)}
@@ -130,3 +157,12 @@ export default class AllTests extends Component {
 		);
 	}
 }
+
+function mapStateToProps(state) {
+	return {
+		tests: state.appReducer.tests,
+	}
+	
+}
+
+export default connect(mapStateToProps, null)(AllTests)

@@ -31,6 +31,7 @@ class App extends Component {
     state = {
         currentLog: null,
         testsLoaded: this.props.testsLoaded,
+        companiesLoaded: this.props.companiesLoaded,
         testAddClicked: false,
         user: null
     };
@@ -61,12 +62,19 @@ class App extends Component {
 
             this.setState({testsLoaded: this.props.testsLoaded})
         }
+        if (this.props.companiesLoaded === true && this.props.companiesLoaded !== prevProps.companiesLoaded) {
+
+            this.setState({companiesLoaded: this.props.companiesLoaded})
+        }
     }
 
    testAddClicked = () => {
         this.setState({testAddClicked: !this.state.testAddClicked});
     }
 
+    componentWillUnmount() {
+        this.setState({testAddClicked: false});
+    }
     render() {
         this.state.user && console.log(this.state.user);
 
@@ -79,7 +87,7 @@ class App extends Component {
                         <Route path='/registration/user'  component={AutorizationUser}/>
                         <Route path='/registration/company'  component={AutorizationCompany}/>
                         <Route path="/Users/" component={AllUsers}/>
-                        <Route path="/Companies/" component={AllCompanies}/>
+                        <Route path="/companies/" component={AllCompanies}/>
 
                         <Route path="/CompaniesInUser/" component={CompaniesInUser}/>
                         <Route path="/UsersInCompany/" component={UsersInCompany}/>
@@ -95,7 +103,7 @@ class App extends Component {
                         <Route path="/aboutUs/" component={AboutUs}/>
                         <Route path="/testCreator/" component={TestCreator}/>
                         <Route path="/testPassPanel/" component={TestPassPanel}/>
-                        <Route path="/tests/" component={AllTests}/>
+                        <Route path="/tests/" component={ () => <AllTests  testAddClicked={this.testAddClicked} />}/>
                         <Route component={NoMatch}/>
                     </Switch>
                 </Layout>
@@ -107,7 +115,8 @@ class App extends Component {
 
 function mapStateToProps(state) {
     return {
-        testsLoaded: state.appReducer.testsLoaded
+        testsLoaded: state.appReducer.testsLoaded,
+        companiesLoaded: state.appReducer.companiesLoaded,
     }
 }
 

@@ -1,12 +1,50 @@
 import React, {Component} from 'react';
 import {NavLink} from "react-router-dom";
-import {firebase} from '../../firebase/firebase';
+import styled from 'styled-components';
+import * as firebase from "firebase";
 
 
-class Header extends Component {
-    constructor(props){
-        super(props)
+const HeaderWrapper = styled.div`
+       margin: 0 auto;
+       width: 1200px;
+       height: 100px;
+       display: flex;
+       justify-content: space-between;
+       align-items: center;
+`;
 
+const Logo = styled.div`
+    width: 195px;
+    height: 60px;
+    display: flex;
+    cursor: pointer;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-size: 20px;
+    background-color: #FF5959;
+`;
+
+const HeaderNavigation = styled.div`
+    display: flex;
+    width: 430px;
+    justify-content: space-between;
+`;
+
+const StyledLink = styled(NavLink)`
+    color: white;
+    font-size: 20px;
+    font-weight: bold;
+    // text-decoration: none;
+    cursor: pointer;
+
+    &:focus, &:hover, &:visited, &:link, &:active {
+        text-decoration: none;
+    }
+`;
+
+
+const Header = (props) => {
         // this.state = {
         //     name: ""
         // }
@@ -18,6 +56,7 @@ class Header extends Component {
                 console.error('Sign Out Error', error);
             });
         };
+
 
     // componentDidUpdate(prevProps, prevState) {
     //     // `companies/${this.props.currentLog.uid}`
@@ -52,6 +91,7 @@ class Header extends Component {
                         <NavLink to={'/users'}>USERS</NavLink>
                         <NavLink to={'/AboutUs'}>ABOUT US</NavLink>
                     </div>
+
 
                     {this.props.user ?
                         <div style={{
