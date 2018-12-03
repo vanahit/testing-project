@@ -13,8 +13,6 @@ class CompanyRegistration extends Component {
             password: '',
             confirmedPassword: '',
         }
-
-
     }
 
     changeField(e, field) {
@@ -27,10 +25,10 @@ class CompanyRegistration extends Component {
 
         if (this.state.password === this.state.confirmedPassword && this.state.password) {
 
-            const companie = {...this.state};
+            const company = {...this.state};
 
             firebase.auth()
-                .createUserWithEmailAndPassword(companie.email, companie.password )
+                .createUserWithEmailAndPassword(company.email, company.password)
                 .then(res => {
                     companie.description = '';
                     companie.image = '';
@@ -38,8 +36,8 @@ class CompanyRegistration extends Component {
                     companie.id = res.uid;
                     companie.type='company';
 
-                    firebase.database().ref('companies').push(companie);
-
+                    firebase.database().ref(`companies/${res.uid}`).set(companie);
+                    firebase.database().ref('companies').push(company);
 
 
                     firebase.auth().currentUser.sendEmailVerification();
@@ -75,45 +73,48 @@ class CompanyRegistration extends Component {
             <form onSubmit={this.handleSubmit.bind(this)}>
 
                 <div className='registration'>
-                    <h5>Register</h5>
+                    <div className='Logwrapper'>
+                        <h5>Register</h5>
 
-                    <input
-                        className='info-field'
-                        type="text"
-                        placeholder='COMPANY NAME *'
-                        value={name}
-                        onChange={(e) => this.changeField(e, 'name')}
-                    />
+                        <input
+                            className='info-field'
+                            type="text"
+                            placeholder='COMPANY NAME *'
+                            value={name}
+                            onChange={(e) => this.changeField(e, 'name')}
+                        />
 
-                    <input
-                        className='info-field'
-                        type="email"
-                        placeholder='EMAIL *'
-                        value={email}
-                        onChange={(e) => this.changeField(e, 'email')}
-                    />
+                        <input
+                            className='info-field'
+                            type="email"
+                            placeholder='EMAIL *'
+                            value={email}
+                            onChange={(e) => this.changeField(e, 'email')}
+                        />
 
-                    <input
-                        className='info-field'
-                        type="password"
-                        placeholder='PASSWORD *'
-                        value={password}
-                        onChange={(e) => this.changeField(e, 'password')}
-                    />
+                        <input
+                            className='info-field'
+                            type="password"
+                            placeholder='PASSWORD *'
+                            value={password}
+                            onChange={(e) => this.changeField(e, 'password')}
+                        />
 
-                    <input
-                        className='info-field'
-                        type="password"
-                        placeholder='CONFIRM PASSWORD *'
-                        value={confirmedPassword}
-                        onChange={(e) => this.changeField(e, 'confirmedPassword')}
-                    />
+                        <input
+                            className='info-field'
+                            type="password"
+                            placeholder='CONFIRM PASSWORD *'
+                            value={confirmedPassword}
+                            onChange={(e) => this.changeField(e, 'confirmedPassword')}
+                        />
 
-                    <p>By creating an account,you agree to
-                        DigiLearn <span style={{color: '#FFAD5A'}}>Privacy Policy</span> and <br/><span
-                            style={{color: '#FFAD5A', marginBottom: '15px'}}>Terms of use</span>.</p>
+                        <p>By creating an account,you agree to
+                            DigiLearn <span style={{color: '#FFAD5A'}}>Privacy Policy</span> and <br/><span
+                                style={{color: '#FFAD5A', marginBottom: '15px'}}>Terms of use</span>.</p>
 
-                    <input className='submit' type="submit"/>
+                        <input className='submit' type="submit"/>
+                    </div>
+
                 </div>
 
             </form>
