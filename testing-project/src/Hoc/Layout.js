@@ -6,7 +6,7 @@ import AutorizationCompany from '../components/Autorization/AutorizationCompany'
 const Layout = (props) => {
     return (
         <div>
-            <Header currentLog={props.currentLog}/>
+            <Header currentLog={props.currentLog} user={props.user}/>
             {props.children}
             
             <Footer />

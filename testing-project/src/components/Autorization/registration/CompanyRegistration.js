@@ -38,7 +38,7 @@ class CompanyRegistration extends Component {
                     companie.id = res.uid;
                     companie.type='company';
 
-                    firebase.database().ref('companies').push(companie);
+                    firebase.database().ref(`companies/${res.uid}`).set(companie);
 
 
 

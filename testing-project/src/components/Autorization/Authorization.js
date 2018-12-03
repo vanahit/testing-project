@@ -1,18 +1,25 @@
 import React, {Component} from 'react';
 import AutorizationUser from "./AutorizationUser";
 import AutorizationCompany from "./AutorizationCompany";
-
+import {NavLink, Route} from "react-router-dom";
 import '../../App.css';
 import {Redirect} from "react-router";
+import {firebase} from '../../firebase/firebase';
 
 
 class Authorization extends Component {
 
 
     state = {
-        selectedTab: 'company'
+        selectedTab: 'company',
+        name:"uiscdbsacd"
     };
 
+    componentDidMount() {
+        firebase.database().ref('companies/qnUuRBUn2LeTx083lturGIqB6nj1').on('value',(snapshot)=>{
+            this.setState({name: snapshot.val().name})
+        });
+    }
 
     changeTab(tab) {
         this.setState({
@@ -23,7 +30,7 @@ class Authorization extends Component {
     render() {
         return (
             <div>
-                {this.props.currentCompany ? <Redirect to='/company/profile'/>
+                {this.props.user ? <Redirect to={`/${this.props.user.name}/profile`}/>
                     :
                     <div className='switch-buttons'>
                         <p>Home/Login Company</p>
@@ -34,7 +41,7 @@ class Authorization extends Component {
                                 onClick={() => this.changeTab('user')}>USER
                         </button>
                         {this.state.selectedTab === 'company' ?
-                            <AutorizationCompany currentLog={this.props.currentLog}/> :
+                            <AutorizationCompany /> :
                             <AutorizationUser/>}
                     </div>}
                 }
