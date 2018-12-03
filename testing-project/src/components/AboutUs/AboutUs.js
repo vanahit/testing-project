@@ -8,6 +8,8 @@ import mkrtich from '../../images/ourImages/mkrtich.jpg';
 import hayk from '../../images/ourImages/hayk.jpg';
 import anahit from '../../images/ourImages/anahit.jpg';
 
+import Zoom from 'react-reveal/Zoom';
+
 import Loader from '../Loader';
 import Animate from 'react-move/Animate';
 import {easePolyOut} from 'd3-ease';
@@ -222,11 +224,13 @@ class AboutUs extends React.Component {
                             style={{color: '#FFAD5A'}}>DESTINATION WAS ACHIEVES.</span>
                         </Description>
 
-                        <BoxWrapper>
-                            <Box count={this.props.tests} boxItem={'TESTS'}/>
-                            <Box count={this.props.companies} boxItem={'COMPANIES'}/>
-                            <Box count={this.props.users} boxItem={'USERS'}/>
-                        </BoxWrapper>
+                        <Zoom>
+                            <BoxWrapper>
+                                <Box count={this.props.tests} boxItem={'TESTS'}/>
+                                <Box count={this.props.companies} boxItem={'COMPANIES'}/>
+                                <Box count={this.props.users} boxItem={'USERS'}/>
+                            </BoxWrapper>
+                        </Zoom>
 
                     </Wrapper>
                 </Main>
@@ -236,9 +240,13 @@ class AboutUs extends React.Component {
                 </OurTeam>
 
 
-                <MemberBoxWrapper>
-                    {this.showMembers()}
-                </MemberBoxWrapper>
+
+                    <MemberBoxWrapper>
+                       {this.showMembers()}
+                    </MemberBoxWrapper>
+
+
+
 
 
                 <div style={{width: '1200px', margin: '0 auto 76px', color: '#100529'}}>
