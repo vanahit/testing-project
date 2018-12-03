@@ -6,6 +6,8 @@ import davit from '../../images/ourImages/davit.jpg';
 import mkrtich from '../../images/ourImages/mkrtich.jpg';
 import hayk from '../../images/ourImages/hayk.jpg';
 import anahit from '../../images/ourImages/anahit.jpg';
+import Loader from '../Loader';
+
 
 
 const Main = styled.div`
@@ -81,7 +83,7 @@ const Box = ({boxItem, count}) => (
             borderColor: 'white',
             color: 'white',
         }}>
-            {count ? count : 'LOADER'}
+            {count ? count : <Loader/>}
         </div>
         <div style={{
             color: 'white',
