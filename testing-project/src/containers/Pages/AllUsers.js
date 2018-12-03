@@ -1,36 +1,22 @@
 import React, { Component } from 'react';
 import src from '../../images/is.jpg';
-import {firebase} from '../../firebase/firebase';
 import Searching from './Searching';
 import Pagination from './Pagination';
 import { CSSTransition, TransitionGroup } from "react-transition-group";
+import { connect } from 'react-redux';
 
-export default class AllCompanies extends Component {
+class AllUsers extends Component {
 	constructor(props){
 		super(props);
 
 		this.state = {
-			data: [],
+			data: this.props.users,
 			search: "",
 			type:"",
 			currentPage: 1,
 			dataPerPage: 4,
 			loadMore: 0,
 		}
-	}
-
-	componentDidMount() {
-		firebase.database().ref('tests').on('value',(snapshot)=>{
-        const tests = [];
-        snapshot.forEach(childSnapshot => {
-            tests.push({
-                id: childSnapshot.key,
-                ...childSnapshot.val()
-            })
-        });
-        this.setState({data: tests})
-        console.log(tests)
-    });
 	}
 
 	searching (e, searchProp) {
@@ -65,41 +51,52 @@ export default class AllCompanies extends Component {
 		}) 
 	}
 
+	componentDidUpdate(prevProps, prevState) {
+        if (this.props.usersLoaded !== prevProps.usersLoaded) {
+			this.setState({data: this.props.users});
+		}
+	}
+
 	render(){
 		const selectSearchData = ['JavaScript', 'Java', "PHP", 'C#', 'MySQL', 'Python', 'Ruby', 'Swift', 'React', 'Redux'];
 		const { data, search, type, currentPage, dataPerPage, loadMore } = this.state;
-		let filterData = data.filter( item => {
-			return item.testTitle.toLowerCase().substr(0,search.length) === search.toLowerCase()
-		} )
-
-		if(type !== ""){
-			filterData = filterData.filter( item => item.testType === type)
+		let users = [];
+		if (this.state.data) {
+			users = this.state.data;
+			console.log(this.state.data)
 		}
+	// 	let filterData = users.filter( item => {
+	// 		return item.testTitle.toLowerCase().substr(0,search.length) === search.toLowerCase()
+	// 	} )
 
-	const indexOfLastData = currentPage * dataPerPage;
-    const indexOfFirstData = indexOfLastData - dataPerPage;
-    const currentData = filterData.slice(indexOfFirstData, indexOfLastData+loadMore*dataPerPage);
+	// 	if(type !== ""){
+	// 		filterData = filterData.filter( item => item.testType === type)
+	// 	}
 
-    const pages = [];
-    for (let i = 1; i <= Math.ceil(filterData.length / dataPerPage); i++) {
-      pages.push(i);
-    }
+	// const indexOfLastData = currentPage * dataPerPage;
+    // const indexOfFirstData = indexOfLastData - dataPerPage;
+    // const currentData = filterData.slice(indexOfFirstData, indexOfLastData+loadMore*dataPerPage);
+
+		const pages = [];
+		for (let i = 1; i <= Math.ceil(users.length / dataPerPage); i++) {
+			pages.push(i);
+		}
 
 		return (
 			<div className="container-fluid">
 				<Searching 
 					{...this.state}
 					searching={this.searching.bind(this)}
-					currentDataLength={currentData.length}
+					currentDataLength={users.length}
 					selectSearchData={selectSearchData}
 				/>
 				<div className="content-grid">
-					{
-						currentData.map( item => {
+					{ this.props.usersLoaded
+					?
+						users.map( item => {
 							return (
-								<TransitionGroup className="grid">
+								<TransitionGroup className="grid" key={item.id}>
 									<CSSTransition 
-										key={item.id}
 										in={true}
 										appear={true}
 										timeout={450}
@@ -121,6 +118,7 @@ export default class AllCompanies extends Component {
 								</TransitionGroup>
 							)
 						} )
+						: "Loader"
 					}
 					<Pagination 
 						load_More={loadMore}
@@ -136,3 +134,13 @@ export default class AllCompanies extends Component {
 		);
 	}
 }
+
+function mapStateToProps(state) {
+	return {
+		users: state.appReducer.users,
+		usersLoaded: state.appReducer.usersLoaded,
+	}
+	
+}
+
+export default connect(mapStateToProps, null)(AllUsers)

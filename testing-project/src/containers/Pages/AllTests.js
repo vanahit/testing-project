@@ -1,36 +1,24 @@
 import React, { Component } from 'react';
-import src from '../../images/is.jpg';
-import {firebase} from '../../firebase/firebase';
 import Searching from './Searching';
 import Pagination from './Pagination';
+import TestComponent from '../../components/OneTestComponent/TestRender';
 import { CSSTransition, TransitionGroup } from "react-transition-group";
+import { connect } from 'react-redux';
+import TestDescription from '../../components/OneTestComponent/TestDescription';
 
-export default class AllTests extends Component {
+
+class AllTests extends Component {
 	constructor(props){
 		super(props);
-
 		this.state = {
-			data: [],
+			data: this.props.tests,
 			search: "",
 			type:"",
 			currentPage: 1,
 			dataPerPage: 4,
 			loadMore: 0,
+			hover: false,
 		}
-	}
-
-	componentDidMount() {
-		firebase.database().ref('tests').on('value',(snapshot)=>{
-        const tests = [];
-        snapshot.forEach(childSnapshot => {
-            tests.push({
-                id: childSnapshot.key,
-                ...childSnapshot.val()
-            })
-        });
-        this.setState({data: tests})
-        console.log(tests)
-    });
 	}
 
 	searching (e, searchProp) {
@@ -68,11 +56,56 @@ export default class AllTests extends Component {
 	deadline (day) {
 	    return `${new Date(day).getFullYear()}.${new Date(day).getMonth()}.${new Date(day).getDate()}`
 	}
+	
+	getTodayDate = () => {
+		let today = new Date();
+		let dd = today.getDate();
+		let mm = today.getMonth() + 1;
+		let yyyy = today.getFullYear();
+
+		if(dd < 10) {
+			dd = '0' + dd
+		} 
+
+		if (mm < 10) {
+			mm = '0' + mm
+		} 
+		return	today = yyyy + '-' + mm + '-' + dd;
+	}
+
+	compareDates = (stringDate) => {
+		let today = new Date();
+		today = this.getTodayDate(today);
+		return Date.parse(stringDate) >= Date.parse(today);        
+	}
+	
+	componentDidUpdate(prevProps, prevState) {
+        if (this.props.testsLoaded !== prevProps.testsLoaded) {
+			this.setState({data: this.props.tests});
+        }
+	}
+	onOut = () => {
+		this.setState({hover: false});		
+	}
+	onOver = () => {
+		this.setState({hover: true});		
+	}
 
 	render(){
+		let fillteredTests = [];
+		let tests = [];
+		if (this.state.data) {
+			tests = this.state.data;
+			fillteredTests = tests.filter(item => {
+				if (this.compareDates(item.testDeadline)) {
+					return item;
+				}
+			});
+		} 
+
 		const selectSearchData = ['JavaScript', 'Java', "PHP", 'C#', 'MySQL', 'Python', 'Ruby', 'Swift', 'React', 'Redux'];
-		const { data, search, type, currentPage, dataPerPage, loadMore } = this.state;
-		let filterData = data.filter( item => {
+		const {search, type, currentPage, dataPerPage, loadMore } = this.state;
+		let filterData = fillteredTests.filter( item => {
 			return item.testTitle.toLowerCase().substr(0,search.length) === search.toLowerCase()
 		} )
 
@@ -99,31 +132,35 @@ export default class AllTests extends Component {
 				/>
 				<div className="content-grid">
 					{
+						this.state.data 
+						?
 						currentData.map( item => {
 							return (
-								<TransitionGroup className="grid">
+								<>		
+								{this.state.hover &&
+									<TestDescription
+										description={item.description}  
+										//companyLogin={this.props.companyLogin}
+										
+									/>
+								}
+								<TransitionGroup className="grid" key={item.id}>
 									<CSSTransition 
-										key={item.id}
 										in={true}
 										appear={true}
 										timeout={450}
 										classNames="slide"
 									>
-										<div key={item.id} >
-											<img src={src} alt="Type test" />
-											<div  className="grid-info">
-												<p className="blue">{item.testTitle}</p>
-												<p className="yellow">{item.company}</p>
-												<p><span>Passes: </span><span className="blue">0</span></p>
-												<p><span>DeadLine: </span><span className="blue">{this.deadline(item.testDeadline)}</span></p>
-												<button className="addButton"><span >Add</span> <span className='add'>></span></button>
-											</div>
-										</div>
+									
+									<TestComponent onOver={this.onOver}onOut={this.onOut} test={item} testAddClicked={this.props.testAddClicked}  />
 									</CSSTransition>
 								</TransitionGroup>
+								</>
 							)
 						} )
+						: 'Loader'
 					}
+
 					<Pagination 
 						load_More={loadMore}
 						loadMore={this.loadMore.bind(this)}
@@ -138,3 +175,13 @@ export default class AllTests extends Component {
 		);
 	}
 }
+
+function mapStateToProps(state) {
+	return {
+		tests: state.appReducer.tests,
+		testsLoaded: state.appReducer.testsLoaded,
+	}
+	
+}
+
+export default connect(mapStateToProps, null)(AllTests)

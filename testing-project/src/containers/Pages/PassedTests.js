@@ -15,6 +15,8 @@ export default class PassedTests extends Component {
 			currentPage: 1,
 			dataPerPage: 4,
 			loadMore: 0,
+			sortType: "testTitle",
+			orderAscanding: true
 		}
 	}
 
@@ -36,6 +38,13 @@ export default class PassedTests extends Component {
 		this.setState({ 
 			[searchProp]: e.target.value,
 			currentPage: 1 
+		})
+	}
+
+	sorting(sortType){
+		this.setState({
+			orderAscanding: this.state.sortType !== sortType ? true : !this.state.orderAscanding,
+			sortType,
 		})
 	}
 
@@ -66,7 +75,7 @@ export default class PassedTests extends Component {
 
 	render(){
 		const selectSearchData = ['JavaScript', 'Java', "PHP", 'C#', 'MySQL', 'Python', 'Ruby', 'Swift', 'React', 'Redux'];
-		const { data, search, type, currentPage, dataPerPage, loadMore } = this.state;
+		const { data, search, type, currentPage, dataPerPage, loadMore, sortType, orderAscanding } = this.state;
 		let filterData = data.filter( item => {
 			return item.testTitle.toLowerCase().substr(0,search.length) === search.toLowerCase()
 		} )
@@ -74,6 +83,27 @@ export default class PassedTests extends Component {
 		if(type !== ""){
 			filterData = filterData.filter( item => item.testType === type)
 		}
+
+		filterData.sort((a, b) => {
+			let nameA = a[sortType].toUpperCase();
+			let nameB = b[sortType].toUpperCase();
+			if(orderAscanding){
+		 		if (nameA < nameB) {
+			    return -1;
+			  }
+			  if (nameA > nameB) {
+			    return 1;
+			  }
+		  } else {
+		  	if (nameA < nameB) {
+			    return 1;
+			  }
+			  if (nameA > nameB) {
+			    return -1;
+			  }
+		  }
+	  	return 0;
+		});
 
 		const indexOfLastData = currentPage * dataPerPage;
 	    const indexOfFirstData = indexOfLastData - dataPerPage;
@@ -95,9 +125,27 @@ export default class PassedTests extends Component {
 				<table className="dataTable">
 					<thead>
 						<tr>
-							<th>Title</th>
-							<th>Type</th>
-							<th>Company</th>
+							<th onClick={this.sorting.bind(this, "testTitle")}>
+								{sortType === "testTitle" && orderAscanding && 
+									<span className="sortArrowBottom"></span>}
+								{sortType === "testTitle" && !orderAscanding && 
+									<span className="sortArrowTop"></span>}
+								Title
+							</th>
+							<th onClick={this.sorting.bind(this, "testType")}>
+								{sortType === "testType" && orderAscanding && 
+									<span className="sortArrowBottom"></span>}
+								{sortType === "testType" && !orderAscanding && 
+									<span className="sortArrowTop"></span>}
+								Type
+							</th>
+							<th onClick={this.sorting.bind(this, "company")}>
+								{sortType === "company" && orderAscanding && 
+									<span className="sortArrowBottom"></span>}
+								{sortType === "company" && !orderAscanding && 
+									<span className="sortArrowTop"></span>}
+								Company
+							</th>
 							<th>Score</th>
 						</tr>
 					</thead>

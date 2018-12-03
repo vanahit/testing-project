@@ -1,13 +1,12 @@
 import React from 'react';
-import {firebase} from '../../../firebase/firebase';
 
-const Login = ({email, pass, signInCompany, changeHandler}) => {
+const Login = ({email, pass, signIn, changeHandler}) => {
 
     return (
         <div>
             <div className='login'>
                 <h5>LOGIN</h5>
-                <form onSubmit={signInCompany}>
+                <form onSubmit={signIn}>
                     <input
                         className='info-field'
                         type="email"

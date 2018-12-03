@@ -13,70 +13,78 @@ import { GET_TESTS_STARTED,
   
   const initialState = {
     testsLoaded: false,
-    usersLoading: false,
-    companiesLoading: false,
+    usersLoaded: false,
+    companiesLoaded: false,
     tests: [],
     companies: [],
     users: [],
     testsError: null,
     usersError: null,
     companiesError: null,
+    userLogin: false,
+    companyLogin: false,
   };
   
   export default function appReducer(state = initialState, action) {
     switch (action.type) {
+      
       case GET_TESTS_STARTED:
         return {
           ...state,
-          testsLoading: true
+          testsLoaded: false,
         };
+
       case GET_TESTS_SUCCESS:
         return {
           ...state,
           testsLoaded: true,
           testsError: null,
-          tests: [action.payload]
+          tests: action.payload
         };
+
       case GET_TESTS_FAILURE:
         return {
           ...state,
-          testsLoading: false,
           testsError: action.payload.error
         };
-        case GET_USERS_STARTED:
+
+      case GET_USERS_STARTED:
         return {
           ...state,
-          usersLoading: true
+          usersLoaded: false,
         };
+
       case GET_USERS_SUCCESS:
         return {
           ...state,
-          usersLoading: false,
+          usersLoaded: true,
           usersError: null,
-          users: [action.payload]
+          users: action.payload
         };
       case GET_USERS_FAILURE:
         return {
           ...state,
-          usersLoading: false,
           usersError: action.payload.error
         };
-        case GET_COMPANIES_STARTED:
+
+      case GET_COMPANIES_STARTED:
         return {
           ...state,
-          companiesLoading: true
+          companiesLoaded: false
         };
+
       case GET_COMPANIES_SUCCESS:
         return {
           ...state,
-          companiesLoading: false,
+          companiesLoaded: true,
           companiesError: null,
-          companies: [action.payload]
+          companies: action.payload
         };
+
       case GET_COMPANIES_FAILURE:
         return {
           ...state,
-          companiesLoading: false,
+          companiesLoaded: false,
           companiesError: action.payload.error
         };
       default:
