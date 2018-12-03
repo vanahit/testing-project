@@ -52,7 +52,6 @@ class App extends Component {
         this.props.getCompanies();
         this.props.getTests();
         this.props.getUsers();
-        console.log(this.state.currentLog)
     }
 
     componentDidUpdate(prevProps, prevState) {
@@ -74,8 +73,6 @@ class App extends Component {
         this.setState({testAddClicked: false});
     }
     render() {
-        this.state.user && console.log(this.state.user);
-
         return (
             <div>
                 {this.state.testAddClicked && <PopUpLogin testAddClicked={this.testAddClicked}/>} 

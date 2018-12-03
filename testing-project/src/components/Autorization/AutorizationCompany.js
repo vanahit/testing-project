@@ -4,7 +4,7 @@ import CompanyRegistration from "./registration/CompanyRegistration";
 import {connect} from 'react-redux';
 import * as firebase from "firebase";
 
-export default class AutorizationCompany extends Component {
+class AutorizationCompany extends Component {
 
     constructor(props) {
         super(props);

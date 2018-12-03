@@ -1,7 +1,8 @@
-import React, {Component} from 'react';
+import React from 'react';
 import {NavLink} from "react-router-dom";
-import styled from 'styled-components';
+import styled,{css} from 'styled-components';
 import * as firebase from "firebase";
+import Icon from './AccountSvg';
 
 
 const HeaderWrapper = styled.div`
@@ -35,84 +36,112 @@ const StyledLink = styled(NavLink)`
     color: white;
     font-size: 20px;
     font-weight: bold;
-    // text-decoration: none;
+    text-decoration: none;
     cursor: pointer;
 
-    &:focus, &:hover, &:visited, &:link, &:active {
+    &:link{
         text-decoration: none;
+     }
+
+    &:active, &:hover, &:focus {
+        color: #FFAD5A;
+        text-decoration: underline;
+        
     }
 `;
 
+const LoginLogout = styled(NavLink)`
+    color: white;
+    font-size: 20px;
+    font-weight: bold;
+    padding: 20px 40px;
+    border: 1px solid #FFFFFF;  
+    text-decoration: underline;
+    cursor: pointer;
+
+    :active, :hover, :focus {
+        border-color: #FFAD5A;
+        color: #FFAD5A;
+       
+    }
+ 
+`;
+
+const MyAccount = styled(NavLink)`
+    display: inline-block;
+    text-decoration: underline;
+    fill: white;
+    margin-right: 20px;
+    color: white; 
+    font-size: 20px;
+    cursor: pointer;
+    text-transform: uppercase;
+
+    :active, :hover, :focus {
+        color: #FFAD5A;
+        fill: #FFAD5A;
+    }
+   
+ `;
+const IconSizes = styled.span`
+    display: inline-block;
+    margin-left: 10px;
+    width: 25px;
+    height: 20px;
+`;
 
 const Header = (props) => {
-        // this.state = {
-        //     name: ""
-        // }
-    }
-    logOut () {
 
-            firebase.auth().signOut().then(function () {
-            }, function (error) {
-                console.error('Sign Out Error', error);
-            });
-        };
+    const logOut = () => {
+        console.log(props.currentLog)
+        firebase.auth().signOut().then(function () {
+        }, function (error) {
+            console.error('Sign Out Error', error);
+        });
+    };
 
-
-    // componentDidUpdate(prevProps, prevState) {
-    //     // `companies/${this.props.currentLog.uid}`
-
-    //     if( prevState.name === "" && this.props.currentLog){
-    //         firebase.database().ref(`companies/${this.props.currentLog.uid}`).once('value',(snapshot)=>{
-    //             this.setState({name: snapshot.val().name})
-    //         });
-    //     }
+    return (
         
-    //     console.log(this.props.currentLog)
-    // }
+        <header style={{
+            backgroundColor: '#141218',
+            width: '100%',
+        }}>
 
-    render(){
-        
-        console.log(this.props.currentLog)
-        return (
+            <HeaderWrapper>
+                <NavLink to={'/'}>
+                    <Logo>LOGO</Logo>
+                </NavLink>
 
-            <header style={{
-                backgroundColor:'#141218',
-                width:'100%',
-            }}>
+                <HeaderNavigation>
+                    <StyledLink to={'/tests'}>TESTS</StyledLink>
+                    <StyledLink to={'/companies'}>COMPANIES</StyledLink>
+                    <StyledLink to={'/users'}>USERS</StyledLink>
+                    <StyledLink to={'/AboutUs'}>ABOUT US</StyledLink>
+                </HeaderNavigation>
 
-                <div className='header_wrapper'>
-                    <NavLink to={'/'}>
-                        <div className='logo'>LOGO</div>
-                    </NavLink>
-
-                    <div className='navigation'>
-                        <NavLink to={'/tests'}>TESTS</NavLink>
-                        <NavLink to={'/companies'}>COMPANIES</NavLink>
-                        <NavLink to={'/users'}>USERS</NavLink>
-                        <NavLink to={'/AboutUs'}>ABOUT US</NavLink>
+                {props.user?
+                    <div style={{
+                        display: 'flex',
+                        alignItems: 'center'
+                    }}>
+                      
+                           
+                            <MyAccount to={'/company/profile'}> 
+                                {props.user.name}
+                                <IconSizes><Icon /></IconSizes>
+                            </MyAccount>
+                        
+                        
+                        <LoginLogout to={'/company/profile'} onClick={() => logOut()}>LOG OUT</LoginLogout>
                     </div>
 
+                    : <LoginLogout to={'/authorization'}>
+                        LOG IN
+                    </LoginLogout>}
+            </HeaderWrapper>
 
-                    {this.props.user ?
-                        <div style={{
-                            display: 'flex',
-                            alignItems: 'center'
-                        }}>
-                            <NavLink
-                                style={{color: 'white', marginRight: '10px', border: '1px solid black', padding: '10px'}}
-                                to={`/${this.props.user.name}/profile`}>{this.props.user.name}</NavLink>
-                            <div className='header-log-in' onClick={() => this.logOut()}>LOG OUT</div>
-                        </div>
-
-                        : <NavLink to={'/authorization'}>
-                            <div className='header-log-in'>LOG IN</div>
-                        </NavLink>}
-                </div>
-
-            </header>
-        )
-    }
-    
+        </header>
+    )
 };
 
 export default Header;

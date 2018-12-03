@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import AutorizationUser from "./AutorizationUser";
 import AutorizationCompany from "./AutorizationCompany";
-import {NavLink, Route} from "react-router-dom";
 import '../../App.css';
 import {Redirect} from "react-router";
 import {firebase} from '../../firebase/firebase';
@@ -13,14 +12,21 @@ class Authorization extends Component {
     state = {
         selectedTab: 'company',
         name:"uiscdbsacd"
+       
     };
 
     componentDidMount() {
+        this.mounted = true;
         firebase.database().ref('companies/qnUuRBUn2LeTx083lturGIqB6nj1').on('value',(snapshot)=>{
-            this.setState({name: snapshot.val().name})
+            if (this.mounted) {
+                this.setState({name: snapshot.val().name})
+            }
+            
         });
     }
-
+    componentWillUnmount () {
+        this.mounted = false;
+    }
     changeTab(tab) {
         this.setState({
             selectedTab: tab

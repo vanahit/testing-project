@@ -4,15 +4,13 @@ import * as firebase from "firebase";
 class CompanyRegistration extends Component {
     constructor(props) {
         super(props);
-
-        this.changeField = this.changeField.bind(this);
-
         this.state = {
             name: '',
             email: '',
             password: '',
             confirmedPassword: '',
         }
+        this.changeField = this.changeField.bind(this);
     }
 
     changeField(e, field) {
@@ -30,20 +28,17 @@ class CompanyRegistration extends Component {
             firebase.auth()
                 .createUserWithEmailAndPassword(company.email, company.password)
                 .then(res => {
-                    companie.description = '';
-                    companie.image = '';
-                    companie.test = {};
-                    companie.id = res.uid;
-                    companie.type='company';
+                    company.description = '';
+                    company.image = '';
+                    company.test = {};
+                    company.id = res.uid;
+                    company.type='company';
 
-                    firebase.database().ref(`companies/${res.uid}`).set(companie);
+                    firebase.database().ref(`companies/${res.uid}`).set(company);
                     firebase.database().ref('companies').push(company);
 
 
                     firebase.auth().currentUser.sendEmailVerification();
-
-
-                    console.log(res);
                 })
                 .catch(e => console.log(e.message))
 
