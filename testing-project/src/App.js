@@ -21,7 +21,6 @@ import {getCompanies, getTests, getUsers} from './store/thunks/thunks';
 import * as firebase from "firebase";
 import Layout from "./Hoc/Layout";
 import PopUpLogin from './components/PopUps/PopUpLogin';
-import CompanyProfile from "./containers/Pages/CompanyProfile";
 
 class App extends Component {
 

@@ -136,14 +136,6 @@ class AllTests extends Component {
 						?
 						currentData.map( item => {
 							return (
-								<>		
-								{this.state.hover &&
-									<TestDescription
-										description={item.description}  
-										//companyLogin={this.props.companyLogin}
-										
-									/>
-								}
 								<TransitionGroup className="grid" key={item.id}>
 									<CSSTransition 
 										in={true}
@@ -155,7 +147,6 @@ class AllTests extends Component {
 									<TestComponent onOver={this.onOver}onOut={this.onOut} test={item} testAddClicked={this.props.testAddClicked}  />
 									</CSSTransition>
 								</TransitionGroup>
-								</>
 							)
 						} )
 						: 'Loader'
