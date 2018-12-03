@@ -48,8 +48,6 @@ export default class AutorizationCompany extends Component {
         );
     }
 }
-<<<<<<< HEAD
 
 export default AutorizationCompany;
-=======
->>>>>>> df36eb501de26c75c6ffc44d7f763de0bcd6a532
+
