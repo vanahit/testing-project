@@ -38,9 +38,10 @@ class App extends Component {
 
     componentDidMount() {
 
-    firebase.auth().onAuthStateChanged((currentLog) => {
+        firebase.auth().onAuthStateChanged((currentLog) => {
             if (currentLog) {
                 this.setState({currentLog});
+
                 if(localStorage.getItem("current") === "company"){
                     firebase.database().ref(`companies/${currentLog.uid}`).once('value',(snapshot)=>{
                         this.setState({currentLog, user: {...snapshot.val()} })
@@ -51,6 +52,7 @@ class App extends Component {
                         this.setState({currentLog, user: {...snapshot.val()} })
                     })
                 }
+
                 console.log(`log in `);
             } else {
                 console.log('log out');
@@ -76,7 +78,7 @@ class App extends Component {
 
     testAddClicked = () => {
         this.setState({testAddClicked: !this.state.testAddClicked});
-    }
+    };
 
     testDeletedClicked = () => {
         this.setState({testDeletedClicked: !this.state.testDeletedClicked});
@@ -85,22 +87,26 @@ class App extends Component {
     componentWillUnmount() {
         this.setState({testAddClicked: false});
     }
+
     render() {
         return (
             <div>
+
                 {this.state.testAddClicked && <PopUpLogin testAddClicked={this.testAddClicked}/>} 
                 {this.state.testDeletedClicked && <PopUpDelete testDeletedClicked={this.testDeletedClicked}/>} 
+
                 <Layout currentLog={this.state.currentLog} user={this.state.user}>
                     <Switch className="App">
-                        <Route exact path={'/'} component={() => <HomePage  testAddClicked={this.testAddClicked} />}/>
-                        <Route path='/registration/user'  component={AutorizationUser}/>
-                        <Route path='/registration/company'  component={AutorizationCompany}/>
+                        <Route exact path={'/'} component={() => <HomePage testAddClicked={this.testAddClicked}/>}/>
+                        <Route path='/registration/user' component={AutorizationUser}/>
+                        <Route path='/registration/company' component={AutorizationCompany}/>
                         <Route path="/Users/" component={AllUsers}/>
                         <Route path="/companies/" component={AllCompanies}/>
                         <Route path="/CompaniesInUser/" component={CompaniesInUser}/>
                         <Route path="/UsersInCompany/" component={UsersInCompany}/>
 
                         <Route path="/User/:Text" component={User}/>
+
                         <Route path="/:company/add-test" component={() => <TestCreator user={this.state.user} />}/>
                         <Route path="/:company/edit-test" component={() => 
                             <TestEditor editingTest={this.props.editingTest} user={this.state.user} />}
@@ -116,11 +122,12 @@ class App extends Component {
 
                         <Route
                             path='/authorization/'
-                            component={() => <Authorization currentCompany={this.state.currentLog} user={this.state.user}/>}
+                            component={() => <Authorization currentCompany={this.state.currentLog}
+                                                            user={this.state.user}/>}
                         />
                         <Route path="/aboutUs/" component={AboutUs}/>
                         <Route path="/testPassPanel/" component={TestPassPanel}/>
-                        <Route path="/tests/" component={ () => <AllTests  testAddClicked={this.testAddClicked} />}/>
+                        <Route path="/tests/" component={() => <AllTests testAddClicked={this.testAddClicked}/>}/>
                         <Route component={NoMatch}/>
                     </Switch>
                 </Layout>

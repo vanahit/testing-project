@@ -1,6 +1,6 @@
 import React from 'react';
 import {NavLink} from "react-router-dom";
-import styled,{css} from 'styled-components';
+import styled, {css} from 'styled-components';
 import * as firebase from "firebase";
 import Icon from './AccountSvg';
 
@@ -123,6 +123,7 @@ const Header = (props) => {
                         display: 'flex',
                         alignItems: 'center'
                     }}>
+
                    
                            
                            { props.user.type === "company" ? 
@@ -138,6 +139,7 @@ const Header = (props) => {
                         
                         <LoginLogout to={'/authorization'} onClick={() => logOut()}>LOG OUT</LoginLogout>
 
+
                     </div>
 
                     : <LoginLogout to={'/authorization'}>
@@ -148,5 +150,6 @@ const Header = (props) => {
         </header>
     )
 };
+
 
 export default Header;
