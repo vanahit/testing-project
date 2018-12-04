@@ -1,6 +1,6 @@
 import React from 'react';
 import {NavLink} from "react-router-dom";
-import styled,{css} from 'styled-components';
+import styled, {css} from 'styled-components';
 import * as firebase from "firebase";
 import Icon from './AccountSvg';
 
@@ -119,19 +119,19 @@ const Header = (props) => {
                     <StyledLink to={'/AboutUs'}>ABOUT US</StyledLink>
                 </HeaderNavigation>
 
-                {props.user?
+                {props.user ?
                     <div style={{
                         display: 'flex',
                         alignItems: 'center'
                     }}>
-                      
-                           
-                            <MyAccount to={'/company/profile'}> 
-                                {props.user.name}
-                                <IconSizes><Icon /></IconSizes>
-                            </MyAccount>
-                        
-                        
+
+
+                        <MyAccount to={'/company/profile'}>
+                            {props.user.name}
+                            <IconSizes><Icon/></IconSizes>
+                        </MyAccount>
+
+
                         <LoginLogout to={'/company/profile'} onClick={() => logOut()}>LOG OUT</LoginLogout>
                     </div>
 
@@ -143,5 +143,6 @@ const Header = (props) => {
         </header>
     )
 };
+
 
 export default Header;

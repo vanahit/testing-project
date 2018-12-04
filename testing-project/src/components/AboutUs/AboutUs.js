@@ -20,7 +20,6 @@ const Main = styled.div`
 	background-image: url(${img});
 	background-position:center;
 	background-size: cover;
-	
 `;
 
 const Wrapper = styled.div`
