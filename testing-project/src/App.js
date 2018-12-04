@@ -105,15 +105,14 @@ class App extends Component {
                         <Route path="/:company/edit-test" component={() => 
                             <TestEditor editingTest={this.props.editingTest} user={this.state.user} />}
                         />
-                        {localStorage.getItem("current") === "user" ? 
-                                                    <Route path="/:user/:text" component={() => <User currentCompany={this.state.currentLog} user={this.state.user} />}/> :
-                                                    <Route path="/:company/:text" component={() => 
-                                                        <Company 
-                                                            currentCompany={this.state.currentLog} 
-                                                            user={this.state.user} 
-                                                            testDeletedClicked={this.testDeletedClicked}
-                                                        />}/>
-
+                        {localStorage.getItem("current") === "user" 
+                            ? <Route path="/:user/:text" component={() => <User currentCompany={this.state.currentLog} user={this.state.user} />}/> 
+                            : <Route path="/:company/:text" component={() =>  
+                                <Company 
+                                    currentCompany={this.state.currentLog} 
+                                    user={this.state.user} 
+                                    testDeletedClicked={this.testDeletedClicked} />}/>
+                        }
                         <Route
                             path='/authorization/'
                             component={() => <Authorization currentCompany={this.state.currentLog} user={this.state.user}/>}

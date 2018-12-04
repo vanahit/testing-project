@@ -126,15 +126,16 @@ class TestCreator extends Component {
     postData = () => {
 		let db = firebase.database();
 		let test = {
-				id: Date.now(),
 				...this.state,
 				testTitle: this.clearWordFromSpaces(this.state.testTitle),
 				description: this.clearWordFromSpaces(this.state.description),
 				company: this.props.user.name,
 				questions: this.props.questions,
 				isEditing: false,
+				totalScore: this.props.totalScore,
 				companyId: this.props.user.id,
-                passers: 0,
+				passers: 0,
+				isPassing: false,
 		};
 		db.ref('tests').push({...test })
 	}
@@ -217,7 +218,7 @@ class TestCreator extends Component {
 								isFilled={this.isFilled}  
 							/>
 						
-								<Button onClick={this.addQuestion} >ADD QUESTION</Button>
+							<Button onClick={this.addQuestion} >ADD QUESTION</Button>
 							
 						</FlexRow>
 						</Stickyheader>
