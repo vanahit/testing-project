@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
 import Login from "./login/Login";
 import CompanyRegistration from "./registration/CompanyRegistration";
-import {connect} from 'react-redux';
 import * as firebase from "firebase";
+
 
 class AutorizationCompany extends Component {
 
@@ -14,6 +14,8 @@ class AutorizationCompany extends Component {
         this.state = {
             pass: '',
             email: '',
+
+            showError: false,
         }
     }
 
@@ -36,16 +38,18 @@ class AutorizationCompany extends Component {
     }
 
     render() {
+
         return (
             <div>
-                <div className='container'>
-                    <Login
-                        login={this.state.pass}
-                        email={this.state.email}
-                        changeHandler={this.changeHandler}
-                        signIn={this.signIn.bind(this)}/>
-                    <CompanyRegistration />
-                </div>
+
+                    <div className='container'>
+                        <Login
+                            login={this.state.pass}
+                            email={this.state.email}
+                            changeHandler={this.changeHandler}
+                            signIn={this.signIn.bind(this)}/>
+                        <CompanyRegistration/>
+                    </div>
 
             </div>
         );
