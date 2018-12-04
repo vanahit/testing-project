@@ -38,13 +38,20 @@ class App extends Component {
     firebase.auth().onAuthStateChanged((currentLog) => {
             if (currentLog) {
                 this.setState({currentLog});
-                firebase.database().ref(`companies/${currentLog.uid}`).once('value',(snapshot)=>{
-                    this.setState({currentLog, user: {...snapshot.val()} })
-                    
-                });
+                if(localStorage.getItem("current") === "company"){
+                    firebase.database().ref(`companies/${currentLog.uid}`).once('value',(snapshot)=>{
+                        this.setState({currentLog, user: {...snapshot.val()} })
+                    })
+                }
+                if(localStorage.getItem("current") === "user"){
+                    firebase.database().ref(`user/${currentLog.uid}`).once('value',(snapshot)=>{
+                        this.setState({currentLog, user: {...snapshot.val()} })
+                    })
+                }
                 console.log(`log in `);
             } else {
                 console.log('log out');
+                localStorage.removeItem("current")
                 this.setState({currentLog: null, user: null})
             }
         });
@@ -84,10 +91,10 @@ class App extends Component {
                         <Route path="/companies/" component={AllCompanies}/>
                         <Route path="/CompaniesInUser/" component={CompaniesInUser}/>
                         <Route path="/UsersInCompany/" component={UsersInCompany}/>
-                        <Route path="/User/:Text" component={User}/>
-                        <Route path="/:Company/:Text" component={() => <Company currentCompany={this.state.currentLog} user={this.state.user} />}/>
-                        {/*<Route path='/company/profile'*/}
-                               {/*component={() => <CompanyProfile currentCompany={this.state.currentLog}/>}/>*/}
+                        
+                        {localStorage.getItem("current") === "user" ? 
+                                                    <Route path="/:user/:text" component={() => <User currentCompany={this.state.currentLog} user={this.state.user} />}/> :
+                                                    <Route path="/:company/:text" component={() => <Company currentCompany={this.state.currentLog} user={this.state.user} />}/>}
                         <Route
                             path='/authorization/'
                             component={() => <Authorization currentCompany={this.state.currentLog} user={this.state.user}/>}
