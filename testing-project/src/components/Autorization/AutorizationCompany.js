@@ -28,7 +28,10 @@ class AutorizationCompany extends Component {
     signIn(e) {
         e.preventDefault();
         firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.pass)
-            .then(r => console.log(r.user))
+            .then(r => {
+                localStorage.setItem("current", "company");
+                console.log(r.user)
+            })
             .catch(err => console.log(err));
     }
 

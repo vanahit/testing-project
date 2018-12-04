@@ -93,13 +93,14 @@ const Header = (props) => {
 
     const logOut = () => {
         firebase.auth().signOut().then(function () {
+            localStorage.removeItem("current")
         }, function (error) {
             console.error('Sign Out Error', error);
         });
     };
 
     return (
-        
+
         <header style={{
             backgroundColor: '#141218',
             width: '100%',
@@ -117,18 +118,26 @@ const Header = (props) => {
                     <StyledLink to={'/AboutUs'}>ABOUT US</StyledLink>
                 </HeaderNavigation>
 
-                {props.user?
+                {props.user ?
                     <div style={{
                         display: 'flex',
                         alignItems: 'center'
                     }}>
-                                        
-                        <MyAccount to={`/${props.user.name}/profile`}> 
-                            {props.user.name}
-                        <IconSizes><Icon /></IconSizes>
-                        </MyAccount>
                    
-                        <LoginLogout to={'/company/profile'} onClick={() => logOut()}>LOG OUT</LoginLogout>
+                           
+                           { props.user.type === "company" ? 
+                                                       <MyAccount to={`/${props.user.name}/profile`}> 
+                                                           {props.user.name}
+                                                           <IconSizes><Icon /></IconSizes>
+                                                       </MyAccount> :
+                                                       <MyAccount to={`/${props.user.firstName}${props.user.lastName}/profile`}> 
+                                                           {`${props.user.firstName} ${props.user.lastName}`}
+                                                           <IconSizes><Icon /></IconSizes>
+                                                       </MyAccount>}
+                        
+                        
+                        <LoginLogout to={'/authorization'} onClick={() => logOut()}>LOG OUT</LoginLogout>
+
                     </div>
 
                     : <LoginLogout to={'/authorization'}>

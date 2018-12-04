@@ -28,7 +28,10 @@ export default class AutorizationUser extends Component {
     signIn(e) {
         e.preventDefault();
         firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.pass)
-            .then(r => console.log(r.user.uid))
+            .then(r => {
+                localStorage.setItem("current", "user");
+                console.log(r.user.uid)
+            })
             .catch(err => console.log(err));
     }
 

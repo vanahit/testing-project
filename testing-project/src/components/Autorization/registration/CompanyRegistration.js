@@ -33,9 +33,8 @@ class CompanyRegistration extends Component {
                     company.test = {};
                     company.id = res.uid;
                     company.type='company';
-
+                    localStorage.setItem("current", "company");
                     firebase.database().ref(`companies/${res.uid}`).set(company);
-                    firebase.database().ref('companies').push(company);
 
 
                     firebase.auth().currentUser.sendEmailVerification();

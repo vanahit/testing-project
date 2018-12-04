@@ -1036,6 +1036,8 @@ img {
     color: #FFAD5A;
     text-decoration: underline;
 }
+.loader{
 
-
-
+    background: white;
+    z-index: 9999;
+}
