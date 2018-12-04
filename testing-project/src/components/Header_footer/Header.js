@@ -64,8 +64,7 @@ const LoginLogout = styled(NavLink)`
         color: #FFAD5A;
        
     }
- 
-`;
+ `;
 
 const MyAccount = styled(NavLink)`
     display: inline-block;
@@ -93,7 +92,6 @@ const IconSizes = styled.span`
 const Header = (props) => {
 
     const logOut = () => {
-        console.log(props.currentLog)
         firebase.auth().signOut().then(function () {
             localStorage.removeItem("current")
         }, function (error) {
@@ -125,7 +123,7 @@ const Header = (props) => {
                         display: 'flex',
                         alignItems: 'center'
                     }}>
-                      
+                   
                            
                            { props.user.type === "company" ? 
                                                        <MyAccount to={`/${props.user.name}/profile`}> 
@@ -139,6 +137,7 @@ const Header = (props) => {
                         
                         
                         <LoginLogout to={'/authorization'} onClick={() => logOut()}>LOG OUT</LoginLogout>
+
                     </div>
 
                     : <LoginLogout to={'/authorization'}>
