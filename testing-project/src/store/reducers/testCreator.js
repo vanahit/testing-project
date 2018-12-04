@@ -1,11 +1,13 @@
-import {CHANGE_TOTAL_SCORE, SUBMITTED_TRUE, ADD_QUESTION, DELETE_QUESTION, 
+import {CHANGE_TOTAL_SCORE, SUBMITTED_TRUE, SUBMITTED_FALSE, ADD_QUESTION, DELETE_QUESTION, 
     ANSWER_VALID, ADD_QUESTION_SUBMITTED, QUESTION_VALID, ANSWER_NOT_VALID, QUESTION_NOT_VALID, 
-    TEST_NOT_VALID, TEST_VALID, UPDATE_QUESTIONS, DELETE_STATE_DATA, TEST_CREATED_FALSE} from '../actions/actionTypes';
+    TEST_NOT_VALID, TEST_VALID, UPDATE_QUESTIONS, DELETE_STATE_DATA, TEST_CREATED_FALSE, ADD_EDITING_QUESTIONS, EDITING_TEST, DELETE_TEST} from '../actions/actionTypes';
 
 const initialState = {
    questions: [],
    totalScore: 0,
    testCreated: false,
+   editingTest: null,
+   deletingTest: '',
 }
 
 export default function testCreator(state = initialState, action) {
@@ -20,6 +22,11 @@ export default function testCreator(state = initialState, action) {
         ...state,
         submitted: true,
     }
+    case SUBMITTED_FALSE:
+    return {
+      ...state,
+      submitted: false,
+  }
     case ANSWER_VALID:
       return {
         ...state,
@@ -51,6 +58,11 @@ export default function testCreator(state = initialState, action) {
       return {
         ...state,
         questions: state.questions.concat(oneQuestion),
+      }
+      case ADD_EDITING_QUESTIONS:
+        return {
+          ...state,
+          questions: action.questions,
       }
       case DELETE_QUESTION:
         return {
@@ -86,15 +98,25 @@ export default function testCreator(state = initialState, action) {
         return {
           questions: [],
           totalScore: 0,
+          editingTest: null,
+          deletingTest: null,
           testCreated: true
       }
-
       case TEST_CREATED_FALSE:
         return {
           ...state,
           testCreated: false,
       }
-
+      case EDITING_TEST:
+        return {
+          ...state,
+          editingTest: action.test
+        }
+      case DELETE_TEST:
+        return {
+          ...state,
+          deletingTest: action.testId
+        }
       default:
         return state
     }

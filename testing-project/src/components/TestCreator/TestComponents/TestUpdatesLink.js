@@ -22,14 +22,14 @@ const LinkDiv = styled(NavLink)`
 	}
 `;
 
-export default function TestCreateLink (props) {
+export default function TestUpdateLink (props) {
     return (
 		<AllDiv>
 			<LinkDiv to={`/${props.user.name}/profile`}> My Account </LinkDiv> 
-				/{' '}
+				/ {' '}
 			<LinkDiv to={`/${props.user.name}/tests`}> My Tests </LinkDiv> 
-				/{' '}
-			<LinkDiv to={`/${props.user.name}/add-test`}> Test Create  </LinkDiv>
+				/ {' '}	
+			<LinkDiv to={`/${props.user.name}/edit-test`}> Test Update  </LinkDiv>
 		</AllDiv>
 				
 	);

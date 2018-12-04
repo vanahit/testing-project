@@ -1,6 +1,6 @@
-import {CHANGE_TOTAL_SCORE, SUBMITTED_TRUE, DELETE_QUESTION, ADD_QUESTION, ADD_QUESTION_SUBMITTED,
+import {CHANGE_TOTAL_SCORE, SUBMITTED_TRUE, SUBMITTED_FALSE, DELETE_QUESTION, ADD_QUESTION, ADD_QUESTION_SUBMITTED,
    ANSWER_VALID, ANSWER_NOT_VALID, QUESTION_VALID, QUESTION_NOT_VALID, 
-   TEST_VALID, TEST_NOT_VALID, UPDATE_QUESTIONS, DELETE_STATE_DATA, TEST_CREATED_FALSE} from './actionTypes'
+   TEST_VALID, TEST_NOT_VALID, UPDATE_QUESTIONS, DELETE_STATE_DATA, TEST_CREATED_FALSE, ADD_EDITING_QUESTIONS, EDITING_TEST, DELETE_TEST} from './actionTypes'
 
 export function changeTotalScore(score) {
   return {
@@ -15,10 +15,23 @@ export function submittedTrue() {
    
   }
 }
+export function submittedFalse() {
+  return {
+    type: SUBMITTED_FALSE,
+   
+  }
+}
 
 export function addQuestion() {
   return {
     type: ADD_QUESTION,
+  }
+}
+
+export function addEditingQuestions(questions) {
+  return {
+    type: ADD_EDITING_QUESTIONS,
+    questions
   }
 }
 
@@ -95,6 +108,20 @@ export function testCreatedFalse() {
   }
 }
 
+export function editingTest(test) {
+  return {
+    type: EDITING_TEST,
+    test
+  }
+};
+
+
+export function deleteTest(testId) {
+  return {
+    type: DELETE_TEST,
+    testId
+  }
+};
 
 
 

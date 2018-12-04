@@ -4,7 +4,6 @@ import CompanyTests from './CompanyTests';
 import InvitedUsers from "./InvitedUsers";
 import {Redirect} from "react-router";
 import CompanyProfile from "./CompanyProfile";
-import {firebase} from '../../firebase/firebase';
 
 export default class Company extends Component {
     // constructor(props) {
@@ -42,14 +41,20 @@ export default class Company extends Component {
                 <div className="containerUser">
                     <nav className="tabBar">
                         <NavLink exact activeClassName="active" to={`/${this.props.user.name}/profile`}>Profile</NavLink>
-                        <NavLink activeClassName="active" to={`/${this.props.user.name}/Tests`}>Tests</NavLink>
-                        <NavLink activeClassName="active" to={`/${this.props.user.name}/InvitedUsers`}>Invited Users</NavLink>
+                        <NavLink activeClassName="active" to={`/${this.props.user.name}/tests`}>Tests</NavLink>
+                        <NavLink activeClassName="active" to={`/${this.props.user.name}/invited-users`}>Invited Users</NavLink>
                     </nav>
                     <Route path="/:company/profile" component={() => <CompanyProfile user={this.props.user} />}/>
-                    <Route path="/:company/tests" component={() => <CompanyTests user={this.props.user} />}/>
-                    <Route path="/:company/invitedUsers" component={() => <InvitedUsers user={this.props.user} />}/>
+                    <Route path="/:company/tests" component={() => 
+                        <CompanyTests
+                             user={this.props.user} 
+                             testDeletedClicked={this.props.testDeletedClicked}
+                        />}/>
+                    <Route path="/:company/invited-users" component={() => <InvitedUsers user={this.props.user} />}/>
+
                 </div> :
                 <Redirect to='/authorization'/>
         );
     }
 }
+

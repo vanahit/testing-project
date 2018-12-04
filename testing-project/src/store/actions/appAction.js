@@ -7,7 +7,6 @@ import { GET_TESTS_STARTED,
         GET_COMPANIES_STARTED, 
         GET_COMPANIES_SUCCESS, 
         GET_COMPANIES_FAILURE,
-
       } from "./actionTypes";
 
   export function getTestsSuccess(tests) {
@@ -81,4 +80,4 @@ import { GET_TESTS_STARTED,
         error
       }
     }
-  }
+};

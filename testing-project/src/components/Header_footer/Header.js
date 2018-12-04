@@ -64,8 +64,7 @@ const LoginLogout = styled(NavLink)`
         color: #FFAD5A;
        
     }
- 
-`;
+ `;
 
 const MyAccount = styled(NavLink)`
     display: inline-block;
@@ -93,7 +92,6 @@ const IconSizes = styled.span`
 const Header = (props) => {
 
     const logOut = () => {
-        console.log(props.currentLog)
         firebase.auth().signOut().then(function () {
         }, function (error) {
             console.error('Sign Out Error', error);
@@ -124,14 +122,12 @@ const Header = (props) => {
                         display: 'flex',
                         alignItems: 'center'
                     }}>
-                      
-                           
-                            <MyAccount to={'/company/profile'}> 
-                                {props.user.name}
-                                <IconSizes><Icon /></IconSizes>
-                            </MyAccount>
-                        
-                        
+                                        
+                        <MyAccount to={`/${props.user.name}/profile`}> 
+                            {props.user.name}
+                        <IconSizes><Icon /></IconSizes>
+                        </MyAccount>
+                   
                         <LoginLogout to={'/company/profile'} onClick={() => logOut()}>LOG OUT</LoginLogout>
                     </div>
 
