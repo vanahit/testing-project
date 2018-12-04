@@ -7,8 +7,10 @@ import {getCompaniesStarted,
         getUsersStarted,
         getUsersFailure,
         getUsersSuccess,
+        editingTest,
     } from '../actions/appAction';
 import {firebase} from '../../firebase/firebase';
+import { addEditingQuestions } from '../actions/testCreator';
 
 export const getTests = () => {
     return dispatch => {
@@ -63,3 +65,4 @@ export const getUsers = () => {
          });
      }  
  };
+

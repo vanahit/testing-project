@@ -87,6 +87,7 @@ import { GET_TESTS_STARTED,
           companiesLoaded: false,
           companiesError: action.payload.error
         };
+  
       default:
         return state;
     }

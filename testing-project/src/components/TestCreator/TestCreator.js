@@ -15,6 +15,8 @@ import QuestionCreator from './QuestionCreator/QuestionCreator';
 import TestPassScore from './TestComponents/TestPassScore';
 import TestTotalScore from './TestComponents/TestTotalScore';
 import SuccessText from './TestComponents/TestCreateSuccessText';
+import {Redirect} from "react-router";
+import TestCreateLink from './TestComponents/TestCreatorLink';
 
 const Main = styled.div`
 	margin: auto;
@@ -47,6 +49,10 @@ const TestHeader = styled.div`
     border-bottom: 1px solid #D6D6D6;
     
 `;
+const Stickyheader = styled.div`
+	background-color: white;
+	z-index:2;
+`;
 
 class TestCreator extends Component {
 	constructor(props) {
@@ -57,7 +63,6 @@ class TestCreator extends Component {
 			testDeadline: '',
             testType: '',
             passScore: '',
-			company: '',
 			testDuration: '',
 		}
 	}
@@ -84,7 +89,8 @@ class TestCreator extends Component {
     }
     
     addQuestion = () => {
-        this.props.addQuestionSubmitted();
+		this.props.addQuestionSubmitted();
+		 
         if (this.testHeaderValidation()) {
            this.props.addQuestion();
            this.props.questionNotValid();
@@ -109,13 +115,13 @@ class TestCreator extends Component {
 	testHeaderValidation = () => {
 		let state = this.state;
 		return state.testTitle 
-				&& state.description
-				&& state.testDeadline 
-				&& state.description 
-				&& state.company 
-				&& state.testDuration 
-				&& state.testType 
-    }
+			&& state.description
+			&& state.testDeadline 
+			&& state.description 
+			&& state.testDuration 
+			&& state.testType 
+		}
+	
     
     postData = () => {
 		let db = firebase.database();
@@ -124,9 +130,10 @@ class TestCreator extends Component {
 				...this.state,
 				testTitle: this.clearWordFromSpaces(this.state.testTitle),
 				description: this.clearWordFromSpaces(this.state.description),
-				company: this.clearWordFromSpaces(this.state.company),
-                questions: this.props.questions,
-                isEditing: false,
+				company: this.props.user.name,
+				questions: this.props.questions,
+				isEditing: false,
+				companyId: this.props.user.id,
                 passers: 0,
 		};
 		db.ref('tests').push({...test })
@@ -139,9 +146,9 @@ class TestCreator extends Component {
 		}) .then (() => {
 			if (this.testHeaderValidation()
 				&& this.state.passScore
-				&& this.props.isAnswerValid
-				&& this.props.isQuestionValid 
-				&& (this.state.passScore <= this.props.totalScore)) {
+				&& (this.state.passScore <= this.props.totalScore)
+				&& this.props.isAnswerValid 
+				&& this.props.isQuestionValid) {
 
 				this.postData();
 				this.props.deleteStateData();
@@ -152,16 +159,24 @@ class TestCreator extends Component {
 					testDeadline: '',
 					testType: '',
 					passScore: '',
-					company: '',
 					testDuration: '',
+					
 				})	
 			}
 		})
 	}
 	
+	componentWillUnmount () {
+        this.props.deleteStateData();
+        this.props.testCreatedFalse();
+    }
+	
     render() {
 		return (
-            <Main>
+			(this.props.user && this.props.user.type === "company") ?
+			  <Main>
+				<TestCreateLink  user={this.props.user} />
+				<StickyContainer>
 				<TestHeader>
 					<FlexRow>
 						<TestTitle
@@ -170,10 +185,9 @@ class TestCreator extends Component {
 							isFilled={this.isFilled}
 						/>
 						<TestCreatorCompany 
-							getInputValue={this.getInputValue}
-							value={this.state.company}
-							isFilled={this.isFilled} 
+							value={this.props.user && this.props.user.name}
 						/>
+
 						<TestType 
 							getInputValue={this.getInputValue}
 							value={this.state.testType}
@@ -187,19 +201,29 @@ class TestCreator extends Component {
 							isFilled={this.isFilled}
 						/>
 					</FlexRow>
-					<FlexRow>
-						<TestDeadline 
-							getInputValue={this.getInputValue}
-							value={this.state.testDeadline}
-							isFilled={this.isFilled} 
-						/>
-						<TestDuration
-							getInputValue={this.getInputValue}
-							value={this.state.testDuration}
-							isFilled={this.isFilled}  
-						/>
-					<Button onClick={this.addQuestion}>ADD QUESTION</Button>
-					</FlexRow>
+					<Sticky>
+						{({	style, }) => (
+						<Stickyheader style={style} isSticky={true} bottomOffset={50}>
+						<FlexRow >	
+							
+							<TestDeadline 
+								getInputValue={this.getInputValue}
+								value={this.state.testDeadline}
+								isFilled={this.isFilled} 
+							/>
+							<TestDuration
+								getInputValue={this.getInputValue}
+								value={this.state.testDuration}
+								isFilled={this.isFilled}  
+							/>
+						
+								<Button onClick={this.addQuestion} >ADD QUESTION</Button>
+							
+						</FlexRow>
+						</Stickyheader>
+					)}
+					
+					</Sticky>
 				</TestHeader>
 				{!this.props.testCreated && this.props.questions.length > 0 && 
 					<>
@@ -224,14 +248,16 @@ class TestCreator extends Component {
 							<Button onClick={this.submitHandler}>
 								CREATE TEST
 							</Button>
-						</FlexRow> 
-					</> 
+						</FlexRow>
+						</> 
                 }
 
                 <FlexRow>
                    {this.props.testCreated && <SuccessText/>} 
                 </FlexRow>
-            </Main>
+				</StickyContainer>
+			</Main>
+			: <Redirect to='/authorization'/>
 		);
 	}
 }
@@ -244,11 +270,11 @@ function mapStateToProps(state) {
 		isAnswerValid: state.testCreator.isAnswerValid,
 		isQuestionValid: state.testCreator.isQuestionValid,
 		testCreated: state.testCreator.testCreated,
-
 	}
 }
 function mapDispatchToProps(dispatch) {
 	return {
+		
         addQuestion: () => dispatch(addQuestion()),
         addQuestionSubmitted: () => dispatch(addQuestionSubmitted()),
         submittedTrue : () => dispatch(submittedTrue()),

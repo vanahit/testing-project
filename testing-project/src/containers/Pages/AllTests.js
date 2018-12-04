@@ -4,8 +4,6 @@ import Pagination from './Pagination';
 import TestComponent from '../../components/OneTestComponent/TestRender';
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 import { connect } from 'react-redux';
-import TestDescription from '../../components/OneTestComponent/TestDescription';
-
 
 class AllTests extends Component {
 	constructor(props){

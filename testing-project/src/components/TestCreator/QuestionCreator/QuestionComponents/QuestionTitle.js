@@ -56,6 +56,7 @@ const QuestionTitle = props => {
 		<FlexChild>
 			<QuestionDetails
 				type='text' 
+				value={props.value}
 				placeholder={`${props.count}. Question title`} 
 				onChange={handleChange} 
 				invalid = {props.isFilled(props.value)}

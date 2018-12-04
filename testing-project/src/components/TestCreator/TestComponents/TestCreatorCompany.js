@@ -21,7 +21,7 @@ const TestDetails = styled.input`
 	border: 1px solid #4F9DA6;
 	box-sizing: border-box;
 	transition: font-size 0.5s ease-in-out;
-
+    text-transform: uppercase;
 	:disabled {
 		background-color: white;
 	}
@@ -55,11 +55,10 @@ const TestCreatorCompany = props => {
 	return (
 		<FlexChild>
 			<TestDetails
+					disabled
 					type='text'
 					value={props.value}
 					placeholder='Company name'
-					onChange={handleChange}
-					invalid = {props.isFilled(props.value)} 
 				/>
 			</FlexChild>
 		);

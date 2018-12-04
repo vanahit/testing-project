@@ -102,7 +102,7 @@ class AllUsers extends Component {
 										timeout={450}
 										classNames="slide"
 									>
-										<div key={item.id} className="companyUser">
+										<div className="companyUser">
 											<img src={src} alt="User Image" className="imgUser" />
 											<div  className="grid-info">
 												<h2>{item.testTitle}</h2>

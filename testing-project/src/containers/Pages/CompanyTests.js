@@ -1,14 +1,17 @@
 import React, { Component } from 'react';
-import {firebase} from '../../firebase/firebase';
 import Searching from './Searching';
 import Pagination from './Pagination';
+import {NavLink} from "react-router-dom";
+import { connect } from 'react-redux';
+import { editingTest, deleteTest } from '../../store/actions/testCreator';
 
-export default class CompanyTests extends Component {
+
+class CompanyTests extends Component {
 	constructor(props){
 		super(props);
 
 		this.state = {
-			data: [],
+			data: this.props.tests,
 			search: "",
 			type:"",
 			currentPage: 1,
@@ -19,18 +22,11 @@ export default class CompanyTests extends Component {
 		}
 	}
 
-	componentDidMount() {
-		firebase.database().ref('tests').on('value',(snapshot)=>{
-        const tests = [];
-        snapshot.forEach(childSnapshot => {
-            tests.push({
-                id: childSnapshot.key,
-                ...childSnapshot.val()
-            })
-        });
-        this.setState({data: tests})
-        console.log(tests)
-    });
+	componentDidUpdate(prevProps, prevState) {
+        if (this.props.testsLoaded !== prevProps.testsLoaded) {
+			this.setState({data: this.props.tests});
+			console.log(this.state.data)
+        }
 	}
 
 	searching (e, searchProp) {
@@ -72,14 +68,38 @@ export default class CompanyTests extends Component {
 		}) 
 	}
 
-	deadline (day) {
-	    return `${new Date(day).getFullYear()}.${new Date(day).getMonth()}.${new Date(day).getDate()}`
+	deadline  = (date) => {
+		let today = new Date(date);
+		let dd = today.getDate();
+		let mm = today.getMonth() + 1;
+		let yyyy = today.getFullYear();
+
+		if(dd < 10) {
+			dd = '0' + dd
+		} 
+
+		if (mm < 10) {
+			mm = '0' + mm
+		} 
+		return	today = dd + '/' + mm + '/' + yyyy ;
+	}
+
+	deleteTest = (itemId) => {
+		this.props.testDeletedClicked();
+		this.props.deleteTest(itemId);
 	}
 
 	render(){
+		let tests = [];
+		if (this.state.data) {
+			tests = this.state.data.filter(test => {
+				return test.companyId === this.props.user.id;
+			})
+			console.log(tests);
+		}
 		const selectSearchData = ['JavaScript', 'Java', "PHP", 'C#', 'MySQL', 'Python', 'Ruby', 'Swift', 'React', 'Redux'];
 		const { data, search, type, currentPage, dataPerPage, loadMore, sortType, orderAscanding } = this.state;
-		let filterData = data.filter( item => {
+		let filterData = tests.filter( item => {
 			return item.testTitle.toLowerCase().substr(0,search.length) === search.toLowerCase()
 		} )
 
@@ -124,9 +144,7 @@ export default class CompanyTests extends Component {
 	      pages.push(i);
 	    }
 
-	    
-
-		return (
+	  	return (
 			<div className="container-table">
 				<Searching 
 					{...this.state}
@@ -165,6 +183,7 @@ export default class CompanyTests extends Component {
 					</thead>
 					<tbody>
 					{
+						this.state.data?
 						currentData.map( item => {
 							return (
 								<tr key={item.id} >
@@ -174,16 +193,18 @@ export default class CompanyTests extends Component {
 									</td>
 									<td>{item.testType}</td>
 									<td>
-										<span className="edit">Edit</span>
+										<NavLink to={`/${this.props.user.name}/edit-test`}>
+										<span className="edit" onClick={() => this.props.editingTest(item)}>Edit</span></NavLink>
 									</td>
 									<td >
-										<span>Delete</span>
+										<span onClick={() => this.deleteTest(item.id)}>Delete</span>
 									</td>
 									<td><span className="passer">{item.passers}</span></td>
 								</tr>
 							)
 						} )
-					}
+						: "LOADER"
+					} 
 					</tbody>
 					
 				</table>
@@ -200,3 +221,19 @@ export default class CompanyTests extends Component {
 		);
 	}
 }
+
+function mapStateToProps(state) {
+	return {
+		tests: state.appReducer.tests,
+		testsLoaded: state.appReducer.testsLoaded,
+	}
+}
+
+function mapDispatchToProps(dispatch) {
+	return {
+		editingTest: (test) => dispatch(editingTest(test)),
+		deleteTest: (testId) => dispatch(deleteTest(testId)),
+	}
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(CompanyTests)
