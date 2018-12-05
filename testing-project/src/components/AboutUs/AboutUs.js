@@ -46,6 +46,12 @@ const BoxWrapper = styled.div`
       width: 1200px;
       display: flex;
       justify-content: space-between;
+      
+   @media screen and (max-width: 1190px) {
+		flex-direction: column;
+        min-width: 100%;
+        align-items:center;
+    }
 `;
 
 const BoxStyle = styled.div`
@@ -56,6 +62,11 @@ const BoxStyle = styled.div`
     display:flex;
     flex-direction:column;
     align-items:center;   
+    
+        @media screen and (max-width: 1190px) {
+		flex-direction: column;
+        min-width: 500px;
+        margin-bottom:20px;
 `;
 
 const OurTeam = styled.div`
@@ -74,6 +85,12 @@ const MemberBoxWrapper = styled.div`
        width: 1200px;
        margin: 0 auto;
        justify-content: space-between;
+       
+         @media screen and (max-width: 1190px) {
+		flex-direction: column;
+        width: 100%;
+        margin-bottom:20px;
+        align-items:center;
 }
 `;
 
@@ -82,6 +99,11 @@ const TeamMemberImage = styled.div`
     width:282px;
     height:282px;
     background-position: center center;
+    
+       @media screen and (max-width: 1190px) {
+       margin-bottom:20px;
+        width:400px;
+        height:400px;
 `;
 
 const Box = ({boxItem, count}) => (
@@ -257,7 +279,9 @@ class AboutUs extends React.Component {
                 </Reveal>
 
 
-                <div style={{width: '1200px', margin: '0 auto 76px', color: '#100529'}}>
+                <div style={{
+                    width: '1200px', margin: '0 auto 76px', color: '#100529'
+                }}>
                     Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the
                     industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type
                     and scrambled it to make a type specimen book. It has survived not only five centuries, but also the
