@@ -9,6 +9,7 @@ import hayk from '../../images/ourImages/hayk.jpg';
 import anahit from '../../images/ourImages/anahit.jpg';
 
 import Zoom from 'react-reveal/Zoom';
+import Reveal from 'react-reveal/Reveal';
 
 import Loader from '../Loader';
 import Animate from 'react-move/Animate';
@@ -125,6 +126,7 @@ const MemberBox = ({image, name, profession}) => (
 class AboutUs extends React.Component {
 
     state = {
+        show: false,
         members: [
             {
                 name: 'Anahit',
@@ -166,7 +168,7 @@ class AboutUs extends React.Component {
         this.state.members.map((member, i) => (
             <Animate
                 key={i}
-                show={true}
+                show={this.state.show}
 
                 start={{
                     opacity: 0,
@@ -239,13 +241,16 @@ class AboutUs extends React.Component {
                 </OurTeam>
 
 
-
+                <Reveal
+                    fraction={1}
+                    onReveal={() => {
+                        this.setState({show: true})
+                    }}
+                >
                     <MemberBoxWrapper>
-                       {this.showMembers()}
+                        {this.showMembers()}
                     </MemberBoxWrapper>
-
-
-
+                </Reveal>
 
 
                 <div style={{width: '1200px', margin: '0 auto 76px', color: '#100529'}}>
