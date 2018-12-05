@@ -103,6 +103,8 @@ const Header = (props) => {
     return (
 
         <header style={{
+            // position: "fixed",
+            // zIndex:'3000',
             backgroundColor: '#141218',
             width: '100%',
         }}>

@@ -100,6 +100,7 @@ class App extends Component {
                         <Route path="/testPassPanel/" component={TestPassPanel}/>
                         <Route path="/tests/" component={() => <AllTests testAddClicked={this.testAddClicked}/>}/>
                         <Route component={NoMatch}/>
+
                     </Switch>
                 </Layout>
             </div>
