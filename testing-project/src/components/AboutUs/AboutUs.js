@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import img from '../../images/Photos/photo-1520492943297-59dc5f2d0fe6.jpg';
 
 import davit from '../../images/ourImages/davit.jpg';
-import mkrtich from '../../images/ourImages/mkrtich.jpg';
+import mkrtich from '../../images/ourImages/mkr.png';
 import hayk from '../../images/ourImages/hayk.jpg';
 import anahit from '../../images/ourImages/anahit.jpg';
 
@@ -24,6 +24,9 @@ const Main = styled.div`
 `;
 
 const Wrapper = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     padding:160px 380px;
 `;
 
@@ -40,6 +43,7 @@ const Description = styled.div`
 `;
 
 const BoxWrapper = styled.div`
+      width: 1200px;
       display: flex;
       justify-content: space-between;
 `;
