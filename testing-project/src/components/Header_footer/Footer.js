@@ -54,7 +54,7 @@ const Footer = () => {
                             height:'24px',
                             border: '1px solid black',
                             borderRadius: '50%',
-                            padding: '4px',
+                            padding: '5px',
                             textAlign: 'center',
                             marginRight: '10px',
                         }}>?</div>
