@@ -44,12 +44,20 @@ class App extends Component {
 
                 if(localStorage.getItem("current") === "company"){
                     firebase.database().ref(`companies/${currentLog.uid}`).once('value',(snapshot)=>{
-                        this.setState({currentLog, user: {...snapshot.val()} })
+                        if(snapshot.val()){
+                            this.setState({currentLog, user: {...snapshot.val()} })
+                        } else {
+                            this.setState({currentLog: null, user: null })
+                        }
                     })
                 }
                 if(localStorage.getItem("current") === "user"){
                     firebase.database().ref(`user/${currentLog.uid}`).once('value',(snapshot)=>{
-                        this.setState({currentLog, user: {...snapshot.val()} })
+                        if(snapshot.val()){
+                            this.setState({currentLog, user: {...snapshot.val()} })
+                        } else {
+                            this.setState({currentLog: null, user: null })
+                        }
                     })
                 }
 
@@ -118,7 +126,7 @@ class App extends Component {
                                                             currentCompany={this.state.currentLog} 
                                                             user={this.state.user} 
                                                             testDeletedClicked={this.testDeletedClicked}
-                                                        />}/>
+                                                        />}/>}
 
                         <Route
                             path='/authorization/'
