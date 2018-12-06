@@ -51,17 +51,14 @@ class App extends Component {
                     this.props.userLogin('company');
                     
                     firebase.database().ref(`companies/${currentLog.uid}`).once('value',(snapshot)=>{
-                        if(snapshot.val()){
-                            this.setState({currentLog, user: {...snapshot.val()} })
-                        } else {
-                            this.setState({currentLog: null, user: null })
-                        }
+                       
+                        this.setState({currentLog, user: {...snapshot.val()} })
                     })
                 }
                 if(localStorage.getItem("current") === "user") {
                     this.props.userLogin('user');
-                    firebase.database().ref(`user/${currentLog.uid}`).once('value',(snapshot)=>{
-                        if(snapshot.val()){
+                    firebase.database().ref(`user/${currentLog.uid}`).once('value',(snapshot)=> {
+                       
                         let user = {};
                         let tests = [];
                         snapshot.child('tests').forEach(childSnapshot => {
@@ -75,9 +72,7 @@ class App extends Component {
                             ...snapshot.val(),
                             tests
                         }
-                        this.setState({currentLog, user: user})
-                    }
-
+                        this.setState({currentLog, user: user});
                     })
                 }
 
@@ -150,6 +145,7 @@ class App extends Component {
                                 currentUser={this.state.currentLog} 
                                 user={this.state.user}
                             />}/>
+                         <Route path="/aboutUs/" component={AboutUs}/>
                         <Route path='/registration/user' component={AutorizationUser}/>
                         <Route path='/registration/company' component={AutorizationCompany}/>
                         <Route path="/Users/" component={AllUsers}/>
@@ -160,6 +156,10 @@ class App extends Component {
                         <Route path="/:company/edit-test" component={() => 
                             <TestEditor editingTest={this.props.editingTest} user={this.state.user} />}
                         />
+                         <Route path="/:user/start-test" component={() => 
+                                <StartTest user={this.state.user}/>} />
+                        <Route path="/:user/test/:Id" component={() => 
+                                <TestPassPanel passingTest={this.props.passingTest} user={this.state.user}/>}/>
                           <Route
                             path='/authorization/'
                             component={() => <Authorization currentCompany={this.state.currentLog}   user={this.state.user}/>} />                        {localStorage.getItem("current") === "user" ? 
@@ -176,10 +176,8 @@ class App extends Component {
                         
                         {localStorage.getItem("current") === "user" 
                             ? <div>
-                                <Route path="/:user/start-test" component={() => 
-                                    <StartTest user={this.state.user}/>} />
-                                <Route path="/:user/test/:Id" component={() => 
-                                    <TestPassPanel passingTest={this.props.passingTest} user={this.state.user}/>}/>
+                               
+                                
                                 <Route path="/:user/:text" component={() => <User currentCompany={this.state.currentLog} user={this.state.user} />}/> 
                                 
                                 </div>
@@ -192,7 +190,7 @@ class App extends Component {
                         }
 
                      
-                        <Route path="/aboutUs/" component={AboutUs}/>
+                       
                        
                         
                         <Route component={NoMatch}/>

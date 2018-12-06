@@ -102,6 +102,7 @@ class PassedTests extends Component {
 		if (this.state.user) {
             tests = this.state.user.tests.filter(test => {
                 if (test.userScore > 0) {
+					console.log('yes')
 					return test;                       
 				}
             });
