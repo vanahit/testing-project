@@ -53,6 +53,7 @@ class AllUsers extends Component {
 
 	componentDidUpdate(prevProps, prevState) {
         if (this.props.usersLoaded !== prevProps.usersLoaded) {
+			console.log(this.props.users)
 			this.setState({data: this.props.users});
 		}
 	}
@@ -65,17 +66,19 @@ class AllUsers extends Component {
 			users = this.state.data;
 			console.log(this.state.data)
 		}
-	// 	let filterData = users.filter( item => {
-	// 		return item.testTitle.toLowerCase().substr(0,search.length) === search.toLowerCase()
-	// 	} )
+	
+		let filterData = users.filter( item => {
+			console.log(item.firstName)
+			return item.firstName && item.firstName.toLowerCase().substr(0,search.length) === search.toLowerCase()
+		} )
 
-	// 	if(type !== ""){
-	// 		filterData = filterData.filter( item => item.testType === type)
-	// 	}
+		if(type !== ""){
+			filterData = filterData.filter( item => item.testType === type)
+		}
 
-	// const indexOfLastData = currentPage * dataPerPage;
-    // const indexOfFirstData = indexOfLastData - dataPerPage;
-    // const currentData = filterData.slice(indexOfFirstData, indexOfLastData+loadMore*dataPerPage);
+	const indexOfLastData = currentPage * dataPerPage;
+    const indexOfFirstData = indexOfLastData - dataPerPage;
+    const currentData = filterData.slice(indexOfFirstData, indexOfLastData+loadMore*dataPerPage);
 
 		const pages = [];
 		for (let i = 1; i <= Math.ceil(users.length / dataPerPage); i++) {
@@ -91,9 +94,9 @@ class AllUsers extends Component {
 					selectSearchData={selectSearchData}
 				/>
 				<div className="content-grid">
-					{ this.state.usersLoaded
+					{ data
 					?
-						users.map( item => {
+					currentData.map( item => {
 							return (
 								<TransitionGroup className="grid" key={item.id}>
 									<CSSTransition 
