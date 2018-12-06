@@ -158,7 +158,7 @@ class App extends Component {
                         <Route path="/:company/edit-test" component={() => 
                             <TestEditor editingTest={this.props.editingTest} user={this.state.user} />}
                         />
-
+                         <Route path="/authorization"  component={() => Authorization}/>
                         {localStorage.getItem("current") === "user" ? 
                                                     <Route path="/:user/:text" component={() => <User currentCompany={this.state.currentLog} user={this.state.user} />}/> :
                                                     <Route path="/:company/:text" component={() => 
@@ -170,6 +170,7 @@ class App extends Component {
 
 
                         />
+                        
                         {localStorage.getItem("current") === "user" 
                             ? <div>
                                 <Route path="/:user/start-test" component={() => 
