@@ -145,7 +145,9 @@ class App extends Component {
                                 currentUser={this.state.currentLog} 
                                 user={this.state.user}
                             />}/>
-                         <Route path="/aboutUs/" component={AboutUs}/>
+
+                           <Route path="/aboutUs/" component={AboutUs}/>
+
                         <Route path='/registration/user' component={AutorizationUser}/>
                         <Route path='/registration/company' component={AutorizationCompany}/>
                         <Route path="/Users/" component={AllUsers}/>
@@ -188,10 +190,7 @@ class App extends Component {
                                     user={this.state.user} 
                                     testDeletedClicked={this.testDeletedClicked} />}/>
                         }
-
-                     
-                       
-                       
+                    
                         
                         <Route component={NoMatch}/>
 
