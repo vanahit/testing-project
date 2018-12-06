@@ -61,7 +61,6 @@ class App extends Component {
                 if(localStorage.getItem("current") === "user") {
                     this.props.userLogin('user');
                     firebase.database().ref(`user/${currentLog.uid}`).once('value',(snapshot)=>{
-<<<<<<< HEAD
                         let user = {};
                         let tests = [];
                         snapshot.child('tests').forEach(childSnapshot => {
@@ -76,13 +75,7 @@ class App extends Component {
                             tests
                         }
                         this.setState({currentLog, user: user})
-=======
-                        if(snapshot.val()){
-                            this.setState({currentLog, user: {...snapshot.val()} })
-                        } else {
-                            this.setState({currentLog: null, user: null })
-                        }
->>>>>>> ca9edaae9bfbbe43b3009062cc5481cdca16d547
+
                     })
                 }
 
@@ -165,9 +158,7 @@ class App extends Component {
                         <Route path="/:company/edit-test" component={() => 
                             <TestEditor editingTest={this.props.editingTest} user={this.state.user} />}
                         />
-<<<<<<< HEAD
-                           <Route
-=======
+
                         {localStorage.getItem("current") === "user" ? 
                                                     <Route path="/:user/:text" component={() => <User currentCompany={this.state.currentLog} user={this.state.user} />}/> :
                                                     <Route path="/:company/:text" component={() => 
@@ -177,11 +168,7 @@ class App extends Component {
                                                             testDeletedClicked={this.testDeletedClicked}
                                                         />}/>}
 
-                        <Route
->>>>>>> ca9edaae9bfbbe43b3009062cc5481cdca16d547
-                            path='/authorization/'
-                            component={() => <Authorization currentCompany={this.state.currentLog}
-                                                            user={this.state.user}/>}
+
                         />
                         {localStorage.getItem("current") === "user" 
                             ? <div>
