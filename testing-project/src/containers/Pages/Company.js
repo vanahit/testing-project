@@ -6,36 +6,8 @@ import {Redirect} from "react-router";
 import CompanyProfile from "./CompanyProfile";
 
 export default class Company extends Component {
-    // constructor(props) {
-    //     super(props)
-
-
-    //     this.state = {
-    //         name: ""
-    //     }
-    // }
-
-    // componentDidMount() {
-        
-            
-    //        this.props.currentCompany && firebase.database().ref(`companies/${this.props.currentCompany.uid}`).on('value',(snapshot)=>{
-    //              console.log(snapshot.val().name)
-    //             let name = snapshot.val().name 
-    //            this.setState({name: snapshot.val().name})
-    //            console.log(this.state.name)
-    //         });
-      
-      
-    // }
-
-    // componentDidMount() {
-    //     firebase.database().ref('companies/qnUuRBUn2LeTx083lturGIqB6nj1').on('value',(snapshot)=>{
-    //         this.setState({name: snapshot.val().name})
-    //     });
-    // }
-
     render() {
-
+        console.log(this.props.currentLog)
         return (
             (this.props.user && this.props.user.type === "company") ?
                 <div className="containerUser">

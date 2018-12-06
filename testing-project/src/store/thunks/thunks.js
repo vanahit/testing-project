@@ -55,11 +55,20 @@ export const getUsers = () => {
 
         firebase.database().ref('user').on('value', (snapshot) => {
             let users = [];
+            let tests = [];
              snapshot.forEach(childSnapshot => {
+                childSnapshot.child('tests').forEach (snapshot1 => {
+                    tests.push({ 
+                        id: snapshot1.key,
+                        ...snapshot1.val()
+                    })
+                })
                 users.push({
-                     id: childSnapshot.key,
-                     ...childSnapshot.val()
-                }) 
+                    id: childSnapshot.key,
+                    ...childSnapshot.val(), 
+                    tests
+               }) 
+               
             });
             dispatch(getUsersSuccess(users));
          });

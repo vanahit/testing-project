@@ -3,7 +3,8 @@ import {NavLink} from "react-router-dom";
 import styled, {css} from 'styled-components';
 import * as firebase from "firebase";
 import Icon from './AccountSvg';
-
+import { userLogout } from '../../store/actions/appAction';
+import {connect} from 'react-redux';
 
 const HeaderWrapper = styled.div`
        margin: 0 auto;
@@ -93,7 +94,8 @@ const Header = (props) => {
 
     const logOut = () => {
         firebase.auth().signOut().then(function () {
-            localStorage.removeItem("current")
+            localStorage.removeItem("current");
+            props.userLogout();
         }, function (error) {
             console.error('Sign Out Error', error);
         });
@@ -151,5 +153,10 @@ const Header = (props) => {
     )
 };
 
+const mapDispatchToProps = dispatch => {
+    return {
+        userLogout: userType => dispatch(userLogout())
+    };
+};
 
-export default Header;
+export default connect(null, mapDispatchToProps)(Header);

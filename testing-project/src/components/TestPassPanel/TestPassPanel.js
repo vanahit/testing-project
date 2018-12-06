@@ -3,8 +3,11 @@ import styled from 'styled-components'
 import { connect } from 'react-redux';
 import TestFinished from './TestFinished';
 import TestPasser from './TestPasser';
-import {addTest, deleteTest} from '../../store/actions/testPasser';
-
+import {deleteTest} from '../../store/actions/testPasser';
+import {Redirect} from "react-router";
+import { firebase } from '../../firebase/firebase';
+import {Route, Switch} from "react-router-dom";
+import User from '../../containers/Pages/User';
 
 const Main = styled.div`
 	margin: auto;
@@ -15,23 +18,20 @@ const Main = styled.div`
 `;
 
 class TestPassPanel extends Component {
-	constructor(props) {
-		super(props);
-		this.state = {
+	state = {
 			testEnd: false,
-			testLoaded: false
+			test: this.props.test,
+			user: this.props.user,
+			totalScore: 0,
 		}
-	}
-
-	componentDidMount() {	
-        fetch('https://test-project-4ab6b.firebaseio.com/tests/-LSExdm_TRHxxmwgYi-N.json')
-			.then(response => response.json())
-			.then(response => {
-				this.props.addTest(response);
-				if (this.props.test) {
-					this.setState({testLoaded: true})
-				}
-        	})	
+	componentDidUpdate(prevProps) {	
+        if (this.props.test !== prevProps.test) {
+			this.setState({test: this.props.test});
+			console.log(this.state.test)
+		}
+		if (this.props.user !== prevProps.user ) {
+            this.setState({ user: this.props.user });
+        }
     }
 
 	testEnded = () => {
@@ -41,15 +41,27 @@ class TestPassPanel extends Component {
 	totalScore = (score) => {
 		this.setState({totalScore: this.state.totalScore + score});
 	}
+	componentWillUnmount() {
+		// https://test-project-4ab6b.firebaseio.com/user/DvJ47mWkUQMXQezVRZDA6nWqTL53/tests/-LS0j3a0GongklJjoPEw/score
+		this.setState({testEnd: true});
+		console.log(this.props.userScore)
+		if (this.state.user) {
+			let testRef =  firebase.database().ref(`user/${this.state.user.id}/tests/${this.state.test.id}`);
+			testRef.update({userScore: this.props.userScore});
+		}
+
+	}
 
 	render() {
 		return (
+			this.state.user && this.state.user.type === 'user' ?
 			<Main>
 				{
-					!this.state.testEnd && this.state.testLoaded &&
+					!this.state.testEnd && this.state.test &&
 						<TestPasser 
 							totalScore={this.totalScore}
 							testEnded={this.testEnded}
+							test={this.state.test}
 						/>
 				}
 				{
@@ -59,6 +71,7 @@ class TestPassPanel extends Component {
 						/>
 				}
 			</Main>
+		: <Redirect to='/authorization'/>
 		);
 	}
 }
@@ -66,11 +79,11 @@ class TestPassPanel extends Component {
 function mapStateToProps(state) {
 	return {
 		test: state.testPasser.testDetails,
+		userScore: state.testPasser.userScore,
 	}
 }
 function mapDispatchToProps(dispatch) {
 	return {
-		addTest: (test) => dispatch(addTest(test)),
 		deleteTest: () => dispatch(deleteTest()),
 	}
 }

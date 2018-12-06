@@ -3,8 +3,9 @@ import Login from "./login/Login";
 import UserRegistration from "./registration/UserRegistration";
 import {connect} from 'react-redux';
 import * as firebase from "firebase";
+import { userLogin } from '../../store/actions/appAction';
 
-export default class AutorizationUser extends Component {
+class AutorizationUser extends Component {
 
     constructor(props) {
         super(props);
@@ -30,6 +31,7 @@ export default class AutorizationUser extends Component {
         firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.pass)
             .then(r => {
                 localStorage.setItem("current", "user");
+                this.props.userLogin('user');
                 console.log(r.user.uid)
             })
             .catch(err => console.log(err));
@@ -51,5 +53,14 @@ export default class AutorizationUser extends Component {
         );
     }
 }
+
+
+const mapDispatchToProps = dispatch => {
+    return {
+        userLogin: userType => dispatch(userLogin(userType))
+    };
+};
+
+export default connect(null, mapDispatchToProps)(AutorizationUser);
 
 

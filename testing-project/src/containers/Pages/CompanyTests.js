@@ -4,6 +4,7 @@ import Pagination from './Pagination';
 import {NavLink} from "react-router-dom";
 import { connect } from 'react-redux';
 import { editingTest, deleteTest } from '../../store/actions/testCreator';
+import Loader from '../../components/Loader';
 
 
 class CompanyTests extends Component {
@@ -203,7 +204,7 @@ class CompanyTests extends Component {
 								</tr>
 							)
 						} )
-						: "LOADER"
+						: <Loader></Loader>
 					} 
 					</tbody>
 					

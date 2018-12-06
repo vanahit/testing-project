@@ -1,15 +1,34 @@
 import React, {Component} from 'react';
-import src from '../../images/is.jpg';
-import {firebase} from '../../firebase/firebase';
 import Searching from './Searching';
 import Pagination from './Pagination';
+import { connect } from 'react-redux';
+import  styled  from 'styled-components';
+import { NavLink} from "react-router-dom";
+import { addTest } from '../../store/actions/testPasser';
 
-export default class UserTests extends Component {
+const NoTests = styled.div`
+	font-size: 28px;
+	margin: 40px 0;
+
+`;
+const TestsLink = styled(NavLink) `
+	display: inline-block;
+	text-decoration: none;
+	paddin-bottom: 5px;
+	border-bottom: 1px solid black;
+	color: black;
+	:hover {
+		cursor: pointer;
+	}
+
+`;
+class UserTests extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            data: [],
+            data: this.props.tests,
+            user: this.props.user,
             search: "",
             type: "",
             currentPage: 1,
@@ -19,21 +38,6 @@ export default class UserTests extends Component {
             orderAscanding: true
         }
     }
-
-    componentDidMount() {
-        firebase.database().ref('tests').on('value', (snapshot) => {
-            const tests = [];
-            snapshot.forEach(childSnapshot => {
-                tests.push({
-                    id: childSnapshot.key,
-                    ...childSnapshot.val()
-                })
-            });
-            this.setState({data: tests})
-            console.log(tests)
-        });
-    }
-
     searching(e, searchProp) {
         this.setState({
             [searchProp]: e.target.value,
@@ -73,14 +77,50 @@ export default class UserTests extends Component {
         })
     }
 
-    deadline(day) {
-        return `${new Date(day).getFullYear()}.${new Date(day).getMonth()}.${new Date(day).getDate()}`
-    }
+	deadline  = (date) => {
+		let today = new Date(date);
+		let dd = today.getDate();
+		let mm = today.getMonth() + 1;
+		let yyyy = today.getFullYear();
+
+		if(dd < 10) {
+			dd = '0' + dd
+		} 
+
+		if (mm < 10) {
+			mm = '0' + mm
+		} 
+		return	today = dd + '/' + mm + '/' + yyyy ;
+	}
+
+	deleteTest = (itemId) => {
+		this.props.testDeletedClicked();
+		this.props.deleteTest(itemId);
+	}
+
+
+	componentDidUpdate(prevProps, prevState) {
+		if (this.props.testsLoaded !== prevProps.testsLoaded) {
+            this.setState({ data: this.props.tests });
+           
+        }
+        if (this.props.user !== prevProps.user ) {
+            this.setState({ user: this.props.user });
+        }
+	}
 
     render() {
+        let tests = [];
+		if (this.state.user) {
+            tests = this.state.user.tests.filter(test => {
+                return test.userScore < 0
+            });
+        }
+        console.log(tests)
+        
         const selectSearchData = ['JavaScript', 'Java', "PHP", 'C#', 'MySQL', 'Python', 'Ruby', 'Swift', 'React', 'Redux'];
         const {data, search, type, currentPage, dataPerPage, loadMore, sortType, orderAscanding} = this.state;
-        let filterData = data.filter(item => {
+        let filterData = tests.filter(item => {
             return item.testTitle.toLowerCase().substr(0, search.length) === search.toLowerCase()
         })
 
@@ -125,8 +165,8 @@ export default class UserTests extends Component {
             pages.push(i);
         }
 
-
         return (
+            currentData.length ?
             <div className="container-table">
                 <Searching
                     {...this.state}
@@ -170,7 +210,7 @@ export default class UserTests extends Component {
                     </tr>
                     </thead>
                     <tbody>
-                    {
+                    { this.state.data && this.state.user ?
                         currentData.map(item => {
                             return (
                                 <tr key={item.id}>
@@ -184,11 +224,14 @@ export default class UserTests extends Component {
                                         <span>Delete</span>
                                     </td>
                                     <td>
-                                        <button>Start</button>
+                                        <NavLink to={`/${this.props.user.firstName}${this.props.user.lastName}/start-test`}>
+                                            <button onClick={() => this.props.addTest(item) }>Start</button>
+                                        </NavLink>
                                     </td>
                                 </tr>
                             )
                         })
+                     : 'LOADER'
                     }
                     </tbody>
 
@@ -203,6 +246,24 @@ export default class UserTests extends Component {
                     pages={pages}
                 />
             </div>
+            :   <NoTests> There is no tests yet {' '} 
+                   <TestsLink  to={`/tests`} >  add test </TestsLink>
+                </NoTests>
         );
     }
 }
+
+function mapStateToProps(state) {
+	return {
+		tests: state.appReducer.tests,
+		testsLoaded: state.appReducer.testsLoaded,
+	}
+}
+
+function mapDispatchToProps(dispatch) {
+	return {
+		addTest: test => dispatch(addTest(test)),
+	}
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(UserTests)

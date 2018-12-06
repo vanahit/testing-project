@@ -39,6 +39,7 @@ const Error = styled.div`
 
 const TextSpan = styled.div`
     color: #100529;
+    font-size: 24px;
     padding-bottom: 8px;
     border-bottom: 1px solid #D6D6D6;
 `;

@@ -23,6 +23,9 @@ import * as firebase from "firebase";
 import Layout from "./Hoc/Layout";
 import PopUpLogin from './components/PopUps/PopUpLogin';
 import PopUpDelete from './components/PopUps/PopUpDelete';
+import { userLogin } from './store/actions/appAction';
+import PopUpTestAdded from './components/PopUps/PopUpTestAdded';
+import StartTest from './containers/Pages/StartTest';
 
 class App extends Component {
 
@@ -33,6 +36,8 @@ class App extends Component {
         companiesLoaded: this.props.companiesLoaded,
         testAddClicked: false,
         testDeletedClicked: false,
+        userTestAdded: false,
+        userTestExists: false,
         user: null
     };
 
@@ -42,14 +47,30 @@ class App extends Component {
             if (currentLog) {
                 this.setState({currentLog});
 
-                if(localStorage.getItem("current") === "company"){
+                if(localStorage.getItem("current") === "company") {
+                    this.props.userLogin('company');
+                    
                     firebase.database().ref(`companies/${currentLog.uid}`).once('value',(snapshot)=>{
                         this.setState({currentLog, user: {...snapshot.val()} })
                     })
                 }
-                if(localStorage.getItem("current") === "user"){
+                if(localStorage.getItem("current") === "user") {
+                    this.props.userLogin('user');
                     firebase.database().ref(`user/${currentLog.uid}`).once('value',(snapshot)=>{
-                        this.setState({currentLog, user: {...snapshot.val()} })
+                        let user = {};
+                        let tests = [];
+                        snapshot.child('tests').forEach(childSnapshot => {
+                            tests.push({
+                                id: childSnapshot.key,
+                                ...childSnapshot.val()
+                            })
+                        })
+                        user = {
+                            id: snapshot.key,
+                            ...snapshot.val(),
+                            tests
+                        }
+                        this.setState({currentLog, user: user})
                     })
                 }
 
@@ -83,9 +104,15 @@ class App extends Component {
     testDeletedClicked = () => {
         this.setState({testDeletedClicked: !this.state.testDeletedClicked});
     }
+    userTestAdded = () => {
+        this.setState({userTestAdded: !this.state.userTestAdded});
+    }
+    userTestExists = () => {
+        this.setState({userTestExists: !this.state.userTestExists});
+    }
 
     componentWillUnmount() {
-        this.setState({testAddClicked: false});
+        //this.setState({testAddClicked: false});
     }
 
     render() {
@@ -94,39 +121,64 @@ class App extends Component {
 
                 {this.state.testAddClicked && <PopUpLogin testAddClicked={this.testAddClicked}/>} 
                 {this.state.testDeletedClicked && <PopUpDelete testDeletedClicked={this.testDeletedClicked}/>} 
+                {this.state.userTestAdded && 
+                    <PopUpTestAdded  exists={false}  userTestAdded={this.userTestAdded} user={this.state.user}>
+                        added to tests in your propfile
+                    </PopUpTestAdded>
+                }
+                {this.state.userTestExists && 
+                    <PopUpTestAdded  exists={true}  userTestExists={this.userTestExists} user={this.state.user}>
+                        has already been added to your tests
+                    </PopUpTestAdded>
+                }
 
                 <Layout currentLog={this.state.currentLog} user={this.state.user}>
                     <Switch className="App">
                         <Route exact path={'/'} component={() => <HomePage testAddClicked={this.testAddClicked}/>}/>
+                        <Route path="/tests/" component={() => 
+                            <AllTests 
+                                testAddClicked={this.testAddClicked}
+                                userTestAdded={this.userTestAdded}
+                                userTestExists={this.userTestExists}
+                                currentUser={this.state.currentLog} 
+                                user={this.state.user}
+                            />}/>
                         <Route path='/registration/user' component={AutorizationUser}/>
                         <Route path='/registration/company' component={AutorizationCompany}/>
                         <Route path="/Users/" component={AllUsers}/>
                         <Route path="/companies/" component={AllCompanies}/>
                         <Route path="/CompaniesInUser/" component={CompaniesInUser}/>
                         <Route path="/UsersInCompany/" component={UsersInCompany}/>
-
-                        <Route path="/User/:Text" component={User}/>
-
                         <Route path="/:company/add-test" component={() => <TestCreator user={this.state.user} />}/>
                         <Route path="/:company/edit-test" component={() => 
                             <TestEditor editingTest={this.props.editingTest} user={this.state.user} />}
                         />
+                           <Route
+                            path='/authorization/'
+                            component={() => <Authorization currentCompany={this.state.currentLog}
+                                                            user={this.state.user}/>}
+                        />
                         {localStorage.getItem("current") === "user" 
-                            ? <Route path="/:user/:text" component={() => <User currentCompany={this.state.currentLog} user={this.state.user} />}/> 
+                            ? <div>
+                                <Route path="/:user/start-test" component={() => 
+                                    <StartTest user={this.state.user}/>}/>
+                                <Route path="/:user/test/:Id" component={() => 
+                                    <TestPassPanel passingTest={this.props.passingTest} user={this.state.user}/>}/>
+                                <Route path="/:user/:text" component={() => <User currentCompany={this.state.currentLog} user={this.state.user} />}/> 
+                                
+                                </div>
+                            
                             : <Route path="/:company/:text" component={() =>  
                                 <Company 
                                     currentCompany={this.state.currentLog} 
                                     user={this.state.user} 
                                     testDeletedClicked={this.testDeletedClicked} />}/>
                         }
-                        <Route
-                            path='/authorization/'
-                            component={() => <Authorization currentCompany={this.state.currentLog}
-                                                            user={this.state.user}/>}
-                        />
+
+                     
                         <Route path="/aboutUs/" component={AboutUs}/>
-                        <Route path="/testPassPanel/" component={TestPassPanel}/>
-                        <Route path="/tests/" component={() => <AllTests testAddClicked={this.testAddClicked}/>}/>
+                       
+                        
                         <Route component={NoMatch}/>
                     </Switch>
                 </Layout>
@@ -140,6 +192,7 @@ function mapStateToProps(state) {
         testsLoaded: state.appReducer.testsLoaded,
         companiesLoaded: state.appReducer.companiesLoaded,
         editingTest: state.appReducer.editingTest,
+        passingTest: state.appReducer.passingTest,
     }
 }
 
@@ -148,6 +201,7 @@ const mapDispatchToProps = dispatch => {
         getCompanies: companies => dispatch(getCompanies(companies)),
         getTests: tests => dispatch(getTests(tests)),
         getUsers: users => dispatch(getUsers(users)),
+        userLogin: userType => dispatch(userLogin(userType))
 
     };
 };

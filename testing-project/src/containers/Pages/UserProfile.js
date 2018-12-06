@@ -26,7 +26,7 @@ export default class UserProfile extends Component {
 					<span>Edit</span>{` / `}<span>Profie Settings</span>
 				</div>
 				<div className="labelHeader">Passed Tests</div>
-				<PassedTests />
+				<PassedTests user = {this.props.user} />
 			</div>
 		);
 	}

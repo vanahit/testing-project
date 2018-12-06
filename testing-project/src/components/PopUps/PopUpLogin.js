@@ -27,6 +27,7 @@ const Block = styled.div`
 `;
 const TextSpan = styled.div`
     margin-top: 74px;
+    font-size: 24px;
     color: #100529;
     padding-bottom: 8px;
     border-bottom: 1px solid #D6D6D6;
