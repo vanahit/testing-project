@@ -61,6 +61,7 @@ class App extends Component {
                 if(localStorage.getItem("current") === "user") {
                     this.props.userLogin('user');
                     firebase.database().ref(`user/${currentLog.uid}`).once('value',(snapshot)=>{
+                        if(snapshot.val()){
                         let user = {};
                         let tests = [];
                         snapshot.child('tests').forEach(childSnapshot => {
@@ -75,6 +76,7 @@ class App extends Component {
                             tests
                         }
                         this.setState({currentLog, user: user})
+                    }
 
                     })
                 }
@@ -158,8 +160,9 @@ class App extends Component {
                         <Route path="/:company/edit-test" component={() => 
                             <TestEditor editingTest={this.props.editingTest} user={this.state.user} />}
                         />
-                         <Route path="/authorization"  component={() => Authorization}/>
-                        {localStorage.getItem("current") === "user" ? 
+                          <Route
+                            path='/authorization/'
+                            component={() => <Authorization currentCompany={this.state.currentLog}   user={this.state.user}/>} />                        {localStorage.getItem("current") === "user" ? 
                                                     <Route path="/:user/:text" component={() => <User currentCompany={this.state.currentLog} user={this.state.user} />}/> :
                                                     <Route path="/:company/:text" component={() => 
                                                         <Company 
@@ -174,7 +177,7 @@ class App extends Component {
                         {localStorage.getItem("current") === "user" 
                             ? <div>
                                 <Route path="/:user/start-test" component={() => 
-                                    <StartTest user={this.state.user}/>}/>
+                                    <StartTest user={this.state.user}/>} />
                                 <Route path="/:user/test/:Id" component={() => 
                                     <TestPassPanel passingTest={this.props.passingTest} user={this.state.user}/>}/>
                                 <Route path="/:user/:text" component={() => <User currentCompany={this.state.currentLog} user={this.state.user} />}/> 
