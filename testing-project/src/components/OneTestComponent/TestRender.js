@@ -124,13 +124,11 @@ class TestComponent extends Component {
 			firebase.database().ref(`user/${this.props.user.id}/tests`).once('value',  (snapshot)=> {
 				if (snapshot.hasChild(`${test.id}`)) {
 					this.props.userTestExists();
-					
 				} else {
 					this.props.userTestAdded();
 					this.props.addUserTest(test);
 					let userRef = firebase.database().ref(`user/${userUrl}`);
 					userRef.child('tests').child(`${test.id}`).set({...test, userScore: -1});
-					
 				}
 			});
 		} else {
