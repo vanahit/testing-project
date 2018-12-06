@@ -4,11 +4,12 @@ import styled from 'styled-components';
 import img from '../../images/Photos/photo-1520492943297-59dc5f2d0fe6.jpg';
 
 import davit from '../../images/ourImages/davit.jpg';
-import mkrtich from '../../images/ourImages/mkrtich.jpg';
+import mkrtich from '../../images/ourImages/mkr.png';
 import hayk from '../../images/ourImages/hayk.jpg';
 import anahit from '../../images/ourImages/anahit.jpg';
 
 import Zoom from 'react-reveal/Zoom';
+import Reveal from 'react-reveal/Reveal';
 
 import Loader from '../Loader';
 import Animate from 'react-move/Animate';
@@ -23,6 +24,9 @@ const Main = styled.div`
 `;
 
 const Wrapper = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     padding:160px 380px;
 `;
 
@@ -39,8 +43,15 @@ const Description = styled.div`
 `;
 
 const BoxWrapper = styled.div`
+      width: 1200px;
       display: flex;
       justify-content: space-between;
+      
+   @media screen and (max-width: 1190px) {
+		flex-direction: column;
+        min-width: 100%;
+        align-items:center;
+    }
 `;
 
 const BoxStyle = styled.div`
@@ -51,6 +62,11 @@ const BoxStyle = styled.div`
     display:flex;
     flex-direction:column;
     align-items:center;   
+    
+        @media screen and (max-width: 1190px) {
+		flex-direction: column;
+        min-width: 500px;
+        margin-bottom:20px;
 `;
 
 const OurTeam = styled.div`
@@ -69,6 +85,12 @@ const MemberBoxWrapper = styled.div`
        width: 1200px;
        margin: 0 auto;
        justify-content: space-between;
+       
+         @media screen and (max-width: 1190px) {
+		flex-direction: column;
+        width: 100%;
+        margin-bottom:20px;
+        align-items:center;
 }
 `;
 
@@ -77,6 +99,11 @@ const TeamMemberImage = styled.div`
     width:282px;
     height:282px;
     background-position: center center;
+    
+       @media screen and (max-width: 1190px) {
+       margin-bottom:20px;
+        width:400px;
+        height:400px;
 `;
 
 const Box = ({boxItem, count}) => (
@@ -125,6 +152,7 @@ const MemberBox = ({image, name, profession}) => (
 class AboutUs extends React.Component {
 
     state = {
+        show: false,
         members: [
             {
                 name: 'Anahit',
@@ -166,7 +194,7 @@ class AboutUs extends React.Component {
         this.state.members.map((member, i) => (
             <Animate
                 key={i}
-                show={true}
+                show={this.state.show}
 
                 start={{
                     opacity: 0,
@@ -239,16 +267,21 @@ class AboutUs extends React.Component {
                 </OurTeam>
 
 
-
+                <Reveal
+                    fraction={1}
+                    onReveal={() => {
+                        this.setState({show: true})
+                    }}
+                >
                     <MemberBoxWrapper>
-                       {this.showMembers()}
+                        {this.showMembers()}
                     </MemberBoxWrapper>
+                </Reveal>
 
 
-
-
-
-                <div style={{width: '1200px', margin: '0 auto 76px', color: '#100529'}}>
+                <div style={{
+                    width: '1200px', margin: '0 auto 76px', color: '#100529'
+                }}>
                     Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the
                     industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type
                     and scrambled it to make a type specimen book. It has survived not only five centuries, but also the

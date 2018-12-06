@@ -51,12 +51,17 @@ class App extends Component {
                     this.props.userLogin('company');
                     
                     firebase.database().ref(`companies/${currentLog.uid}`).once('value',(snapshot)=>{
-                        this.setState({currentLog, user: {...snapshot.val()} })
+                        if(snapshot.val()){
+                            this.setState({currentLog, user: {...snapshot.val()} })
+                        } else {
+                            this.setState({currentLog: null, user: null })
+                        }
                     })
                 }
                 if(localStorage.getItem("current") === "user") {
                     this.props.userLogin('user');
                     firebase.database().ref(`user/${currentLog.uid}`).once('value',(snapshot)=>{
+<<<<<<< HEAD
                         let user = {};
                         let tests = [];
                         snapshot.child('tests').forEach(childSnapshot => {
@@ -71,6 +76,13 @@ class App extends Component {
                             tests
                         }
                         this.setState({currentLog, user: user})
+=======
+                        if(snapshot.val()){
+                            this.setState({currentLog, user: {...snapshot.val()} })
+                        } else {
+                            this.setState({currentLog: null, user: null })
+                        }
+>>>>>>> ca9edaae9bfbbe43b3009062cc5481cdca16d547
                     })
                 }
 
@@ -153,7 +165,20 @@ class App extends Component {
                         <Route path="/:company/edit-test" component={() => 
                             <TestEditor editingTest={this.props.editingTest} user={this.state.user} />}
                         />
+<<<<<<< HEAD
                            <Route
+=======
+                        {localStorage.getItem("current") === "user" ? 
+                                                    <Route path="/:user/:text" component={() => <User currentCompany={this.state.currentLog} user={this.state.user} />}/> :
+                                                    <Route path="/:company/:text" component={() => 
+                                                        <Company 
+                                                            currentCompany={this.state.currentLog} 
+                                                            user={this.state.user} 
+                                                            testDeletedClicked={this.testDeletedClicked}
+                                                        />}/>}
+
+                        <Route
+>>>>>>> ca9edaae9bfbbe43b3009062cc5481cdca16d547
                             path='/authorization/'
                             component={() => <Authorization currentCompany={this.state.currentLog}
                                                             user={this.state.user}/>}
@@ -180,6 +205,7 @@ class App extends Component {
                        
                         
                         <Route component={NoMatch}/>
+
                     </Switch>
                 </Layout>
             </div>

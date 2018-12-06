@@ -376,12 +376,20 @@ img {
 
 /*-----------------------Footer--------------------------*/
 
-.footer_up {
+.footer_up_wrapper{
     display: flex;
+    align-items: center;
     background-color: #141218;
+    height: 100px;
+}
+
+.footer_up {
+    width:1200px;
+    display: flex;
+    margin: 0 auto;
+    padding: 25px auto;
     color: white;
     font-size: 34px;
-    padding: 25px 360px;
     justify-content: space-between;
     align-items: center;
 }
@@ -400,13 +408,23 @@ img {
     font-size: 20px;
 }
 
+.footer_middle_wrapper{
+    /*height: 200px;*/
+    display: flex;
+    align-items: center;
+    padding: 34px 0 60px;
+    background-color: #ffffff;
+    border-bottom: 1px solid #DCDCDC;
+
+}
+
 .footer_middle {
-    padding: 34px 360px;
+    width:1200px;
+    margin: 0 auto;
     display: flex;
     font-size: 14px;
     color: #201C16;
     justify-content: space-between;
-    border-bottom: 1px solid #DCDCDC;
 }
 
 .footer_middle .contact_us :first-child,

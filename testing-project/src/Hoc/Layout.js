@@ -8,7 +8,6 @@ const Layout = (props) => {
         <div>
             <Header currentLog={props.currentLog} user={props.user}/>
                 {props.children}
-            
             <Footer />
         </div>
     );

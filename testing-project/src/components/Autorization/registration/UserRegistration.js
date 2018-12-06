@@ -49,7 +49,6 @@ class UserRegistration extends Component {
                     firebase.auth().currentUser.sendEmailVerification();
                     user.description = '';
                     user.image = '';
-                   // user.test = '';
                     user.id = res.uid;
                     user.type='user';
                     localStorage.setItem("current", "user");
