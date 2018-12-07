@@ -5,7 +5,7 @@ import * as firebase from "firebase";
 import styled from 'styled-components';
 
 const MarginDiv = styled.div`
-    margin: 70px auto;
+    margin: 30px auto;
 `;
 
 

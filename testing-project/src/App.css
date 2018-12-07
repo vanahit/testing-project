@@ -46,7 +46,9 @@
 .switch-buttons {
     width: 1200px;
     border-bottom: 1px solid #4F9DA6;
-    margin: 0 auto;
+    margin: auto;
+    margin-top: 77px;
+    margin-bottom:30px;
   
 }
 
@@ -210,24 +212,12 @@
     height: 60px;
     width: 50%;
     font-size: 24px;
-    color: white !important;;
+    color: white ;
     font-weight: bold;
     cursor: pointer;
     border: 0px;
 }
    
-
-.fac {
-    border: 0;
-    border-radius: 4px 0 0 4px;
-    background-color: #4267B2 !important;
-}
-
-.go {
-    border: 0;
-    border-radius: 0px 4px 4px 0px;
-    background-color: #E74847 !important;
-}
 
 /*-----------------------------------------*/
 

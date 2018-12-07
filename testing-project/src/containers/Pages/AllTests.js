@@ -4,6 +4,12 @@ import Pagination from './Pagination';
 import TestComponent from '../../components/OneTestComponent/TestRender';
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 import { connect } from 'react-redux';
+import styled from 'styled-components';
+import Loader from '../../components/Loader';
+
+const LoaderDiv = styled.div`
+	margin: auto;
+`;
 
 class AllTests extends Component {
 	constructor(props) {
@@ -120,6 +126,7 @@ class AllTests extends Component {
 		}
 
 		return (
+			this.state.data ?
 			<div className="container-fluid">
 				<Searching
 					{...this.state}
@@ -128,7 +135,8 @@ class AllTests extends Component {
 					selectSearchData={selectSearchData}
 				/>
 				<div className="content-grid">
-					{
+				
+					{ this.state.data.length ? 
 						currentData.map(item => {
 							return (
 								<TransitionGroup className="grid" key={item.id}>
@@ -149,7 +157,10 @@ class AllTests extends Component {
 									</TransitionGroup>
 								)
 							})
+						
+						: <LoaderDiv><Loader/></LoaderDiv>
 					}
+					
 
 					<Pagination
 						load_More={loadMore}
@@ -162,6 +173,7 @@ class AllTests extends Component {
 					/>
 				</div>
 			</div>
+			: 'THERE IS NO TESTS YET'
 		);
 	}
 }

@@ -4,7 +4,13 @@ import Searching from './Searching';
 import Pagination from './Pagination';
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 import { connect } from 'react-redux';
+import styled from 'styled-components';
+import Loader from '../../components/Loader';
 
+
+const LoaderDiv = styled.div`
+	margin: auto;
+`;
 class AllUsers extends Component {
 	constructor(props){
 		super(props);
@@ -83,6 +89,7 @@ class AllUsers extends Component {
 		}
 
 		return (
+			this.state.data ?
 			<div className="container-fluid">
 				<Searching 
 					{...this.state}
@@ -91,7 +98,7 @@ class AllUsers extends Component {
 					selectSearchData={selectSearchData}
 				/>
 				<div className="content-grid">
-					{this.state.data ?
+					{users.length ?
 						users.map( item => {
 							return (
 								<TransitionGroup className="grid" key={item.id}>
@@ -117,7 +124,7 @@ class AllUsers extends Component {
 								</TransitionGroup>
 							)
 						} )
-						: "Loader"
+						: <LoaderDiv><Loader/></LoaderDiv>
 					}
 					<Pagination 
 						load_More={loadMore}
@@ -130,6 +137,7 @@ class AllUsers extends Component {
 					/>					
 				</div>
 			</div>
+			: 'THERE IS NO USERS YET'
 		);
 	}
 }
