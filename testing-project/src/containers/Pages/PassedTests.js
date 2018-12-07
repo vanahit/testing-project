@@ -28,6 +28,7 @@ class PassedTests extends Component {
 
 		this.state = {
 			data: this.props.tests,
+			tests: this.props.user.tests,
 			search: "",
 			type: "",
 			currentPage: 1,
@@ -99,16 +100,16 @@ class PassedTests extends Component {
 	}
 	render() {
 		let tests = [];
-		if (this.state.user) {
-            tests = this.state.user.tests.filter(test => {
-                if (test.userScore > 0) {
+		if (this.state.tests) {
+            tests = this.state.tests.filter(test => {
+                if (test.userScore >= 0) {
 					console.log('yes')
 					return test;                       
 				}
             });
         }
 		const selectSearchData = ['JavaScript', 'Java', "PHP", 'C#', 'MySQL', 'Python', 'Ruby', 'Swift', 'React', 'Redux'];
-		const { data, search, type, currentPage, dataPerPage, loadMore, sortType, orderAscanding } = this.state;
+		const { search, type, currentPage, dataPerPage, loadMore, sortType, orderAscanding } = this.state;
 		let filterData = tests.filter(item => {
 			return item.testTitle.toLowerCase().substr(0, search.length) === search.toLowerCase()
 		})
@@ -152,6 +153,7 @@ class PassedTests extends Component {
 			<div className="container-table">
 				<Searching
 					{...this.state}
+					data={tests}
 					searching={this.searching.bind(this)}
 					currentDataLength={currentData.length}
 					selectSearchData={selectSearchData}
@@ -191,7 +193,7 @@ class PassedTests extends Component {
 										<td>{item.testTitle}</td>
 										<td>{item.testType}</td>
 										<td>{item.company}</td>
-										<td>{this.props.user.tests[index].score}/{item.totalScore}</td>
+										<td>{item.userScore}/{item.totalScore}</td>
 									</tr>
 								)
 							})

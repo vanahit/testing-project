@@ -37,7 +37,6 @@ class App extends Component {
         testAddClicked: false,
         testDeletedClicked: false,
         userTestAdded: false,
-        userTestExists: false,
         user: null
     };
 
@@ -50,14 +49,14 @@ class App extends Component {
                 if(localStorage.getItem("current") === "company") {
                     this.props.userLogin('company');
                     
-                    firebase.database().ref(`companies/${currentLog.uid}`).once('value',(snapshot)=>{
+                    firebase.database().ref(`companies/${currentLog.uid}`).on('value',(snapshot)=>{
                        
                         this.setState({currentLog, user: {...snapshot.val()} })
                     })
                 }
                 if(localStorage.getItem("current") === "user") {
                     this.props.userLogin('user');
-                    firebase.database().ref(`user/${currentLog.uid}`).once('value',(snapshot)=> {
+                    firebase.database().ref(`user/${currentLog.uid}`).on('value',(snapshot)=> {
                        
                         let user = {};
                         let tests = [];
@@ -109,10 +108,7 @@ class App extends Component {
     userTestAdded = () => {
         this.setState({userTestAdded: !this.state.userTestAdded});
     }
-    userTestExists = () => {
-        this.setState({userTestExists: !this.state.userTestExists});
-    }
-
+  
     componentWillUnmount() {
         //this.setState({testAddClicked: false});
     }
@@ -128,29 +124,27 @@ class App extends Component {
                         added to tests in your propfile
                     </PopUpTestAdded>
                 }
-                {this.state.userTestExists && 
-                    <PopUpTestAdded  exists={true}  userTestExists={this.userTestExists} user={this.state.user}>
-                        has already been added to your tests
-                    </PopUpTestAdded>
-                }
-
+                
                 <Layout currentLog={this.state.currentLog} user={this.state.user}>
                     <Switch className="App">
-                        <Route exact path={'/'} component={() => <HomePage testAddClicked={this.testAddClicked}/>}/>
+                        <Route exact path={'/'} component={() => 
+                            <HomePage 
+                                testAddClicked={this.testAddClicked}
+                                userTestAdded={this.userTestAdded}
+                                user={this.state.user}
+                            />}/>
                         <Route path="/tests/" component={() => 
                             <AllTests 
                                 testAddClicked={this.testAddClicked}
                                 userTestAdded={this.userTestAdded}
-                                userTestExists={this.userTestExists}
-                                currentUser={this.state.currentLog} 
                                 user={this.state.user}
+                                testAddClicked={this.state.testAddClicked}
                             />}/>
 
-                           <Route path="/aboutUs/" component={AboutUs}/>
-
+                        <Route path="/aboutUs/" component={AboutUs}/>
                         <Route path='/registration/user' component={AutorizationUser}/>
                         <Route path='/registration/company' component={AutorizationCompany}/>
-                        <Route path="/Users/" component={AllUsers}/>
+                        <Route path="/users/" component={AllUsers}/>
                         <Route path="/companies/" component={AllCompanies}/>
                         <Route path="/CompaniesInUser/" component={CompaniesInUser}/>
                         <Route path="/UsersInCompany/" component={UsersInCompany}/>

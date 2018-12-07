@@ -66,7 +66,7 @@ class AllUsers extends Component {
 			console.log(this.state.data)
 		}
 	// 	let filterData = users.filter( item => {
-	// 		return item.testTitle.toLowerCase().substr(0,search.length) === search.toLowerCase()
+	// 		return item.firstName.toLowerCase().substr(0,search.length) === search.toLowerCase()
 	// 	} )
 
 	// 	if(type !== ""){
@@ -91,8 +91,7 @@ class AllUsers extends Component {
 					selectSearchData={selectSearchData}
 				/>
 				<div className="content-grid">
-					{ this.state.usersLoaded
-					?
+					{this.state.data ?
 						users.map( item => {
 							return (
 								<TransitionGroup className="grid" key={item.id}>

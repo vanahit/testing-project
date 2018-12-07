@@ -171,7 +171,11 @@ class HomePage extends Component {
                     <FlexRow>
                         {
                             this.state.testsLoaded 
-                            ? <TestSlider testAddClicked={this.props.testAddClicked} />
+                            ? <TestSlider 
+                                user={this.props.user}
+                                testAddClicked={this.props.testAddClicked}
+                                userTestAdded={this.props.userTestAdded}
+                            />
                             : 'loading'
                         }
                     </FlexRow>

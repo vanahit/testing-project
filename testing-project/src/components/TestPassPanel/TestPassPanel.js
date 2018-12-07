@@ -6,8 +6,7 @@ import TestPasser from './TestPasser';
 import {deleteTest} from '../../store/actions/testPasser';
 import {Redirect} from "react-router";
 import { firebase } from '../../firebase/firebase';
-import {Route, Switch} from "react-router-dom";
-import User from '../../containers/Pages/User';
+
 
 const Main = styled.div`
 	margin: auto;
@@ -19,16 +18,16 @@ const Main = styled.div`
 
 class TestPassPanel extends Component {
 	state = {
-			testEnd: false,
-			test: this.props.test,
-			user: this.props.user,
-			totalScore: 0,
-		}
+		testEnd: false,
+		test: this.props.test,
+		user: this.props.user,
+		totalScore: 0,
+	}
 	componentDidUpdate(prevProps) {	
         if (this.props.test !== prevProps.test) {
 			this.setState({test: this.props.test});
-			console.log(this.state.test)
 		}
+
 		if (this.props.user !== prevProps.user ) {
             this.setState({ user: this.props.user });
         }
@@ -41,15 +40,17 @@ class TestPassPanel extends Component {
 	totalScore = (score) => {
 		this.setState({totalScore: this.state.totalScore + score});
 	}
-	componentWillUnmount() {
-		// https://test-project-4ab6b.firebaseio.com/user/DvJ47mWkUQMXQezVRZDA6nWqTL53/tests/-LS0j3a0GongklJjoPEw/score
-		this.setState({testEnd: true});
-		console.log(this.props.userScore)
-		if (this.state.user) {
-			let testRef =  firebase.database().ref(`user/${this.state.user.id}/tests/${this.state.test.id}`);
-			testRef.update({userScore: this.props.userScore});
-		}
 
+	componentWillUnmount() {
+		this.setState({testEnd: true});
+		let userTests = this.props.user.tests.filter(test => test.userScore >= 0);
+		console.log(this.props.test.id);
+		if (this.state.user) {
+			let userTest =  firebase.database().ref(`user/${this.state.user.id}/tests/${this.state.test.id}`);
+			userTest.update({userScore: this.props.userScore});
+			let testRef = firebase.database().ref(`tests/${this.props.test.id}/passers`);
+			testRef.child(`${this.props.user.id}`).set({...this.props.user, tests: userTests});
+		}
 	}
 
 	render() {

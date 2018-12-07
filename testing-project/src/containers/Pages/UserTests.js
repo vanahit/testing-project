@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import  styled  from 'styled-components';
 import { NavLink} from "react-router-dom";
 import { addTest } from '../../store/actions/testPasser';
+import {firebase} from '../../firebase/firebase';
 
 const NoTests = styled.div`
 	font-size: 28px;
@@ -27,8 +28,7 @@ class UserTests extends Component {
         super(props);
 
         this.state = {
-            data: this.props.tests,
-            user: this.props.user,
+            tests: this.props.user.tests,
             search: "",
             type: "",
             currentPage: 1,
@@ -93,33 +93,30 @@ class UserTests extends Component {
 		return	today = dd + '/' + mm + '/' + yyyy ;
 	}
 
-	deleteTest = (itemId) => {
-		this.props.testDeletedClicked();
-		this.props.deleteTest(itemId);
-	}
-
-
 	componentDidUpdate(prevProps, prevState) {
-		if (this.props.testsLoaded !== prevProps.testsLoaded) {
-            this.setState({ data: this.props.tests });
-           
-        }
-        if (this.props.user !== prevProps.user ) {
-            this.setState({ user: this.props.user });
-        }
-	}
+
+    }
+
+    deleteTest(testId) {
+        let db = firebase.database();
+        let deletedTest = db.ref(`user/${this.props.user.id}/tests/${testId}`);
+        firebase.database().ref(`tests/${testId}`).child(`added`).set(false);
+	    deletedTest.remove();
+        
+    }
 
     render() {
+        console.log(this.props.user, this.props.user.tests)
         let tests = [];
-		if (this.state.user) {
-            tests = this.state.user.tests.filter(test => {
+		if (this.state.tests) {
+            tests = this.state.tests.filter(test => {
                 return test.userScore < 0
             });
         }
-        console.log(tests)
+        
         
         const selectSearchData = ['JavaScript', 'Java', "PHP", 'C#', 'MySQL', 'Python', 'Ruby', 'Swift', 'React', 'Redux'];
-        const {data, search, type, currentPage, dataPerPage, loadMore, sortType, orderAscanding} = this.state;
+        const { search, type, currentPage, dataPerPage, loadMore, sortType, orderAscanding} = this.state;
         let filterData = tests.filter(item => {
             return item.testTitle.toLowerCase().substr(0, search.length) === search.toLowerCase()
         })
@@ -170,6 +167,7 @@ class UserTests extends Component {
             <div className="container-table">
                 <Searching
                     {...this.state}
+                    data={tests}
                     searching={this.searching.bind(this)}
                     currentDataLength={currentData.length}
                     selectSearchData={selectSearchData}
@@ -210,7 +208,7 @@ class UserTests extends Component {
                     </tr>
                     </thead>
                     <tbody>
-                    { this.state.data && this.state.user ?
+                    { this.state.tests  ?
                         currentData.map(item => {
                             return (
                                 <tr key={item.id}>
@@ -221,7 +219,7 @@ class UserTests extends Component {
                                         {this.deadline(item.testDeadline)}
                                     </td>
                                     <td>
-                                        <span>Delete</span>
+                                        <span onClick ={() => this.deleteTest(item.id)}>Delete</span>
                                     </td>
                                     <td>
                                         <NavLink to={`/${this.props.user.firstName}${this.props.user.lastName}/start-test`}>

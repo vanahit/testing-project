@@ -173,7 +173,12 @@ class TestSlider extends Component {
 												<Padding key={item.id}>
 													<OneTestSize>
 													
-														<TestRender  test={item} testAddClicked={this.props.testAddClicked}/>
+														<TestRender  
+															test={item} 
+															user={this.props.user}
+															testAddClicked={this.props.testAddClicked}
+															userTestAdded={this.props.userTestAdded}
+														/>
 													</OneTestSize>
 												</Padding>
 											);

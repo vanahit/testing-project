@@ -22,8 +22,7 @@ class AllCompanies extends Component {
 
 	componentDidUpdate(prevProps, prevState) {
         if (this.props.companiesLoaded !== prevProps.companiesLoaded) {
-			console.log(this.props.companies);
-            this.setState({data: this.props.companies});
+			this.setState({data: this.props.companies});
         }
 	}
 
@@ -68,7 +67,6 @@ class AllCompanies extends Component {
 
 		if (this.state.data) {
 			companies = this.state.data;
-			console.log(this.state.data + 'this is companies');
 		}
 			
 			companies.reduce( (acc,item) => {

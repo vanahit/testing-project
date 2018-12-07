@@ -62,12 +62,15 @@ const Button = styled.button`
     height: 44px;
     border: 0;
     border-radius: 4px;
-    background-color:rgba(255, 89, 89, 1);
+    background-color: ${props => props.disabled ? '#4F9DA6' :'rgba(255, 89, 89, 1)'};
 	color: white;
 	box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.16);
     font-weight: bold;
     font-size: 20px;
-    box-sizing: border-box;
+	box-sizing: border-box;
+	: hover {
+		cursor: ${props => props.disabled ? ''  : 'pointer' }
+	}
 `;
 
 const ButtonDiv = styled.div`
@@ -123,12 +126,13 @@ class TestComponent extends Component {
 			let userUrl = this.props.user.id;
 			firebase.database().ref(`user/${this.props.user.id}/tests`).once('value',  (snapshot)=> {
 				if (snapshot.hasChild(`${test.id}`)) {
-					this.props.userTestExists();
+				
 				} else {
 					this.props.userTestAdded();
 					this.props.addUserTest(test);
 					let userRef = firebase.database().ref(`user/${userUrl}`);
 					userRef.child('tests').child(`${test.id}`).set({...test, userScore: -1});
+					firebase.database().ref(`tests/${test.id}`).child(`added`).set(true);
 				}
 			});
 		} else {
@@ -158,7 +162,7 @@ class TestComponent extends Component {
 						<DataTitle>
 							Passes: {' '}
 							<Data>
-								{test.passes ? test.passes : 0}
+								{test.passers && (!test.passers.length ? 0 : test.passers.user.id)}
 							</Data>
 						</DataTitle>
 						<DataTitle>
@@ -172,7 +176,11 @@ class TestComponent extends Component {
 					<ButtonDiv>
 						{
 							this.props.userType !== 'company'
-								? <Button onClick={() => this.add(test)}>Add ></Button>
+								? <Button 
+									onClick={() => this.add(test)}
+									disabled = {test.added ? true : false}>
+									{test.added ? 'Added' : 'Add'}
+ 								</Button>
 								: ""
 						}
 

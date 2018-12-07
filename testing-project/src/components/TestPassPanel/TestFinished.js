@@ -68,11 +68,7 @@ const RouterLink = styled.span`
 
 class TestFinished extends Component {
     
-    componentDidMount() {
-
-    }
-    
-	render() {
+    render() {
 		return (
 			<Main>
                 <FlexRow>
@@ -101,6 +97,7 @@ class TestFinished extends Component {
 
 function mapStateToProps(state) {
 	return {
+        test: state.testPasser.testDetails,
         totalScore: state.testPasser.testDetails.totalScore,
         userScore: state.testPasser.userScore,
 	}

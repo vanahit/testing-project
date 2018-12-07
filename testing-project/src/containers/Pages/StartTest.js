@@ -145,7 +145,7 @@ class StartTest extends Component {
                     Start tests 
                 </AllDiv>
                 <Title>Start Test</ Title>
-                    
+                   
                 <FlexRow>
                     <FlexChild width={'146px'}>
                         Logo

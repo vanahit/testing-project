@@ -15,9 +15,9 @@ class AllTests extends Component {
 			currentPage: 1,
 			dataPerPage: 4,
 			loadMore: 0,
+			unMounted: false,
 		}
 	}
-
 	searching(e, searchProp) {
 		this.setState({
 			[searchProp]: e.target.value,
@@ -80,7 +80,9 @@ class AllTests extends Component {
 		if (this.props.testsLoaded !== prevProps.testsLoaded) {
 			this.setState({ data: this.props.tests });
 		}
+
 	}
+
 	render() {
 		let fillteredTests = [];
 		let tests = [];
@@ -122,30 +124,25 @@ class AllTests extends Component {
 				/>
 				<div className="content-grid">
 					{
-						this.state.data
-							?
-							currentData.map(item => {
-								return (
-									<TransitionGroup className="grid" key={item.id}>
-										<CSSTransition
-											in={true}
-											appear={true}
-											timeout={450}
-											classNames="slide"
-										>
-
-											<TestComponent
-												test={item}
-												user={this.props.user}
-												testAddClicked={this.props.testAddClicked}
-												userTestAdded={this.props.userTestAdded}
-												userTestExists={this.props.userTestExists}
-											/>
+						currentData.map(item => {
+							return (
+								<TransitionGroup className="grid" key={item.id}>
+									<CSSTransition
+										in={this.state.unMounted ? false : true}
+										appear={this.state.unMounted ? false : true}
+										timeout={450}
+										classNames="slide"
+									>
+										<TestComponent
+											test={item}
+											user={this.props.user}
+											testAddClicked={this.props.testAddClicked}
+											userTestAdded={this.props.userTestAdded}
+										/>
 										</CSSTransition>
 									</TransitionGroup>
 								)
 							})
-							: 'Loader'
 					}
 
 					<Pagination
