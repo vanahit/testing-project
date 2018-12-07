@@ -8,7 +8,7 @@ import Authorization from "./components/Autorization/Authorization";
 import AutorizationUser from "./components/Autorization/AutorizationUser";
 import AutorizationCompany from "./components/Autorization/AutorizationCompany";
 import Company from "./containers/Pages/Company";
-import CompaniesInUser from "./containers/Pages/CompaniesInUser";
+import CompaniesInUser from "./containers/Pages/CompanyInfoPage/CompaniesInUser";
 import UsersInCompany from "./containers/Pages/UsersInCompany";
 import AllTests from "./containers/Pages/AllTests";
 import AllCompanies from "./containers/Pages/AllCompanies";
@@ -37,6 +37,7 @@ class App extends Component {
         testAddClicked: false,
         testDeletedClicked: false,
         userTestAdded: false,
+        currentItem: null,
         user: null
     };
 
@@ -115,10 +116,9 @@ class App extends Component {
     userTestAdded = () => {
         this.setState({userTestAdded: !this.state.userTestAdded});
     }
-  
-    componentWillUnmount() {
-        //this.setState({testAddClicked: false});
-    }
+   addCurrentItem = (currentItem) => {
+    this.setState({currentItem: currentItem});
+   }
 
     render() {
         return (
@@ -151,8 +151,9 @@ class App extends Component {
                         <Route path='/registration/user' component={AutorizationUser}/>
                         <Route path='/registration/company' component={AutorizationCompany}/>
                         <Route path="/users/" component={AllUsers}/>
-                        <Route path="/companies/" component={AllCompanies}/>
-                        <Route path="/company-info-page/" component={CompaniesInUser}/>
+                        <Route path="/companies/" component={() => <AllCompanies addCurrentItem={this.addCurrentItem} />}/>
+                        <Route path="/company-info-page/:comp" 
+                            component={ () => <CompaniesInUser  item={this.state.currentItem}/>}/>
                         <Route path="/user-info-page/" component={UsersInCompany}/>
                         <Route
                             path='/authorization/'

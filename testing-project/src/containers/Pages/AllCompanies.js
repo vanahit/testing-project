@@ -1,11 +1,16 @@
 import React, { Component } from 'react';
 import src from '../../images/is.jpg';
-import {firebase} from '../../firebase/firebase';
 import Searching from './Searching';
 import Pagination from './Pagination';
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 import { connect } from 'react-redux';
+import { NavLink } from 'react-router-dom';
+import styled from 'styled-components';
 
+const NavLinkDiv = styled(NavLink)`
+	color: #100529;
+	text-decoration: none;
+`;
 class AllCompanies extends Component {
 	constructor(props){
 		super(props);
@@ -111,19 +116,21 @@ class AllCompanies extends Component {
 										appear={true}
 										timeout={450}
 										classNames="slide"
-									>
-										<div className="companyUser">
-											<img src={src} alt="Company Logo" className="logoCompany" />
-											<div  className="grid-info">
-												<h2>{item.name}</h2>
-												<p>
-													Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-												</p>
-												<div className="testsDiv">
-													<span>All Tests</span>
+									>   
+										<NavLinkDiv to={`/company-info-page/${item.name}`} >
+											<div className="companyUser" onClick={() => this.props.addCurrentItem(item)}>
+												<img src={src} alt="Company Logo" className="logoCompany" />
+												<div  className="grid-info">
+													<h2>{item.name}</h2>
+													<p>
+														Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+													</p>
+													<div className="testsDiv">
+														<span>All Tests</span>
+													</div>
 												</div>
 											</div>
-										</div>
+										</NavLinkDiv >
 									</CSSTransition>
 								</TransitionGroup>
 							)
