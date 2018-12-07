@@ -8,6 +8,12 @@ import { GET_TESTS_STARTED,
   GET_COMPANIES_STARTED, 
   GET_COMPANIES_SUCCESS, 
   GET_COMPANIES_FAILURE,
+  USER_LOGIN,
+  USER_LOGOUT,
+  ADD_USER_TEST,
+  DELETE_USER_TEST,
+  ADD_PASSING_TEST,
+
 
 } from '../actions/actionTypes';
   
@@ -22,7 +28,9 @@ import { GET_TESTS_STARTED,
     usersError: null,
     companiesError: null,
     userLogin: false,
-    companyLogin: false,
+    userType: '',
+    addedTest: null,
+    passingTest: null,
   };
   
   export default function appReducer(state = initialState, action) {
@@ -87,6 +95,34 @@ import { GET_TESTS_STARTED,
           companiesLoaded: false,
           companiesError: action.payload.error
         };
+      case USER_LOGIN:
+        return {
+          ...state,
+          userLogin: true,
+          userType: action.userType
+      }
+      case USER_LOGOUT:
+        return {
+          ...state,
+          userLogin: false,
+          userType: '',
+        }
+      case ADD_USER_TEST:
+        return {
+          ... state,
+          addedTest: action.test
+        }
+      case DELETE_USER_TEST:
+        return {
+          ... state,
+          addedTest: null,
+        }
+      case ADD_PASSING_TEST:
+        return {
+          ... state,
+          passingTest: action.test,
+        }
+  
       default:
         return state;
     }

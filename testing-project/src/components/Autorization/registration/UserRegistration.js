@@ -12,7 +12,6 @@ class UserRegistration extends Component {
             password: '',
             confirmedPassword: '',
             languages: [],
-            description: "",
             skillsContent: false
         }
     }
@@ -48,7 +47,13 @@ class UserRegistration extends Component {
             firebase.auth().createUserWithEmailAndPassword(user.email, user.password)
                 .then(res => {
                     firebase.auth().currentUser.sendEmailVerification();
-                    firebase.database().ref('user').push(user);
+                    user.description = '';
+                    user.image = '';
+                    user.id = res.uid;
+                    user.type='user';
+                    localStorage.setItem("current", "user");
+                    firebase.database().ref(`user/${res.uid}`).set(user);
+                    // firebase.database().ref('user').push(user);
                     console.log(res);
                 })
                 .catch(e => console.log(e.message));

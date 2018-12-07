@@ -114,7 +114,7 @@ class AllCompanies extends Component {
 										timeout={450}
 										classNames="slide"
 									>
-										<div key={item.id} className="companyUser">
+										<div className="companyUser">
 											<img src={src} alt="Company Logo" className="logoCompany" />
 											<div  className="grid-info">
 												<h2>{item.name}</h2>

@@ -1,11 +1,7 @@
 import React, {Component} from 'react';
-
+import {NavLink} from "react-router-dom";
 
 class CompanyProfile extends Component {
-
-
-
-
     render() {
         return (
 
@@ -33,7 +29,9 @@ class CompanyProfile extends Component {
                             </div>
                             <div className='profile-buttons'>
                                 <button>FIND EMPLOYEE</button>
-                                <button>CREATE TEST</button>
+                                <NavLink to={`/${this.props.user.name}/add-test` }>
+                                    <button>CREATE TEST</button>
+                                </NavLink>
                             </div>
                         </div>
                     </div>

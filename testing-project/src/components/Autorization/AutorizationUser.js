@@ -4,7 +4,8 @@ import UserRegistration from "./registration/UserRegistration";
 import * as firebase from "firebase";
 import NavLink from "react-router-dom/es/NavLink";
 
-export default class AutorizationUser extends Component {
+
+class AutorizationUser extends Component {
 
     constructor(props) {
         super(props);
@@ -28,7 +29,11 @@ export default class AutorizationUser extends Component {
     signIn(e) {
         e.preventDefault();
         firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.pass)
-            .then(r => console.log(r.user.uid))
+            .then(r => {
+                localStorage.setItem("current", "user");
+                this.props.userLogin('user');
+                console.log(r.user.uid)
+            })
             .catch(err => console.log(err));
     }
 
@@ -53,5 +58,14 @@ export default class AutorizationUser extends Component {
         );
     }
 }
+
+
+const mapDispatchToProps = dispatch => {
+    return {
+        userLogin: userType => dispatch(userLogin(userType))
+    };
+};
+
+export default connect(null, mapDispatchToProps)(AutorizationUser);
 
 

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import styled from 'styled-components'
 import { connect } from 'react-redux';
 import close from '../../images/buttonIcons/closeIcon.svg';
+import {firebase} from '../../firebase/firebase';
  
 const BlackDiv = styled.div`
     position: absolute;
@@ -38,6 +39,7 @@ const Error = styled.div`
 
 const TextSpan = styled.div`
     color: #100529;
+    font-size: 24px;
     padding-bottom: 8px;
     border-bottom: 1px solid #D6D6D6;
 `;
@@ -75,18 +77,25 @@ class PopUpDelete extends Component {
 		super(props);
 		this.state = {};
 	}
+    deleteTest = testId => {
+        let db = firebase.database();
+        let deletedTest = db.ref(`tests/${testId}`);
+        deletedTest.remove();
+        this.props.testDeletedClicked()
+        console.log(testId);
+    }
 
     render() {
 		return (
             <BlackDiv>
                 <Block>
                     <CloseDiv>
-                        <Close />
+                        <Close onClick={this.props.testDeletedClicked} />
                     </CloseDiv>
                     <Error>!</Error>
                     <TextSpan>Are You sure?</TextSpan>
-                    <Button color={'#E62416'} width={'179px'}>Yes, delete it</Button>
-                    <Button>Cancel</Button>
+                    <Button color={'#E62416'} width={'179px'}  onClick={()=> this.deleteTest(this.props.deletingTest)}>Yes, delete it</Button>
+                    <Button onClick={this.props.testDeletedClicked}>Cancel</Button>
                 </Block>
             </BlackDiv>
         );
@@ -95,7 +104,7 @@ class PopUpDelete extends Component {
 
 function mapStateToProps(state) {
 	return {
-	
+        deletingTest: state.testCreator.deletingTest,
 	}
 }
 

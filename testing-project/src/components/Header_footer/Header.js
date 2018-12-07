@@ -3,7 +3,8 @@ import {NavLink} from "react-router-dom";
 import styled, {css} from 'styled-components';
 import * as firebase from "firebase";
 import Icon from './AccountSvg';
-
+import { userLogout } from '../../store/actions/appAction';
+import {connect} from 'react-redux';
 
 const HeaderWrapper = styled.div`
        margin: 0 auto;
@@ -64,8 +65,7 @@ const LoginLogout = styled(NavLink)`
         color: #FFAD5A;
        
     }
- 
-`;
+ `;
 
 const MyAccount = styled(NavLink)`
     display: inline-block;
@@ -94,6 +94,8 @@ const Header = (props) => {
 
     const logOut = () => {
         firebase.auth().signOut().then(function () {
+            localStorage.removeItem("current");
+            props.userLogout();
         }, function (error) {
             console.error('Sign Out Error', error);
         });
@@ -126,14 +128,22 @@ const Header = (props) => {
                         alignItems: 'center'
                     }}>
 
+                   
+                           
+                           { props.user.type === "company" ? 
+                                                       <MyAccount to={`/${props.user.name}/profile`}> 
+                                                           {props.user.name}
+                                                           <IconSizes><Icon /></IconSizes>
+                                                       </MyAccount> :
+                                                       <MyAccount to={`/${props.user.firstName}${props.user.lastName}/profile`}> 
+                                                           {`${props.user.firstName} ${props.user.lastName}`}
+                                                           <IconSizes><Icon /></IconSizes>
+                                                       </MyAccount>}
+                        
+                        
+                        <LoginLogout to={'/authorization'} onClick={() => logOut()}>LOG OUT</LoginLogout>
 
-                        <MyAccount to={'/company/profile'}>
-                            {props.user.name}
-                            <IconSizes><Icon/></IconSizes>
-                        </MyAccount>
 
-
-                        <LoginLogout to={'/company/profile'} onClick={() => logOut()}>LOG OUT</LoginLogout>
                     </div>
 
                     : <LoginLogout to={'/authorization'}>
@@ -145,5 +155,10 @@ const Header = (props) => {
     )
 };
 
+const mapDispatchToProps = dispatch => {
+    return {
+        userLogout: userType => dispatch(userLogout())
+    };
+};
 
-export default Header;
+export default connect(null, mapDispatchToProps)(Header);

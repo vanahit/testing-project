@@ -359,11 +359,11 @@ img {
 }
 
 .profile-buttons button {
-    background-color: #FF5959;
+    border: none;
+    background-color: rgba(255, 89, 89, 0.7);
+    color: white;
     height: 60px;
     width: 202px;
-    border: none;
-    color: white;
     font-size: 20px;
     border-radius: 3px;
     margin-left: 16px;
@@ -371,7 +371,9 @@ img {
 }
 
 .profile-buttons button:hover {
-    opacity: 0.4;
+    border: 1px solid white;
+    background-color:  rgba(255, 89, 89, 1);;
+    color: white;
 }
 
 /*-----------------------------------------------------*/

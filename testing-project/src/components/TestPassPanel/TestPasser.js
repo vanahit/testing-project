@@ -131,7 +131,10 @@ class TestPasser extends Component {
         } else {
             this.props.testEnded();
         }
-    }
+	}
+	componentWillUnmount() {
+		this.props.testEnded();
+	}
 
   	render() {
 
@@ -193,7 +196,7 @@ class TestPasser extends Component {
 
 function mapStateToProps(state) {
 	return {
-        test: state.testPasser.testDetails,
+        
 	}
 }
 

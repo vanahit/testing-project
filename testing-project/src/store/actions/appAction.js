@@ -7,6 +7,11 @@ import { GET_TESTS_STARTED,
         GET_COMPANIES_STARTED, 
         GET_COMPANIES_SUCCESS, 
         GET_COMPANIES_FAILURE,
+        USER_LOGIN,
+        USER_LOGOUT,
+        ADD_USER_TEST,
+        DELETE_USER_TEST,
+        ADD_PASSING_TEST,
 
       } from "./actionTypes";
 
@@ -81,4 +86,38 @@ import { GET_TESTS_STARTED,
         error
       }
     }
+};
+
+export function userLogin (userType) {
+  return {
+    type: USER_LOGIN,
+    userType
   }
+};
+
+export function userLogout () {
+  return {
+    type: USER_LOGOUT,
+     
+  }
+};
+
+export function addUserTest (test) {
+  return {
+    type: ADD_USER_TEST,
+    test
+  }
+};
+
+export function deleteUserTest () {
+  return {
+    type: DELETE_USER_TEST,
+  }
+};
+
+export function addPassingTest (test) {
+  return {
+    type: ADD_PASSING_TEST,
+    test
+  }
+};

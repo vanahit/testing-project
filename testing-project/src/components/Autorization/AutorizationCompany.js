@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import Login from "./login/Login";
 import CompanyRegistration from "./registration/CompanyRegistration";
+import {connect} from 'react-redux';
 import * as firebase from "firebase";
 import NavLink from "react-router-dom/es/NavLink";
 
@@ -31,7 +32,11 @@ class AutorizationCompany extends Component {
     signIn(e) {
         e.preventDefault();
         firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.pass)
-            .then(r => console.log(r.user))
+            .then(r => {
+                localStorage.setItem("current", "company");
+                this.props.userLogin('company');
+                console.log(r.user)
+            })
             .catch(err => console.log(err));
     }
 
@@ -59,5 +64,11 @@ class AutorizationCompany extends Component {
     }
 }
 
-export default AutorizationCompany;
+const mapDispatchToProps = dispatch => {
+    return {
+        userLogin: userType => dispatch(userLogin(userType))
+    };
+};
+
+export default connect(null, mapDispatchToProps)(AutorizationCompany);
 

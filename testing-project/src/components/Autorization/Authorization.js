@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import AutorizationCompany from "./AutorizationCompany";
 import '../../App.css';
+import { NavLink, Route } from "react-router-dom";
 import {Redirect} from "react-router";
 import {firebase} from '../../firebase/firebase';
 

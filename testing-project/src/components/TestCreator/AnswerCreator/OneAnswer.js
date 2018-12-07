@@ -38,7 +38,7 @@ const AnswerInput = styled.textarea`
 class OneAnswer extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {title: ''};
+    this.state = {title: this.props.value};
   }
     handleChange = (e) => {
       this.setState({title: e.target.value});
@@ -65,6 +65,7 @@ class OneAnswer extends React.Component {
     return ( 
       <AnswerInput 
         type="text"
+        value={this.state.title}
         placeholder={`Answer ${this.props.count}`} 
         onChange={this.handleChange} 
         invalid = {this.props.isFilled(this.props.value)}

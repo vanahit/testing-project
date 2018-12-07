@@ -7,8 +7,10 @@ import {getCompaniesStarted,
         getUsersStarted,
         getUsersFailure,
         getUsersSuccess,
+        editingTest,
     } from '../actions/appAction';
 import {firebase} from '../../firebase/firebase';
+import { addEditingQuestions } from '../actions/testCreator';
 
 export const getTests = () => {
     return dispatch => {
@@ -53,13 +55,23 @@ export const getUsers = () => {
 
         firebase.database().ref('user').on('value', (snapshot) => {
             let users = [];
+            let tests = [];
              snapshot.forEach(childSnapshot => {
+                childSnapshot.child('tests').forEach (snapshot1 => {
+                    tests.push({ 
+                        id: snapshot1.key,
+                        ...snapshot1.val()
+                    })
+                })
                 users.push({
-                     id: childSnapshot.key,
-                     ...childSnapshot.val()
-                }) 
+                    id: childSnapshot.key,
+                    ...childSnapshot.val(), 
+                    tests
+               }) 
+               
             });
             dispatch(getUsersSuccess(users));
          });
      }  
  };
+

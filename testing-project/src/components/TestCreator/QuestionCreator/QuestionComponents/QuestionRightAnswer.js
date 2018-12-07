@@ -45,7 +45,8 @@ const QuestionRightAnswer = props => {
           <Radio
             type='radio'
             name={props.name} 
-            value={props.id} 
+						value={props.id}
+						defaultChecked={props.checked} 
             onClick={handleChange}
           />
         </>
