@@ -148,29 +148,36 @@ class App extends Component {
                         <Route path="/companies/" component={AllCompanies}/>
                         <Route path="/company-info-page/" component={CompaniesInUser}/>
                         <Route path="/user-info-page/" component={UsersInCompany}/>
-                        <Route path="/:company/add-test" component={() => <TestCreator user={this.state.user} />}/>
-                        <Route path="/:company/edit-test" component={() => 
-                            <TestEditor editingTest={this.props.editingTest} user={this.state.user} />}
-                        />
-                        <Route path="/:user/start-test" component={() => 
-                                <StartTest user={this.state.user}/>} />
-                        <Route path="/:user/test/:Id" component={() => 
-                                <TestPassPanel passingTest={this.props.passingTest} user={this.state.user}/>}/>
-                          <Route
+                        <Route
                             path='/authorization/'
-                            component={() => <Authorization currentCompany={this.state.currentLog}   user={this.state.user}/>} />                        
-
+                            component={() => <Authorization currentCompany={this.state.currentLog}
+                                                            user={this.state.user}/>}
+                        />
+                        
                         {localStorage.getItem("current") === "user" 
-                            ? 
-                               <Route path="/:user/:text" component={() => <User currentCompany={this.state.currentLog} user={this.state.user} />}/>
-                
-                            : <Route path="/:company/:text" component={() =>  
-                                <Company 
-                                    currentCompany={this.state.currentLog} 
-                                    user={this.state.user} 
-                                    testDeletedClicked={this.testDeletedClicked} />}
-                                />
+                            ? <div>
+                                <Route path="/:user/start-test" component={() => 
+                                    <StartTest user={this.state.user}/>}/>
+                                <Route path="/:user/test/:Id" component={() => 
+                                    <TestPassPanel passingTest={this.props.passingTest} user={this.state.user}/>}/>
+                                <Route path="/:user/:text" component={() => <User currentCompany={this.state.currentLog} user={this.state.user} />}/> 
+                                
+                                </div>
+                            
+                            :    <div>
+                                    <Route path="/:company/add-test" component={() => <TestCreator user={this.state.user} />}/>
+                                    <Route path="/:company/edit-test" component={() => 
+                                        <TestEditor editingTest={this.props.editingTest} user={this.state.user} />}
+                                    />
+                                    <Route path="/:company/:text" component={() =>  
+                                    <Company 
+                                        currentCompany={this.state.currentLog} 
+                                        user={this.state.user} 
+                                        testDeletedClicked={this.testDeletedClicked} />}/>
+                                </div>
                         }
+
+                     
                     
                         
                         <Route component={NoMatch}/>
