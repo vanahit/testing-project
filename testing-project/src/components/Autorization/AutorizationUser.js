@@ -59,8 +59,6 @@ class AutorizationUser extends Component {
     }
 }
 
-
-
 export default AutorizationUser;
 
 
