@@ -71,6 +71,7 @@ class CompanyRegistration extends Component {
                         <h5>Register</h5>
 
                         <input
+                            required
                             className='info-field'
                             type="text"
                             placeholder='COMPANY NAME *'
@@ -79,6 +80,7 @@ class CompanyRegistration extends Component {
                         />
 
                         <input
+                            required
                             className='info-field'
                             type="email"
                             placeholder='EMAIL *'
@@ -87,6 +89,7 @@ class CompanyRegistration extends Component {
                         />
 
                         <input
+                            required
                             className='info-field'
                             type="password"
                             placeholder='PASSWORD *'
@@ -95,6 +98,7 @@ class CompanyRegistration extends Component {
                         />
 
                         <input
+                            required
                             className='info-field'
                             type="password"
                             placeholder='CONFIRM PASSWORD *'

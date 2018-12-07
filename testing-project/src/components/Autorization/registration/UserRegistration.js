@@ -91,6 +91,7 @@ class UserRegistration extends Component {
                         <h5>Register</h5>
 
                         <input
+                            required
                             className='info-field'
                             type="text"
                             placeholder='FIRST NAME *'
@@ -98,6 +99,7 @@ class UserRegistration extends Component {
                             onChange={(e) => this.changeField(e, 'firstName')}
                         />
                         <input
+                            required
                             className='info-field'
                             type="text"
                             placeholder='LAST NAME *'
@@ -105,6 +107,7 @@ class UserRegistration extends Component {
                             onChange={(e) => this.changeField(e, 'lastName')}
                         />
                         <input
+                            required
                             className='info-field'
                             type="email"
                             placeholder='EMAIL *'
@@ -112,6 +115,7 @@ class UserRegistration extends Component {
                             onChange={(e) => this.changeField(e, 'email')}
                         />
                         <input
+                            required
                             className='info-field'
                             type="password"
                             placeholder='PASSWORD *'
@@ -119,6 +123,7 @@ class UserRegistration extends Component {
                             onChange={(e) => this.changeField(e, 'password')}
                         />
                         <input
+                            required
                             className='info-field'
                             type="password"
                             placeholder='CONFIRM PASSWORD *'
