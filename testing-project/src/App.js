@@ -66,6 +66,7 @@ class App extends Component {
                                 ...childSnapshot.val()
                             })
                         })
+                        
                         user = {
                             id: snapshot.key,
                             ...snapshot.val(),
@@ -138,7 +139,6 @@ class App extends Component {
                                 testAddClicked={this.testAddClicked}
                                 userTestAdded={this.userTestAdded}
                                 user={this.state.user}
-                                testAddClicked={this.state.testAddClicked}
                             />}/>
 
                         <Route path="/aboutUs/" component={AboutUs}/>

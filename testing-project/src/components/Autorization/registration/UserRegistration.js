@@ -139,9 +139,9 @@ class UserRegistration extends Component {
                             <div className="absolute" onClick={this.showSkills.bind(this)}/>
                             {<div className={skillsContent ? "skills-content" : "skills-content-none"}>
                                 {
-                                    languages.map(item => {
+                                    languages.map((item, index) => {
                                         return (
-                                            <div className="skill">
+                                            <div className="skill" key={index}>
                                                 <input key={item}
                                                        type="checkbox"
                                                        onChange={e => this.changeCheckboxHandler(e, item)}/>

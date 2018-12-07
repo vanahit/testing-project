@@ -17,12 +17,21 @@ export const getTests = () => {
         dispatch(getTestsStarted());
         
         firebase.database().ref('tests').on('value', (snapshot) => {
-	       let tests = [];
+           let tests = [];
+           let passers = [];
 	        snapshot.forEach(childSnapshot => {
+                childSnapshot.child('passers').forEach (snapshot1 => {
+                    passers.push({ 
+                        id: snapshot1.key,
+                        ...snapshot1.val()
+                    })
+                })
 	            tests.push({
 	                id: childSnapshot.key,
-	                ...childSnapshot.val()
+                    ...childSnapshot.val(),
+                    passers
                 }) 
+                
                
             });
             dispatch(getTestsSuccess(tests));

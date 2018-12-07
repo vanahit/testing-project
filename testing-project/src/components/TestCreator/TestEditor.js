@@ -138,7 +138,6 @@ class TestEditor extends Component {
                 isPassing: false,
                 companyId: this.props.user.id,
                 totalScore: this.props.totalScore,
-                passers: 0,
 		};
 		let updatedTest = db.ref(`tests/${this.props.editingTest.id}`);
         updatedTest.update({ ...test });

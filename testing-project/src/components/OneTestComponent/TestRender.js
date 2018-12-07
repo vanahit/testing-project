@@ -162,7 +162,7 @@ class TestComponent extends Component {
 						<DataTitle>
 							Passes: {' '}
 							<Data>
-								{test.passers && (!test.passers.length ? 0 : test.passers.user.id)}
+								{!test.passers ? 0 : test.passers.length}
 							</Data>
 						</DataTitle>
 						<DataTitle>
