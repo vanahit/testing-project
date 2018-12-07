@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import TestFinished from './TestFinished';
 import TestPasser from './TestPasser';
 import {deleteTest} from '../../store/actions/testPasser';
-import {Redirect} from "react-router";
 import { firebase } from '../../firebase/firebase';
 
 

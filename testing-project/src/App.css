@@ -45,18 +45,23 @@
 
 .switch-buttons {
     width: 1200px;
+    border-bottom: 1px solid #4F9DA6;
     margin: 0 auto;
-
+  
 }
 
 .switch-buttons p {
     tab-size: 14px;
     color: #D6D6D6;
     margin: 20px 0;
+    
+
 }
 
 .selected-tab {
     background-color: #4F9DA6 !important;
+    color: white !important;
+   
 }
 
 .switch-buttons button {
@@ -66,6 +71,7 @@
     font-weight: bold;
     color: #D6D6D6;
     border: 1px solid #D6D6D6;
+    border-bottom: 0;
     background-color: white;
 }
 
@@ -173,7 +179,10 @@
     margin-right: 15px;
     cursor: pointer;
 }
-
+.submit {
+    border: 0;
+    border-radius: 4px;
+}
 .login .submit,
 .registration .submit {
     width: 504px;
@@ -193,23 +202,31 @@
     height: 19px;
     margin-bottom: 15px;
 }
-
+.facgo {
+    text-align: center;
+}
 
 .fac, .go {
     height: 60px;
     width: 50%;
     font-size: 24px;
-    color: white;
+    color: white !important;;
     font-weight: bold;
     cursor: pointer;
+    border: 0px;
 }
+   
 
 .fac {
-    background-color: #4267B2;
+    border: 0;
+    border-radius: 4px 0 0 4px;
+    background-color: #4267B2 !important;
 }
 
 .go {
-    background-color: #E74847;
+    border: 0;
+    border-radius: 0px 4px 4px 0px;
+    background-color: #E74847 !important;
 }
 
 /*-----------------------------------------*/

@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import { connect } from 'react-redux';
 import forUserImg from '../../../images/for-user-bg.jpg';
 import CheckBox from './CheckBox';
+import {NavLink} from 'react-router-dom';
 
 const GetStartedDiv = styled.div`
     color: white;
@@ -27,15 +28,17 @@ const FlexChild = styled.div`
 	}
 `;
 
-const Button = styled.button`
-    width: ${props => props.width || ''};  
-    height: 60px;
+
+const Button = styled(NavLink)`
+    display: inline-block; 
+    padding: 16px 42px;
     border: 0;
     border-radius: 4px;
     background-color:rgba(255, 89, 89, 1);
     color: white;
     font-weight: bold;
-    font-size: 18px;
+    font-size: 24px;
+    text-decoration: none;
 `;
 
 const TitleWhite = styled.div`
@@ -79,7 +82,7 @@ class BecomeUser extends Component {
                             <CheckBox>Recieve Invitations from Leading Companies</CheckBox>
                                                                 
                             <GetStartedDiv>
-                               <Button width={'228px'}>
+                               <Button width={'228px'} to='/autorization-user'>
                                     BECOME USER
                                 </Button>
                             </GetStartedDiv>

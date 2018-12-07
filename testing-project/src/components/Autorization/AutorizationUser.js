@@ -1,9 +1,14 @@
 import React, {Component} from 'react';
 import Login from "./login/Login";
 import UserRegistration from "./registration/UserRegistration";
-import {connect} from 'react-redux';
 import * as firebase from "firebase";
-import { userLogin } from '../../store/actions/appAction';
+import styled from 'styled-components';
+
+const MarginDiv = styled.div`
+    margin: 70px auto;
+`;
+
+
 
 class AutorizationUser extends Component {
 
@@ -39,7 +44,7 @@ class AutorizationUser extends Component {
 
     render() {
         return (
-            <div>
+            <MarginDiv>
                 <div className='container'>
                     <Login
                         login={this.state.pass}
@@ -49,18 +54,12 @@ class AutorizationUser extends Component {
                     <UserRegistration/>
                 </div>
 
-            </div>
+            </MarginDiv>
         );
     }
 }
 
 
-const mapDispatchToProps = dispatch => {
-    return {
-        userLogin: userType => dispatch(userLogin(userType))
-    };
-};
-
-export default connect(null, mapDispatchToProps)(AutorizationUser);
+export default AutorizationUser;
 
 

@@ -145,6 +145,16 @@ class TestSlider extends Component {
 		today = this.getTodayDate(today);
 		return Date.parse(stringDate) >= Date.parse(today);        
 	}
+	checkIfAdded = (testId) => {
+		if (this.props.user && this.props.user.tests) {
+			for (let i = 0; i < this.props.user.tests.length; i++) {
+				if (testId ===  this.props.user.tests[i].id) {
+					return true;
+				}
+			}
+			return false;
+		}
+	}
 
 	render() {
 		let fillteredTests = [];
@@ -174,6 +184,7 @@ class TestSlider extends Component {
 													<OneTestSize>
 													
 														<TestRender  
+															added={this.checkIfAdded(item.id)}
 															test={item} 
 															user={this.props.user}
 															testAddClicked={this.props.testAddClicked}

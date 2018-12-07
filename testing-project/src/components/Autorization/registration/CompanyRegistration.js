@@ -1,5 +1,15 @@
 import React, {Component} from 'react';
 import * as firebase from "firebase";
+import styled from 'styled-components';
+
+const LoginDiv = styled.div`
+    font-size: 34px;
+    color: white;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 60px;
+`;
+
 
 class CompanyRegistration extends Component {
     constructor(props) {
@@ -68,7 +78,7 @@ class CompanyRegistration extends Component {
 
                 <div className='registration'>
                     <div className='Logwrapper'>
-                        <h5>Register</h5>
+                        <LoginDiv>Register</LoginDiv>
 
                         <input
                             className='info-field'
@@ -106,7 +116,7 @@ class CompanyRegistration extends Component {
                             DigiLearn <span style={{color: '#FFAD5A'}}>Privacy Policy</span> and <br/><span
                                 style={{color: '#FFAD5A', marginBottom: '15px'}}>Terms of use</span>.</p>
 
-                        <input className='submit' type="submit"/>
+                        <input className='submit' type="submit" value="CREATE ACCOUNT"/>
                     </div>
 
                 </div>

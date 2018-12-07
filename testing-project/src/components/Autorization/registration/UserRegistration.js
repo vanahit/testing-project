@@ -1,5 +1,14 @@
 import React, {Component} from 'react';
 import * as firebase from "firebase";
+import styled from 'styled-components';
+
+const LoginDiv = styled.div`
+    font-size: 34px;
+    color: white;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 60px;
+`;
 
 class UserRegistration extends Component {
     constructor(props) {
@@ -88,7 +97,7 @@ class UserRegistration extends Component {
 
                 <div className='registration'>
                     <div className='Logwrapper'>
-                        <h5>Register</h5>
+                        <LoginDiv>Register</LoginDiv>
 
                         <input
                             className='info-field'
@@ -155,7 +164,7 @@ class UserRegistration extends Component {
                         <div className="textInformation">
                             By creating an account, you creating to DigiLearn <span>Privacy Policy</span> and <span>Terms of use</span>
                         </div>
-                        <input type="submit" className="registr" value="Create Acount"/>
+                        <input type="submit" className="registr" value="CREATE ACCOUNT"/>
                     </div>
 
                 </div>

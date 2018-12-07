@@ -1,9 +1,13 @@
 import React, {Component} from 'react';
 import Login from "./login/Login";
 import CompanyRegistration from "./registration/CompanyRegistration";
-import {connect} from 'react-redux';
 import * as firebase from "firebase";
-import { userLogin } from '../../store/actions/appAction';
+import styled from 'styled-components';
+
+const MarginDiv = styled.div`
+    margin: 70px auto;
+`;
+
 
 
 class AutorizationCompany extends Component {
@@ -20,7 +24,6 @@ class AutorizationCompany extends Component {
             showError: false,
         }
     }
-
 
     changeHandler(e, field) {
         this.setState({
@@ -43,8 +46,7 @@ class AutorizationCompany extends Component {
     render() {
 
         return (
-            <div>
-
+            <MarginDiv>
                     <div className='container'>
                         <Login
                             login={this.state.pass}
@@ -54,16 +56,12 @@ class AutorizationCompany extends Component {
                         <CompanyRegistration/>
                     </div>
 
-            </div>
+            </MarginDiv>
         );
     }
 }
 
-const mapDispatchToProps = dispatch => {
-    return {
-        userLogin: userType => dispatch(userLogin(userType))
-    };
-};
 
-export default connect(null, mapDispatchToProps)(AutorizationCompany);
+
+export default AutorizationCompany;
 
