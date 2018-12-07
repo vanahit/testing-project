@@ -146,43 +146,30 @@ class App extends Component {
                         <Route path='/registration/company' component={AutorizationCompany}/>
                         <Route path="/users/" component={AllUsers}/>
                         <Route path="/companies/" component={AllCompanies}/>
-                        <Route path="/CompaniesInUser/" component={CompaniesInUser}/>
-                        <Route path="/UsersInCompany/" component={UsersInCompany}/>
+                        <Route path="/company-info-page/" component={CompaniesInUser}/>
+                        <Route path="/user-info-page/" component={UsersInCompany}/>
                         <Route path="/:company/add-test" component={() => <TestCreator user={this.state.user} />}/>
                         <Route path="/:company/edit-test" component={() => 
                             <TestEditor editingTest={this.props.editingTest} user={this.state.user} />}
                         />
-                         <Route path="/:user/start-test" component={() => 
+                        <Route path="/:user/start-test" component={() => 
                                 <StartTest user={this.state.user}/>} />
                         <Route path="/:user/test/:Id" component={() => 
                                 <TestPassPanel passingTest={this.props.passingTest} user={this.state.user}/>}/>
                           <Route
                             path='/authorization/'
-                            component={() => <Authorization currentCompany={this.state.currentLog}   user={this.state.user}/>} />                        {localStorage.getItem("current") === "user" ? 
-                                                    <Route path="/:user/:text" component={() => <User currentCompany={this.state.currentLog} user={this.state.user} />}/> :
-                                                    <Route path="/:company/:text" component={() => 
-                                                        <Company 
-                                                            currentCompany={this.state.currentLog} 
-                                                            user={this.state.user} 
-                                                            testDeletedClicked={this.testDeletedClicked}
-                                                        />}/>}
+                            component={() => <Authorization currentCompany={this.state.currentLog}   user={this.state.user}/>} />                        
 
-
-                        />
-                        
                         {localStorage.getItem("current") === "user" 
-                            ? <div>
-                               
-                                
-                                <Route path="/:user/:text" component={() => <User currentCompany={this.state.currentLog} user={this.state.user} />}/> 
-                                
-                                </div>
-                            
+                            ? 
+                               <Route path="/:user/:text" component={() => <User currentCompany={this.state.currentLog} user={this.state.user} />}/>
+                
                             : <Route path="/:company/:text" component={() =>  
                                 <Company 
                                     currentCompany={this.state.currentLog} 
                                     user={this.state.user} 
-                                    testDeletedClicked={this.testDeletedClicked} />}/>
+                                    testDeletedClicked={this.testDeletedClicked} />}
+                                />
                         }
                     
                         

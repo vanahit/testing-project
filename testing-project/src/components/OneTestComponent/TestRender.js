@@ -19,6 +19,10 @@ const TestBlock = styled.div`
 	border-radius: 4px;
 	box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.16);
 	box-sizing: border-box;
+	:hover {
+		cursor: pointer;
+	}
+	
 `;
 
 const Details = styled.div`
@@ -43,11 +47,6 @@ const Data = styled.span`
 	font-size: 16px;
 	color: #4F9DA6;
 	margin-bottom: 8px;
-`;
-
-const ImgDiv = styled.div`
-	width: 100%;
-	box-sizing: border-box;
 `;
 
 const DataTitle = styled.div`
@@ -76,6 +75,13 @@ const Button = styled.button`
 const ButtonDiv = styled.div`
 	text-align: right;
 `;
+const Img = styled.img`
+	margin: 0;
+	width: 100%;
+	height: 100%;
+	box-sizing: border-box;
+`;
+
 
 
 class TestComponent extends Component {
@@ -143,15 +149,8 @@ class TestComponent extends Component {
 		let test = this.props.test;
 		return (
 			<>
-				<TestBlock onMouseOver={this.props.onOver} onMouseOut={this.props.onOut}>
-					<ImgDiv>
-						<object type="image/svg+xml" name="myicon"
-							data={this.chooseImg()}
-							width="100%" height="100%" >
-							Please upate your brouser
-						</object>
-
-					</ImgDiv>
+				<TestBlock>
+					<Img src={this.chooseImg()} />
 					<Details>
 						<TestTitle>
 							{test.testTitle}

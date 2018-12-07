@@ -26,8 +26,7 @@ class CompanyTests extends Component {
 	componentDidUpdate(prevProps, prevState) {
         if (this.props.testsLoaded !== prevProps.testsLoaded) {
 			this.setState({data: this.props.tests});
-			console.log(this.state.data)
-        }
+		}
 	}
 
 	searching (e, searchProp) {
@@ -204,7 +203,7 @@ class CompanyTests extends Component {
 								</tr>
 							)
 						} )
-						: <Loader></Loader>
+						: 'loader'
 					} 
 					</tbody>
 					

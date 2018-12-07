@@ -1,6 +1,10 @@
 import React, {Component} from 'react';
 import src from '../../images/is.jpg';
 import PassedTests from './PassedTests';
+import styled from 'styled-components';
+const img = styled.div`
+
+`;
 
 
 
@@ -29,7 +33,7 @@ export default class CompaniesInUser extends Component {
 					<button>Send Invitation</button>
 				</div>
 				<div className="labelHeader">Passed Tests</div>
-				<PassedTests />
+				{/* <PassedTests /> */}
 			</div>
 		);
 	}
