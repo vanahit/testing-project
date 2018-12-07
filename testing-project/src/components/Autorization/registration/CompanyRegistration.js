@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import * as firebase from "firebase";
+import NavLink from "react-router-dom/es/NavLink";
 
 class CompanyRegistration extends Component {
     constructor(props) {
@@ -112,14 +113,13 @@ class CompanyRegistration extends Component {
 
                         <input className='submit' type="submit"/>
                     </div>
+                    </div>
 
-                </div>
+                </form>
 
-            </form>
-
+            </div>
         );
     }
-
 }
 
 export default CompanyRegistration;

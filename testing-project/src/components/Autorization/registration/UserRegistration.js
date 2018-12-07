@@ -147,7 +147,7 @@ class UserRegistration extends Component {
                                     languages.map((item, index) => {
                                         return (
                                             <div className="skill" key={index}>
-                                                <input key={item}
+
                                                        type="checkbox"
                                                        onChange={e => this.changeCheckboxHandler(e, item)}/>
                                                 <span>{item}</span>

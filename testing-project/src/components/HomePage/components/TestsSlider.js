@@ -9,9 +9,9 @@ const styles = { transition: 'all 1s linear' }
 
 function resp(){
 	if (window.innerWidth <= 500) {
-		percent = 90
+		percent = 3150
 	} else {
-		percent = 70
+		percent = 2450
 	}
 }
 
@@ -59,13 +59,13 @@ const FlexChild = styled.div`
 	position: relative;
     width: ${props => props.width || ''};
     height: ${props => props.height || ''};    
-    box-sizing: border-box; 
+    box-sizing: obrder-box; 
     
 `;
 const Test = styled.div`
 	position: relative;
 	display: flex;
-	width: calc(350px * ${props => props.count || ''});
+	width: 3500px;
 	max-width: 333.3%;
 	box-sizing: border-box;
 	@media screen and (max-width: 500px){
@@ -85,7 +85,7 @@ const Padding = styled.div`
   
 `;
 const OneTestSize = styled.div`
-	width: 350px;
+	width: 320px;
 `;
 
 class TestSlider extends Component {
@@ -106,9 +106,8 @@ class TestSlider extends Component {
 	}
 	
 	componentDidMount () {
-
 		this.IntervalId = setInterval(() => {
-			this.setState({ translate : this.state.translate === -percent ? 0 : this.state.translate - 12 })
+			this.setState({ translate : this.state.translate === -percent ? 0 : this.state.translate - 350 })
 		}, 10000);
 	}
 
@@ -117,11 +116,11 @@ class TestSlider extends Component {
 	}
 
 	ToLeft () {
-		this.setState({ translate : this.state.translate === 0 ? -percent : this.state.translate + 12 })
+		this.setState({ translate : this.state.translate === 0 ? -percent : this.state.translate + 350 })
 	}	
 
 	ToRight () {
-		this.setState({ translate : this.state.translate === -percent ? 0 : this.state.translate - 12 })
+		this.setState({ translate : this.state.translate === -percent ? 0 : this.state.translate - 350 })
 	}
 
 	getTodayDate = () => {
@@ -157,6 +156,8 @@ class TestSlider extends Component {
 				}
 			});
 		} 
+		tests = tests.slice(0,10)
+		console.log(tests);
 		return (
 			<>
 				<FlexRow>
@@ -165,7 +166,7 @@ class TestSlider extends Component {
 					</FlexChild>
 						<CarouselContainer>
 							<Test 
-								style={{ ...styles, transform: `translateX(${this.state.translate}%)` }}
+								style={{ ...styles, transform: `translateX(${this.state.translate}px)` }}
 								count={fillteredTests.length}>
 								{this.state.tests 
 									?	fillteredTests.map( (item) => {
@@ -183,13 +184,12 @@ class TestSlider extends Component {
 												</Padding>
 											);
 										})
-									
 									: ''
 								}
 							</Test>
 						</CarouselContainer>
 					<FlexChild>
-						<Arrow onClick={this.ToLeft.bind(this)}> {'>'} </Arrow>
+						<Arrow onClick={this.ToRight.bind(this)}> {'>'} </Arrow>
 					</FlexChild>
 				</FlexRow>
 			</>
