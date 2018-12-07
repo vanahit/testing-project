@@ -59,9 +59,13 @@
     background-color: #4F9DA6 !important;
 }
 
-.switch-buttons button {
+.switch-buttons .tab_button {
+    display: inline-block;
+    text-decoration: none;
+
     width: 200px;
-    height: 60px;
+    line-height: 60px;
+    text-align: center;
     font-size: 24px;
     font-weight: bold;
     color: #D6D6D6;
@@ -69,7 +73,8 @@
     background-color: white;
 }
 
-.switch-buttons button:hover {
+
+.switch-buttons .tab_button:hover {
     opacity: 0.8;
 }
 

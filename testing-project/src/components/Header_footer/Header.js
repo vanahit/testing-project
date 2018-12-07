@@ -93,7 +93,6 @@ const IconSizes = styled.span`
 const Header = (props) => {
 
     const logOut = () => {
-        console.log(props.currentLog)
         firebase.auth().signOut().then(function () {
         }, function (error) {
             console.error('Sign Out Error', error);

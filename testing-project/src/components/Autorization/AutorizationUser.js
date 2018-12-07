@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
 import Login from "./login/Login";
 import UserRegistration from "./registration/UserRegistration";
-import {connect} from 'react-redux';
 import * as firebase from "firebase";
+import NavLink from "react-router-dom/es/NavLink";
 
 export default class AutorizationUser extends Component {
 
@@ -35,6 +35,11 @@ export default class AutorizationUser extends Component {
     render() {
         return (
             <div>
+                <div className='switch-buttons'>
+                    <p>Home/Login Company</p>
+                    <NavLink className='tab_button'  to={'/registration/company'}>COMPANY</NavLink>
+                    <NavLink className='tab_button' activeClassName={'selected-tab'} to={'/registration/user'}>USER</NavLink>
+                </div>
                 <div className='container'>
                     <Login
                         login={this.state.pass}

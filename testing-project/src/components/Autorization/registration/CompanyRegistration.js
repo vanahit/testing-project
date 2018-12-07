@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import * as firebase from "firebase";
+import NavLink from "react-router-dom/es/NavLink";
 
 class CompanyRegistration extends Component {
     constructor(props) {
@@ -32,7 +33,7 @@ class CompanyRegistration extends Component {
                     company.image = '';
                     company.test = {};
                     company.id = res.uid;
-                    company.type='company';
+                    company.type = 'company';
 
                     firebase.database().ref(`companies/${res.uid}`).set(company);
                     firebase.database().ref('companies').push(company);
@@ -65,58 +66,60 @@ class CompanyRegistration extends Component {
         const {name, email, password, confirmedPassword} = this.state;
 
         return (
-            <form onSubmit={this.handleSubmit.bind(this)}>
+            <div>
 
-                <div className='registration'>
-                    <div className='Logwrapper'>
-                        <h5>Register</h5>
+                <form onSubmit={this.handleSubmit.bind(this)}>
 
-                        <input
-                            className='info-field'
-                            type="text"
-                            placeholder='COMPANY NAME *'
-                            value={name}
-                            onChange={(e) => this.changeField(e, 'name')}
-                        />
+                    <div className='registration'>
+                        <div className='Logwrapper'>
+                            <h5>Register</h5>
 
-                        <input
-                            className='info-field'
-                            type="email"
-                            placeholder='EMAIL *'
-                            value={email}
-                            onChange={(e) => this.changeField(e, 'email')}
-                        />
+                            <input
+                                className='info-field'
+                                type="text"
+                                placeholder='COMPANY NAME *'
+                                value={name}
+                                onChange={(e) => this.changeField(e, 'name')}
+                            />
 
-                        <input
-                            className='info-field'
-                            type="password"
-                            placeholder='PASSWORD *'
-                            value={password}
-                            onChange={(e) => this.changeField(e, 'password')}
-                        />
+                            <input
+                                className='info-field'
+                                type="email"
+                                placeholder='EMAIL *'
+                                value={email}
+                                onChange={(e) => this.changeField(e, 'email')}
+                            />
 
-                        <input
-                            className='info-field'
-                            type="password"
-                            placeholder='CONFIRM PASSWORD *'
-                            value={confirmedPassword}
-                            onChange={(e) => this.changeField(e, 'confirmedPassword')}
-                        />
+                            <input
+                                className='info-field'
+                                type="password"
+                                placeholder='PASSWORD *'
+                                value={password}
+                                onChange={(e) => this.changeField(e, 'password')}
+                            />
 
-                        <p>By creating an account,you agree to
-                            DigiLearn <span style={{color: '#FFAD5A'}}>Privacy Policy</span> and <br/><span
-                                style={{color: '#FFAD5A', marginBottom: '15px'}}>Terms of use</span>.</p>
+                            <input
+                                className='info-field'
+                                type="password"
+                                placeholder='CONFIRM PASSWORD *'
+                                value={confirmedPassword}
+                                onChange={(e) => this.changeField(e, 'confirmedPassword')}
+                            />
 
-                        <input className='submit' type="submit"/>
+                            <p>By creating an account,you agree to
+                                DigiLearn <span style={{color: '#FFAD5A'}}>Privacy Policy</span> and <br/><span
+                                    style={{color: '#FFAD5A', marginBottom: '15px'}}>Terms of use</span>.</p>
+
+                            <input className='submit' type="submit"/>
+                        </div>
+
                     </div>
 
-                </div>
+                </form>
 
-            </form>
-
+            </div>
         );
     }
-
 }
 
 export default CompanyRegistration;
