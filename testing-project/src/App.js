@@ -177,9 +177,6 @@ class App extends Component {
                                 </div>
                         }
 
-                     
-                    
-                        
                         <Route component={NoMatch}/>
 
                     </Switch>

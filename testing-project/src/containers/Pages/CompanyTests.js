@@ -200,7 +200,7 @@ class CompanyTests extends Component {
 									<td >
 										<span onClick={() => this.deleteTest(item.id)}>Delete</span>
 									</td>
-									<td><span className="passer">{item.passers}</span></td>
+									<td><span className="passer">{}</span></td>
 								</tr>
 							)
 						} )
