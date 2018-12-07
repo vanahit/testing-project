@@ -101,12 +101,7 @@ class PassedTests extends Component {
 	render() {
 		let tests = [];
 		if (this.state.tests) {
-            tests = this.state.tests.filter(test => {
-                if (test.userScore >= 0) {
-					console.log('yes')
-					return test;                       
-				}
-            });
+            tests = this.state.tests.filter(test => test.userScore >= 0);
         }
 		const selectSearchData = ['JavaScript', 'Java', "PHP", 'C#', 'MySQL', 'Python', 'Ruby', 'Swift', 'React', 'Redux'];
 		const { search, type, currentPage, dataPerPage, loadMore, sortType, orderAscanding } = this.state;

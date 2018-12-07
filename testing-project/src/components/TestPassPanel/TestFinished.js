@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 const Main = styled.div`
     margin: auto;
     margin-top: 100px;
+    margin-bottom: 200px;
     max-width: 1200px;
     min-height: 260px;
     background-color: #F5F5F5;
@@ -84,7 +85,7 @@ class TestFinished extends Component {
                     <FlexChild width={'100%'}>
                         <FinishedText>
                             Test finished.{' '}
-                            <Link to='/tests'>
+                            <Link to={`/${this.props.user.firstName}${this.props.user.lastName}/profile`}>
                                 <RouterLink>Back to Tests.</RouterLink>
                             </Link>
                         </FinishedText>

@@ -3,7 +3,6 @@ import './App.css';
 import {Route, Switch, withRouter} from "react-router-dom";
 import TestCreator from './components/TestCreator/TestCreator';
 import TestEditor from './components/TestCreator/TestEditor';
-import TestPassPanel from './components/TestPassPanel/TestPassPanel';
 import AboutUs from './components/AboutUs/AboutUs';
 import Authorization from "./components/Autorization/Authorization";
 import AutorizationUser from "./components/Autorization/AutorizationUser";
@@ -26,6 +25,7 @@ import PopUpDelete from './components/PopUps/PopUpDelete';
 import { userLogin } from './store/actions/appAction';
 import PopUpTestAdded from './components/PopUps/PopUpTestAdded';
 import StartTest from './containers/Pages/StartTest';
+
 
 class App extends Component {
 
@@ -155,16 +155,14 @@ class App extends Component {
                         />
                         
                         {localStorage.getItem("current") === "user" 
-                            ? <div>
+                            ? <Switch>
                                 <Route path="/:user/start-test" component={() => 
                                     <StartTest user={this.state.user}/>}/>
-                                <Route path="/:user/test/:Id" component={() => 
-                                    <TestPassPanel passingTest={this.props.passingTest} user={this.state.user}/>}/>
-                                <Route path="/:user/:text" component={() => <User currentCompany={this.state.currentLog} user={this.state.user} />}/> 
+                               <Route path="/:user/:text" component={() => <User currentCompany={this.state.currentLog} user={this.state.user} />}/> 
                                 
-                                </div>
+                               </Switch>
                             
-                            :    <div>
+                            :    <Switch>
                                     <Route path="/:company/add-test" component={() => <TestCreator user={this.state.user} />}/>
                                     <Route path="/:company/edit-test" component={() => 
                                         <TestEditor editingTest={this.props.editingTest} user={this.state.user} />}
@@ -174,7 +172,7 @@ class App extends Component {
                                         currentCompany={this.state.currentLog} 
                                         user={this.state.user} 
                                         testDeletedClicked={this.testDeletedClicked} />}/>
-                                </div>
+                                </Switch>
                         }
 
                         <Route component={NoMatch}/>
@@ -191,7 +189,6 @@ function mapStateToProps(state) {
         testsLoaded: state.appReducer.testsLoaded,
         companiesLoaded: state.appReducer.companiesLoaded,
         editingTest: state.appReducer.editingTest,
-        passingTest: state.appReducer.passingTest,
     }
 }
 

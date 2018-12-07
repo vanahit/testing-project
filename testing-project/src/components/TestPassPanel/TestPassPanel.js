@@ -44,7 +44,6 @@ class TestPassPanel extends Component {
 	componentWillUnmount() {
 		this.setState({testEnd: true});
 		let userTests = this.props.user.tests.filter(test => test.userScore >= 0);
-		console.log(this.props.test.id);
 		if (this.state.user) {
 			let userTest =  firebase.database().ref(`user/${this.state.user.id}/tests/${this.state.test.id}`);
 			userTest.update({userScore: this.props.userScore});
@@ -55,7 +54,6 @@ class TestPassPanel extends Component {
 
 	render() {
 		return (
-			this.state.user && this.state.user.type === 'user' ?
 			<Main>
 				{
 					!this.state.testEnd && this.state.test &&
@@ -67,12 +65,11 @@ class TestPassPanel extends Component {
 				}
 				{
 					this.state.testEnd &&
-						<TestFinished 
+						<TestFinished user={this.props.user}
 							totalScore={this.state.totalScore}
 						/>
 				}
 			</Main>
-		: <Redirect to='/authorization'/>
 		);
 	}
 }

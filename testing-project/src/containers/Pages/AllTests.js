@@ -97,11 +97,7 @@ class AllTests extends Component {
 		let tests = [];
 		if (this.state.data) {
 			tests = this.state.data;
-			fillteredTests = tests.filter(item => {
-				if (this.compareDates(item.testDeadline)) {
-					return item;
-				}
-			});
+			fillteredTests = tests.filter(item => this.compareDates(item.testDeadline));
 		}
 
 		const selectSearchData = ['JavaScript', 'Java', "PHP", 'C#', 'MySQL', 'Python', 'Ruby', 'Swift', 'React', 'Redux'];

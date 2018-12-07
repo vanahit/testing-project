@@ -99,7 +99,7 @@ class CompanyTests extends Component {
 			console.log(tests);
 		}
 		const selectSearchData = ['JavaScript', 'Java', "PHP", 'C#', 'MySQL', 'Python', 'Ruby', 'Swift', 'React', 'Redux'];
-		const { data, search, type, currentPage, dataPerPage, loadMore, sortType, orderAscanding } = this.state;
+		const {search, type, currentPage, dataPerPage, loadMore, sortType, orderAscanding } = this.state;
 		let filterData = tests.filter( item => {
 			return item.testTitle.toLowerCase().substr(0,search.length) === search.toLowerCase()
 		} )
@@ -149,6 +149,7 @@ class CompanyTests extends Component {
 			<div className="container-table">
 				<Searching 
 					{...this.state}
+					data={tests}
 					searching={this.searching.bind(this)}
 					currentDataLength={currentData.length}
 					selectSearchData={selectSearchData}

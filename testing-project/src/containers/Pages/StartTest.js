@@ -3,6 +3,7 @@ import { NavLink} from "react-router-dom";
 import styled from 'styled-components';
 import { connect } from 'react-redux';
 import {Redirect} from "react-router";
+import TestPassPanel from '../../components/TestPassPanel/TestPassPanel';
 
 const AllDiv = styled.div`
 	margin-top: 30px;
@@ -122,6 +123,7 @@ class StartTest extends Component {
 	state = {
         test: this.props.test,
         user: this.props.user,
+        started: false,
     }
 
     componentDidUpdate(prevProps) {	
@@ -138,6 +140,8 @@ class StartTest extends Component {
 		return(
             this.state.user && this.state.user.type === 'user' ?
             this.state.test &&
+            <>
+            {!this.state.started ?
             <Main>
                 <AllDiv>
                     <LinkDiv to={`/${this.state.user.firstName}${this.state.user.lastName}/start-test`}> My Account </LinkDiv> 
@@ -166,12 +170,15 @@ class StartTest extends Component {
                         < Square />  
                         <TestDetails>Score : </TestDetails>
                         <TestDetailsValue>{this.state.test.totalScore} points</TestDetailsValue>
-                        <TestLink to={`/${this.state.user.firstName}${this.state.user.lastName}/test/${this.state.test.id}`}>
-                            <Button>START TEST ></Button>
-                        </TestLink>
+                       
+                            <Button onClick={()=> this.setState({started: true})}>START TEST ></Button>
+                       
                     </FlexChild>
                 </FlexRow>
-        </Main>
+            </Main>
+        : <TestPassPanel passingTest={this.props.passingTest} user={this.props.user}/>
+          }  
+        </>
         : <Redirect to='/authorization'/>
         );
 	}
@@ -179,7 +186,8 @@ class StartTest extends Component {
 
 function mapStateToProps(state) {
 	return {
-		test: state.testPasser.testDetails,
+        test: state.testPasser.testDetails,
+        passingTest: state.appReducer.passingTest,
 	}
 }
 function mapDispatchToProps(dispatch) {
