@@ -126,7 +126,7 @@ class TestComponent extends Component {
 		}
 	}
 
-	
+
 	add = (test) => {
 		if (this.props.userType === 'user') {
 			let userUrl = this.props.user.id;
@@ -138,7 +138,7 @@ class TestComponent extends Component {
 					this.props.addUserTest(test);
 					let userRef = firebase.database().ref(`user/${userUrl}`);
 					userRef.child('tests').child(`${test.id}`).set({...test, userScore: -1});
-					firebase.database().ref(`tests/${test.id}`).child(`added`).set(true);
+					//firebase.database().ref(`tests/${test.id}`).child(`added`).set(true);
 				}
 			});
 		} else {
@@ -177,8 +177,8 @@ class TestComponent extends Component {
 							this.props.userType !== 'company'
 								? <Button 
 									onClick={() => this.add(test)}
-									disabled = {test.added ? true : false}>
-									{test.added ? 'Added' : 'Add'}
+									disabled = {this.props.added ? true : false}>
+									{this.props.added === true ? 'Added' : 'Add'}
  								</Button>
 								: ""
 						}

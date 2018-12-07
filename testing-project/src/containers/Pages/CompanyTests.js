@@ -179,7 +179,7 @@ class CompanyTests extends Component {
 							</th>
 							<th>Edit</th>
 							<th>Delete</th>
-							<th>Passes</th>
+							<th>Passers</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -200,7 +200,7 @@ class CompanyTests extends Component {
 									<td >
 										<span onClick={() => this.deleteTest(item.id)}>Delete</span>
 									</td>
-									<td><span className="passer">{}</span></td>
+									<td><span className="passer">{!item.passers ? 0 : item.passers.length}</span></td>
 								</tr>
 							)
 						} )

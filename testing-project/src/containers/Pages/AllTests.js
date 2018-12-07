@@ -82,7 +82,16 @@ class AllTests extends Component {
 		}
 
 	}
-
+	checkIfAdded = (testId) => {
+		if (this.props.user) {
+			for (let i = 0; i < this.props.user.tests.length; i++) {
+				if (testId ===  this.props.user.tests[i].id) {
+					return true;
+				}
+			}
+			return false;
+		}
+	}
 	render() {
 		let fillteredTests = [];
 		let tests = [];
@@ -134,6 +143,7 @@ class AllTests extends Component {
 										classNames="slide"
 									>
 										<TestComponent
+											added={this.checkIfAdded(item.id)}
 											test={item}
 											user={this.props.user}
 											testAddClicked={this.props.testAddClicked}
