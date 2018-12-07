@@ -60,12 +60,7 @@ class AutorizationUser extends Component {
 }
 
 
-const mapDispatchToProps = dispatch => {
-    return {
-        userLogin: userType => dispatch(userLogin(userType))
-    };
-};
 
-export default connect(null, mapDispatchToProps)(AutorizationUser);
+export default AutorizationUser;
 
 

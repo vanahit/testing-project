@@ -111,13 +111,12 @@ class CompanyRegistration extends Component {
                             DigiLearn <span style={{color: '#FFAD5A'}}>Privacy Policy</span> and <br/><span
                                 style={{color: '#FFAD5A', marginBottom: '15px'}}>Terms of use</span>.</p>
 
-                        <input className='submit' type="submit"/>
+                        <input className='submit' type="submit" value="CREATE ACCOUNT" />
                     </div>
                     </div>
 
                 </form>
 
-            </div>
         );
     }
 }

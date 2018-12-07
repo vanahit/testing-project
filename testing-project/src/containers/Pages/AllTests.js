@@ -83,7 +83,7 @@ class AllTests extends Component {
 
 	}
 	checkIfAdded = (testId) => {
-		if (this.props.user) {
+		if (this.props.user && this.props.user.tests) {
 			for (let i = 0; i < this.props.user.tests.length; i++) {
 				if (testId ===  this.props.user.tests[i].id) {
 					return true;

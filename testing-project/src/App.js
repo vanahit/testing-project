@@ -50,8 +50,11 @@ class App extends Component {
                     this.props.userLogin('company');
                     
                     firebase.database().ref(`companies/${currentLog.uid}`).on('value',(snapshot)=>{
+                        if (snapshot.val()) {
+                             this.setState({currentLog, user: {...snapshot.val()} })
+                        }
                        
-                        this.setState({currentLog, user: {...snapshot.val()} })
+                       
                     })
                 }
                 if(localStorage.getItem("current") === "user") {
@@ -72,7 +75,10 @@ class App extends Component {
                             ...snapshot.val(),
                             tests
                         }
-                        this.setState({currentLog, user: user});
+                        if (snapshot.val()) {
+                            this.setState({currentLog, user: user});
+                        }
+                        
                     })
                 }
 
