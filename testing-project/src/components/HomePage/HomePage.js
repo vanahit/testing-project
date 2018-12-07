@@ -127,9 +127,6 @@ class HomePage extends Component {
             this.setState({testsLoaded: this.props.testsLoaded});
         }
      }
-
-   
-
 	render() {
         return (
 			<Main>

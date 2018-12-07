@@ -138,7 +138,6 @@ class TestComponent extends Component {
 					this.props.addUserTest(test);
 					let userRef = firebase.database().ref(`user/${userUrl}`);
 					userRef.child('tests').child(`${test.id}`).set({...test, userScore: -1});
-					//firebase.database().ref(`tests/${test.id}`).child(`added`).set(true);
 				}
 			});
 		} else {
@@ -147,6 +146,7 @@ class TestComponent extends Component {
 	}
 	render() {
 		let test = this.props.test;
+		console.log(test.passers)
 		return (
 			<>
 				<TestBlock>
@@ -161,7 +161,7 @@ class TestComponent extends Component {
 						<DataTitle>
 							Passes: {' '}
 							<Data>
-								{!test.passers ? 0 : test.passers.length}
+								{test.passers.length}
 							</Data>
 						</DataTitle>
 						<DataTitle>

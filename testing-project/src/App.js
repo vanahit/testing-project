@@ -51,29 +51,32 @@ class App extends Component {
                     this.props.userLogin('company');
                     
                     firebase.database().ref(`companies/${currentLog.uid}`).on('value',(snapshot)=>{
-                       
-                        this.setState({currentLog, user: {...snapshot.val()} })
+                        if(snapshot.val()){
+                            this.setState({currentLog, user: {...snapshot.val()} })
+                        } 
                     })
                 }
                 if(localStorage.getItem("current") === "user") {
                     this.props.userLogin('user');
                     firebase.database().ref(`user/${currentLog.uid}`).on('value',(snapshot)=> {
                        
-                        let user = {};
-                        let tests = [];
-                        snapshot.child('tests').forEach(childSnapshot => {
-                            tests.push({
-                                id: childSnapshot.key,
-                                ...childSnapshot.val()
+                            let user = {};
+                            let tests = [];
+                            snapshot.child('tests').forEach(childSnapshot => {
+                                tests.push({
+                                    id: childSnapshot.key,
+                                    ...childSnapshot.val()
+                                })
                             })
-                        })
-                        
-                        user = {
-                            id: snapshot.key,
-                            ...snapshot.val(),
-                            tests
-                        }
-                        this.setState({currentLog, user: user});
+                            
+                            user = {
+                                id: snapshot.key,
+                                ...snapshot.val(),
+                                tests
+                            }
+                            if(snapshot.val()){
+                                this.setState({currentLog, user: user});
+                            }
                     })
                 }
 
