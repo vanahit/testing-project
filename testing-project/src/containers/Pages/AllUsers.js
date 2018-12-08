@@ -5,6 +5,13 @@ import Pagination from './Pagination';
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 import { connect } from 'react-redux';
 import {NavLink, Route} from "react-router-dom";
+import styled from 'styled-components';
+import Loader from '../../components/Loader';
+
+const LoaderDiv = styled.div`
+	margin: auto;
+`;
+
 
 class AllUsers extends Component {
 	constructor(props){
@@ -91,6 +98,7 @@ class AllUsers extends Component {
 		console.log(currentData);
 
 		return (
+			this.state.data ?
 			<div className="container-fluid">
 				<Searching 
 					{...this.state}
@@ -136,7 +144,7 @@ class AllUsers extends Component {
 								</TransitionGroup>
 							)
 						} )
-						: "Loader"
+						: <LoaderDiv><Loader/></LoaderDiv>
 					}
 					<Pagination 
 						load_More={loadMore}
@@ -149,6 +157,7 @@ class AllUsers extends Component {
 					/>					
 				</div>
 			</div>
+			: 'THERE IS NO USERS YET'
 		);
 	}
 }

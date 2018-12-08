@@ -1,5 +1,14 @@
 import React, {Component} from 'react';
 import * as firebase from "firebase";
+import styled from 'styled-components';
+
+const LoginDiv = styled.div`
+    font-size: 34px;
+    color: white;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 60px;
+`;
 
 class CompanyRegistration extends Component {
     constructor(props) {
@@ -65,12 +74,12 @@ class CompanyRegistration extends Component {
 
         return (
             <form onSubmit={this.handleSubmit.bind(this)}>
-
                 <div className='registration'>
                     <div className='Logwrapper'>
-                        <h5>Register</h5>
+                        <LoginDiv>Register</LoginDiv>
 
                         <input
+                            required
                             className='info-field'
                             type="text"
                             placeholder='COMPANY NAME *'
@@ -79,6 +88,7 @@ class CompanyRegistration extends Component {
                         />
 
                         <input
+                            required
                             className='info-field'
                             type="email"
                             placeholder='EMAIL *'
@@ -87,6 +97,7 @@ class CompanyRegistration extends Component {
                         />
 
                         <input
+                            required
                             className='info-field'
                             type="password"
                             placeholder='PASSWORD *'
@@ -95,6 +106,7 @@ class CompanyRegistration extends Component {
                         />
 
                         <input
+                            required
                             className='info-field'
                             type="password"
                             placeholder='CONFIRM PASSWORD *'
@@ -105,17 +117,13 @@ class CompanyRegistration extends Component {
                         <p>By creating an account,you agree to
                             DigiLearn <span style={{color: '#FFAD5A'}}>Privacy Policy</span> and <br/><span
                                 style={{color: '#FFAD5A', marginBottom: '15px'}}>Terms of use</span>.</p>
-
-                        <input className='submit' type="submit"/>
+                            <input className='submit' type="submit" value="CREATE ACCOUNT" />
                     </div>
-
                 </div>
-
             </form>
-
+           
         );
     }
-
 }
 
 export default CompanyRegistration;

@@ -51,35 +51,40 @@ class App extends Component {
                     this.props.userLogin('company');
                     
                     firebase.database().ref(`companies/${currentLog.uid}`).on('value',(snapshot)=>{
-                        if(snapshot.val()){
-                            this.setState({currentLog, user: {...snapshot.val()} })
-                        } 
+
+                        if (snapshot.val()) {
+                             this.setState({currentLog, user: {...snapshot.val()} })
+                        }
+                       
+                       
+
                     })
                 }
                 if(localStorage.getItem("current") === "user") {
                     this.props.userLogin('user');
                     firebase.database().ref(`user/${currentLog.uid}`).on('value',(snapshot)=> {
-                       
-                            let user = {};
-                            let tests = [];
+                        let user = {};
+                        let tests = [];
+                        if (snapshot.hasChild('tests')) {
                             snapshot.child('tests').forEach(childSnapshot => {
                                 tests.push({
                                     id: childSnapshot.key,
                                     ...childSnapshot.val()
                                 })
                             })
-                            
-                            user = {
-                                id: snapshot.key,
-                                ...snapshot.val(),
-                                tests
-                            }
-                            if(snapshot.val()){
-                                this.setState({currentLog, user: user});
-                            }
+                        } else {
+                            tests = [];
+                        }
+                        user = {
+                            id: snapshot.key,
+                            ...snapshot.val(),
+                             tests
+                        }
+                        if(snapshot.val()){
+                            this.setState({currentLog, user: user});
+                        }
                     })
                 }
-
                 console.log(`log in `);
             } else {
                 console.log('log out');
@@ -143,7 +148,8 @@ class App extends Component {
                                 userTestAdded={this.userTestAdded}
                                 user={this.state.user}
                             />}/>
-
+                        <Route path="/autorization-company" component={AutorizationCompany}/>
+                        <Route path="/autorization-user" component={AutorizationUser}/>
                         <Route path="/aboutUs/" component={AboutUs}/>
                         <Route path='/registration/user' component={AutorizationUser}/>
                         <Route path='/registration/company' component={AutorizationCompany}/>

@@ -1,4 +1,36 @@
 import React from 'react';
+import styled from 'styled-components';
+
+const ButtonFb = styled.div`
+    display: inline-block;
+    color: white;
+    font-size: 24px;
+    padding: 16px 66px;
+    background-color: #4267B2;
+    border-radius: 4px 0 0 4px;
+    :hover {
+        cursor: pointer;
+    }
+`;
+
+const ButtonGoogle= styled.div`
+    display: inline-block;
+    color: white;
+    font-size: 24px;
+    padding: 16px 66px;
+    background-color: #E74847;
+    border-radius: 0 4px 4px 0;
+    :hover {
+        cursor: pointer;
+    }
+`;
+const LoginDiv = styled.div`
+    font-size: 34px;
+    color: white;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 60px;
+`;
 
 const Login = ({email, pass, signIn, changeHandler}) => {
 
@@ -6,7 +38,7 @@ const Login = ({email, pass, signIn, changeHandler}) => {
         <div>
             <div className='login'>
                 <div className='Logwrapper'>
-                    <h5>LOGIN</h5>
+                    <LoginDiv>LOGIN</LoginDiv>
                     <form onSubmit={signIn}>
                         <input
                             className='info-field'
@@ -32,8 +64,8 @@ const Login = ({email, pass, signIn, changeHandler}) => {
                         <input type="submit" value="LOGIN" className='submit'/>
                         <p>You can also log in with one of this accounts</p>
                         <div className='facgo'>
-                            <button className='fac'>Facebook</button>
-                            <button className='go'>Google</button>
+                            <ButtonFb>Facebook</ButtonFb>
+                            <ButtonGoogle>Google</ButtonGoogle>
                         </div>
                     </form>
                 </div>

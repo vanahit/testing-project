@@ -129,7 +129,6 @@ class TestEditor extends Component {
     postData = () => {
 		let db = firebase.database();
 		let test = {
-				...this.state,
 				testTitle: this.clearWordFromSpaces(this.state.testTitle),
 				description: this.clearWordFromSpaces(this.state.description),
 				company: this.props.user.name,
@@ -138,9 +137,13 @@ class TestEditor extends Component {
                 isPassing: false,
                 companyId: this.props.user.id,
                 totalScore: this.props.totalScore,
+                testDeadline: this.state.testDeadline,
+                testType: this.state.testType,
+                passScore: this.state.passScore,
+                testDuration: this.state.testDuration,
 		};
-		let updatedTest = db.ref(`tests/${this.props.editingTest.id}`);
-        updatedTest.update({ ...test });
+		let updatedTest = db.ref(`tests`).child(`${this.props.editingTest.id}`);
+        updatedTest.set({ ...test });
 	}
 
     submitHandler = () => {
