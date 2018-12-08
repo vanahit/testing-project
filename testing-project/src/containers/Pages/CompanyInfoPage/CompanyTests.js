@@ -110,6 +110,7 @@ class CompanyTests extends Component {
 		}
 	}
 	render() {
+		console.log(this.props.item)
 		let tests = [];
 		if (this.state.tests) {
 			tests = this.state.tests.filter(test => test.id === this.state.company.id);
@@ -154,7 +155,6 @@ class CompanyTests extends Component {
 		for (let i = 1; i <= Math.ceil(filterData.length / dataPerPage); i++) {
 			pages.push(i);
 		}
-
 		return (
 			<div className="container-table">
 				<Searching
