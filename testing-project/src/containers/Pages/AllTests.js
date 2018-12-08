@@ -6,9 +6,14 @@ import { CSSTransition, TransitionGroup } from "react-transition-group";
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 import Loader from '../../components/Loader';
+import {NavLink} from "react-router-dom";
 
 const LoaderDiv = styled.div`
 	margin: auto;
+`;
+const NavLinkDiv = styled(NavLink) `
+	display: inline-block;
+	text-decoration: none;
 `;
 
 class AllTests extends Component {
@@ -145,14 +150,16 @@ class AllTests extends Component {
 										appear={this.state.unMounted ? false : true}
 										timeout={450}
 										classNames="slide"
-									>
-										<TestComponent
-											added={this.checkIfAdded(item.id)}
-											test={item}
-											user={this.props.user}
-											testAddClicked={this.props.testAddClicked}
-											userTestAdded={this.props.userTestAdded}
-										/>
+									>								
+											<TestComponent
+												added={this.checkIfAdded(item.id)}
+												test={item}
+												user={this.props.user}
+												testAddClicked={this.props.testAddClicked}
+												userTestAdded={this.props.userTestAdded}
+												addCurrentItem={this.props.addCurrentItem}
+											/>
+									
 										</CSSTransition>
 									</TransitionGroup>
 								)

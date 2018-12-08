@@ -25,6 +25,7 @@ import PopUpDelete from './components/PopUps/PopUpDelete';
 import { userLogin } from './store/actions/appAction';
 import PopUpTestAdded from './components/PopUps/PopUpTestAdded';
 import StartTest from './containers/Pages/StartTest';
+import OneTestInfo from './containers/Pages/TestInfoPage/OneTestInfo';
 
 
 class App extends Component {
@@ -37,7 +38,7 @@ class App extends Component {
         testAddClicked: false,
         testDeletedClicked: false,
         userTestAdded: false,
-        currentItem: null,
+        currentItem: '',
         user: null
     };
 
@@ -123,6 +124,11 @@ class App extends Component {
    }
 
     render() {
+        let testInfo = '';
+        if (this.state.currentItem) {
+            testInfo = this.state.currentItem;
+        }
+        console.log(testInfo);
         return (
             <div>
 
@@ -144,6 +150,7 @@ class App extends Component {
                             />}/>
                         <Route path="/tests/" component={() => 
                             <AllTests 
+                                addCurrentItem={this.addCurrentItem}
                                 testAddClicked={this.testAddClicked}
                                 userTestAdded={this.userTestAdded}
                                 user={this.state.user}
@@ -157,6 +164,14 @@ class App extends Component {
                         <Route path="/companies/" component={() => <AllCompanies addCurrentItem={this.addCurrentItem} />}/>
                         <Route path="/company-info-page/:comp" 
                             component={ () => <CompaniesInUser  item={this.state.currentItem}/>} />
+                        
+                        <Route path="/test-info-page/:test" component={() => 
+                            <OneTestInfo  
+                                user={this.state.user} 
+                                testInfo={testInfo} 
+                                testAddClicked={this.testAddClicked}
+                                userTestAdded={this.userTestAdded}
+                            />}/>
                         <Route path="/user-info-page/:user" component={UsersInCompany}/>
                         <Route
                             path='/authorization/'

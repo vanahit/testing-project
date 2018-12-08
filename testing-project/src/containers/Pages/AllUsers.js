@@ -4,7 +4,7 @@ import Searching from './Searching';
 import Pagination from './Pagination';
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 import { connect } from 'react-redux';
-import {NavLink, Route} from "react-router-dom";
+import {NavLink} from "react-router-dom";
 import styled from 'styled-components';
 import Loader from '../../components/Loader';
 
