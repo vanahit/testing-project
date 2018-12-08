@@ -1,8 +1,5 @@
 import React, {Component} from 'react';
 import * as firebase from "firebase";
-<<<<<<< HEAD
-import NavLink from "react-router-dom/es/NavLink";
-=======
 import styled from 'styled-components';
 
 const LoginDiv = styled.div`
@@ -12,8 +9,6 @@ const LoginDiv = styled.div`
     text-align: center;
     margin-bottom: 60px;
 `;
-
->>>>>>> anahit
 
 class CompanyRegistration extends Component {
     constructor(props) {
@@ -79,7 +74,6 @@ class CompanyRegistration extends Component {
 
         return (
             <form onSubmit={this.handleSubmit.bind(this)}>
-
                 <div className='registration'>
                     <div className='Logwrapper'>
                         <LoginDiv>Register</LoginDiv>
@@ -123,17 +117,11 @@ class CompanyRegistration extends Component {
                         <p>By creating an account,you agree to
                             DigiLearn <span style={{color: '#FFAD5A'}}>Privacy Policy</span> and <br/><span
                                 style={{color: '#FFAD5A', marginBottom: '15px'}}>Terms of use</span>.</p>
-
-<<<<<<< HEAD
-                        <input className='submit' type="submit" value="CREATE ACCOUNT" />
+                            <input className='submit' type="submit" value="CREATE ACCOUNT" />
                     </div>
-=======
-                        <input className='submit' type="submit" value="CREATE ACCOUNT"/>
->>>>>>> anahit
-                    </div>
-
-                </form>
-
+                </div>
+            </form>
+           
         );
     }
 }

@@ -2,18 +2,11 @@ import React, {Component} from 'react';
 import Login from "./login/Login";
 import UserRegistration from "./registration/UserRegistration";
 import * as firebase from "firebase";
-<<<<<<< HEAD
-import NavLink from "react-router-dom/es/NavLink";
-=======
 import styled from 'styled-components';
 
 const MarginDiv = styled.div`
     margin: 30px auto;
 `;
-
->>>>>>> anahit
-
-
 class AutorizationUser extends Component {
 
     constructor(props) {
@@ -48,16 +41,7 @@ class AutorizationUser extends Component {
 
     render() {
         return (
-<<<<<<< HEAD
-            <div>
-                <div className='switch-buttons'>
-                    <p>Home/Login Company</p>
-                    <NavLink className='tab_button'  to={'/registration/company'}>COMPANY</NavLink>
-                    <NavLink className='tab_button' activeClassName={'selected-tab'} to={'/registration/user'}>USER</NavLink>
-                </div>
-=======
             <MarginDiv>
->>>>>>> anahit
                 <div className='container'>
                     <Login
                         login={this.state.pass}
@@ -72,10 +56,6 @@ class AutorizationUser extends Component {
     }
 }
 
-<<<<<<< HEAD
-=======
-
->>>>>>> anahit
 export default AutorizationUser;
 
 

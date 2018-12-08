@@ -3,6 +3,7 @@ import AutorizationCompany from "./AutorizationCompany";
 import '../../App.css';
 import {Redirect} from "react-router";
 import {firebase} from '../../firebase/firebase';
+import AutorizationUser from './AutorizationUser';
 
 
 class Authorization extends Component {
@@ -30,12 +31,6 @@ class Authorization extends Component {
     render() {
         return (
             <div>
-<<<<<<< HEAD
-                {this.props.user ? <Redirect to={`/${this.props.user.name}/profile`}/> :
-                    <div>
-                        <AutorizationCompany/>
-                    </div>
-=======
             {(this.props.user && localStorage.getItem("current") === "company") ?
                      <Redirect to={`/${this.props.user.name}/profile`}/> :
                      (this.props.user && localStorage.getItem("current") === "user") ?
@@ -54,11 +49,6 @@ class Authorization extends Component {
                             <AutorizationCompany /> :
                             <AutorizationUser/>}
                     </div>}
-                
-                
-                }
->>>>>>> anahit
-
                 }
             </div>
         );
