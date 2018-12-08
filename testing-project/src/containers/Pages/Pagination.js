@@ -3,7 +3,7 @@ import React, { Fragment } from 'react';
 const Pagination = ({load_More, loadMore, currentPage, prev, pageClick, next, pages}) => {
   return (
   	<Fragment>
-	    {load_More + currentPage !== pages.length && <button className="viewMore" onClick={() => loadMore()}>Load More</button>}
+	    {(load_More + currentPage == pages.length || pages.length !== 0)  && <button className="viewMore" onClick={() => loadMore()}>Load More</button>}
 			{pages.length>1 && <div className="pagination">
 				<div className="paginationContent">
 					{load_More + currentPage !== 1 && <span onClick={() => prev()}> Previous </span>}

@@ -163,7 +163,7 @@ class App extends Component {
                         <Route path="/users/" component={AllUsers}/>
                         <Route path="/companies/" component={() => <AllCompanies addCurrentItem={this.addCurrentItem} />}/>
                         <Route path="/company-info-page/:comp" 
-                            component={ () => <CompaniesInUser  item={this.state.currentItem}/>} />
+                            component={ () => <CompaniesInUser  item={testInfo}/>} />
                         
                         <Route path="/test-info-page/:test" component={() => 
                             <OneTestInfo  

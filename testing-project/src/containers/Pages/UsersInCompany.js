@@ -15,7 +15,6 @@ export default class CompaniesInUser extends Component {
 		return arr.join(', ')
 	}
 	render(){
-		console.log(this.props.location.state.userInfo)
 		
 		return(
 			this.props.location.state.userInfo && <div className="containerUser">
