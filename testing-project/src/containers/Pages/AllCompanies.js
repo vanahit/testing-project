@@ -132,7 +132,12 @@ class AllCompanies extends Component {
 														Lorem Ipsum is simply dummy text of the printing and typesetting industry.
 													</p>
 													<div className="testsDiv">
-														<NavLinkDiv to={`/company-info-page/${item.name}`} >
+														<NavLinkDiv to={{
+														pathname:`/company-info-page/${item.name}`,
+														state: { 
+															companyInfo:item 
+														}
+													}}  >
 															<span>All Tests</span>
 														</NavLinkDiv >
 													</div>
