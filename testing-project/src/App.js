@@ -150,8 +150,8 @@ class App extends Component {
                         <Route path="/users/" component={AllUsers}/>
                         <Route path="/companies/" component={() => <AllCompanies addCurrentItem={this.addCurrentItem} />}/>
                         <Route path="/company-info-page/:comp" 
-                            component={ () => <CompaniesInUser  item={this.state.currentItem}/>}/>
-                        <Route path="/user-info-page/" component={UsersInCompany}/>
+                            component={ () => <CompaniesInUser  item={this.state.currentItem}/>} />
+                        <Route path="/user-info-page/:user" component={UsersInCompany}/>
                         <Route
                             path='/authorization/'
                             component={() => <Authorization currentCompany={this.state.currentLog}
