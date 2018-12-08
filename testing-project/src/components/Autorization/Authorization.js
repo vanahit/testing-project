@@ -32,18 +32,6 @@ class Authorization extends Component {
             selectedTab: tab
         })
     }
-    // {(this.props.user && localStorage.getItem("current") === "company") ? 
-    //                 <Redirect to={`/${this.props.user.name}/profile`}/> :
-    //                 (this.props.user && localStorage.getItem("current") === "user") ?
-    //                 <Redirect to={`/${this.props.user.firstName}${this.props.user.lastName}/profile`}/> :
-    //                 <div className="containerUser">
-    //                     <nav className="tabBar">
-    //                         <NavLink exact activeClassName="active" to={`/authorization/company`}>COMPANY</NavLink>
-    //                         <NavLink activeClassName="active" to={`/authorization/user`}>USER</NavLink>
-    //                     </nav>
-    //                     <Route path="/authorization/company" component={AutorizationCompany}/>
-    //                     <Route path="/authorization/user" component={AutorizationUser}/>
-    //                 </div>}
     render() {
         return (
             <div>
