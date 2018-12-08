@@ -3,6 +3,7 @@ import Login from "./login/Login";
 import UserRegistration from "./registration/UserRegistration";
 import * as firebase from "firebase";
 import styled from 'styled-components';
+import {Redirect} from "react-router";
 
 const MarginDiv = styled.div`
     margin: 30px auto;
@@ -42,6 +43,8 @@ class AutorizationUser extends Component {
     render() {
         return (
             <MarginDiv>
+                {(this.props.user && localStorage.getItem("current") === "user") ?
+                    <Redirect to={`/${this.props.user.firstName}${this.props.user.lastName}/profile`}/> :
                 <div className='container'>
                     <Login
                         login={this.state.pass}
@@ -50,7 +53,7 @@ class AutorizationUser extends Component {
                         signIn={this.signIn.bind(this)}/>
                     <UserRegistration/>
                 </div>
-
+                }
             </MarginDiv>
         );
     }
