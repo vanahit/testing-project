@@ -1068,3 +1068,37 @@ img {
     background: white;
     z-index: 9999;
 }
+
+
+.usersDiv span{
+    text-decoration: underline; 
+}
+
+.skillsDiv{
+    margin-top: 10px;
+}
+
+.gray{
+    color: gray;
+}
+
+.orange{
+    color: orange;
+}
+
+.headerLink a{
+    color: #FFFFFF;
+    text-decoration: none;
+    font-size: 20px;
+    text-transform: uppercase;
+}
+
+.headerLink a.active, .headerLink a:hover{
+    color: #FFAD5A;
+    text-decoration: underline;
+}
+
+.infoUser div.skillsDivUser{
+    height: auto;
+    border: none;
+}

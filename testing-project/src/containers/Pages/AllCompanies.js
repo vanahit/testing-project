@@ -116,15 +116,15 @@ class AllCompanies extends Component {
 						currentData.length ?
 						currentData.map( item => {
 							return (
-								<TransitionGroup className="grid" key={item.id}>
+								<TransitionGroup className="grid">
 									<CSSTransition 
 										in={true}
 										appear={true}
 										timeout={450}
 										classNames="slide"
 									>   
-										<NavLinkDiv to={`/company-info-page/${item.name}`} >
-											<div className="companyUser" onClick={() => this.props.addCurrentItem(item)}>
+										
+											<div className="companyUser" onClick={() => this.props.addCurrentItem(item)} key={item.id}>
 												<img src={src} alt="Company Logo" className="logoCompany" />
 												<div  className="grid-info">
 													<h2>{item.name}</h2>
@@ -132,11 +132,13 @@ class AllCompanies extends Component {
 														Lorem Ipsum is simply dummy text of the printing and typesetting industry.
 													</p>
 													<div className="testsDiv">
-														<span>All Tests</span>
+														<NavLinkDiv to={`/company-info-page/${item.name}`} >
+															<span>All Tests</span>
+														</NavLinkDiv >
 													</div>
 												</div>
 											</div>
-										</NavLinkDiv >
+										
 									</CSSTransition>
 								</TransitionGroup>
 							)
