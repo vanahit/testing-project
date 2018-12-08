@@ -146,7 +146,7 @@ class TestComponent extends Component {
 	}
 	render() {
 		let test = this.props.test;
-		console.log(test.passers)
+		console.log(test)
 		return (
 			<>
 				<TestBlock>
@@ -161,7 +161,7 @@ class TestComponent extends Component {
 						<DataTitle>
 							Passes: {' '}
 							<Data>
-								{test.passers.length}
+								{test.passers ? test.passers.length : 0}
 							</Data>
 						</DataTitle>
 						<DataTitle>

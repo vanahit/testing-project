@@ -59,27 +59,28 @@ class App extends Component {
                 if(localStorage.getItem("current") === "user") {
                     this.props.userLogin('user');
                     firebase.database().ref(`user/${currentLog.uid}`).on('value',(snapshot)=> {
-                       
-                            let user = {};
-                            let tests = [];
+                        let user = {};
+                        let tests = [];
+                        if (snapshot.hasChild('tests')) {
                             snapshot.child('tests').forEach(childSnapshot => {
                                 tests.push({
                                     id: childSnapshot.key,
                                     ...childSnapshot.val()
                                 })
                             })
-                            
-                            user = {
-                                id: snapshot.key,
-                                ...snapshot.val(),
-                                tests
-                            }
-                            if(snapshot.val()){
-                                this.setState({currentLog, user: user});
-                            }
+                        } else {
+                            tests = [];
+                        }
+                        user = {
+                            id: snapshot.key,
+                            ...snapshot.val(),
+                             tests
+                        }
+                        if(snapshot.val()){
+                            this.setState({currentLog, user: user});
+                        }
                     })
                 }
-
                 console.log(`log in `);
             } else {
                 console.log('log out');

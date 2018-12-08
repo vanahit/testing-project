@@ -136,7 +136,7 @@ class AllTests extends Component {
 				/>
 				<div className="content-grid">
 				
-					{ this.state.data.length ? 
+					{ currentData.length ? 
 						currentData.map(item => {
 							return (
 								<TransitionGroup className="grid" key={item.id}>

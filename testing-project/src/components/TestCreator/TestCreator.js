@@ -136,6 +136,7 @@ class TestCreator extends Component {
 				companyId: this.props.user.id,
 				isPassing: false,
 		};
+		
 		db.ref('tests').push({...test })
 	}
 
