@@ -1,9 +1,17 @@
 import React, {Component} from 'react';
 import Login from "./login/Login";
 import CompanyRegistration from "./registration/CompanyRegistration";
-import {connect} from 'react-redux';
 import * as firebase from "firebase";
+<<<<<<< HEAD
 import NavLink from "react-router-dom/es/NavLink";
+=======
+import styled from 'styled-components';
+
+const MarginDiv = styled.div`
+    margin: 30px auto;
+`;
+
+>>>>>>> anahit
 
 
 class AutorizationCompany extends Component {
@@ -20,7 +28,6 @@ class AutorizationCompany extends Component {
             showError: false,
         }
     }
-
 
     changeHandler(e, field) {
         this.setState({
@@ -43,6 +50,7 @@ class AutorizationCompany extends Component {
     render() {
 
         return (
+<<<<<<< HEAD
             <div>
                 <div className='switch-buttons'>
                     <p>Home/Login Company</p>
@@ -58,11 +66,27 @@ class AutorizationCompany extends Component {
                         signIn={this.signIn.bind(this)}/>
                     <CompanyRegistration/>
                 </div>
+=======
+            <MarginDiv>
+                    <div className='container'>
+                        <Login
+                            login={this.state.pass}
+                            email={this.state.email}
+                            changeHandler={this.changeHandler}
+                            signIn={this.signIn.bind(this)}/>
+                        <CompanyRegistration/>
+                    </div>
+>>>>>>> anahit
 
-            </div>
+            </MarginDiv>
         );
     }
 }
 
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> anahit
 export default AutorizationCompany;
 

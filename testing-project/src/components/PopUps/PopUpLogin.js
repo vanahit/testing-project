@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import styled from 'styled-components'
 import { connect } from 'react-redux';
 import close from '../../images/buttonIcons/closeIcon.svg';
+import {NavLink} from 'react-router-dom';
 
 const BlackDiv = styled.div`
     position: fixed;
@@ -33,13 +34,14 @@ const TextSpan = styled.div`
     border-bottom: 1px solid #D6D6D6;
 `;
 
-const Button = styled.button`
+const Button = styled(NavLink)`
+    display: inline-block; 
     font-size: 20px;
     margin-top: 71px;
-    width: 114px;
     padding: 10px 32px;
     border-radius: 4px;
     border: 0;
+    text-decoration: none;
     background-color: #FF5959;
     box-shadow: 0 3px 6px  rgba(0, 0, 0, 0.16);
     color: white;
@@ -76,7 +78,7 @@ class PopUpLogin extends Component {
                     </Right>
                     <TextSpan>{this.props.children}Please login before adding a test</TextSpan>
                     <Right>
-                        <Button>Login</Button>
+                        <Button to='/authorization' onClick={this.props.testAddClicked}>Login</Button>
                     </Right>
                 </Block>
             </BlackDiv>

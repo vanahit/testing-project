@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import AutorizationCompany from "./AutorizationCompany";
 import '../../App.css';
-import { NavLink, Route } from "react-router-dom";
 import {Redirect} from "react-router";
 import {firebase} from '../../firebase/firebase';
 
@@ -31,10 +30,34 @@ class Authorization extends Component {
     render() {
         return (
             <div>
+<<<<<<< HEAD
                 {this.props.user ? <Redirect to={`/${this.props.user.name}/profile`}/> :
                     <div>
                         <AutorizationCompany/>
                     </div>
+=======
+            {(this.props.user && localStorage.getItem("current") === "company") ?
+                     <Redirect to={`/${this.props.user.name}/profile`}/> :
+                     (this.props.user && localStorage.getItem("current") === "user") ?
+                    <Redirect to={`/${this.props.user.firstName}${this.props.user.lastName}/profile`}/> :
+                    <div className='switch-buttons'>
+                        <p></p>
+                        <div className='switch-buttons'>
+                        <button className={this.state.selectedTab === 'company' ? 'selected-tab' : null}
+                                onClick={() => this.changeTab('company')}>COMPANY
+                        </button>
+                        <button className={this.state.selectedTab === 'user' ? 'selected-tab' : null}
+                                onClick={() => this.changeTab('user')}>USER
+                        </button>
+                        </div>
+                        {this.state.selectedTab === 'company' ?
+                            <AutorizationCompany /> :
+                            <AutorizationUser/>}
+                    </div>}
+                
+                
+                }
+>>>>>>> anahit
 
                 }
             </div>

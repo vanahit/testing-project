@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import TestFinished from './TestFinished';
 import TestPasser from './TestPasser';
 import {deleteTest} from '../../store/actions/testPasser';
-import {Redirect} from "react-router";
 import { firebase } from '../../firebase/firebase';
 
 
@@ -47,8 +46,8 @@ class TestPassPanel extends Component {
 		if (this.state.user) {
 			let userTest =  firebase.database().ref(`user/${this.state.user.id}/tests/${this.state.test.id}`);
 			userTest.update({userScore: this.props.userScore});
-			let testRef = firebase.database().ref(`tests/${this.props.test.id}/passers`);
-			testRef.child(`${this.props.user.id}`).set({...this.props.user, tests: userTests});
+			let testRef = firebase.database().ref(`tests/${this.props.test.id}`);
+			testRef.child(`passers`).child(`${this.props.user.id}`).set({...this.props.user, tests: userTests});
 		}
 	}
 

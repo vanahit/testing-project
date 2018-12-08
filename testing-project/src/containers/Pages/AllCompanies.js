@@ -6,7 +6,12 @@ import { CSSTransition, TransitionGroup } from "react-transition-group";
 import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
+import Loader from '../../components/Loader';
 
+
+const LoaderDiv = styled.div`
+	margin: auto;
+`;
 const NavLinkDiv = styled(NavLink)`
 	color: #100529;
 	text-decoration: none;
@@ -64,11 +69,10 @@ class AllCompanies extends Component {
 	}
 
 	render(){
-		// const selectSearchData = ['JavaScript', 'Java', "PHP", 'C#', 'MySQL', 'Python', 'Ruby', 'Swift', 'React', 'Redux'];
 		let selectSearchData = [];
 		let filterData = [];
 		let companies = [];
-		const {data, search, type, currentPage, dataPerPage, loadMore } = this.state;
+		const {search, type, currentPage, dataPerPage, loadMore } = this.state;
 
 		if (this.state.data) {
 			companies = this.state.data;
@@ -97,17 +101,19 @@ class AllCompanies extends Component {
 	
 	}
 		return (
+			this.state.data ?
 			<div className="container-fluid">
 				<Searching 
 					{...this.state}
+					data={companies}
 					searching={this.searching.bind(this)}
 					currentDataLength={currentData.length}
 					selectSearchData={selectSearchData}
 				/>
 				<div className="content-grid">
 					{ 
-						this.state.data 
-						?
+						
+						currentData.length ?
 						currentData.map( item => {
 							return (
 								<TransitionGroup className="grid" key={item.id}>
@@ -136,7 +142,7 @@ class AllCompanies extends Component {
 							)
 						} )
 
-						: 'Loader'
+						:  <LoaderDiv><Loader/></LoaderDiv>
 					}
 					<Pagination 
 						load_More={loadMore}
@@ -149,6 +155,7 @@ class AllCompanies extends Component {
 					/>					
 				</div>
 			</div>
+			: 'THERE IS NO COMPANIES YET'
 		);
 	}
 }

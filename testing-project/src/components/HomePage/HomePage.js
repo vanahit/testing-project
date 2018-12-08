@@ -7,7 +7,9 @@ import BecomeUser from './components/BecomeUser';
 import ForOurUser from './components/ForOurUser'
 import ForOurCompany from './components/ForOurCompany'
 import TestSlider from './components/TestsSlider';
-import { Link } from 'react-router-dom';
+import {NavLink} from 'react-router-dom';
+import Loader from '../Loader';
+
 
 const Main = styled.div`
 	margin: auto;
@@ -30,6 +32,7 @@ const Header = styled.div`
 
 const GetStartedDiv = styled.div`
     position: absolute;
+    display: inline-block;
     bottom:0;
     color: white;
     width: 100%;   
@@ -68,21 +71,23 @@ const FlexChild = styled.div`
 	}
 `;
 
-const GetsStartedText = styled.span`
-    font-size: 24px;
+const GetsStartedText = styled.div`
+    display: inline-block;
+    width: 1018px;
+    margin: 18px 0;
 `;
 
-const Button = styled.button`
-    margin: 0 16px;
-    width: ${props => props.width || ''};  
-    height: 60px;
+const Button = styled(NavLink)`
+    display: inline-block;
     border: 0;
     border-radius: 4px;
-    padding: 16px;
-    background-color:rgba(255, 89, 89, 1);
+    padding: 15px;
+    margin: 20px 0;
     color: white;
+    text-decoration: none;
     font-weight: bold;
-    font-size: 18px;
+    font-size: 24px;
+    background-color:rgba(255, 89, 89, 1);
     box-sizing: border-box;
 `;
 const Title = styled.div`
@@ -112,6 +117,12 @@ const Body = styled.div`
     margin: auto;
    
 `;
+const LoaderDiv = styled.div`
+    max-width: 1200px;
+    text-align: center;
+    margin: auto;
+   
+`;
 
 class HomePage extends Component {
 	constructor(props) {
@@ -127,9 +138,6 @@ class HomePage extends Component {
             this.setState({testsLoaded: this.props.testsLoaded});
         }
      }
-
-   
-
 	render() {
         return (
 			<Main>
@@ -137,17 +145,16 @@ class HomePage extends Component {
                 
                     <GetStartedDiv>
                         <FlexRow>
-                            <FlexChild width={'1018px'}>
+                          
                                 <GetsStartedText>
                                     DigiLearn is an all-in-one platform that makes it easy to create online tests, launch programming 
                                     companies, build landing pages, and design the perfect website.
                                 </GetsStartedText>
-                            </FlexChild>
-                            <FlexChild>
-                                <Button widht={'155px'}>
+                           
+                                <Button to="/authorization">
                                     GET STARTED
                                 </Button>
-                            </FlexChild>
+                           
                         </FlexRow>
                     </GetStartedDiv>
                 </Header>
@@ -176,11 +183,11 @@ class HomePage extends Component {
                                 testAddClicked={this.props.testAddClicked}
                                 userTestAdded={this.props.userTestAdded}
                             />
-                            : 'loading'
+                            : <LoaderDiv><Loader /></LoaderDiv>
                         }
                     </FlexRow>
                     <AllTestsDiv>
-                        <Link to='/tests'> <AllTestsSpan>View All Tests</AllTestsSpan> </Link>
+                        <NavLink to='/tests'> <AllTestsSpan>View All Tests</AllTestsSpan></NavLink>
                     </AllTestsDiv>
                 </Body>   
             </Main>

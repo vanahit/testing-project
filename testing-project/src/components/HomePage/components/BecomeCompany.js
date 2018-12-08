@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import { connect } from 'react-redux';
 import forCompanyImg from '../../../images/for-comp-bg.jpg';
 import CheckBox from './CheckBox';
+import {NavLink} from 'react-router-dom';
 
 const GetStartedDiv = styled.div`
     color: white;
@@ -27,15 +28,16 @@ const FlexChild = styled.div`
 	}
 `;
 
-const Button = styled.button`
-    width: ${props => props.width || ''};  
-    height: 60px;
+const Button = styled(NavLink)`
+    display: inline-block; 
+    padding: 16px;
     border: 0;
     border-radius: 4px;
     background-color:rgba(255, 89, 89, 1);
     color: white;
     font-weight: bold;
-    font-size: 18px;
+    font-size: 24px;
+    text-decoration: none;
 `;
 
 const TitleWhite = styled.div`
@@ -78,7 +80,7 @@ class BecomeCompany extends Component {
                             <CheckBox>Invite the Best Users to Your Company</CheckBox>
                                                                 
                             <GetStartedDiv>
-                                <Button width={'228px'}>
+                                <Button width={'228px'} to='/autorization-company'>
                                     BECOME COMPANY
                                 </Button>
                             </GetStartedDiv>
