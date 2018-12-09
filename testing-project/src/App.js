@@ -127,6 +127,8 @@ class App extends Component {
         let testInfo = '';
         if (this.state.currentItem) {
             testInfo = this.state.currentItem;
+            
+            
         }
         console.log(testInfo);
         return (
@@ -147,6 +149,8 @@ class App extends Component {
                                 testAddClicked={this.testAddClicked}
                                 userTestAdded={this.userTestAdded}
                                 user={this.state.user}
+                                addCurrentItem={this.addCurrentItem}
+
                             />}/>
                         <Route path="/tests/" component={() => 
                             <AllTests 

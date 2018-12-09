@@ -136,7 +136,7 @@ class TestComponent extends Component {
 
 
 	add = (test) => {
-		if (this.props.userType === 'user') {
+		if (this.props.user && this.props.user.type === 'user') {
 			let userUrl = this.props.user.id;
 			firebase.database().ref(`user/${this.props.user.id}/tests`).once('value',  (snapshot)=> {
 				if (snapshot.hasChild(`${test.id}`)) {
@@ -157,7 +157,6 @@ class TestComponent extends Component {
 		return (
 			<>
 				<TestBlock>
-					<div onClick={()=> this.props.addCurrentItem(test)}>	
 					<Img src={this.chooseImg()} />
 					<Details>
 						<TestTitle>
@@ -181,7 +180,7 @@ class TestComponent extends Component {
 					</Details>
 					
 					<ButtonDiv>
-					<DetailsLink to={`/test-info-page/${test.id}`}>View Details</DetailsLink>
+					<DetailsLink to={`/test-info-page/${test.id}`}><span onClick={()=> this.props.addCurrentItem(test)}>View Details</span></DetailsLink>
 						{
 							this.props.userType !== 'company'
 								? <Button 
@@ -193,7 +192,7 @@ class TestComponent extends Component {
 						}
 
 					</ButtonDiv>
-					</div>
+					
 				</TestBlock>
 			</>
 		);

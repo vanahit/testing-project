@@ -190,6 +190,7 @@ class TestSlider extends Component {
 															user={this.props.user}
 															testAddClicked={this.props.testAddClicked}
 															userTestAdded={this.props.userTestAdded}
+															addCurrentItem={this.props.addCurrentItem}
 														/>
 													</OneTestSize>
 												</Padding>
