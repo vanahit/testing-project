@@ -5,7 +5,23 @@ import {NavLink} from "react-router-dom";
 import { connect } from 'react-redux';
 import { editingTest, deleteTest } from '../../store/actions/testCreator';
 import Loader from '../../components/Loader';
+import styled from 'styled-components';
 
+const NoTests = styled.div`
+	font-size: 28px;
+	margin: 60px 0;
+	color: #141218;
+
+`;
+const CreateTest = styled(NavLink)`
+	color: #FF5959;
+	text-decoration: none;
+	font-weight: bold;
+	: hover {
+		text-decoration: underline;
+		cursor: pointer;
+	}
+`;
 
 class CompanyTests extends Component {
 	constructor(props){
@@ -146,6 +162,7 @@ class CompanyTests extends Component {
 	    }
 
 	  	return (
+			currentData.length ?
 			<div className="container-table">
 				<Searching 
 					{...this.state}
@@ -185,7 +202,7 @@ class CompanyTests extends Component {
 					</thead>
 					<tbody>
 					{
-						this.state.data?
+						currentData ?
 						currentData.map( item => {
 							return (
 								<tr key={item.id} >
@@ -205,7 +222,7 @@ class CompanyTests extends Component {
 								</tr>
 							)
 						} )
-						: <Loader></Loader>
+						:  <Loader />
 					} 
 					</tbody>
 					
@@ -220,6 +237,7 @@ class CompanyTests extends Component {
 						pages={pages}
 					/>					
 			</div>
+			: <NoTests>There is no tests yet <CreateTest  to={`/${this.props.user.name}/add-test` }>CREATE TEST</CreateTest></NoTests>
 		);
 	}
 }

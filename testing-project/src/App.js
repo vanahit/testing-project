@@ -1,6 +1,6 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import './App.css';
-import {Route, Switch, withRouter} from "react-router-dom";
+import { Route, Switch, withRouter } from "react-router-dom";
 import TestCreator from './components/TestCreator/TestCreator';
 import TestEditor from './components/TestCreator/TestEditor';
 import AboutUs from './components/AboutUs/AboutUs';
@@ -16,8 +16,8 @@ import AllUsers from "./containers/Pages/AllUsers";
 import User from "./containers/Pages/User";
 import NoMatch from "./components/NoMatch";
 import HomePage from "./components/HomePage/HomePage";
-import {connect} from 'react-redux';
-import {getCompanies, getTests, getUsers} from './store/thunks/thunks';
+import { connect } from 'react-redux';
+import { getCompanies, getTests, getUsers } from './store/thunks/thunks';
 import * as firebase from "firebase";
 import Layout from "./Hoc/Layout";
 import PopUpLogin from './components/PopUps/PopUpLogin';
@@ -25,6 +25,7 @@ import PopUpDelete from './components/PopUps/PopUpDelete';
 import { userLogin } from './store/actions/appAction';
 import PopUpTestAdded from './components/PopUps/PopUpTestAdded';
 import StartTest from './containers/Pages/StartTest';
+import OneTestInfo from './containers/Pages/TestInfoPage/OneTestInfo';
 
 
 class App extends Component {
@@ -37,7 +38,7 @@ class App extends Component {
         testAddClicked: false,
         testDeletedClicked: false,
         userTestAdded: false,
-        currentItem: null,
+        currentItem: '',
         user: null
     };
 
@@ -45,20 +46,21 @@ class App extends Component {
 
         firebase.auth().onAuthStateChanged((currentLog) => {
             if (currentLog) {
-                this.setState({currentLog});
+                this.setState({ currentLog });
 
-                if(localStorage.getItem("current") === "company") {
+                if (localStorage.getItem("current") === "company") {
                     this.props.userLogin('company');
-                    
-                    firebase.database().ref(`companies/${currentLog.uid}`).on('value',(snapshot)=>{
-                        if(snapshot.val()){
-                            this.setState({currentLog, user: {...snapshot.val()} })
-                        } 
+
+                    firebase.database().ref(`companies/${currentLog.uid}`).on('value', (snapshot) => {
+
+                        if (snapshot.val()) {
+                            this.setState({ currentLog, user: { ...snapshot.val() } })
+                        }
                     })
                 }
-                if(localStorage.getItem("current") === "user") {
+                if (localStorage.getItem("current") === "user") {
                     this.props.userLogin('user');
-                    firebase.database().ref(`user/${currentLog.uid}`).on('value',(snapshot)=> {
+                    firebase.database().ref(`user/${currentLog.uid}`).on('value', (snapshot) => {
                         let user = {};
                         let tests = [];
                         if (snapshot.hasChild('tests')) {
@@ -74,10 +76,10 @@ class App extends Component {
                         user = {
                             id: snapshot.key,
                             ...snapshot.val(),
-                             tests
+                            tests
                         }
-                        if(snapshot.val()){
-                            this.setState({currentLog, user: user});
+                        if (snapshot.val()) {
+                            this.setState({ currentLog, user: user });
                         }
                     })
                 }
@@ -85,7 +87,7 @@ class App extends Component {
             } else {
                 console.log('log out');
                 localStorage.removeItem("current")
-                this.setState({currentLog: null, user: null})
+                this.setState({ currentLog: null, user: null })
             }
         });
         this.props.getCompanies();
@@ -96,92 +98,110 @@ class App extends Component {
     componentDidUpdate(prevProps, prevState) {
         if (this.props.testsLoaded === true && this.props.testsLoaded !== prevProps.testsLoaded) {
 
-            this.setState({testsLoaded: this.props.testsLoaded})
+            this.setState({ testsLoaded: this.props.testsLoaded })
         }
         if (this.props.companiesLoaded === true && this.props.companiesLoaded !== prevProps.companiesLoaded) {
 
-            this.setState({companiesLoaded: this.props.companiesLoaded})
+            this.setState({ companiesLoaded: this.props.companiesLoaded })
         }
     }
 
     testAddClicked = () => {
-        this.setState({testAddClicked: !this.state.testAddClicked});
+        this.setState({ testAddClicked: !this.state.testAddClicked });
     };
 
     testDeletedClicked = () => {
-        this.setState({testDeletedClicked: !this.state.testDeletedClicked});
+        this.setState({ testDeletedClicked: !this.state.testDeletedClicked });
     }
     userTestAdded = () => {
-        this.setState({userTestAdded: !this.state.userTestAdded});
+        this.setState({ userTestAdded: !this.state.userTestAdded });
     }
-   addCurrentItem = (currentItem) => {
-    this.setState({currentItem: currentItem});
-   }
+    addCurrentItem = (currentItem) => {
+        this.setState({ currentItem: currentItem });
+    }
 
     render() {
+        let testInfo = '';
+        if (this.state.currentItem) {
+            testInfo = this.state.currentItem;
+
+
+        }
+        console.log(testInfo);
         return (
             <div>
 
-                {this.state.testAddClicked && <PopUpLogin testAddClicked={this.testAddClicked}/>} 
-                {this.state.testDeletedClicked && <PopUpDelete testDeletedClicked={this.testDeletedClicked}/>} 
-                {this.state.userTestAdded && 
-                    <PopUpTestAdded  exists={false}  userTestAdded={this.userTestAdded} user={this.state.user}>
+                {this.state.testAddClicked && <PopUpLogin testAddClicked={this.testAddClicked} />}
+                {this.state.testDeletedClicked && <PopUpDelete testDeletedClicked={this.testDeletedClicked} />}
+                {this.state.userTestAdded &&
+                    <PopUpTestAdded exists={false} userTestAdded={this.userTestAdded} user={this.state.user}>
                         added to tests in your propfile
                     </PopUpTestAdded>
                 }
-                
+
                 <Layout currentLog={this.state.currentLog} user={this.state.user}>
                     <Switch className="App">
-                        <Route exact path={'/'} component={() => 
-                            <HomePage 
+                        <Route exact path={'/'} component={() =>
+                            <HomePage
                                 testAddClicked={this.testAddClicked}
                                 userTestAdded={this.userTestAdded}
                                 user={this.state.user}
-                            />}/>
-                        <Route path="/tests/" component={() => 
-                            <AllTests 
+                                addCurrentItem={this.addCurrentItem}
+
+                            />} />
+                        <Route path="/tests/" component={() =>
+                            <AllTests
+                                addCurrentItem={this.addCurrentItem}
                                 testAddClicked={this.testAddClicked}
                                 userTestAdded={this.userTestAdded}
                                 user={this.state.user}
-                            />}/>
-                        <Route path="/autorization-company" component={AutorizationCompany}/>
-                        <Route path="/autorization-user" component={AutorizationUser}/>
-                        <Route path="/aboutUs/" component={AboutUs}/>
-                        <Route path='/registration/user' component={AutorizationUser}/>
-                        <Route path='/registration/company' component={AutorizationCompany}/>
-                        <Route path="/users/" component={AllUsers}/>
-                        <Route path="/companies/" component={() => <AllCompanies addCurrentItem={this.addCurrentItem} />}/>
-                        <Route path="/company-info-page/:comp" 
-                            component={ () => <CompaniesInUser  item={this.state.currentItem}/>}/>
-                        <Route path="/user-info-page/" component={UsersInCompany}/>
+                            />} />
+                        <Route path="/autorization-company" component={AutorizationCompany} currentCompany={this.state.currentLog} user={this.state.user} />
+                        <Route path="/autorization-user" component={AutorizationUser} currentCompany={this.state.currentLog} user={this.state.user} />
+                        <Route path="/aboutUs/" component={AboutUs} />
+                        <Route path='/registration/user' component={AutorizationUser} />
+                        <Route path='/registration/company' component={AutorizationCompany} />
+                        <Route path="/users/" component={AllUsers} />
+                        <Route path="/companies/" component={() => <AllCompanies addCurrentItem={this.addCurrentItem} />} />
+                        <Route path="/company-info-page/:comp"
+                            component={() => <CompaniesInUser item={testInfo} />} />
+
+                        <Route path="/test-info-page/:test" component={() =>
+                            <OneTestInfo
+                                user={this.state.user}
+                                testInfo={testInfo}
+                                testAddClicked={this.testAddClicked}
+                                userTestAdded={this.userTestAdded}
+                            />} />
+                        <Route path="/user-info-page/:user" component={UsersInCompany} />
                         <Route
                             path='/authorization/'
                             component={() => <Authorization currentCompany={this.state.currentLog}
-                                                            user={this.state.user}/>}
+                                user={this.state.user} />}
                         />
-                        
-                        {localStorage.getItem("current") === "user" 
+
+                        {localStorage.getItem("current") === "user"
                             ? <Switch>
-                                <Route path="/:user/start-test" component={() => 
-                                    <StartTest user={this.state.user}/>}/>
-                               <Route path="/:user/:text" component={() => <User currentCompany={this.state.currentLog} user={this.state.user} />}/> 
-                                
-                               </Switch>
-                            
-                            :    <Switch>
-                                    <Route path="/:company/add-test" component={() => <TestCreator user={this.state.user} />}/>
-                                    <Route path="/:company/edit-test" component={() => 
-                                        <TestEditor editingTest={this.props.editingTest} user={this.state.user} />}
-                                    />
-                                    <Route path="/:company/:text" component={() =>  
-                                    <Company 
-                                        currentCompany={this.state.currentLog} 
-                                        user={this.state.user} 
-                                        testDeletedClicked={this.testDeletedClicked} />}/>
-                                </Switch>
+                                <Route path="/:user/start-test" component={() =>
+                                    <StartTest user={this.state.user} />} />
+                                <Route path="/:user/:text" component={() => <User currentCompany={this.state.currentLog} user={this.state.user} />} />
+
+                            </Switch>
+
+                            : <Switch>
+                                <Route path="/:company/add-test" component={() => <TestCreator user={this.state.user} />} />
+                                <Route path="/:company/edit-test" component={() =>
+                                    <TestEditor editingTest={this.props.editingTest} user={this.state.user} />}
+                                />
+                                <Route path="/:company/:text" component={() =>
+                                    <Company
+                                        currentCompany={this.state.currentLog}
+                                        user={this.state.user}
+                                        testDeletedClicked={this.testDeletedClicked} />} />
+                            </Switch>
                         }
 
-                        <Route component={NoMatch}/>
+                        <Route component={NoMatch} />
 
                     </Switch>
                 </Layout>
@@ -195,6 +215,7 @@ function mapStateToProps(state) {
         testsLoaded: state.appReducer.testsLoaded,
         companiesLoaded: state.appReducer.companiesLoaded,
         editingTest: state.appReducer.editingTest,
+        user: state.appReducer.user
     }
 }
 

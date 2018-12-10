@@ -10,7 +10,6 @@ const LoginDiv = styled.div`
     margin-bottom: 60px;
 `;
 
-
 class CompanyRegistration extends Component {
     constructor(props) {
         super(props);
@@ -19,6 +18,7 @@ class CompanyRegistration extends Component {
             email: '',
             password: '',
             confirmedPassword: '',
+            validErrors: {name: true, email: true, password: true, confirmedPassword: true}
         }
         this.changeField = this.changeField.bind(this);
     }
@@ -31,7 +31,7 @@ class CompanyRegistration extends Component {
 
     signUpCompany() {
 
-        if (this.state.password === this.state.confirmedPassword && this.state.password) {
+        if (this.state.password === this.state.confirmedPassword && this.state.password  && this.state.name && this.state.email) {
 
             const company = {...this.state};
 
@@ -53,13 +53,22 @@ class CompanyRegistration extends Component {
 
 
         } else {
+             const obj = {
+                name: this.state.name,
+                email: this.state.email,
+                password: this.state.password,
+                confirmedPassword: this.state.confirmedPassword,
+            }
+            const objErrors = this.state.validErrors;
+            for(let key in obj){
+                if(obj[key] === ""){
+                    objErrors[key] = false
+                }
+            }
             console.log('not equal');
         }
         this.setState({
-            name: '',
-            email: '',
-            password: '',
-            confirmedPassword: '',
+            ...this.state
         });
     }
 
@@ -71,61 +80,84 @@ class CompanyRegistration extends Component {
 
 
     render() {
-        const {name, email, password, confirmedPassword} = this.state;
+        const {name, email, password, confirmedPassword, validErrors} = this.state;
 
         return (
             <form onSubmit={this.handleSubmit.bind(this)}>
-
                 <div className='registration'>
                     <div className='Logwrapper'>
                         <LoginDiv>Register</LoginDiv>
-
-                        <input
-                            className='info-field'
-                            type="text"
-                            placeholder='COMPANY NAME *'
-                            value={name}
-                            onChange={(e) => this.changeField(e, 'name')}
-                        />
-
-                        <input
-                            className='info-field'
-                            type="email"
-                            placeholder='EMAIL *'
-                            value={email}
-                            onChange={(e) => this.changeField(e, 'email')}
-                        />
-
-                        <input
-                            className='info-field'
-                            type="password"
-                            placeholder='PASSWORD *'
-                            value={password}
-                            onChange={(e) => this.changeField(e, 'password')}
-                        />
-
-                        <input
-                            className='info-field'
-                            type="password"
-                            placeholder='CONFIRM PASSWORD *'
-                            value={confirmedPassword}
-                            onChange={(e) => this.changeField(e, 'confirmedPassword')}
-                        />
+                        {validErrors.name === false && name==="" ? 
+                            <input
+                                className='info-field eror'
+                                placeholder='Write Your Name *'
+                                type="text"
+                                value={name}
+                                onChange={(e) => this.changeField(e, 'name')}
+                            /> : 
+                            <input
+                                className='info-field'
+                                placeholder='Name *'
+                                type="text"
+                                value={name}
+                                onChange={(e) => this.changeField(e, 'name')}
+                            /> }
+                        {validErrors.email === false && email==="" ? 
+                            <input
+                                className='info-field eror'
+                                placeholder='Write Your Email *'
+                                type="text"
+                                value={email}
+                                onChange={(e) => this.changeField(e, 'email')}
+                            /> : 
+                            <input
+                                className='info-field'
+                                placeholder='Email *'
+                                type="text"
+                                value={email}
+                                onChange={(e) => this.changeField(e, 'email')}
+                            /> }
+                        {validErrors.password === false && password==="" ? 
+                            <input
+                                className='info-field eror'
+                                placeholder='Write Your Password *'
+                                type="password"
+                                value={password}
+                                onChange={(e) => this.changeField(e, 'password')}
+                            /> : 
+                            <input
+                                className='info-field'
+                                placeholder='Password *'
+                                type="password"
+                                value={password}
+                                onChange={(e) => this.changeField(e, 'password')}
+                            /> }
+                        {validErrors.confirmedPassword === false && confirmedPassword==="" ? 
+                            <input
+                                className='info-field eror'
+                                placeholder='Write Your Password *'
+                                type="password"
+                                value={confirmedPassword}
+                                onChange={(e) => this.changeField(e, 'confirmedPassword')}
+                            /> : 
+                            <input
+                                className='info-field'
+                                placeholder='Confirm Password *'
+                                type="password"
+                                value={confirmedPassword}
+                                onChange={(e) => this.changeField(e, 'confirmedPassword')}
+                            /> }
 
                         <p>By creating an account,you agree to
                             DigiLearn <span style={{color: '#FFAD5A'}}>Privacy Policy</span> and <br/><span
                                 style={{color: '#FFAD5A', marginBottom: '15px'}}>Terms of use</span>.</p>
-
-                        <input className='submit' type="submit" value="CREATE ACCOUNT"/>
+                            <input className='submit' type="submit" value="CREATE ACCOUNT" />
                     </div>
-
                 </div>
-
             </form>
-
+           
         );
     }
-
 }
 
 export default CompanyRegistration;

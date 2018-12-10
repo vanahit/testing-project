@@ -11,18 +11,17 @@ import html_svg from '../../images/typeIcons/html.svg';
 import { connect } from 'react-redux';
 import { addUserTest } from '../../store/actions/appAction';
 import { firebase } from '../../firebase/firebase';
+import {NavLink} from "react-router-dom";
 
 const TestBlock = styled.div`
 	position: relative;
+	text-decoration: none;
+	display: block;
 	width: 100%;
 	border: 1px solid rgba(220, 220, 220, 1);
 	border-radius: 4px;
 	box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.16);
 	box-sizing: border-box;
-	:hover {
-		cursor: pointer;
-	}
-	
 `;
 
 const Details = styled.div`
@@ -81,7 +80,16 @@ const Img = styled.img`
 	height: 100%;
 	box-sizing: border-box;
 `;
-
+const DetailsLink = styled(NavLink)`
+	display: inline-block;
+	padding-right: 40px;
+	text-decoration: underline;
+	color:#4F9DA6;
+	: hover {
+		cursor: pointer;
+		
+	} 
+`;
 
 
 class TestComponent extends Component {
@@ -128,7 +136,7 @@ class TestComponent extends Component {
 
 
 	add = (test) => {
-		if (this.props.userType === 'user') {
+		if (this.props.user && this.props.user.type === 'user') {
 			let userUrl = this.props.user.id;
 			firebase.database().ref(`user/${this.props.user.id}/tests`).once('value',  (snapshot)=> {
 				if (snapshot.hasChild(`${test.id}`)) {
@@ -146,7 +154,6 @@ class TestComponent extends Component {
 	}
 	render() {
 		let test = this.props.test;
-		console.log(test)
 		return (
 			<>
 				<TestBlock>
@@ -171,8 +178,11 @@ class TestComponent extends Component {
 							</Data>
 						</DataTitle>
 					</Details>
-
+					
 					<ButtonDiv>
+					<DetailsLink to={`/test-info-page/${test.id}`}>
+						<span onClick={()=> this.props.addCurrentItem(test)}>View Details</span>
+					</DetailsLink>
 						{
 							this.props.userType !== 'company'
 								? <Button 
@@ -184,6 +194,7 @@ class TestComponent extends Component {
 						}
 
 					</ButtonDiv>
+					
 				</TestBlock>
 			</>
 		);

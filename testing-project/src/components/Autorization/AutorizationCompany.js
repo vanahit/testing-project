@@ -3,12 +3,11 @@ import Login from "./login/Login";
 import CompanyRegistration from "./registration/CompanyRegistration";
 import * as firebase from "firebase";
 import styled from 'styled-components';
+import {Redirect} from "react-router";
 
 const MarginDiv = styled.div`
     margin: 30px auto;
 `;
-
-
 
 class AutorizationCompany extends Component {
 
@@ -46,8 +45,11 @@ class AutorizationCompany extends Component {
     render() {
 
         return (
-            <MarginDiv>
-                    <div className='container'>
+           <MarginDiv>
+                {(this.props.user && localStorage.getItem("current") === "company") ?
+                     <Redirect to={`/${this.props.user.name}/profile`}/> 
+                    :
+                      <div className='container'>
                         <Login
                             login={this.state.pass}
                             email={this.state.email}
@@ -55,13 +57,11 @@ class AutorizationCompany extends Component {
                             signIn={this.signIn.bind(this)}/>
                         <CompanyRegistration/>
                     </div>
-
+                }
             </MarginDiv>
+        
         );
     }
 }
-
-
-
 export default AutorizationCompany;
 

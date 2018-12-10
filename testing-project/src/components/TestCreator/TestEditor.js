@@ -131,7 +131,7 @@ class TestEditor extends Component {
 		let test = {
 				testTitle: this.clearWordFromSpaces(this.state.testTitle),
 				description: this.clearWordFromSpaces(this.state.description),
-				company: this.props.user.name,
+				company: this.props.user.name.toUpperCase(),
 				questions: this.props.questions,
                 isEditing: false,
                 isPassing: false,
@@ -141,6 +141,8 @@ class TestEditor extends Component {
                 testType: this.state.testType,
                 passScore: this.state.passScore,
                 testDuration: this.state.testDuration,
+                testCreateDate: Date.now(),
+                deleted: false,
 		};
 		let updatedTest = db.ref(`tests`).child(`${this.props.editingTest.id}`);
         updatedTest.set({ ...test });

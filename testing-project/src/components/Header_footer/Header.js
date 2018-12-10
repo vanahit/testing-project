@@ -3,8 +3,7 @@ import {NavLink} from "react-router-dom";
 import styled, {css} from 'styled-components';
 import * as firebase from "firebase";
 import Icon from './AccountSvg';
-import { userLogout } from '../../store/actions/appAction';
-import {connect} from 'react-redux';
+
 
 const HeaderWrapper = styled.div`
        margin: 0 auto;
@@ -94,8 +93,7 @@ const Header = (props) => {
 
     const logOut = () => {
         firebase.auth().signOut().then(function () {
-            localStorage.removeItem("current");
-            props.userLogout();
+            localStorage.removeItem("current")
         }, function (error) {
             console.error('Sign Out Error', error);
         });
@@ -104,8 +102,6 @@ const Header = (props) => {
     return (
 
         <header style={{
-            // position: "fixed",
-            // zIndex:'3000',
             backgroundColor: '#141218',
             width: '100%',
         }}>
@@ -115,11 +111,11 @@ const Header = (props) => {
                     <Logo>LOGO</Logo>
                 </NavLink>
 
-                <HeaderNavigation>
-                    <StyledLink to={'/tests'}>TESTS</StyledLink>
-                    <StyledLink to={'/companies'}>COMPANIES</StyledLink>
-                    <StyledLink to={'/users'}>USERS</StyledLink>
-                    <StyledLink to={'/AboutUs'}>ABOUT US</StyledLink>
+                <HeaderNavigation className="headerLink">
+                    <NavLink exact activeClassName="active"  to={'/tests'}>TESTS</NavLink>
+                    <NavLink activeClassName="active"  to={'/companies'}>COMPANIES</NavLink>
+                    <NavLink activeClassName="active" to={'/users'}>USERS</NavLink>
+                    <NavLink activeClassName="active" to={'/AboutUs'}>ABOUT US</NavLink>
                 </HeaderNavigation>
 
                 {props.user ?
@@ -155,10 +151,5 @@ const Header = (props) => {
     )
 };
 
-const mapDispatchToProps = dispatch => {
-    return {
-        userLogout: userType => dispatch(userLogout())
-    };
-};
 
-export default connect(null, mapDispatchToProps)(Header);
+export default Header;

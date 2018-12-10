@@ -129,12 +129,14 @@ class TestCreator extends Component {
 				...this.state,
 				testTitle: this.clearWordFromSpaces(this.state.testTitle),
 				description: this.clearWordFromSpaces(this.state.description),
-				company: this.props.user.name,
+				company: this.props.user.name.toUpperCase(),
 				questions: this.props.questions,
 				isEditing: false,
 				totalScore: this.props.totalScore,
 				companyId: this.props.user.id,
 				isPassing: false,
+				testCreateDate: Date.now(),
+                deleted: false,
 		};
 		
 		db.ref('tests').push({...test })

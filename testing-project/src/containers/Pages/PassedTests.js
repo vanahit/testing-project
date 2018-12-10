@@ -144,7 +144,7 @@ class PassedTests extends Component {
 		}
 
 		return (
-			currentData.length ?
+			this.state.data ?
 			<div className="container-table">
 				<Searching
 					{...this.state}

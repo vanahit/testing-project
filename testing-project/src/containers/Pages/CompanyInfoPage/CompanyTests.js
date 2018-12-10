@@ -4,6 +4,7 @@ import Pagination from '../Pagination';
 import { connect } from 'react-redux';
 import  styled  from 'styled-components';
 import { NavLink} from "react-router-dom";
+import Loader from '../../../components/Loader';
 
 const NoTests = styled.div`
 	font-size: 28px;
@@ -111,13 +112,11 @@ class CompanyTests extends Component {
 	}
 	render() {
 		let tests = [];
-		if (this.state.tests) {
-			tests = this.state.tests.filter(test => test.id === this.state.company.id);
-			console.log(tests);
-        }
+	
+		
 		const selectSearchData = ['JavaScript', 'Java', "PHP", 'C#', 'MySQL', 'Python', 'Ruby', 'Swift', 'React', 'Redux'];
 		const { search, type, currentPage, dataPerPage, loadMore, sortType, orderAscanding } = this.state;
-		let filterData = tests.filter(item => {
+		let filterData = test.filter(item => {
 			return item.testTitle.toLowerCase().substr(0, search.length) === search.toLowerCase()
 		})
 
@@ -154,8 +153,8 @@ class CompanyTests extends Component {
 		for (let i = 1; i <= Math.ceil(filterData.length / dataPerPage); i++) {
 			pages.push(i);
 		}
-
 		return (
+			 this.state.data ?
 			<div className="container-table">
 				<Searching
 					{...this.state}
@@ -192,7 +191,7 @@ class CompanyTests extends Component {
 						</tr>
 					</thead>
 					<tbody>
-						{ this.state.data ?
+						{currentData.length ?
 							currentData.map((item, index) => {
 								return (
 									<tr key={item.id} >
@@ -203,8 +202,9 @@ class CompanyTests extends Component {
 									</tr>
 								)
 							})
-						: "LOADER"
+							: <Loader />
 						}
+						
 					</tbody>
 
 				</table>
@@ -218,6 +218,7 @@ class CompanyTests extends Component {
 					pages={pages}
 				/>
 			</div>
+			: "THERE IS NO TESTS"
 			
 		);
 	}

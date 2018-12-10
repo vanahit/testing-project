@@ -182,6 +182,7 @@ class HomePage extends Component {
                                 user={this.props.user}
                                 testAddClicked={this.props.testAddClicked}
                                 userTestAdded={this.props.userTestAdded}
+                                addCurrentItem={this.props.addCurrentItem}
                             />
                             : <LoaderDiv><Loader /></LoaderDiv>
                         }

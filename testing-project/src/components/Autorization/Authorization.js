@@ -7,8 +7,6 @@ import {firebase} from '../../firebase/firebase';
 
 
 class Authorization extends Component {
-
-
     state = {
         selectedTab: 'company',
         name:"uiscdbsacd"
@@ -53,10 +51,7 @@ class Authorization extends Component {
                             <AutorizationCompany /> :
                             <AutorizationUser/>}
                     </div>}
-                
-                
                 }
-
             </div>
         );
     }

@@ -21,7 +21,8 @@ class UserRegistration extends Component {
             password: '',
             confirmedPassword: '',
             languages: [],
-            skillsContent: false
+            skillsContent: false,
+            validErrors: {firstName: true, lastName: true, email: true, password: true, confirmedPassword: true}
         }
     }
 
@@ -48,7 +49,7 @@ class UserRegistration extends Component {
 
     signUpUser() {
 
-        if (this.state.password === this.state.confirmedPassword && this.state.password) {
+        if (this.state.password === this.state.confirmedPassword && this.state.password && this.state.firstName && this.state.lastName && this.state.email) {
 
             const user = {...this.state};
 
@@ -63,20 +64,29 @@ class UserRegistration extends Component {
                     localStorage.setItem("current", "user");
                     firebase.database().ref(`user/${res.uid}`).set(user);
                     // firebase.database().ref('user').push(user);
+                   
                     console.log(res);
                 })
                 .catch(e => console.log(e.message));
 
         } else {
+            const obj = {
+                firstName: this.state.firstName,
+                lastName: this.state.lastName,
+                email: this.state.email,
+                password: this.state.password,
+                confirmedPassword: this.state.confirmedPassword,
+            }
+            const objErrors = this.state.validErrors;
+            for(let key in obj){
+                if(obj[key] === ""){
+                    objErrors[key] = false
+                }
+            }
             console.log('not equal');
         }
         this.setState({
-            firstName: '',
-            lastName: '',
-            email: '',
-            password: '',
-            confirmedPassword: '',
-            languages: []
+            ...this.state
         });
     }
 
@@ -91,49 +101,88 @@ class UserRegistration extends Component {
 
         const languages = ['HTML', 'CSS', 'JavaScript', 'Java', 'Python', 'C#', 'Ruby', 'Swift', 'React', 'Redux', 'C++', 'PHP', 'MySQL'];
 
-        const {firstName, lastName, email, password, confirmedPassword, skillsContent} = this.state;
+        const {firstName, lastName, email, password, confirmedPassword, skillsContent, validErrors} = this.state;
         return (
             <form onSubmit={this.handleSubmit.bind(this)}>
 
                 <div className='registration'>
                     <div className='Logwrapper'>
                         <LoginDiv>Register</LoginDiv>
-
-                        <input
-                            className='info-field'
-                            type="text"
-                            placeholder='FIRST NAME *'
-                            value={firstName}
-                            onChange={(e) => this.changeField(e, 'firstName')}
-                        />
-                        <input
-                            className='info-field'
-                            type="text"
-                            placeholder='LAST NAME *'
-                            value={lastName}
-                            onChange={(e) => this.changeField(e, 'lastName')}
-                        />
-                        <input
-                            className='info-field'
-                            type="email"
-                            placeholder='EMAIL *'
-                            value={email}
-                            onChange={(e) => this.changeField(e, 'email')}
-                        />
-                        <input
-                            className='info-field'
-                            type="password"
-                            placeholder='PASSWORD *'
-                            value={password}
-                            onChange={(e) => this.changeField(e, 'password')}
-                        />
-                        <input
-                            className='info-field'
-                            type="password"
-                            placeholder='CONFIRM PASSWORD *'
-                            value={confirmedPassword}
-                            onChange={(e) => this.changeField(e, 'confirmedPassword')}
-                        />
+                        {validErrors.firstName === false && firstName==="" ? 
+                            <input
+                                className='info-field eror'
+                                placeholder='Write Your First Name *'
+                                type="text"
+                                value={firstName}
+                                onChange={(e) => this.changeField(e, 'firstName')}
+                            /> : 
+                            <input
+                                className='info-field'
+                                placeholder='First Name *'
+                                type="text"
+                                value={firstName}
+                                onChange={(e) => this.changeField(e, 'firstName')}
+                            /> }
+                        {validErrors.lastName === false && lastName==="" ? 
+                            <input
+                                className='info-field eror'
+                                placeholder='Write Your Last Name *'
+                                type="text"
+                                value={lastName}
+                                onChange={(e) => this.changeField(e, 'lastName')}
+                            /> : 
+                            <input
+                                className='info-field'
+                                placeholder='Last Name *'
+                                type="text"
+                                value={lastName}
+                                onChange={(e) => this.changeField(e, 'lastName')}
+                            /> }
+                        {validErrors.email === false && email==="" ? 
+                            <input
+                                className='info-field eror'
+                                placeholder='Write Your Email *'
+                                type="email"
+                                value={email}
+                                onChange={(e) => this.changeField(e, 'email')}
+                            /> : 
+                            <input
+                                className='info-field'
+                                placeholder='Email *'
+                                type="email"
+                                value={email}
+                                onChange={(e) => this.changeField(e, 'email')}
+                            /> }
+                        {validErrors.password === false && password==="" ? 
+                            <input
+                                className='info-field eror'
+                                placeholder='Write Your Password *'
+                                type="password"
+                                value={password}
+                                onChange={(e) => this.changeField(e, 'password')}
+                            /> : 
+                            <input
+                                className='info-field'
+                                placeholder='Password *'
+                                type="password"
+                                value={password}
+                                onChange={(e) => this.changeField(e, 'password')}
+                            /> }
+                        {validErrors.confirmedPassword === false && confirmedPassword === "" ? 
+                            <input
+                                className='info-field eror'
+                                placeholder='Write Your Confirme Password *'
+                                type="password"
+                                value={confirmedPassword}
+                                onChange={(e) => this.changeField(e, 'confirmedPassword')}
+                            /> : 
+                            <input
+                                className='info-field'
+                                placeholder='Confirm Password *'
+                                type="password"
+                                value={confirmedPassword}
+                                onChange={(e) => this.changeField(e, 'confirmedPassword')}
+                            /> }
                         <div className="skills">
                             Skills
                             {skillsContent ?
@@ -151,7 +200,7 @@ class UserRegistration extends Component {
                                     languages.map((item, index) => {
                                         return (
                                             <div className="skill" key={index}>
-                                                <input key={item}
+                                                    <input
                                                        type="checkbox"
                                                        onChange={e => this.changeCheckboxHandler(e, item)}/>
                                                 <span>{item}</span>
