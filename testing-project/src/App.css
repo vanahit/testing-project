@@ -1102,3 +1102,14 @@ img {
     height: auto;
     border: none;
 }
+
+
+/*user validation*/
+
+.info-field.eror{
+    border-bottom: 2px solid red;
+}
+
+.info-field.eror::placeholder{
+    color: red;
+}
