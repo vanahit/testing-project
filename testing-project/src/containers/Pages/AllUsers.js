@@ -12,7 +12,7 @@ import UserSvg from './UserSvg';
 const UserSvgDiv = styled.div`
 	margin: 0 auto;
 	width: 100px;
-	fill: rgba(16, 5, 41, 1);
+	fill: rgba(16, 5, 41, 0.5);
 	:hover {
 		fill: #FF5959;
 	}

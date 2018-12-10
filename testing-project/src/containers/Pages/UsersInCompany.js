@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import UserSvg from './UserSvg';
 
 const UserSvgDiv = styled.div`
-	margin: 0 auto;
+	margin: 30px auto;
 	width: 200px;
 	:hover {
 		fill: #FF5959;
