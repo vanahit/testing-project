@@ -134,9 +134,7 @@ class AllCompanies extends Component {
 													<div className="testsDiv">
 														<NavLinkDiv to={{
 														pathname:`/company-info-page/${item.name}`,
-														state: { 
-															companyInfo:item 
-														}
+														
 													}}  >
 															<span>All Tests</span>
 														</NavLinkDiv >
