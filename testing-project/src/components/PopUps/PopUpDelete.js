@@ -80,11 +80,9 @@ class PopUpDelete extends Component {
     deleteTest = testId => {
         let db = firebase.database();
         let deletedTest = db.ref(`tests/${testId}`);
-        deletedTest.remove();
+        deletedTest.update({deleted: true});
         this.props.testDeletedClicked()
-        console.log(testId);
     }
-
     render() {
 		return (
             <BlackDiv>

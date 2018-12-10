@@ -218,6 +218,7 @@ function mapStateToProps(state) {
         testsLoaded: state.appReducer.testsLoaded,
         companiesLoaded: state.appReducer.companiesLoaded,
         editingTest: state.appReducer.editingTest,
+        user: state.appReducer.user
     }
 }
 

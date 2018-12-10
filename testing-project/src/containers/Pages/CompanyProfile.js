@@ -28,7 +28,9 @@ class CompanyProfile extends Component {
                                 </div>
                             </div>
                             <div className='profile-buttons'>
-                                <button>FIND EMPLOYEE</button>
+                                <NavLink to={`/users` }>
+                                    <button>FIND EMPLOYEE</button>
+                                </NavLink>
                                 <NavLink to={`/${this.props.user.name}/add-test` }>
                                     <button>CREATE TEST</button>
                                 </NavLink>

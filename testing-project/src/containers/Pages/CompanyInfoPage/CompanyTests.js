@@ -111,15 +111,12 @@ class CompanyTests extends Component {
 		}
 	}
 	render() {
-		console.log(this.props.item)
 		let tests = [];
-		if (this.state.data) {
-			tests = this.state.data.filter(test => test.companyId === this.state.company.id);
-			console.log(tests);
-        }
+	
+		
 		const selectSearchData = ['JavaScript', 'Java', "PHP", 'C#', 'MySQL', 'Python', 'Ruby', 'Swift', 'React', 'Redux'];
 		const { search, type, currentPage, dataPerPage, loadMore, sortType, orderAscanding } = this.state;
-		let filterData = tests.filter(item => {
+		let filterData = test.filter(item => {
 			return item.testTitle.toLowerCase().substr(0, search.length) === search.toLowerCase()
 		})
 
