@@ -2,9 +2,16 @@ import React, {Component} from 'react';
 import src from '../../images/generic-avatar.png';
 import PassedTests from './PassedTests';
 import styled from 'styled-components';
-const img = styled.div`
+import UserSvg from './UserSvg';
 
+const UserSvgDiv = styled.div`
+	margin: 0 auto;
+	width: 200px;
+	:hover {
+		fill: #FF5959;
+	}
 `;
+
 
 
 export default class CompaniesInUser extends Component {
@@ -22,9 +29,7 @@ export default class CompaniesInUser extends Component {
 					<span>Profile</span>
 				</nav>
 				<div className="userContent">
-					<div className="imgDiv">
-						<img src={src} />
-					</div>
+					<UserSvgDiv><UserSvg /></UserSvgDiv>
 					<div className="infoUser">
 						<h2>{this.props.location.state.userInfo.firstName} {this.props.location.state.userInfo.lastName} </h2>
 						

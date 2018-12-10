@@ -3,6 +3,13 @@ import CompanyTests from './CompanyTests';
 import styled from 'styled-components';
 import CompanySvg from './CompanySvg';
 
+const CompanySvgDiv = styled.div`
+	width: 200px;
+	margin: auto;
+	:hover {
+		fill: #FF5959;
+	}
+`;
 
 
 export default class CompaniesInUser extends Component {
@@ -17,7 +24,7 @@ export default class CompaniesInUser extends Component {
 				</nav>
 				<div className="userContent">
 					<div className="imgDiv">
-						<CompanySvg />
+						< CompanySvgDiv> <CompanySvg /> </ CompanySvgDiv>
 					</div>
 					<div className="infoUser">
 						<h2>{this.props.item.name}</h2>

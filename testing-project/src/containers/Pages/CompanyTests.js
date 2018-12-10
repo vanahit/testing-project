@@ -110,9 +110,8 @@ class CompanyTests extends Component {
 		let tests = [];
 		if (this.state.data) {
 			tests = this.state.data.filter(test => {
-				return test.companyId === this.props.user.id;
+				return test.companyId === this.props.user.id && !test.deleted;
 			})
-			console.log(tests);
 		}
 		const selectSearchData = ['JavaScript', 'Java', "PHP", 'C#', 'MySQL', 'Python', 'Ruby', 'Swift', 'React', 'Redux'];
 		const {search, type, currentPage, dataPerPage, loadMore, sortType, orderAscanding } = this.state;
