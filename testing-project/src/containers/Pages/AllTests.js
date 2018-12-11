@@ -11,10 +11,6 @@ import {NavLink} from "react-router-dom";
 const LoaderDiv = styled.div`
 	margin: auto;
 `;
-const NavLinkDiv = styled(NavLink) `
-	display: inline-block;
-	text-decoration: none;
-`;
 
 class AllTests extends Component {
 	constructor(props) {
@@ -60,15 +56,8 @@ class AllTests extends Component {
 			loadMore: 0
 		})
 	}
-
-	deadline(day) {
-		return `${new Date(day).getFullYear()}.${new Date(day).getMonth()}.${new Date(day).getDate()}`
-	}
-
 	compareDates = (stringDate) => {
-		let today = new Date();
-		today = this.getTodayDate(today);
-		return Date.parse(stringDate) >= Date.parse(today);
+		return Date.parse(stringDate) >= Date.now();
 	}
 
 	componentDidUpdate(prevProps, prevState) {

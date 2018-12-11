@@ -63,6 +63,7 @@ const MyAccount = styled(NavLink)`
     margin-right: 20px;
     color: white; 
     font-size: 20px;
+    font-weight: bold;
     cursor: pointer;
     text-transform: uppercase;
 
