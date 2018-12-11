@@ -209,7 +209,7 @@ class CompanyTests extends Component {
 											<tr key={item.id} >
 												<td>{item.testTitle}</td>
 												<td>
-													<DeadLineSpan >{this.deadline(item.testDeadline)}</DeadLineSpan>
+													{this.deadline(item.testDeadline)}
 												</td>
 												<td>{item.testType}</td>
 												<td>
