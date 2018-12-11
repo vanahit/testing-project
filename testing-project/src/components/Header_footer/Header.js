@@ -2,73 +2,63 @@ import React from 'react';
 import {NavLink} from "react-router-dom";
 import styled, {css} from 'styled-components';
 import * as firebase from "firebase";
-import Icon from './AccountSvg';
+import UserIcon from './UserSvg';
+import CompanyIcon from './CompanySvg';
+import Logo from './LogoSvg';
 
 
-const HeaderWrapper = styled.div`
-       margin: 0 auto;
-       width: 1200px;
-       height: 100px;
-       display: flex;
-       justify-content: space-between;
-       align-items: center;
-`;
-
-const Logo = styled.div`
+const LogoDiv = styled.div`
     width: 195px;
-    height: 60px;
+    fill: #FFFFFF;
+    : hover {
+        fill :  #FFAD5A;
+    } 
+`;
+
+const FlexRow = styled.div`
     display: flex;
-    cursor: pointer;
-    justify-content: center;
+    margin: 0 auto;
+    min-height: 100px;
+    max-width: 1200px;
     align-items: center;
-    color: white;
-    font-size: 20px;
-    background-color: #FF5959;
-`;
+	flex-direction: row;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	width: ${props => props.width || '100%'};
+	box-sizing: border-box;
 
-const HeaderNavigation = styled.div`
-    display: flex;
-    width: 430px;
-    justify-content: space-between;
-`;
-
-const StyledLink = styled(NavLink)`
-    color: white;
-    font-size: 20px;
-    font-weight: bold;
-    text-decoration: none;
-    cursor: pointer;
-
-    &:link{
-        text-decoration: none;
-     }
-
-    &:active, &:hover, &:focus {
-        color: #FFAD5A;
-        text-decoration: underline;
-        
+	@media screen and (max-width: 1190px) {
+        flex-direction: column;
+        text-align: center;
+		min-width: 100%;
     }
+   
 `;
 
 const LoginLogout = styled(NavLink)`
     color: white;
     font-size: 20px;
     font-weight: bold;
-    padding: 20px 40px;
+    padding: 15px 40px;
     border: 1px solid #FFFFFF;  
-    text-decoration: underline;
-    cursor: pointer;
+    text-decoration: none;
+     cursor: pointer;
 
     :active, :hover, :focus {
         border-color: #FFAD5A;
         color: #FFAD5A;
-       
+        text-decoration: underline;
     }
+    @media screen and (max-width: 1198px) {
+        flex-direction: column;
+        border: 0;
+	}
  `;
 
 const MyAccount = styled(NavLink)`
+    margin: 0;
     display: inline-block;
-    text-decoration: underline;
+    text-decoration: none;
     fill: white;
     margin-right: 20px;
     color: white; 
@@ -79,16 +69,35 @@ const MyAccount = styled(NavLink)`
     :active, :hover, :focus {
         color: #FFAD5A;
         fill: #FFAD5A;
+        text-decoration: underline;
     }
    
  `;
+
+ const FlexChild = styled.div`
+	position: relative;
+	box-sizing: border-box;
+	width: ${props => props.width || ''};   
+	@media screen and (max-width: 1190px) {
+		margin: 10px 5px;
+		min-width: 98%;
+	}
+`;
 const IconSizes = styled.span`
     display: inline-block;
     margin-left: 10px;
     width: 25px;
-    height: 20px;
 `;
-
+const Navigation = styled(NavLink)`
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 20px;
+    : hover {
+        color: #FFAD5A;
+        text-decoration: underline;
+    }
+`;
 const Header = (props) => {
 
     const logOut = () => {
@@ -104,48 +113,49 @@ const Header = (props) => {
         <header style={{
             backgroundColor: '#141218',
             width: '100%',
-        }}>
+            margin: 0,        }}>
 
-            <HeaderWrapper>
-                <NavLink to={'/'}>
-                    <Logo>LOGO</Logo>
-                </NavLink>
+            <FlexRow>
+                <FlexChild width={'200px'}>
+                    <NavLink to={'/'}>
+                        <LogoDiv><Logo /></LogoDiv>
+                    </NavLink>
+                </FlexChild>
 
-                <HeaderNavigation className="headerLink">
-                    <NavLink exact activeClassName="active"  to={'/tests'}>TESTS</NavLink>
-                    <NavLink activeClassName="active"  to={'/companies'}>COMPANIES</NavLink>
-                    <NavLink activeClassName="active" to={'/users'}>USERS</NavLink>
-                    <NavLink activeClassName="active" to={'/AboutUs'}>ABOUT US</NavLink>
-                </HeaderNavigation>
+                <FlexChild width={'467px'}>
+                    <FlexRow>
+                        <FlexChild><Navigation exact activeClassName="active"  to={'/tests'}>TESTS</Navigation></FlexChild>
+                        <FlexChild><Navigation activeClassName="active"  to={'/companies'}>COMPANIES</Navigation></FlexChild>
+                        <FlexChild><Navigation activeClassName="active" to={'/users'}>USERS</Navigation></FlexChild>
+                        <FlexChild><Navigation activeClassName="active" to={'/AboutUs'}>ABOUT US</Navigation></FlexChild>
+                    </FlexRow>
+                </FlexChild>
 
                 {props.user ?
-                    <div style={{
-                        display: 'flex',
-                        alignItems: 'center'
-                    }}>
+                    <FlexChild>
+                         {props.user.type === "company" 
+                            ? 
 
-                   
-                           
-                           { props.user.type === "company" ? 
-                                                       <MyAccount to={`/${props.user.name}/profile`}> 
-                                                           {props.user.name}
-                                                           <IconSizes><Icon /></IconSizes>
-                                                       </MyAccount> :
-                                                       <MyAccount to={`/${props.user.firstName}${props.user.lastName}/profile`}> 
-                                                           {`${props.user.firstName} ${props.user.lastName}`}
-                                                           <IconSizes><Icon /></IconSizes>
-                                                       </MyAccount>}
-                        
-                        
-                        <LoginLogout to={'/authorization'} onClick={() => logOut()}>LOG OUT</LoginLogout>
+                                <MyAccount to={`/${props.user.name}/profile`}> 
+                                    {props.user.name}
+                                    <IconSizes><CompanyIcon /></IconSizes>
+                                </MyAccount> 
+                            : 
+                                <MyAccount to={`/${props.user.firstName}${props.user.lastName}/profile`}> 
+                                    {`${props.user.firstName} ${props.user.lastName}`}
+                                    <IconSizes><UserIcon /></IconSizes>
+                                </MyAccount>
+                            }
 
-
-                    </div>
-
-                    : <LoginLogout to={'/authorization'}>
-                        LOG IN
-                    </LoginLogout>}
-            </HeaderWrapper>
+                            <LoginLogout to={'/authorization'} onClick={() => logOut()}>LOG OUT</LoginLogout>
+                        </FlexChild> 
+                    : <FlexChild>
+                        <LoginLogout to={'/authorization'}>
+                            LOG IN
+                        </LoginLogout> 
+                    </FlexChild>
+                } 
+            </FlexRow>
 
         </header>
     )

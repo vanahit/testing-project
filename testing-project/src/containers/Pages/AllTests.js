@@ -65,22 +65,6 @@ class AllTests extends Component {
 		return `${new Date(day).getFullYear()}.${new Date(day).getMonth()}.${new Date(day).getDate()}`
 	}
 
-	getTodayDate = () => {
-		let today = new Date();
-		let dd = today.getDate();
-		let mm = today.getMonth() + 1;
-		let yyyy = today.getFullYear();
-
-		if (dd < 10) {
-			dd = '0' + dd
-		}
-
-		if (mm < 10) {
-			mm = '0' + mm
-		}
-		return today = yyyy + '-' + mm + '-' + dd;
-	}
-
 	compareDates = (stringDate) => {
 		let today = new Date();
 		today = this.getTodayDate(today);
@@ -110,6 +94,7 @@ class AllTests extends Component {
 			tests = this.state.data;
 			fillteredTests = tests.filter(item => this.compareDates(item.testDeadline));
 		}
+
 
 		const selectSearchData = ['JavaScript', 'Java', "PHP", 'C#', 'MySQL', 'Python', 'Ruby', 'Swift', 'React', 'Redux'];
 		const { search, type, currentPage, dataPerPage, loadMore } = this.state;

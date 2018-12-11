@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Icon = ({ width = '110%', height = '100%', viewBox = '0 -18 60 60'}) =>  {
+const UserIcon = ({ width = '110%', height = '100%', viewBox = '0 -18 60 60'}) =>  {
       return (
           <div>
             <svg  width={width}   height={height}   viewBox={viewBox} 
@@ -24,5 +24,5 @@ const Icon = ({ width = '110%', height = '100%', viewBox = '0 -18 60 60'}) =>  {
         );
   };
   
-  export default Icon
+  export default  UserIcon
         

@@ -24,7 +24,7 @@ const FlexChild = styled.div`
     
 	@media screen and (max-width: 1190px) {
 		margin: 20px 5px;
-		min-width: 98%;
+		min-width: 100%;
 	}
 `;
 

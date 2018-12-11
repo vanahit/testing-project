@@ -79,7 +79,7 @@ class AllCompanies extends Component {
 	}
 	getTests = (companyId) => {
 		if (this.props.tests) {
-			let tests = this.props.tests.filter(test => test.companyId === companyId && !test.deleted);
+			let tests = this.props.tests.filter(test => test.companyId === companyId);
 			return tests.length;
 		}
 	}
