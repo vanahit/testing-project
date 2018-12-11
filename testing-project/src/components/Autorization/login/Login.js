@@ -32,13 +32,14 @@ const LoginDiv = styled.div`
     margin-bottom: 60px;
 `;
 
-const Login = ({email, pass, signIn, changeHandler}) => {
+const Login = ({email, pass, signIn, changeHandler, errorMessage}) => {
 
     return (
         <div>
             <div className='login'>
                 <div className='Logwrapper'>
                     <LoginDiv>LOGIN</LoginDiv>
+                    {errorMessage !== "" && <div className="errorMessage">{errorMessage}</div>}
                     <form onSubmit={signIn}>
                         <input
                             className='info-field'

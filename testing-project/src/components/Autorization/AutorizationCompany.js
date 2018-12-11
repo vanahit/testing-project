@@ -21,6 +21,7 @@ class AutorizationCompany extends Component {
             email: '',
 
             showError: false,
+            errorMessage: ""
         }
     }
 
@@ -39,7 +40,10 @@ class AutorizationCompany extends Component {
                 this.props.userLogin('company');
                 console.log(r.user)
             })
-            .catch(err => console.log(err));
+            .catch(err => {
+                this.setState({errorMessage: err.message})
+                console.log(err)
+            });
     }
 
     render() {
@@ -54,7 +58,8 @@ class AutorizationCompany extends Component {
                             login={this.state.pass}
                             email={this.state.email}
                             changeHandler={this.changeHandler}
-                            signIn={this.signIn.bind(this)}/>
+                            signIn={this.signIn.bind(this)}
+                            errorMessage={this.state.errorMessage} />
                         <CompanyRegistration/>
                     </div>
                 }

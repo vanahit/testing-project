@@ -22,13 +22,77 @@ class UserRegistration extends Component {
             confirmedPassword: '',
             languages: [],
             skillsContent: false,
-            validErrors: {firstName: true, lastName: true, email: true, password: true, confirmedPassword: true}
+            validErrors: {firstName: true, lastName: true, email: true, password: true, confirmedPassword: true},
+            progress: 0,
+            progressColor: "red",
+            progressColorConfirm: "white",
+            errorMessage: ""
         }
     }
 
     changeField(e, field) {
         console.log(field);
+        
         this.setState({[field]: e.target.value})
+        if(field === "password"){
+            this.checkPassword(e.target.value)
+            this.checkConfirmedPassword(e.target.value, this.state.confirmedPassword)
+        }
+        if(field === "confirmedPassword"){
+            this.checkConfirmedPassword(this.state.password, e.target.value)
+        }
+    }
+
+    checkPassword (password) {
+        let strength = 0;
+        if( password.match(/[a-zA-Z0-9][a-zA-Z0-9]+/) ) {
+            strength += 1
+        }
+        if( password.match(/[~<>?]+/) ) {
+            strength += 1
+        }
+        if( password.match(/[!@$%^&*()]+/) ) {
+            strength += 1
+        }
+        if( password.match(/[A-Z]/g) ) {
+            strength += 1
+        }
+        if( password.match(/[0-9]/g) ) {
+            strength += 1
+        }
+
+        switch(strength){
+            case 0:
+                this.setState({ progress: 0, progressColor: "red" });
+                break
+            case 1:
+                this.setState({ progress: 20, progressColor: "red" });
+                break
+            case 2:
+                this.setState({ progress: 40, progressColor: "red" });
+                break
+            case 3:
+                this.setState({ progress: 60, progressColor: "orange" });
+                break
+            case 4:
+                this.setState({ progress: 80, progressColor: "orange" });
+                break
+            case 5:
+                this.setState({ progress: 100, progressColor: "green" });
+                break
+        }
+    }
+
+    checkConfirmedPassword (password, confirmedPassword) {
+        if(password.substr(0,confirmedPassword.length) === confirmedPassword && confirmedPassword.length === password.length && confirmedPassword.length !== 0){
+            this.setState({progressColorConfirm: "green"})
+        } else if(confirmedPassword.length === 0) {
+            this.setState({progressColorConfirm: "white"})
+        } else if(password.substr(0,confirmedPassword.length) === confirmedPassword && confirmedPassword.length !== password.length){
+            this.setState({progressColorConfirm: "orange"})
+        } else {
+            this.setState({progressColorConfirm: "red"})
+        }
     }
 
 
@@ -67,7 +131,10 @@ class UserRegistration extends Component {
                    
                     console.log(res);
                 })
-                .catch(e => console.log(e.message));
+                .catch(e => {
+                    this.setState({errorMessage: e.message})
+                    console.log(e.message)
+                });
 
         } else {
             const obj = {
@@ -101,13 +168,14 @@ class UserRegistration extends Component {
 
         const languages = ['HTML', 'CSS', 'JavaScript', 'Java', 'Python', 'C#', 'Ruby', 'Swift', 'React', 'Redux', 'C++', 'PHP', 'MySQL'];
 
-        const {firstName, lastName, email, password, confirmedPassword, skillsContent, validErrors} = this.state;
+        const {firstName, lastName, email, password, confirmedPassword, skillsContent, validErrors, progress, progressColor, progressColorConfirm, errorMessage} = this.state;
         return (
             <form onSubmit={this.handleSubmit.bind(this)}>
 
                 <div className='registration'>
                     <div className='Logwrapper'>
                         <LoginDiv>Register</LoginDiv>
+                        {errorMessage !== "" && <div className="errorMessage">{errorMessage}</div>}
                         {validErrors.firstName === false && firstName==="" ? 
                             <input
                                 className='info-field eror'
@@ -155,34 +223,40 @@ class UserRegistration extends Component {
                             /> }
                         {validErrors.password === false && password==="" ? 
                             <input
-                                className='info-field eror'
+                                className='info-field password eror'
                                 placeholder='Write Your Password *'
                                 type="password"
                                 value={password}
                                 onChange={(e) => this.changeField(e, 'password')}
                             /> : 
                             <input
-                                className='info-field'
+                                className='info-field password'
                                 placeholder='Password *'
                                 type="password"
                                 value={password}
                                 onChange={(e) => this.changeField(e, 'password')}
                             /> }
+                        {validErrors.password === false && password==="" ?
+                             <progress max="100" value={progress} class={`progress ${progressColor} eror`}></progress>:
+                              <progress max="100" value={progress} class={`progress ${progressColor}`}></progress>}
                         {validErrors.confirmedPassword === false && confirmedPassword === "" ? 
                             <input
-                                className='info-field eror'
+                                className='info-field password eror'
                                 placeholder='Write Your Confirme Password *'
                                 type="password"
                                 value={confirmedPassword}
                                 onChange={(e) => this.changeField(e, 'confirmedPassword')}
                             /> : 
                             <input
-                                className='info-field'
+                                className='info-field password'
                                 placeholder='Confirm Password *'
                                 type="password"
                                 value={confirmedPassword}
                                 onChange={(e) => this.changeField(e, 'confirmedPassword')}
                             /> }
+                        {validErrors.password === false && password==="" ?
+                             <progress max="100" value="100" class={`progressConfirm ${progressColorConfirm} eror`}></progress>:
+                              <progress max="100" value="100" class={`progressConfirm ${progressColorConfirm}`}></progress>}
                         <div className="skills">
                             Skills
                             {skillsContent ?
