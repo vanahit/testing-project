@@ -18,6 +18,7 @@ class AutorizationUser extends Component {
         this.state = {
             pass: '',
             email: '',
+            errorMessage: ''
         }
     }
 
@@ -37,7 +38,10 @@ class AutorizationUser extends Component {
                 this.props.userLogin('user');
                 console.log(r.user.uid)
             })
-            .catch(err => console.log(err));
+            .catch(err => {
+                this.setState({errorMessage: err.message})
+                console.log(err)
+            });
     }
 
     render() {
@@ -50,7 +54,8 @@ class AutorizationUser extends Component {
                         login={this.state.pass}
                         email={this.state.email}
                         changeHandler={this.changeHandler}
-                        signIn={this.signIn.bind(this)}/>
+                        signIn={this.signIn.bind(this)}
+                        errorMessage={this.state.errorMessage} />
                     <UserRegistration/>
                 </div>
                 }

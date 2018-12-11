@@ -1113,3 +1113,65 @@ img {
 .info-field.eror::placeholder{
     color: red;
 }
+
+.password, .password.eror{
+    margin-bottom: 0;
+    border: none;
+}
+
+.progress, .progressConfirm {
+    height: 2px;
+    width: 100%;
+    margin-bottom: 30px;
+    border: 0px none;
+    background-color: #ffffff;
+    color: #ffffff;
+}
+
+.progress::-webkit-progress-bar, .progressConfirm::-webkit-progress-bar {  
+    background-color: #ffffff;
+} 
+.progress.eror::-webkit-progress-bar {  
+    background-color: red;
+}  
+.progress.red::-webkit-progress-value {  
+    background-color: red;
+    -webkit-transition: all 0.5s ease-out;
+}  
+.progress.orange::-webkit-progress-value {  
+    background-color: orange;
+    -webkit-transition: all 0.5s ease-out;
+}
+.progress.green::-webkit-progress-value {  
+    background-color: green;
+    -webkit-transition: all 0.5s ease-out;
+}
+
+.progress::-moz-progress-bar {  
+    background-color: #ffffff;
+}  
+
+
+.progressConfirm.white::-webkit-progress-value{
+    background-color: white;
+    -webkit-transition: all 0.5s ease-out;
+}
+
+.progressConfirm.red::-webkit-progress-value{
+    background-color: red;
+    -webkit-transition: all 0.5s ease-out;
+}
+.progressConfirm.orange::-webkit-progress-value{
+    background-color: orange;
+    -webkit-transition: all 0.5s ease-out;
+}
+.progressConfirm.green::-webkit-progress-value{
+    background-color: green;
+    -webkit-transition: all 0.5s ease-out;
+}
+
+.errorMessage{
+    color: red;
+    transition: all 0.5s ease-out;
+    font-size: 20px;
+}
