@@ -32,7 +32,7 @@ const LoginDiv = styled.div`
     margin-bottom: 60px;
 `;
 
-const Login = ({email, pass, signIn, changeHandler, errorMessage}) => {
+const Login = ({email, pass, signIn, changeHandler, errorMessage, remember}) => {
 
     return (
         <div>
@@ -58,7 +58,7 @@ const Login = ({email, pass, signIn, changeHandler, errorMessage}) => {
                         <div className='remembering'>
                             <div className='remember'>
                                 <label htmlFor="Remember Me">Remember Me</label>
-                                <input type="checkbox" name="Remember Me" value="Remember Me"/>
+                                <input type="checkbox" onChange={(e => remember(e))} name="Remember Me" value="Remember Me"/>
                             </div>
                             <a href="">Forgot Password?</a>
                         </div>
