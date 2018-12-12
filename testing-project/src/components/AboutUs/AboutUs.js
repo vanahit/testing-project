@@ -2,7 +2,9 @@ import React from 'react';
 import {connect} from 'react-redux';
 import styled from 'styled-components';
 import img from '../../images/Photos/photo-1520492943297-59dc5f2d0fe6.jpg';
-
+import CompaniesSvg from './CompaniesSvg';
+import TestsSvg from './TestsSvg';
+import UsersSvg from './UsersSvg';
 import davit from '../../images/ourImages/davit.jpg';
 import mkrtich from '../../images/ourImages/mkr.png';
 import hayk from '../../images/ourImages/hayk.jpg';
@@ -17,7 +19,7 @@ import {easePolyOut} from 'd3-ease';
 
 
 const Main = styled.div`
-	width:100%;
+	width: 100%;
 	background-image: url(${img});
 	background-position:center;
 	background-size: cover;
@@ -36,10 +38,14 @@ const ABOUT_DIGILEARN = styled.div`
 `;
 
 const Description = styled.div`
-      max-width:1150px;
-      font-size:24px;
-      margin:30px 0 100px;
-      color:white;
+      max-width: 1150px;
+      font-size: 24px;
+      margin: 30px 0 100px;
+      color: white;
+
+      @media screen and (max-width: 1190px) {
+		min-width: 100%;
+    }
 `;
 
 const BoxWrapper = styled.div`
@@ -106,9 +112,14 @@ const TeamMemberImage = styled.div`
         height:400px;
 `;
 
-const Box = ({boxItem, count}) => (
+const BoxIcon = styled.div`
+    margin: 32px auto;
+    width: 48px;
+`;
+
+const Box = ({boxIcon, boxItem, count}) => (
     <BoxStyle>
-        <div style={{width: '48px', height: '48px', backgroundColor: 'black', margin: '32px 0'}}/>
+        <BoxIcon>{boxIcon}</BoxIcon>
         <div style={{
             borderBottom: '1px solid black',
             width: '270px',
@@ -236,7 +247,7 @@ class AboutUs extends React.Component {
             <div>
                 <Main>
                     <Wrapper>
-                        <ABOUT_DIGILEARN>ABOUT DIGILEARN</ABOUT_DIGILEARN>
+                        <ABOUT_DIGILEARN>ABOUT CHECK ME</ABOUT_DIGILEARN>
 
                         <Description>
                             Our main goal is cooperation, which we founded between our users and companies .We give
@@ -253,9 +264,9 @@ class AboutUs extends React.Component {
 
                         <Zoom>
                             <BoxWrapper>
-                                <Box count={this.props.tests} boxItem={'TESTS'}/>
-                                <Box count={this.props.companies} boxItem={'COMPANIES'}/>
-                                <Box count={this.props.users} boxItem={'USERS'}/>
+                                <Box boxIcon={<TestsSvg />} count={this.props.tests} boxItem={'TESTS'}/>
+                                <Box boxIcon={<CompaniesSvg />}count={this.props.companies} boxItem={'COMPANIES'}/>
+                                <Box boxIcon={<UsersSvg/>}count={this.props.users} boxItem={'USERS'}/>
                             </BoxWrapper>
                         </Zoom>
 
@@ -280,7 +291,7 @@ class AboutUs extends React.Component {
 
 
                 <div style={{
-                    width: '1200px', margin: '0 auto 76px', color: '#100529'
+                    maxWidth: '1200px', margin: '0 auto 76px', color: '#100529', fontSize: '16px',
                 }}>
                     Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the
                     industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type
