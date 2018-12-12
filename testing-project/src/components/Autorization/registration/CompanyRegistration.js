@@ -200,8 +200,8 @@ class CompanyRegistration extends Component {
                                 onChange={(e) => this.changeField(e, 'password')}
                             /> }
                         {validErrors.password === false && password==="" ?
-                             <progress max="100" value={progress} class={`progress ${progressColor} eror`}></progress>:
-                              <progress max="100" value={progress} class={`progress ${progressColor}`}></progress>}
+                             <progress max="100" value={progress} className={`progress ${progressColor} eror`}></progress>:
+                              <progress max="100" value={progress} className={`progress ${progressColor}`}></progress>}
                         {validErrors.confirmedPassword === false && confirmedPassword === "" ? 
                             <input
                                 className='info-field password eror'
@@ -218,8 +218,8 @@ class CompanyRegistration extends Component {
                                 onChange={(e) => this.changeField(e, 'confirmedPassword')}
                             /> }
                         {validErrors.password === false && password==="" ?
-                             <progress max="100" value="100" class={`progressConfirm ${progressColorConfirm} eror`}></progress>:
-                              <progress max="100" value="100" class={`progressConfirm ${progressColorConfirm}`}></progress>}
+                             <progress max="100" value="100" className={`progressConfirm ${progressColorConfirm} eror`}></progress>:
+                              <progress max="100" value="100" className={`progressConfirm ${progressColorConfirm}`}></progress>}
 
                         <p>By creating an account,you agree to
                             DigiLearn <span style={{color: '#FFAD5A'}}>Privacy Policy</span> and <br/><span
