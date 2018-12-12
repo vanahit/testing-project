@@ -19,10 +19,11 @@ class AutorizationCompany extends Component {
         this.state = {
             pass: '',
             email: '',
-
+            remember: "SESSION",
             showError: false,
             errorMessage: ""
         }
+        this.remember = this.remember.bind(this)
     }
 
     changeHandler(e, field) {
@@ -31,19 +32,37 @@ class AutorizationCompany extends Component {
         })
     }
 
+    remember(event){
+        this.setState({remember: event.target.checked ? "LOCAL" : "SESSION"})
+    }
+
 
     signIn(e) {
         e.preventDefault();
-        firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.pass)
-            .then(r => {
+        let self = this;
+        firebase.auth().setPersistence(firebase.auth.Auth.Persistence[this.state.remember])
+          .then(function() {
+            return firebase.auth().signInWithEmailAndPassword(self.state.email, self.state.pass);
+          })
+          .then(r => {
                 localStorage.setItem("current", "company");
                 this.props.userLogin('company');
                 console.log(r.user)
             })
-            .catch(err => {
+          .catch(err => {
                 this.setState({errorMessage: err.message})
                 console.log(err)
             });
+        // firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.pass)
+        //     .then(r => {
+        //         localStorage.setItem("current", "company");
+        //         this.props.userLogin('company');
+        //         console.log(r.user)
+        //     })
+            // .catch(err => {
+            //     this.setState({errorMessage: err.message})
+            //     console.log(err)
+            // });
     }
 
     render() {
@@ -59,7 +78,8 @@ class AutorizationCompany extends Component {
                             email={this.state.email}
                             changeHandler={this.changeHandler}
                             signIn={this.signIn.bind(this)}
-                            errorMessage={this.state.errorMessage} />
+                            errorMessage={this.state.errorMessage}
+                            remember={this.remember} />
                         <CompanyRegistration/>
                     </div>
                 }
