@@ -11,14 +11,19 @@ const Main = styled.div`
     max-width: 1200px;
     color: rgba(16, 5, 41, 1);
     overflow: auto;
+    	   
+	@media screen and (max-width: 1190px) {
+		padding: 0 20px;
+        min-width: 100%;
+    
+	}
 `;
 
 const FlexRow = styled.div`
-	display: flex;
-	flex-direction: ${props => props.dir || 'row'};
+    display: flex;
+    width: 100%;
+   	flex-direction: ${props => props.dir || 'row'};
 	flex-wrap: wrap;
-	width: ${props => props.width || '100%'};
-	height: ${props => props.height || '100%'};
 	box-sizing: border-box;
 
 	@media screen and (max-width: 1190px) {
@@ -28,12 +33,13 @@ const FlexRow = styled.div`
 `;
 
 const FlexChild = styled.div`
-	width:  ${props => props.width || '25%'};
+	width:  ${props => props.width || ''};
 	box-sizing: border-box;
 		   
 	@media screen and (max-width: 1190px) {
 		margin: 5px;
-		min-width: 100%;
+        min-width: 100%;
+        max-width: 100%;
 	}
 `;
 
@@ -49,12 +55,11 @@ const Title = styled.div`
     margin: 30px 0;
     font-size: ${props => props.size || '34px'};  
     color:rgba(79, 157, 166, 1);
-    border-bottom: 1px solid rgba(220, 220, 220, 1);
 `;
 const Square = styled.span`
     display: inline-block;
-    width: 12px;
-    height: 12px;
+    width: 18px;
+    height: 18px;
     background-color: #4F9DA6;
 
 `;
@@ -73,13 +78,13 @@ const PassingDescription = styled.div`
 const TestDetails = styled.span`
     display: inline-block;
     margin-left: 8px;
-    font-size: 16px;
+    font-size: 20px;
 `;
 const TestDetailsValue = styled.span`
     display: inline-block;
     margin-left: 8px;
     margin-right:30px;
-    font-size: 16px;
+    font-size: 20px;
     color:#FFAD5A; 
 `;
 
@@ -121,35 +126,44 @@ class OneTestInfo extends Component {
 		}
 	}
 	render() {
-        console.log(this.props.user)
-		return(
-           this.props.testInfo &&
+      	return(
+           this.props.item &&
             <Main>
-               <Title>{ this.props.testInfo.title}</ Title>
+               <Title>{ this.props.item.title}</ Title>
                 <FlexRow>
-                    <FlexChild width={'146px'}>
-                        Logo
-                    </FlexChild>
-                    <FlexChild width={'calc(100% - 354px)'}>
-                        <TestTitle>{ this.props.testInfo.testTitle}</TestTitle>
-                        <TestDescription>{this.props.testInfo.testType}</TestDescription>
+                    <FlexChild >
+                        <TestTitle>{ this.props.item.company}</TestTitle>
+                        <TestDescription>{ this.props.item.testTitle}</TestDescription>
                         <PassingDescription>
-                             {this.props.testInfo.description}. 
+                             { this.props.item.description}. 
                         </PassingDescription>
-                        < Square />  
-                        <TestDetails>Number of questions : </TestDetails>
-                        <TestDetailsValue>{this.props.testInfo.questions.length}</TestDetailsValue>
-                        < Square />  
-                        <TestDetails>Time : </TestDetails>
-                        <TestDetailsValue>{this.props.testInfo.testDuration} minutes</TestDetailsValue>
-                        < Square />  
-                        <TestDetails>Score : </TestDetails>
-                        <TestDetailsValue>{this.props.testInfo.totalScore} points</TestDetailsValue>
+                        <FlexRow>
+                            <FlexChild >
+                                < Square />  
+                                <TestDetails>Test type : </TestDetails>
+                                <TestDetailsValue>{ this.props.item.testType }{''}</TestDetailsValue>
+                            </FlexChild>
+                            <FlexChild >
+                                < Square />  
+                                <TestDetails>Number of questions : </TestDetails>
+                                <TestDetailsValue>{ this.props.item.questions.length}{''}</TestDetailsValue>
+                            </FlexChild>
+                            <FlexChild>
+                                < Square />  
+                                <TestDetails>Time : </TestDetails>
+                                <TestDetailsValue>{ this.props.item.testDuration} minutes</TestDetailsValue>
+                            </FlexChild>
+                            <FlexChild>
+                                < Square />  
+                                <TestDetails>Score : </TestDetails>
+                                <TestDetailsValue>{ this.props.item.totalScore} points</TestDetailsValue>
+                            </FlexChild>
+                        </FlexRow>
                         
                         {
 							    (this.props.user && this.props.user.type !== 'company') || !this.props.user 
 								? <Button 
-									onClick={() => this.add(this.props.testInfo)}
+									onClick={() => this.add( this.props.item )}
 									disabled = {this.props.added ? true : false}>
 									{this.props.added === true ? 'Added' : 'Add test'}
  								</Button>

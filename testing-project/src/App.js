@@ -38,7 +38,6 @@ class App extends Component {
         testAddClicked: false,
         testDeletedClicked: false,
         userTestAdded: false,
-        currentItem: '',
         user: null
     };
 
@@ -156,6 +155,36 @@ class App extends Component {
                                 userTestAdded={this.userTestAdded}
                                 user={this.state.user}
                             />} />
+                        {this.props.companies && this.props.companies.map(item => {
+                            return (
+                                <Route
+                                    key={item.id}
+                                    path={`/company-info-page/${item.name}`}
+                                    component={() => <CompaniesInUser item={item} />} />
+                            )
+                        })}
+                          {this.props.users && this.props.users.map(item => {
+                            return (
+                                <Route 
+                                    key={item.id}
+                                    path={`/user-info-page/${item.firstName}${item.lastName}`}
+                                    component={() => <UsersInCompany item={item} />} />
+                            )
+                        })}
+                         {this.props.tests && this.props.tests.map(item => {
+                            return (
+                                <Route 
+                                    key={item.id}
+                                    path={`/test-info-page/${item.id}`} component={() =>
+                                    <OneTestInfo
+                                        user={this.state.user}
+                                        item={item}
+                                        testAddClicked={this.testAddClicked}
+                                        userTestAdded={this.userTestAdded}
+                                    />} />
+                            )
+                        })}
+
                         <Route path="/autorization-company" component={AutorizationCompany} currentCompany={this.state.currentLog} user={this.state.user} />
                         <Route path="/autorization-user" component={AutorizationUser} currentCompany={this.state.currentLog} user={this.state.user} />
                         <Route path="/aboutUs/" component={AboutUs} />
@@ -163,17 +192,6 @@ class App extends Component {
                         <Route path='/registration/company' component={AutorizationCompany} />
                         <Route path="/users/" component={AllUsers} />
                         <Route path="/companies/" component={() => <AllCompanies addCurrentItem={this.addCurrentItem} />} />
-                        <Route path="/company-info-page/:comp"
-                            component={() => <CompaniesInUser item={testInfo} />} />
-
-                        <Route path="/test-info-page/:test" component={() =>
-                            <OneTestInfo
-                                user={this.state.user}
-                                testInfo={testInfo}
-                                testAddClicked={this.testAddClicked}
-                                userTestAdded={this.userTestAdded}
-                            />} />
-                        <Route path="/user-info-page/:user" component={UsersInCompany} />
                         <Route
                             path='/authorization/'
                             component={() => <Authorization currentCompany={this.state.currentLog}
@@ -193,7 +211,7 @@ class App extends Component {
                                 <Route path="/:company/edit-test" component={() =>
                                     <TestEditor editingTest={this.props.editingTest} user={this.state.user} />}
                                 />
-                                <Route path="/:company/:text" component={() =>
+                                <Route path="/:company/profile" component={() =>
                                     <Company
                                         currentCompany={this.state.currentLog}
                                         user={this.state.user}
@@ -215,7 +233,9 @@ function mapStateToProps(state) {
         testsLoaded: state.appReducer.testsLoaded,
         companiesLoaded: state.appReducer.companiesLoaded,
         editingTest: state.appReducer.editingTest,
-        user: state.appReducer.user
+        users: state.appReducer.users,
+        companies: state.appReducer.companies,
+        tests: state.appReducer.tests,
     }
 }
 
