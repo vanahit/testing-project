@@ -1,13 +1,12 @@
-import React, {Component} from 'react';
+import React from 'react';
 import ReactPlayer from 'react-player'
-import testPassVideo from '../../../videos/testPassVideo.mp4';
 
-class Video extends Component {
-    render () {
+
+const VideoCreator = (props) => {
         return (
          
             <ReactPlayer
-              url={testPassVideo}
+              url={props.video}
               width='100%'
               height='100%'
               playing={true}
@@ -18,7 +17,6 @@ class Video extends Component {
             />
           
         )
-      }
-}   
+    }   
        
-export default Video;
+export default  VideoCreator;

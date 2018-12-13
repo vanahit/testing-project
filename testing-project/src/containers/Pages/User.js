@@ -3,6 +3,7 @@ import { NavLink, Route } from "react-router-dom";
 import UserProfile from './UserProfile';
 import UserTests from "./UserTests";
 import {Redirect} from "react-router";
+import StartTest from './StartTest';
 
 export default class User extends Component {
 	constructor(props){
@@ -18,6 +19,8 @@ export default class User extends Component {
 				</nav>
 				<Route path="/:user/profile" component={() => <UserProfile user={this.props.user} />}  />
 				<Route path="/:user/tests" component={() => <UserTests user={this.props.user} />}  />
+				<Route path="/:user/start-test" component={() =>
+                                    <StartTest user={this.props.user} />} />
 			</div> :
 			<Redirect to='/authorization'/>
 		);

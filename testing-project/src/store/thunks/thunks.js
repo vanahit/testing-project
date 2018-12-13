@@ -44,7 +44,12 @@ export const getTests = () => {
                 }
                 
             });
-            dispatch(getTestsSuccess(tests));
+            let filteredTests = [];
+            tests.sort(function(a, b){return b.testCreateDate - a.testCreateDate});
+            filteredTests = tests.filter(test => !test.deleted)
+           
+            
+            dispatch(getTestsSuccess(filteredTests));
         });
     }
 };

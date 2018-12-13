@@ -18,7 +18,10 @@ class AutorizationUser extends Component {
         this.state = {
             pass: '',
             email: '',
+            remember: "SESSION",
+            errorMessage: ''
         }
+        this.remember = this.remember.bind(this)
     }
 
 
@@ -28,16 +31,37 @@ class AutorizationUser extends Component {
         })
     }
 
+    remember(event){
+        this.setState({remember: event.target.checked ? "LOCAL" : "SESSION"})
+    }
+
 
     signIn(e) {
         e.preventDefault();
-        firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.pass)
-            .then(r => {
+        let self = this;
+        firebase.auth().setPersistence(firebase.auth.Auth.Persistence[this.state.remember])
+          .then(function() {
+            return firebase.auth().signInWithEmailAndPassword(self.state.email, self.state.pass);
+          })
+          .then(r => {
                 localStorage.setItem("current", "user");
                 this.props.userLogin('user');
-                console.log(r.user.uid)
+                console.log(r.user)
             })
-            .catch(err => console.log(err));
+          .catch(err => {
+                this.setState({errorMessage: err.message})
+                console.log(err)
+            });
+        // firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.pass)
+        //     .then(r => {
+        //         localStorage.setItem("current", "user");
+        //         this.props.userLogin('user');
+        //         console.log(r.user.uid)
+        //     })
+        //     .catch(err => {
+        //         this.setState({errorMessage: err.message})
+        //         console.log(err)
+        //     });
     }
 
     render() {
@@ -50,7 +74,9 @@ class AutorizationUser extends Component {
                         login={this.state.pass}
                         email={this.state.email}
                         changeHandler={this.changeHandler}
-                        signIn={this.signIn.bind(this)}/>
+                        signIn={this.signIn.bind(this)}
+                        errorMessage={this.state.errorMessage} 
+                        remember={this.remember} />
                     <UserRegistration/>
                 </div>
                 }

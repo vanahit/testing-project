@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import * as firebase from "firebase";
 import styled from 'styled-components';
 
@@ -22,13 +22,77 @@ class UserRegistration extends Component {
             confirmedPassword: '',
             languages: [],
             skillsContent: false,
-            validErrors: {firstName: true, lastName: true, email: true, password: true, confirmedPassword: true}
+            validErrors: { firstName: true, lastName: true, email: true, password: true, confirmedPassword: true },
+            progress: 0,
+            progressColor: "red",
+            progressColorConfirm: "white",
+            errorMessage: ""
         }
     }
 
     changeField(e, field) {
         console.log(field);
-        this.setState({[field]: e.target.value})
+
+        this.setState({ [field]: e.target.value })
+        if (field === "password") {
+            this.checkPassword(e.target.value)
+            this.checkConfirmedPassword(e.target.value, this.state.confirmedPassword)
+        }
+        if (field === "confirmedPassword") {
+            this.checkConfirmedPassword(this.state.password, e.target.value)
+        }
+    }
+
+    checkPassword(password) {
+        let strength = 0;
+        if (password.match(/[a-zA-Z0-9][a-zA-Z0-9]+/)) {
+            strength += 1
+        }
+        if (password.match(/[~<>?]+/)) {
+            strength += 1
+        }
+        if (password.match(/[!@$%^&*()]+/)) {
+            strength += 1
+        }
+        if (password.match(/[A-Z]/g)) {
+            strength += 1
+        }
+        if (password.match(/[0-9]/g)) {
+            strength += 1
+        }
+
+        switch (strength) {
+            case 0:
+                this.setState({ progress: 0, progressColor: "red" });
+                break
+            case 1:
+                this.setState({ progress: 20, progressColor: "red" });
+                break
+            case 2:
+                this.setState({ progress: 40, progressColor: "red" });
+                break
+            case 3:
+                this.setState({ progress: 60, progressColor: "orange" });
+                break
+            case 4:
+                this.setState({ progress: 80, progressColor: "orange" });
+                break
+            case 5:
+                this.setState({ progress: 100, progressColor: "green" });
+                break
+        }
+    }
+
+    checkConfirmedPassword(password, confirmedPassword) {
+        if (password.substr(0, confirmedPassword.length) === confirmedPassword && confirmedPassword.length === password.length && confirmedPassword.length !== 0) {
+            this.setState({ progressColorConfirm: "green" })
+        } else if (confirmedPassword.length === 0) {
+            this.setState({ progressColorConfirm: "white" })
+        } else if (password.substr(0, confirmedPassword.length) === confirmedPassword && confirmedPassword.length !== password.length) {
+            this.setState({ progressColorConfirm: "orange" })
+        } else {
+            this.setState({ progressColorConfirm: "red" })
+        }
     }
 
 
@@ -39,19 +103,19 @@ class UserRegistration extends Component {
         } else {
             languages = languages.filter(item => item !== lang);
         }
-        this.setState({languages});
+        this.setState({ languages });
         console.log(languages)
     }
 
     showSkills() {
-        this.setState({skillsContent: !this.state.skillsContent})
+        this.setState({ skillsContent: !this.state.skillsContent })
     }
 
     signUpUser() {
 
         if (this.state.password === this.state.confirmedPassword && this.state.password && this.state.firstName && this.state.lastName && this.state.email) {
 
-            const user = {...this.state};
+            const user = { ...this.state };
 
 
             firebase.auth().createUserWithEmailAndPassword(user.email, user.password)
@@ -60,14 +124,17 @@ class UserRegistration extends Component {
                     user.description = '';
                     user.image = '';
                     user.id = res.uid;
-                    user.type='user';
+                    user.type = 'user';
                     localStorage.setItem("current", "user");
                     firebase.database().ref(`user/${res.uid}`).set(user);
                     // firebase.database().ref('user').push(user);
-                   
+
                     console.log(res);
                 })
-                .catch(e => console.log(e.message));
+                .catch(e => {
+                    this.setState({ errorMessage: e.message })
+                    console.log(e.message)
+                });
 
         } else {
             const obj = {
@@ -78,8 +145,8 @@ class UserRegistration extends Component {
                 confirmedPassword: this.state.confirmedPassword,
             }
             const objErrors = this.state.validErrors;
-            for(let key in obj){
-                if(obj[key] === ""){
+            for (let key in obj) {
+                if (obj[key] === "") {
                     objErrors[key] = false
                 }
             }
@@ -101,108 +168,115 @@ class UserRegistration extends Component {
 
         const languages = ['HTML', 'CSS', 'JavaScript', 'Java', 'Python', 'C#', 'Ruby', 'Swift', 'React', 'Redux', 'C++', 'PHP', 'MySQL'];
 
-        const {firstName, lastName, email, password, confirmedPassword, skillsContent, validErrors} = this.state;
+        const { firstName, lastName, email, password, confirmedPassword, skillsContent, validErrors, progress, progressColor, progressColorConfirm, errorMessage } = this.state;
         return (
             <form onSubmit={this.handleSubmit.bind(this)}>
 
                 <div className='registration'>
                     <div className='Logwrapper'>
                         <LoginDiv>Register</LoginDiv>
-                        {validErrors.firstName === false && firstName==="" ? 
+                        {errorMessage !== "" && <div className="errorMessage">{errorMessage}</div>}
+                        {validErrors.firstName === false && firstName === "" ?
                             <input
                                 className='info-field eror'
                                 placeholder='Write Your First Name *'
                                 type="text"
                                 value={firstName}
                                 onChange={(e) => this.changeField(e, 'firstName')}
-                            /> : 
+                            /> :
                             <input
                                 className='info-field'
                                 placeholder='First Name *'
                                 type="text"
                                 value={firstName}
                                 onChange={(e) => this.changeField(e, 'firstName')}
-                            /> }
-                        {validErrors.lastName === false && lastName==="" ? 
+                            />}
+                        {validErrors.lastName === false && lastName === "" ?
                             <input
                                 className='info-field eror'
                                 placeholder='Write Your Last Name *'
                                 type="text"
                                 value={lastName}
                                 onChange={(e) => this.changeField(e, 'lastName')}
-                            /> : 
+                            /> :
                             <input
                                 className='info-field'
                                 placeholder='Last Name *'
                                 type="text"
                                 value={lastName}
                                 onChange={(e) => this.changeField(e, 'lastName')}
-                            /> }
-                        {validErrors.email === false && email==="" ? 
+                            />}
+                        {validErrors.email === false && email === "" ?
                             <input
                                 className='info-field eror'
                                 placeholder='Write Your Email *'
                                 type="email"
                                 value={email}
                                 onChange={(e) => this.changeField(e, 'email')}
-                            /> : 
+                            /> :
                             <input
                                 className='info-field'
                                 placeholder='Email *'
                                 type="email"
                                 value={email}
                                 onChange={(e) => this.changeField(e, 'email')}
-                            /> }
-                        {validErrors.password === false && password==="" ? 
+                            />}
+                        {validErrors.password === false && password === "" ?
                             <input
-                                className='info-field eror'
+                                className='info-field password eror'
                                 placeholder='Write Your Password *'
                                 type="password"
                                 value={password}
                                 onChange={(e) => this.changeField(e, 'password')}
-                            /> : 
+                            /> :
                             <input
-                                className='info-field'
+                                className='info-field password'
                                 placeholder='Password *'
                                 type="password"
                                 value={password}
                                 onChange={(e) => this.changeField(e, 'password')}
-                            /> }
-                        {validErrors.confirmedPassword === false && confirmedPassword === "" ? 
+                            />}
+                        {validErrors.password === false && password === "" ?
+                            <progress max="100" value={progress} className={`progress ${progressColor} eror`}></progress> :
+                            <progress max="100" value={progress} className={`progress ${progressColor}`}></progress>}
+                        {validErrors.confirmedPassword === false && confirmedPassword === "" ?
                             <input
-                                className='info-field eror'
+                                className='info-field password eror'
                                 placeholder='Write Your Confirme Password *'
                                 type="password"
                                 value={confirmedPassword}
                                 onChange={(e) => this.changeField(e, 'confirmedPassword')}
-                            /> : 
+                            /> :
                             <input
-                                className='info-field'
+                                className='info-field password'
                                 placeholder='Confirm Password *'
                                 type="password"
                                 value={confirmedPassword}
                                 onChange={(e) => this.changeField(e, 'confirmedPassword')}
-                            /> }
+                            />}
+                        {validErrors.password === false && password === "" ?
+                            <progress max="100" value="100" className={`progressConfirm ${progressColorConfirm} eror`}></progress> :
+                            <progress max="100" value="100" className={`progressConfirm ${progressColorConfirm}`}></progress>}
                         <div className="skills">
                             Skills
                             {skillsContent ?
                                 <span
                                     className="sortArrowBottom"
                                 >
-                            </span> :
+                                </span> :
                                 <span
                                     className="sortArrowTop"
                                     onClick={this.showSkills.bind(this)}>
-                            </span>}
-                            <div className="absolute" onClick={this.showSkills.bind(this)}/>
+                                </span>}
+                            <div className="absolute" onClick={this.showSkills.bind(this)} />
                             {<div className={skillsContent ? "skills-content" : "skills-content-none"}>
                                 {
                                     languages.map((item, index) => {
                                         return (
                                             <div className="skill" key={index}>
-                                                    <input
-                                                       type="checkbox"
-                                                       onChange={e => this.changeCheckboxHandler(e, item)}/>
+                                                <input
+                                                    type="checkbox"
+                                                    onChange={e => this.changeCheckboxHandler(e, item)} />
                                                 <span>{item}</span>
                                             </div>
                                         )
@@ -213,7 +287,7 @@ class UserRegistration extends Component {
                         <div className="textInformation">
                             By creating an account, you creating to DigiLearn <span>Privacy Policy</span> and <span>Terms of use</span>
                         </div>
-                        <input type="submit" className="registr" value="CREATE ACCOUNT"/>
+                        <input type="submit" className="registr" value="CREATE ACCOUNT" />
                     </div>
 
                 </div>

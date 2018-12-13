@@ -7,6 +7,16 @@ import { connect } from 'react-redux';
 import {NavLink} from "react-router-dom";
 import styled from 'styled-components';
 import Loader from '../../components/Loader';
+import UserSvg from './UserSvg';
+
+const UserSvgDiv = styled.div`
+	margin: 0 auto;
+	width: 100px;
+	fill: rgba(16, 5, 41, 1);
+	:hover {
+		fill: #FF5959;
+	}
+`;
 
 const LoaderDiv = styled.div`
 	margin: auto;
@@ -118,7 +128,7 @@ class AllUsers extends Component {
 										classNames="slide"
 									>
 										<div className="companyUser">
-											<img src={src} alt="User Image" className="imgUser" />
+											<UserSvgDiv><UserSvg /></UserSvgDiv>
 											<div  className="grid-info">
 												<h2>{item.firstName} {item.lastName}</h2>
 												<div className="skillsDiv">
@@ -129,12 +139,7 @@ class AllUsers extends Component {
 													Lorem Ipsum is simply dummy text of the printing and typesetting industry.
 												</p>
 												<div className="testsDiv usersDiv">
-													<NavLink to={{
-														pathname:`/user-info-page/${item.firstName}${item.lastName}`,
-														state: { 
-															userInfo:item 
-														}
-													}} >
+													<NavLink to={`/user-info-page/${item.firstName}${item.lastName}`} >
 														<span>View Profile</span>
 													</NavLink>
 												</div>

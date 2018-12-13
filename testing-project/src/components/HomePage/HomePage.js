@@ -11,12 +11,16 @@ import {NavLink} from 'react-router-dom';
 import Loader from '../Loader';
 
 
+
 const Main = styled.div`
-	margin: auto;
-	max-width: 100%;
+    margin: auto;
+ 	max-width: 100%;
     font-size: 24px;
     position:relative;
     overflow: auto;
+    @media screen and (max-width: 1190px) {
+		padding: 0 20px;
+    }
 `; 
 
 const Header = styled.div`
@@ -58,23 +62,15 @@ const FlexRow = styled.div`
     }
 `;
 
-const FlexChild = styled.div`
-	position: relative;
-    width: ${props => props.width || ''};
-    height: ${props => props.height || ''};    
-    box-sizing: border-box; 
-    
-	@media screen and (max-width: 1190px) {
-		margin: 20px 5px;
-        max-width: 98%;
-        min-width: 98%
-	}
-`;
-
 const GetsStartedText = styled.div`
     display: inline-block;
-    width: 1018px;
+    max-width: 1018px;
     margin: 18px 0;
+    word-wrap: break-word;
+    @media screen and (max-width: 1190px) {
+        padding: 0 10px
+        text-align: center;
+    }
 `;
 
 const Button = styled(NavLink)`
@@ -89,6 +85,10 @@ const Button = styled(NavLink)`
     font-size: 24px;
     background-color:rgba(255, 89, 89, 1);
     box-sizing: border-box;
+
+    @media screen and (max-width: 1190px) {
+		text-align: center;
+    }
 `;
 const Title = styled.div`
     width: 100%;

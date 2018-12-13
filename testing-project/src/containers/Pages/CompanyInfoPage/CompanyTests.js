@@ -11,17 +11,7 @@ const NoTests = styled.div`
 	margin: 40px 0;
 
 `;
-const TestsLink = styled(NavLink) `
-	display: inline-block;
-	text-decoration: none;
-	paddin-bottom: 5px;
-	border-bottom: 1px solid black;
-	color: black;
-	:hover {
-		cursor: pointer;
-	}
 
-`;
 const Button = styled.button`
 	font-size: 20px;
 	font-weight: bold;
@@ -111,12 +101,13 @@ class CompanyTests extends Component {
 		}
 	}
 	render() {
-		let tests = [];
-	
-		
+	let tests = [];
+		if (this.state.data) {
+			tests = this.state.data.filter(test => test.companyId === this.state.company.id && !test.deleted);
+		}
 		const selectSearchData = ['JavaScript', 'Java', "PHP", 'C#', 'MySQL', 'Python', 'Ruby', 'Swift', 'React', 'Redux'];
 		const { search, type, currentPage, dataPerPage, loadMore, sortType, orderAscanding } = this.state;
-		let filterData = test.filter(item => {
+		let filterData = tests.filter(item => {
 			return item.testTitle.toLowerCase().substr(0, search.length) === search.toLowerCase()
 		})
 
@@ -154,7 +145,7 @@ class CompanyTests extends Component {
 			pages.push(i);
 		}
 		return (
-			 this.state.data ?
+			currentData.length ?
 			<div className="container-table">
 				<Searching
 					{...this.state}
@@ -191,7 +182,7 @@ class CompanyTests extends Component {
 						</tr>
 					</thead>
 					<tbody>
-						{currentData.length ?
+						{currentData ?
 							currentData.map((item, index) => {
 								return (
 									<tr key={item.id} >
@@ -218,7 +209,7 @@ class CompanyTests extends Component {
 					pages={pages}
 				/>
 			</div>
-			: "THERE IS NO TESTS"
+			: <NoTests> THERE IS NO TESTS </NoTests>
 			
 		);
 	}

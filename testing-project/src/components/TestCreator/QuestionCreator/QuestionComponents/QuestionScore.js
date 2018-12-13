@@ -28,6 +28,7 @@ const QuestionDetails = styled.input`
 		margin: 10px 5px;
 		max-width: 99%;
 	}
+	
 	@media screen and (max-width: 580px) {
 		font-size: 12px;
 	}

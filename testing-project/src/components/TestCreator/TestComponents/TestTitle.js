@@ -26,7 +26,7 @@ const TestDetails = styled.input`
 		background-color: white;
 	}
 	@media screen and (max-width: 1190px) {
-		min-width: 100%;
+		max-width: 100%;
 	}
 	@media screen and (max-width: 580px) {
 		font-size: 16px;

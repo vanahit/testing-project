@@ -32,13 +32,14 @@ const LoginDiv = styled.div`
     margin-bottom: 60px;
 `;
 
-const Login = ({email, pass, signIn, changeHandler}) => {
+const Login = ({email, pass, signIn, changeHandler, errorMessage, remember}) => {
 
     return (
         <div>
             <div className='login'>
                 <div className='Logwrapper'>
                     <LoginDiv>LOGIN</LoginDiv>
+                    {errorMessage !== "" && <div className="errorMessage">{errorMessage}</div>}
                     <form onSubmit={signIn}>
                         <input
                             className='info-field'
@@ -57,7 +58,7 @@ const Login = ({email, pass, signIn, changeHandler}) => {
                         <div className='remembering'>
                             <div className='remember'>
                                 <label htmlFor="Remember Me">Remember Me</label>
-                                <input type="checkbox" name="Remember Me" value="Remember Me"/>
+                                <input type="checkbox" onChange={(e => remember(e))} name="Remember Me" value="Remember Me"/>
                             </div>
                             <a href="">Forgot Password?</a>
                         </div>
