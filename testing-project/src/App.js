@@ -202,8 +202,8 @@ class App extends Component {
                             ? <Switch>
                                 <Route path="/:user/start-test" component={() =>
                                     <StartTest user={this.state.user} />} />
-                                <Route path="/:user/:text" component={() => <User currentCompany={this.state.currentLog} user={this.state.user} />} />
-
+                                <Route path="/:user/profile" component={() => <User currentCompany={this.state.currentLog} user={this.state.user} />} />
+                                <Route path="/:user/tests" component={() => <User currentCompany={this.state.currentLog} user={this.state.user} />} /> 
                             </Switch>
 
                             : <Switch>
@@ -211,7 +211,17 @@ class App extends Component {
                                 <Route path="/:company/edit-test" component={() =>
                                     <TestEditor editingTest={this.props.editingTest} user={this.state.user} />}
                                 />
-                                <Route path="/:company/:text" component={() =>
+                                <Route path="/:company/profile" component={() =>
+                                    <Company
+                                        currentCompany={this.state.currentLog}
+                                        user={this.state.user}
+                                        testDeletedClicked={this.testDeletedClicked} />} />
+                                <Route path="/:company/tests" component={() =>
+                                    <Company
+                                        currentCompany={this.state.currentLog}
+                                        user={this.state.user}
+                                        testDeletedClicked={this.testDeletedClicked} />} />
+                                <Route path="/:company/invited-users" component={() =>
                                     <Company
                                         currentCompany={this.state.currentLog}
                                         user={this.state.user}

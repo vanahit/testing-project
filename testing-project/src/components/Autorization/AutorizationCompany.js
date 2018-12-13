@@ -41,28 +41,16 @@ class AutorizationCompany extends Component {
         e.preventDefault();
         let self = this;
         firebase.auth().setPersistence(firebase.auth.Auth.Persistence[this.state.remember])
-          .then(function() {
-            return firebase.auth().signInWithEmailAndPassword(self.state.email, self.state.pass);
-          })
-          .then(r => {
-                localStorage.setItem("current", "company");
-                this.props.userLogin('company');
-                console.log(r.user)
-            })
-          .catch(err => {
-                this.setState({errorMessage: err.message})
-                console.log(err)
-            });
-        // firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.pass)
-        //     .then(r => {
-        //         localStorage.setItem("current", "company");
-        //         this.props.userLogin('company');
-        //         console.log(r.user)
-        //     })
-            // .catch(err => {
-            //     this.setState({errorMessage: err.message})
-            //     console.log(err)
-            // });
+        .then(function() {
+        return firebase.auth().signInWithEmailAndPassword(self.state.email, self.state.pass);
+        })
+        .then(r => {
+            localStorage.setItem("current", "company");
+            this.props.userLogin('company');
+        })
+        .catch(err => {
+            this.setState({errorMessage: err.message})
+        });
     }
 
     render() {

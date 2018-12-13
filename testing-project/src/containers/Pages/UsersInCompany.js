@@ -14,6 +14,7 @@ const UserSvgDiv = styled.div`
 
 
 
+
 export default class UserInCompany extends Component {
 	constructor(props){
 		super(props)

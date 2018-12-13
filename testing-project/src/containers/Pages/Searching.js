@@ -12,7 +12,7 @@ const Searching = ({searching, search, loadMore, data, type, dataPerPage, curren
 					value="">
 					All Types
 				</option>
-				{selectSearchData.map( item => <option key={item} value={item}>{item}</option> )}
+				{selectSearchData.map( (item,index) => <option key={index} value={item}>{item}</option> )}
 			</select>
 			<input type="text" 
 				className="search" 

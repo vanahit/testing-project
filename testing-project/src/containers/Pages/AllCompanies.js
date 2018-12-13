@@ -133,7 +133,7 @@ class AllCompanies extends Component {
 							currentData.length ?
 								currentData.map(item => {
 									return (
-										<TransitionGroup className="grid">
+										<TransitionGroup className="grid" key={item.id}>
 											<CSSTransition
 												in={true}
 												appear={true}
@@ -141,7 +141,7 @@ class AllCompanies extends Component {
 												classNames="slide"
 											>
 
-												<div className="companyUser" onClick={() => this.props.addCurrentItem(item)} key={item.id}>
+												<div className="companyUser" onClick={() => this.props.addCurrentItem(item)} >
 													<CompanySvgDiv> <CompanySvg /></CompanySvgDiv>
 													<div className="grid-info">
 														<h2>{item.name}</h2>

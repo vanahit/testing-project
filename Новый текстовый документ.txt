@@ -1,0 +1,29 @@
+  {this.props.companies && this.props.companies.map(item => {
+                            return (
+                                <Route
+                                    key={item.id}
+                                    path={`/company-info-page/${item.name}`}
+                                    component={() => <CompaniesInUser item={item} />} />
+                            )
+                        })}
+                          {this.props.users && this.props.users.map(item => {
+                            return (
+                                <Route 
+                                    key={item.id}
+                                    path={`/user-info-page/${item.firstName}${item.lastName}`}
+                                    component={() => <UsersInCompany item={item} />} />
+                            )
+                        })}
+                         {this.props.tests && this.props.tests.map(item => {
+                            return (
+                                <Route 
+                                    key={item.id}
+                                    path={`/test-info-page/${item.id}`} component={() =>
+                                    <OneTestInfo
+                                        user={this.state.user}
+                                        item={item}
+                                        testAddClicked={this.testAddClicked}
+                                        userTestAdded={this.userTestAdded}
+                                    />} />
+                            )
+                        })}

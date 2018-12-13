@@ -22,10 +22,13 @@ class CompanyRegistration extends Component {
             progress: 0,
             progressColor: "red",
             progressColorConfirm: "white",
-            errorMessage: ""
+            errorMessage: "",
+            unmounted: false,
         }
         this.changeField = this.changeField.bind(this);
     }
+
+
 
     changeField(e, field) {
         this.setState({
@@ -80,6 +83,8 @@ class CompanyRegistration extends Component {
         }
     }
 
+
+
     checkConfirmedPassword (password, confirmedPassword) {
         if(password.substr(0,confirmedPassword.length) === confirmedPassword && confirmedPassword.length === password.length && confirmedPassword.length !== 0){
             this.setState({progressColorConfirm: "green"})
@@ -93,11 +98,11 @@ class CompanyRegistration extends Component {
     }
 
     signUpCompany() {
-
+        this.setState({unmounted: false});
         if (this.state.password === this.state.confirmedPassword && this.state.password  && this.state.name && this.state.email) {
 
             const company = {...this.state};
-
+          
             firebase.auth()
                 .createUserWithEmailAndPassword(company.email, company.password)
                 .then(res => {
@@ -108,13 +113,16 @@ class CompanyRegistration extends Component {
                     company.type='company';
                     localStorage.setItem("current", "company");
                     firebase.database().ref(`companies/${res.uid}`).set(company);
-
-                    this.setState({errorMessage: ""})
-                    firebase.auth().currentUser.sendEmailVerification();
+                    if (!this.state.unmounted) {
+                        this.setState({errorMessage: ""})
+                        firebase.auth().currentUser.sendEmailVerification();
+                    }
                 })
                 .catch(e => {
+                   
                     this.setState({errorMessage: e.message})
                     console.log(e.message)
+                    
                 })
 
 
@@ -138,7 +146,9 @@ class CompanyRegistration extends Component {
         });
     }
 
-
+    ComponentWillUnmount () {
+        this.setState({unmounted: true});
+    }
     handleSubmit(e) {
         e.preventDefault();
         this.signUpCompany();
