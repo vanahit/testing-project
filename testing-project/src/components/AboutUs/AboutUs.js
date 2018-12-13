@@ -170,31 +170,31 @@ class AboutUs extends React.Component {
                 image: anahit,
                 profession: 'JavaScript Developer',
 
-                start: -500,
+                start: -200,
                 delay: 2000,
-            },
-            {
-                name: 'Davit',
-                image: davit,
-                profession: 'UI/UX Designer',
-
-                start: -500,
-                delay: 1400,
             },
             {
                 name: 'Hayk',
                 image: hayk,
                 profession: 'JavaScript Developer',
 
-                start: -500,
-                delay: 800,
+                start: -200,
+                delay: 1400,
             },
             {
                 name: 'Mkrtich',
                 image: mkrtich,
                 profession: 'JavaScript Developer',
 
-                start: -500,
+                start: -200,
+                delay: 800,
+            },
+            {
+                name: 'Davit',
+                image: davit,
+                profession: 'UI/UX Designer',
+
+                start: -200,
                 delay: 200,
             },
         ]
@@ -223,7 +223,7 @@ class AboutUs extends React.Component {
                     return (
                         <div style={{
                             opacity,
-                            transform: `rotateY(${rotate}deg) translate(${left}px`
+                            transform: `translate(${left}px`
                         }}>
                             <MemberBox
                                 key={i}

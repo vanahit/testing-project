@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components'
-import TestPassVideo from './TestPassVideo';
+import VideoCreator from './VideoCreator';
+import testPassVideo from '../../../videos/testPassVideo.mp4';
 
 const FlexRow = styled.div`
     display: flex;
@@ -62,7 +63,7 @@ export default function ForOurUser () {
                 </Description>
             </FlexChild>
             <FlexChild width={'48%'}>
-                <TestPassVideo />
+                <VideoCreator video={testPassVideo} />
             </FlexChild>
         </FlexRow>
     );

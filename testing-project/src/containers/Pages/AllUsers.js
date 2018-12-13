@@ -139,12 +139,7 @@ class AllUsers extends Component {
 													Lorem Ipsum is simply dummy text of the printing and typesetting industry.
 												</p>
 												<div className="testsDiv usersDiv">
-													<NavLink to={{
-														pathname:`/user-info-page/${item.firstName}${item.lastName}`,
-														state: { 
-															userInfo:item 
-														}
-													}} >
+													<NavLink to={`/user-info-page/${item.firstName}${item.lastName}`} >
 														<span>View Profile</span>
 													</NavLink>
 												</div>

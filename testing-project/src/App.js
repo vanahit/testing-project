@@ -174,7 +174,7 @@ class App extends Component {
                          {this.props.tests && this.props.tests.map(item => {
                             return (
                                 <Route 
-                                    key={item.id}
+                                key={item.id}
                                     path={`/test-info-page/${item.id}`} component={() =>
                                     <OneTestInfo
                                         user={this.state.user}
@@ -211,7 +211,7 @@ class App extends Component {
                                 <Route path="/:company/edit-test" component={() =>
                                     <TestEditor editingTest={this.props.editingTest} user={this.state.user} />}
                                 />
-                                <Route path="/:company/profile" component={() =>
+                                <Route path="/:company/:text" component={() =>
                                     <Company
                                         currentCompany={this.state.currentLog}
                                         user={this.state.user}
