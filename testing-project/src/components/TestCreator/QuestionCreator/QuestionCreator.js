@@ -56,8 +56,7 @@ class QuestionCreator extends Component {
 	
 	getInputValue = (e, field) => {
         let value = e.target.value;
-		value = this.props.clearWordFromSpaces(value);
-		
+			
         if (e.target.type === 'number') {
             if (value < 0) {
                 value = +value * (-1);

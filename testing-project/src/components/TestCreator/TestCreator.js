@@ -64,7 +64,9 @@ class TestCreator extends Component {
             testType: '',
             passScore: '',
 			testDuration: '',
+
 		}
+		this.unmounted = false;
 	}
     getInputValue = (e, field) => {
         let value = e.target.value;
@@ -102,7 +104,7 @@ class TestCreator extends Component {
     getQuestionValues = (id, state) => {
 		let questions = this.props.questions.map(question => {
 			if (question.id === id) {
-				question.questionTitle = state.questionTitle;
+				question.questionTitle = this.clearWordFromSpaces(state.questionTitle);
 				question.isRight = +state.isRight; 
 				question.score = state.score;
 				question.answers = state.answers;
@@ -143,6 +145,7 @@ class TestCreator extends Component {
 	}
 
     submitHandler = () => {
+		this.unmounted = false;
 		return new Promise ((resolve, reject) => {
 			this.props.submittedTrue();
 			resolve(this.props.submitted)
@@ -155,23 +158,25 @@ class TestCreator extends Component {
 
 				this.postData();
 				this.props.deleteStateData();
-
-				this.setState({
-					testTitle: '',
-					description: '',
-					testDeadline: '',
-					testType: '',
-					passScore: '',
-					testDuration: '',
-					
-				})	
+				if (!this.unmounted) {
+					this.setState({
+						testTitle: '',
+						description: '',
+						testDeadline: '',
+						testType: '',
+						passScore: '',
+						testDuration: '',
+						
+					})	
+				}
 			}
 		})
 	}
 	
 	componentWillUnmount () {
         this.props.deleteStateData();
-        this.props.testCreatedFalse();
+		this.props.testCreatedFalse();
+		this.unmounted = true;
     }
 	
     render() {

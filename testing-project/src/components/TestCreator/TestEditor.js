@@ -67,7 +67,8 @@ class TestEditor extends Component {
             testType: '',
             passScore: '',
 			testDuration: '',
-		}
+        }
+        this.unmounted = false;
     }
 
     getInputValue = (e, field) => {
@@ -105,7 +106,7 @@ class TestEditor extends Component {
     getQuestionValues = (id, state) => {
 		let questions = this.props.questions.map(question => {
 			if (question.id === id) {
-				question.questionTitle = state.questionTitle;
+				question.questionTitle = this.clearWordFromSpaces(state.questionTitle);
 				question.isRight = +state.isRight; 
 				question.score = state.score;
 				question.answers = state.answers;
@@ -149,6 +150,7 @@ class TestEditor extends Component {
 	}
 
     submitHandler = () => {
+        this.unmounted = false;
 		return new Promise ((resolve, reject) => {
 			this.props.submittedTrue();
 			resolve(this.props.submitted)
@@ -161,16 +163,17 @@ class TestEditor extends Component {
 
 				this.postData();
 				this.props.deleteStateData();
-
-				return this.setState({
-                        testTitle: '',
-                        description: '',
-                        testDeadline: '',
-                        testType: '',
-                        passScore: '',
-                        testDuration: '',
-                        
-                    })
+                if (!this.unmounted) {
+                    return this.setState({
+                            testTitle: '',
+                            description: '',
+                            testDeadline: '',
+                            testType: '',
+                            passScore: '',
+                            testDuration: '',
+                            
+                        })
+                }
             }
 		})
     }
@@ -193,6 +196,7 @@ class TestEditor extends Component {
     componentWillUnmount () {
         this.props.deleteStateData();
         this.props.testCreatedFalse();
+        this.unmounted = true;
     }
 
 	render() {
