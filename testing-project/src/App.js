@@ -81,7 +81,6 @@ class App extends Component {
                         }
                     })
                 }
-              
             } else {
                 localStorage.removeItem("current")
                 this.setState({ currentLog: null, user: null })
@@ -118,6 +117,13 @@ class App extends Component {
     }
 
     render() {
+        let testInfo = '';
+        if (this.state.currentItem) {
+            testInfo = this.state.currentItem;
+
+
+        }
+        console.log(testInfo);
         return (
             <div>
 
@@ -159,7 +165,7 @@ class App extends Component {
                                 <Route 
                                     key={item.id}
                                     path={`/user-info-page/${item.firstName}${item.lastName}`}
-                                    component={() => <UsersInCompany item={item} userId={this.state.user.id}/>} />
+                                    component={() => <UsersInCompany item={item} />} />
                             )
                         })}
                          {this.props.tests && this.props.tests.map(item => {
