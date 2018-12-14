@@ -11,7 +11,7 @@ import html_svg from '../../images/typeIcons/html.svg';
 import { connect } from 'react-redux';
 import { addUserTest } from '../../store/actions/appAction';
 import { firebase } from '../../firebase/firebase';
-import {NavLink} from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 const TestBlock = styled.div`
 	position: relative;
@@ -60,14 +60,14 @@ const Button = styled.button`
     height: 44px;
     border: 0;
     border-radius: 4px;
-    background-color: ${props => props.disabled ? '#4F9DA6' :'rgba(255, 89, 89, 1)'};
+    background-color: ${props => props.disabled ? '#4F9DA6' : 'rgba(255, 89, 89, 1)'};
 	color: white;
 	box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.16);
     font-weight: bold;
     font-size: 20px;
 	box-sizing: border-box;
 	: hover {
-		cursor: ${props => props.disabled ? ''  : 'pointer' }
+		cursor: ${props => props.disabled ? '' : 'pointer'}
 	}
 `;
 
@@ -138,14 +138,14 @@ class TestComponent extends Component {
 	add = (test) => {
 		if (this.props.user && this.props.user.type === 'user') {
 			let userUrl = this.props.user.id;
-			firebase.database().ref(`user/${this.props.user.id}/tests`).once('value',  (snapshot)=> {
+			firebase.database().ref(`user/${this.props.user.id}/tests`).once('value', (snapshot) => {
 				if (snapshot.hasChild(`${test.id}`)) {
-				
+
 				} else {
 					this.props.userTestAdded();
 					this.props.addUserTest(test);
 					let userRef = firebase.database().ref(`user/${userUrl}`);
-					userRef.child('tests').child(`${test.id}`).set({...test, userScore: -1});
+					userRef.child('tests').child(`${test.id}`).set({ ...test, userScore: -1 });
 				}
 			});
 		} else {
@@ -178,23 +178,23 @@ class TestComponent extends Component {
 							</Data>
 						</DataTitle>
 					</Details>
-					
+
 					<ButtonDiv>
-					<DetailsLink to={`/test-info-page/${test.id}`}>
-						<span onClick={()=> this.props.addCurrentItem(test)}>View Details</span>
-					</DetailsLink>
+						<DetailsLink to={`/test-info-page/${test.id}`}>
+							<span onClick={() => this.props.addCurrentItem(test)}>View Details</span>
+						</DetailsLink>
 						{
 							this.props.user.type !== 'company'
-								? <Button 
+								? <Button
 									onClick={() => this.add(test)}
-									disabled = {this.props.added ? true : false}>
+									disabled={this.props.added ? true : false}>
 									{this.props.added === true ? 'Added' : 'Add'}
- 								</Button>
+								</Button>
 								: ""
 						}
 
 					</ButtonDiv>
-					
+
 				</TestBlock>
 			</>
 		);

@@ -8,7 +8,8 @@ const RouterLink = styled.span`
 	text-decoration: underline;
 `;
 const TextDiv = styled.div`
-	font-size: 20px;
+    margin: 100px 0;
+	font-size: 32px;
 `;
 export default function SuccessText (props) {
     return (
