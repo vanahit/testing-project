@@ -184,7 +184,7 @@ class TestComponent extends Component {
 						<span onClick={()=> this.props.addCurrentItem(test)}>View Details</span>
 					</DetailsLink>
 						{
-							this.props.userType !== 'company'
+							this.props.user.type !== 'company'
 								? <Button 
 									onClick={() => this.add(test)}
 									disabled = {this.props.added ? true : false}>
