@@ -30,7 +30,12 @@ export default function CompaniesInUser(props) {
 					</div>
 				</div>
 				<div className="labelHeader">Company Tests</div>
-				 <CompanyTests addCurrentItem={props.addCurrentItem} item={props.item}/> 
+				 <CompanyTests 
+					 testAddClicked={props.testAddClicked}
+					 userTestAdded={props.userTestAdded}
+					 user={props.user} 
+					 item={props.item}
+					/> 
 			</div>
 		);
 	

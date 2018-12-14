@@ -82,7 +82,8 @@ const Img = styled.img`
 `;
 const DetailsLink = styled(NavLink)`
 	display: inline-block;
-	padding-right: 40px;
+	padding-right: 25px;
+	font-size: 20px;
 	text-decoration: underline;
 	color:#4F9DA6;
 	: hover {
@@ -184,7 +185,7 @@ class TestComponent extends Component {
 							<span onClick={() => this.props.addCurrentItem(test)}>View Details</span>
 						</DetailsLink>
 						{
-							this.props.user.type !== 'company'
+							(this.props.user && this.props.user.type !== 'company') || !this.props.user
 								? <Button
 									onClick={() => this.add(test)}
 									disabled={this.props.added ? true : false}>
@@ -201,18 +202,10 @@ class TestComponent extends Component {
 	}
 }
 
-function mapStateToProps(state) {
-	return {
-		userLogin: state.appReducer.userLogin,
-		userType: state.appReducer.userType,
-
-	}
-}
-
 function mapDispatchToProps(dispatch) {
 	return {
 		addUserTest: test => dispatch(addUserTest(test)),
 	}
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(TestComponent)
+export default connect(null, mapDispatchToProps)(TestComponent)

@@ -127,7 +127,6 @@ class App extends Component {
                             />} />
                         <Route path="/tests/" component={() =>
                             <AllTests
-                                addCurrentItem={this.addCurrentItem}
                                 testAddClicked={this.testAddClicked}
                                 userTestAdded={this.userTestAdded}
                                 user={this.state.user}
@@ -137,7 +136,14 @@ class App extends Component {
                                 <Route
                                     key={item.id}
                                     path={`/company-info-page/${item.name}`}
-                                    component={() => <CompaniesInUser item={item} />} />
+                                    component={() => 
+                                    <CompaniesInUser 
+                                        item={item}
+                                        testAddClicked={this.testAddClicked}
+                                        userTestAdded={this.userTestAdded}
+                                        user={this.state.user}
+                                     />} 
+                                />
                             )
                         })}
                           {this.props.users && this.props.users.map(item => {

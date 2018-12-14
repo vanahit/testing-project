@@ -4,6 +4,8 @@ import Pagination from '../Pagination';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 import Loader from '../../../components/Loader';
+import firebase from 'firebase';
+import { addUserTest } from '../../../store/actions/appAction';
 
 const LoaderDiv = styled.div`
 	margin: auto;
@@ -16,14 +18,19 @@ const NoTests = styled.div`
 `;
 
 const Button = styled.button`
-	font-size: 20px;
-	font-weight: bold;
-	padding: 10px 30px;
-	border-radius: 4px;
-	border: 1px solid #FF5959;
+	margin: 0 26px 26px 0;
+    width: ${props => props.width || '90px'};  
+    height: 44px;
+    border: 0;
+    border-radius: 4px;
+    background-color: ${props => props.disabled ? '#4F9DA6' : 'rgba(255, 89, 89, 1)'};
+	color: white;
+	box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.16);
+    font-weight: bold;
+    font-size: 20px;
+	box-sizing: border-box;
 	: hover {
-		cursor: pointer;
-		background-color: #FF5959;
+		cursor: ${props => props.disabled ? '' : 'pointer'}
 	}
 `;
 
@@ -40,7 +47,8 @@ class CompanyTests extends Component {
 			dataPerPage: 4,
 			loadMore: 0,
 			sortType: "testTitle",
-			orderAscanding: true
+			orderAscanding: true,
+			added: false,
 		}
 	}
 	searching(e, searchProp) {
@@ -101,6 +109,34 @@ class CompanyTests extends Component {
 	componentDidUpdate(prevProps) {
 		if (this.props.testsLoaded !== prevProps.testsLoaded) {
 			this.setState({ data: this.props.tests });
+		}
+	}
+	checkIfAdded = (testId) => {
+		if (this.props.user && this.props.user.tests) {
+			for (let i = 0; i < this.props.user.tests.length; i++) {
+				if (testId === this.props.user.tests[i].id) {
+					this.setState({added : true});
+				}
+			}
+			this.setState({added : false});;
+		}
+	}
+	add = (test) => {
+		if (this.props.user && this.props.user.type === 'user') {
+			this.checkIfAdded(test.id);
+			let userUrl = this.props.user.id;
+			firebase.database().ref(`user/${this.props.user.id}/tests`).once('value', (snapshot) => {
+				if (snapshot.hasChild(`${test.id}`)) {
+
+				} else {
+					this.props.userTestAdded();
+					this.props.addUserTest(test);
+					let userRef = firebase.database().ref(`user/${userUrl}`);
+					userRef.child('tests').child(`${test.id}`).set({ ...test, userScore: -1 });
+				}
+			});
+		} else {
+			this.props.testAddClicked();
 		}
 	}
 	render() {
@@ -195,7 +231,16 @@ class CompanyTests extends Component {
 													<td>{item.testTitle}</td>
 													<td>{item.testType}</td>
 													<td>{item.testDeadline}</td>
-													<td><Button>ADD</Button></td>
+													<td>
+													{
+														(this.props.user && this.props.user.type !== 'company') || !this.props.user
+															? <Button
+																onClick={() => this.add(item)}
+																disabled={this.state.added}>
+																{this.state.added === true ? 'Added' : 'Add'}
+															</Button>
+															: ""
+													}</td>
 												</tr>
 											)
 										})
@@ -236,7 +281,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
 	return {
-
+		addUserTest: test => dispatch(addUserTest(test)),
 	}
 }
 
