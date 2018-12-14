@@ -47,9 +47,7 @@ class App extends Component {
                 this.setState({ currentLog });
 
                 if (localStorage.getItem("current") === "company") {
-                    this.props.userLogin('company');
-
-                    firebase.database().ref(`companies/${currentLog.uid}`).on('value', (snapshot) => {
+                       firebase.database().ref(`companies/${currentLog.uid}`).on('value', (snapshot) => {
 
                         if (snapshot.val()) {
                             this.setState({ currentLog, user: { ...snapshot.val() } })
@@ -57,7 +55,6 @@ class App extends Component {
                     })
                 }
                 if (localStorage.getItem("current") === "user") {
-                    this.props.userLogin('user');
                     firebase.database().ref(`user/${currentLog.uid}`).on('value', (snapshot) => {
                         let user = {};
                         let tests = [];

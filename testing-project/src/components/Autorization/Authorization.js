@@ -3,7 +3,7 @@ import AutorizationUser from "./AutorizationUser";
 import AutorizationCompany from "./AutorizationCompany";
 import '../../App.css';
 import {Redirect} from "react-router";
-import firebase from 'firebase';
+import {firebase} from '../../firebase/firebase';
 
 
 class Authorization extends Component {
