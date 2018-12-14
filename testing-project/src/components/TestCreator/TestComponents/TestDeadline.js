@@ -1,5 +1,5 @@
-import React  from 'react';
-import styled, {css} from 'styled-components'
+import React from 'react';
+import styled, { css } from 'styled-components'
 import { connect } from 'react-redux';
 
 const FlexChild = styled.div`
@@ -48,25 +48,26 @@ const TestDetails = styled.input`
 `;
 
 const TestDeadline = props => {
-	
+
 	const handleChange = (e) => {
 		props.getInputValue(e, 'testDeadline');
 	}
 
-    const getTodayDate = () => {
-		let today = new Date();
-		let dd = today.getDate();
-		let mm = today.getMonth() + 1;
-		let yyyy = today.getFullYear();
+	const getTodayDate = () => {
+		var nextDay = new Date();
+		nextDay.setDate(nextDay.getDate() + 1);
+		let dd = nextDay.getDate();
+		let mm = nextDay.getMonth() + 1;
+		let yyyy = nextDay.getFullYear();
 
-		if(dd < 10) {
+		if (dd < 10) {
 			dd = '0' + dd
-		} 
+		}
 
 		if (mm < 10) {
 			mm = '0' + mm
-		} 
-		return	today = yyyy + '-' + mm + '-' + dd;
+		}
+		return nextDay = yyyy + '-' + mm + '-' + dd;
 	}
 
 	return (
@@ -77,11 +78,11 @@ const TestDeadline = props => {
 				placeholder='Test Deadline'
 				value={props.value}
 				onFocus={(e) => e.target.type = 'date'}
-				onBlur={(e) => {e.target.type = !props.value ? 'text' : 'date'}}
+				onBlur={(e) => { e.target.type = !props.value ? 'text' : 'date' }}
 				onChange={handleChange}
 				invalid={props.isFilled(props.value)}
 			/>
-		</FlexChild>							
+		</FlexChild>
 	)
 }
 

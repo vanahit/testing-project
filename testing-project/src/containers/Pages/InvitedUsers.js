@@ -1,17 +1,16 @@
 import React, { Component } from 'react';
-import src from '../../images/is.jpg';
-import {firebase} from '../../firebase/firebase';
+import { firebase } from '../../firebase/firebase';
 import Searching from './Searching';
 import Pagination from './Pagination';
 
 export default class InvitedUsers extends Component {
-	constructor(props){
+	constructor(props) {
 		super(props);
 
 		this.state = {
 			data: [],
 			search: "",
-			type:"",
+			type: "",
 			currentPage: 1,
 			dataPerPage: 4,
 			loadMore: 0,
@@ -21,101 +20,101 @@ export default class InvitedUsers extends Component {
 	}
 
 	componentDidMount() {
-		firebase.database().ref('tests').on('value',(snapshot)=>{
-        const tests = [];
-        snapshot.forEach(childSnapshot => {
-            tests.push({
-                id: childSnapshot.key,
-                ...childSnapshot.val()
-            })
-        });
-        this.setState({data: tests})
-    });
+		firebase.database().ref('tests').on('value', (snapshot) => {
+			const tests = [];
+			snapshot.forEach(childSnapshot => {
+				tests.push({
+					id: childSnapshot.key,
+					...childSnapshot.val()
+				})
+			});
+			this.setState({ data: tests })
+		});
 	}
 
-	searching (e, searchProp) {
-		this.setState({ 
+	searching(e, searchProp) {
+		this.setState({
 			[searchProp]: e.target.value,
-			currentPage: 1 
+			currentPage: 1
 		})
 	}
 
-	sorting(sortType){
+	sorting(sortType) {
 		this.setState({
 			orderAscanding: this.state.sortType !== sortType ? true : !this.state.orderAscanding,
 			sortType,
 		})
 	}
 
-	pageClick (e) {
-		this.setState({ 
+	pageClick(e) {
+		this.setState({
 			currentPage: Number(e.target.id),
-			loadMore: 0 
+			loadMore: 0
 		})
 	}
 
-	loadMore (e) {
-		this.setState({ loadMore: this.state.loadMore+1 })
+	loadMore(e) {
+		this.setState({ loadMore: this.state.loadMore + 1 })
 	}
 
-	prev () { 
-		this.setState({ 
+	prev() {
+		this.setState({
 			currentPage: this.state.currentPage + this.state.loadMore - 1,
-			loadMore: 0  
-		}) 
+			loadMore: 0
+		})
 	}
 
-	next () { 
-		this.setState({ 
+	next() {
+		this.setState({
 			currentPage: this.state.currentPage + this.state.loadMore + 1,
-			loadMore: 0  
-		}) 
+			loadMore: 0
+		})
 	}
 
-	render(){
+	render() {
 		const selectSearchData = ['JavaScript', 'Java', "PHP", 'C#', 'MySQL', 'Python', 'Ruby', 'Swift', 'React', 'Redux'];
 		const { data, search, type, currentPage, dataPerPage, loadMore, sortType, orderAscanding } = this.state;
-		let filterData = data.filter( item => {
-			return item.testTitle.toLowerCase().substr(0,search.length) === search.toLowerCase()
-		} )
+		let filterData = data.filter(item => {
+			return item.testTitle.toLowerCase().substr(0, search.length) === search.toLowerCase()
+		})
 
-		if(type !== ""){
-			filterData = filterData.filter( item => item.testType === type)
+		if (type !== "") {
+			filterData = filterData.filter(item => item.testType === type)
 		}
 
 		filterData.sort((a, b) => {
 			let nameA = a[sortType].toUpperCase();
 			let nameB = b[sortType].toUpperCase();
-			if(orderAscanding){
-		 		if (nameA < nameB) {
-			    return -1;
-			  }
-			  if (nameA > nameB) {
-			    return 1;
-			  }
-		  } else {
-		  	if (nameA < nameB) {
-			    return 1;
-			  }
-			  if (nameA > nameB) {
-			    return -1;
-			  }
-		  }
-	  	return 0;
+			if (orderAscanding) {
+				if (nameA < nameB) {
+					return -1;
+				}
+				if (nameA > nameB) {
+					return 1;
+				}
+			} else {
+				if (nameA < nameB) {
+					return 1;
+				}
+				if (nameA > nameB) {
+					return -1;
+				}
+			}
+			return 0;
 		});
 
 		const indexOfLastData = currentPage * dataPerPage;
-	    const indexOfFirstData = indexOfLastData - dataPerPage;
-	    const currentData = filterData.slice(indexOfFirstData, indexOfLastData+loadMore*dataPerPage);
+		const indexOfFirstData = indexOfLastData - dataPerPage;
+		const currentData = filterData.slice(indexOfFirstData, indexOfLastData + loadMore * dataPerPage);
 
-	    const pages = [];
-	    for (let i = 1; i <= Math.ceil(filterData.length / dataPerPage); i++) {
-	      pages.push(i);
-	    }
+		const pages = [];
+		for (let i = 1; i <= Math.ceil(filterData.length / dataPerPage); i++) {
+			pages.push(i);
+		}
 
 		return (
 			<div className="container-table">
-				<Searching 
+				<Searching
 					{...this.state}
 					searching={this.searching.bind(this)}
 					currentDataLength={currentData.length}
@@ -125,16 +124,16 @@ export default class InvitedUsers extends Component {
 					<thead>
 						<tr>
 							<th onClick={this.sorting.bind(this, "testTitle")}>
-								{sortType === "testTitle" && orderAscanding && 
+								{sortType === "testTitle" && orderAscanding &&
 									<span className="sortArrowBottom"></span>}
-								{sortType === "testTitle" && !orderAscanding && 
+								{sortType === "testTitle" && !orderAscanding &&
 									<span className="sortArrowTop"></span>}
 								Full Name
 							</th>
 							<th onClick={this.sorting.bind(this, "testType")}>
-								{sortType === "testType" && orderAscanding && 
+								{sortType === "testType" && orderAscanding &&
 									<span className="sortArrowBottom"></span>}
-								{sortType === "testType" && !orderAscanding && 
+								{sortType === "testType" && !orderAscanding &&
 									<span className="sortArrowTop"></span>}
 								Passes Test
 							</th>
@@ -143,34 +142,34 @@ export default class InvitedUsers extends Component {
 						</tr>
 					</thead>
 					<tbody>
-					{
-						currentData.map( item => {
-							return (
-								<tr key={item.id} >
-									<td>{item.testTitle}</td>
-									<td>{item.testType}</td>
-									<td>
-										<span className="passer">View</span>
-									</td>
-									<td >
-										<span>Delete</span>
-									</td>
-								</tr>
-							)
-						} )
-					}
+						{
+							currentData.map(item => {
+								return (
+									<tr key={item.id} >
+										<td>{item.testTitle}</td>
+										<td>{item.testType}</td>
+										<td>
+											<span className="passer">View</span>
+										</td>
+										<td >
+											<span>Delete</span>
+										</td>
+									</tr>
+								)
+							})
+						}
 					</tbody>
-					
+
 				</table>
-				<Pagination 
-						load_More={loadMore}
-						loadMore={this.loadMore.bind(this)}
-						currentPage={currentPage}
-						prev={this.prev.bind(this)}
-						pageClick={this.pageClick.bind(this)}
-						next={this.next.bind(this)}
-						pages={pages}
-					/>					
+				<Pagination
+					load_More={loadMore}
+					loadMore={this.loadMore.bind(this)}
+					currentPage={currentPage}
+					prev={this.prev.bind(this)}
+					pageClick={this.pageClick.bind(this)}
+					next={this.next.bind(this)}
+					pages={pages}
+				/>
 			</div>
 		);
 	}

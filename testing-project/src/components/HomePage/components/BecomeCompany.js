@@ -1,9 +1,8 @@
-import React, { Component } from 'react';
+import React from 'react';
 import styled from 'styled-components'
-import { connect } from 'react-redux';
 import forCompanyImg from '../../../images/for-comp-bg.jpg';
 import CheckBox from './CheckBox';
-import {NavLink} from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
 const GetStartedDiv = styled.div`
     color: white;
@@ -61,41 +60,29 @@ const Block = styled.div`
     background-size: cover;
     box-sizing: border-box;
 `;
-class BecomeCompany extends Component {
-	constructor(props) {
-		super(props);
-		this.state ={};
-	}
-
-    render() {
-		return (
-            <FlexChild>
-                    <Block>
-                        <BlackShadow>
-                            <TitleWhite>
-                                FOR COMPANY  
+const BecomeCompany = () => {
+    return (
+        <FlexChild>
+            <Block>
+                <BlackShadow>
+                    <TitleWhite>
+                        FOR COMPANY
                             </TitleWhite>
-                            <CheckBox>Register Your Company</CheckBox>
-                            <CheckBox>Create Tests</CheckBox>
-                            <CheckBox>Invite the Best Users to Your Company</CheckBox>
-                                                                
-                            <GetStartedDiv>
-                                <Button width={'228px'} to='/autorization-company'>
-                                    BECOME COMPANY
+                    <CheckBox>Register Your Company</CheckBox>
+                    <CheckBox>Create Tests</CheckBox>
+                    <CheckBox>Invite the Best Users to Your Company</CheckBox>
+
+                    <GetStartedDiv>
+                        <Button width={'228px'} to='/autorization-company'>
+                            BECOME COMPANY
                                 </Button>
-                            </GetStartedDiv>
-                        </BlackShadow>
-                    </Block>
-            </FlexChild>
-               
-        );
-	}
+                    </GetStartedDiv>
+                </BlackShadow>
+            </Block>
+        </FlexChild>
+
+    );
+
 }
 
-function mapStateToProps(state) {
-	return {
-	
-	}
-}
-
-export default connect(mapStateToProps, null)(BecomeCompany)
+export default BecomeCompany;

@@ -77,10 +77,9 @@ class CompanyRegistration extends Component {
             case 4:
                 this.setState({ progress: 80, progressColor: "orange" });
                 break
-            case 5:
+            default:
                 this.setState({ progress: 100, progressColor: "green" });
-                break
-        }
+          }
     }
 
 

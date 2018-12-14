@@ -89,17 +89,6 @@ class App extends Component {
         this.props.getUsers();
     }
 
-    componentDidUpdate(prevProps, prevState) {
-        if (this.props.testsLoaded === true && this.props.testsLoaded !== prevProps.testsLoaded) {
-
-            this.setState({ testsLoaded: this.props.testsLoaded })
-        }
-        if (this.props.companiesLoaded === true && this.props.companiesLoaded !== prevProps.companiesLoaded) {
-
-            this.setState({ companiesLoaded: this.props.companiesLoaded })
-        }
-    }
-
     testAddClicked = () => {
         this.setState({ testAddClicked: !this.state.testAddClicked });
     };
@@ -156,7 +145,7 @@ class App extends Component {
                                 <Route 
                                     key={item.id}
                                     path={`/user-info-page/${item.firstName}${item.lastName}`}
-                                    component={() => <UsersInCompany item={item} userId={this.state.user.id}/>} />
+                                    component={() => <UsersInCompany item={item} userId={this.state.user ? this.state.user.id : 1}/>} />
                             )
                         })}
                          {this.props.tests && this.props.tests.map(item => {

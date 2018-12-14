@@ -7,7 +7,6 @@ import CompanyProfile from "./CompanyProfile";
 
 export default class Company extends Component {
     render() {
-        console.log(this.props.currentLog)
         return (
             (this.props.user && this.props.user.type === "company") ?
                 <div className="containerUser">

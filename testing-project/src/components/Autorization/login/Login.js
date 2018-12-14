@@ -60,7 +60,7 @@ const Login = ({email, pass, signIn, changeHandler, errorMessage, remember}) => 
                                 <label htmlFor="Remember Me">Remember Me</label>
                                 <input type="checkbox" onChange={(e => remember(e))} name="Remember Me" value="Remember Me"/>
                             </div>
-                            <a href="">Forgot Password?</a>
+                            {/* <a href = "" >Forgot Password ? </a> */}
                         </div>
                         <input type="submit" value="LOGIN" className='submit'/>
                         <p>You can also log in with one of this accounts</p>

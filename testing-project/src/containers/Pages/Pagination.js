@@ -10,7 +10,7 @@ const Pagination = ({ load_More, loadMore, currentPage, prev, pageClick, next, p
 	return (
 		<PaginationDiv>
 			{((load_More + currentPage) !== pages.length && pages.length !== 1)
-			? <button className="viewMore" onClick={() => loadMore()}>Load More</button> : ""}
+				? <button className="viewMore" onClick={() => loadMore()}>Load More</button> : ""}
 			{pages.length > 1 && <div className="pagination">
 				<div className="paginationContent">
 					{load_More + currentPage !== 1 && <span onClick={() => prev()}> Previous </span>}

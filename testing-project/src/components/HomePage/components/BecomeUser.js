@@ -1,9 +1,8 @@
-import React, { Component } from 'react';
+import React from 'react';
 import styled from 'styled-components'
-import { connect } from 'react-redux';
 import forUserImg from '../../../images/for-user-bg.jpg';
 import CheckBox from './CheckBox';
-import {NavLink} from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
 const GetStartedDiv = styled.div`
     color: white;
@@ -63,41 +62,29 @@ const Block = styled.div`
     box-sizing: border-box;
 `;
 
-class BecomeUser extends Component {
-	constructor(props) {
-		super(props);
-		this.state ={};
-	}
-
-    render() {
-		return (
-            <FlexChild>
-                    <Block>
-                        <BlackShadow>
-                            <TitleWhite>
-                                FOR USER  
+const BecomeUser = () => {
+    return (
+        <FlexChild>
+            <Block>
+                <BlackShadow>
+                    <TitleWhite>
+                        FOR USER
                             </TitleWhite>
-                            <CheckBox>Complete Tests</CheckBox>
-                            <CheckBox>Complete Tests</CheckBox>
-                            <CheckBox>Recieve Invitations from Leading Companies</CheckBox>
-                                                                
-                            <GetStartedDiv>
-                               <Button width={'228px'} to='/autorization-user'>
-                                    BECOME USER
+                    <CheckBox>Complete Tests</CheckBox>
+                    <CheckBox>Complete Tests</CheckBox>
+                    <CheckBox>Recieve Invitations from Leading Companies</CheckBox>
+
+                    <GetStartedDiv>
+                        <Button width={'228px'} to='/autorization-user'>
+                            BECOME USER
                                 </Button>
-                            </GetStartedDiv>
-                        </BlackShadow>
-                    </Block>
-            </FlexChild>
-               
-        );
-	}
+                    </GetStartedDiv>
+                </BlackShadow>
+            </Block>
+        </FlexChild>
+
+    );
+
 }
 
-function mapStateToProps(state) {
-	return {
-	
-	}
-}
-
-export default connect(mapStateToProps, null)(BecomeUser)
+export default BecomeUser;

@@ -3,7 +3,7 @@ import React from 'react';
 const Loader = () => {
     return (
         <div>
-            <iframe style={{
+            <iframe title='Loader' style={{
                 cursor:'none'
             }}
                 src="https://giphy.com/embed/3ohze44ikqc6S65XgY"

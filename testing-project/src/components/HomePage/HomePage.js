@@ -7,7 +7,7 @@ import BecomeUser from './components/BecomeUser';
 import ForOurUser from './components/ForOurUser'
 import ForOurCompany from './components/ForOurCompany'
 import TestSlider from './components/TestsSlider';
-import {NavLink} from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import Loader from '../Loader';
 
 
@@ -21,7 +21,7 @@ const Main = styled.div`
     @media screen and (max-width: 1190px) {
 		padding: 0 20px;
     }
-`; 
+`;
 
 const Header = styled.div`
     position: relative;
@@ -125,43 +125,43 @@ const LoaderDiv = styled.div`
 `;
 
 class HomePage extends Component {
-	constructor(props) {
-		super(props);
-        this.state ={
+    constructor(props) {
+        super(props);
+        this.state = {
             testsLoaded: this.props.testsLoaded,
         };
-        
+
     }
- 
+
     componentDidUpdate(prevProps, prevState) {
         if (this.props.testsLoaded === true && this.props.testsLoaded !== prevProps.testsLoaded) {
-            this.setState({testsLoaded: this.props.testsLoaded});
+            this.setState({ testsLoaded: this.props.testsLoaded });
         }
-     }
-	render() {
+    }
+    render() {
         return (
-			<Main>
+            <Main>
                 <Header>
-                
+
                     <GetStartedDiv>
                         <FlexRow>
-                          
-                                <GetsStartedText>
-                                    DigiLearn is an all-in-one platform that makes it easy to create online tests, launch programming 
-                                    companies, build landing pages, and design the perfect website.
+
+                            <GetsStartedText>
+                                DigiLearn is an all-in-one platform that makes it easy to create online tests, launch programming
+                                companies, build landing pages, and design the perfect website.
                                 </GetsStartedText>
-                           
-                                <Button to="/authorization">
-                                    GET STARTED
+
+                            <Button to="/authorization">
+                                GET STARTED
                                 </Button>
-                           
+
                         </FlexRow>
                     </GetStartedDiv>
                 </Header>
                 <Body>
                     <FlexRow>
                         <Title>
-                            YOUR FIRST DESTINATION 
+                            YOUR FIRST DESTINATION
                         </Title>
 
                         <BecomeCompany />
@@ -177,30 +177,30 @@ class HomePage extends Component {
 
                     <FlexRow>
                         {
-                            this.state.testsLoaded 
-                            ? <TestSlider 
-                                user={this.props.user}
-                                testAddClicked={this.props.testAddClicked}
-                                userTestAdded={this.props.userTestAdded}
-                                addCurrentItem={this.props.addCurrentItem}
-                            />
-                            : <LoaderDiv><Loader /></LoaderDiv>
+                            this.state.testsLoaded
+                                ? <TestSlider
+                                    user={this.props.user}
+                                    testAddClicked={this.props.testAddClicked}
+                                    userTestAdded={this.props.userTestAdded}
+                                    addCurrentItem={this.props.addCurrentItem}
+                                />
+                                : <LoaderDiv><Loader /></LoaderDiv>
                         }
                     </FlexRow>
                     <AllTestsDiv>
                         <NavLink to='/tests'> <AllTestsSpan>View All Tests</AllTestsSpan></NavLink>
                     </AllTestsDiv>
-                </Body>   
+                </Body>
             </Main>
-		);
-	}
+        );
+    }
 }
 
 function mapStateToProps(state) {
-	return {
+    return {
         tests: state.appReducer.test,
         testsLoaded: state.appReducer.testsLoaded
-	}
+    }
 }
 
 export default connect(mapStateToProps, null)(HomePage)

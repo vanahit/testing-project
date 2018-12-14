@@ -7,12 +7,16 @@ import { editingTest, deleteTest } from '../../store/actions/testCreator';
 import Loader from '../../components/Loader';
 import styled from 'styled-components';
 
+
 const NoTests = styled.div`
 	font-size: 28px;
 	margin: 100px 0;
 	color: #141218;
 `;
 
+const LoaderDiv = styled.div`
+	margin: auto;
+`;
 const CreateTest = styled(NavLink)`
 	color: #FF5959;
 	text-decoration: none;
@@ -42,7 +46,6 @@ class CompanyTests extends Component {
 	componentDidUpdate(prevProps, prevState) {
 		if (this.props.testsLoaded !== prevProps.testsLoaded) {
 			this.setState({ data: this.props.tests });
-			console.log(this.state.data)
 		}
 	}
 
@@ -161,7 +164,7 @@ class CompanyTests extends Component {
 		}
 
 		return (
-			currentData.length ?
+			this.state.data.length ?
 				<div className="container-table">
 					<Searching
 						{...this.state}
@@ -170,71 +173,75 @@ class CompanyTests extends Component {
 						currentDataLength={currentData.length}
 						selectSearchData={selectSearchData}
 					/>
-					<table className="dataTable">
-						<thead>
-							<tr>
-								<th onClick={this.sorting.bind(this, "testTitle")}>
-									{sortType === "testTitle" && orderAscanding &&
-										<span className="sortArrowBottom"></span>}
-									{sortType === "testTitle" && !orderAscanding &&
-										<span className="sortArrowTop"></span>}
-									Title
-							</th>
-								<th onClick={this.sorting.bind(this, "testDeadline")}>
-									{sortType === "testDeadline" && orderAscanding &&
-										<span className="sortArrowBottom"></span>}
-									{sortType === "testDeadline" && !orderAscanding &&
-										<span className="sortArrowTop"></span>}
-									Deadline
-							</th>
-								<th onClick={this.sorting.bind(this, "testType")}>
-									{sortType === "testType" && orderAscanding &&
-										<span className="sortArrowBottom"></span>}
-									{sortType === "testType" && !orderAscanding &&
-										<span className="sortArrowTop"></span>}
-									Type
-							</th>
-								<th>Edit</th>
-								<th>Delete</th>
-								<th>Passers</th>
-							</tr>
-						</thead>
-						<tbody>
-							{
-								currentData ?
-									currentData.map(item => {
-										return (
-											<tr key={item.id} >
-												<td>{item.testTitle}</td>
-												<td>
-													{this.deadline(item.testDeadline)}
-												</td>
-												<td>{item.testType}</td>
-												<td>
-													<NavLink to={`/${this.props.user.name}/edit-test`}>
-														<span className="edit" onClick={() => this.props.editingTest(item)}>Edit</span></NavLink>
-												</td>
-												<td >
-													<span onClick={() => this.deleteTest(item.id)}>Delete</span>
-												</td>
-												<td><span className="passer">{!item.passers ? 0 : item.passers.length}</span></td>
-											</tr>
-										)
-									})
-									: <Loader />
-							}
-						</tbody>
+					{tests ?
+						filterData.length ?
+							<>
+								<table className="dataTable">
+									<thead>
+										<tr>
+											<th onClick={this.sorting.bind(this, "testTitle")}>
+												{sortType === "testTitle" && orderAscanding &&
+													<span className="sortArrowBottom"></span>}
+												{sortType === "testTitle" && !orderAscanding &&
+													<span className="sortArrowTop"></span>}
+												Title
+											</th>
+											<th onClick={this.sorting.bind(this, "testDeadline")}>
+												{sortType === "testDeadline" && orderAscanding &&
+													<span className="sortArrowBottom"></span>}
+												{sortType === "testDeadline" && !orderAscanding &&
+													<span className="sortArrowTop"></span>}
+												Deadline
+											</th>
+											<th onClick={this.sorting.bind(this, "testType")}>
+												{sortType === "testType" && orderAscanding &&
+													<span className="sortArrowBottom"></span>}
+												{sortType === "testType" && !orderAscanding &&
+													<span className="sortArrowTop"></span>}
+												Type
+											</th>
+											<th>Edit</th>
+											<th>Delete</th>
+											<th>Passers</th>
+										</tr>
+									</thead>
+									<tbody>
+										{currentData.map(item => {
+											return (
+												<tr key={item.id} >
+													<td>{item.testTitle}</td>
+													<td>
+														{this.deadline(item.testDeadline)}
+													</td>
+													<td>{item.testType}</td>
+													<td>
+														<NavLink to={`/${this.props.user.name}/edit-test`}>
+															<span className="edit" onClick={() => this.props.editingTest(item)}>Edit</span></NavLink>
+													</td>
+													<td >
+														<span onClick={() => this.deleteTest(item.id)}>Delete</span>
+													</td>
+													<td><span className="passer">{!item.passers ? 0 : item.passers.length}</span></td>
+												</tr>
+											)
+										})
+										}
+									</tbody>
+								</table>
+								<Pagination
+									load_More={loadMore}
+									loadMore={this.loadMore.bind(this)}
+									currentPage={currentPage}
+									prev={this.prev.bind(this)}
+									pageClick={this.pageClick.bind(this)}
+									next={this.next.bind(this)}
+									pages={pages}
+								/>
+							</>
+							: <NoTests>Sorry, nothing was found!</NoTests>
 
-					</table>
-					<Pagination
-						load_More={loadMore}
-						loadMore={this.loadMore.bind(this)}
-						currentPage={currentPage}
-						prev={this.prev.bind(this)}
-						pageClick={this.pageClick.bind(this)}
-						next={this.next.bind(this)}
-						pages={pages}
-					/>
+						: <LoaderDiv> <Loader /></LoaderDiv>
+					}
 				</div>
 				: <NoTests>There is no tests yet <CreateTest to={`/${this.props.user.name}/add-test`}>CREATE TEST</CreateTest></NoTests>
 		);

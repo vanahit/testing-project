@@ -7,7 +7,7 @@ import styled from 'styled-components'
 let percent;
 const styles = { transition: 'all 1s linear' }
 
-function resp(){
+function resp() {
 	if (window.innerWidth <= 500) {
 		percent = 3150
 	} else {
@@ -17,7 +17,7 @@ function resp(){
 
 resp()
 
-window.onresize=function(){ resp() }
+window.onresize = function () { resp() }
 
 
 // styled carousel
@@ -89,38 +89,38 @@ const OneTestSize = styled.div`
 `;
 
 class TestSlider extends Component {
-	constructor(props){
+	constructor(props) {
 		super(props);
 
 		this.state = {
-			translate : 0,
+			translate: 0,
 			tests: this.props.tests,
-			
+
 		}
-    }
+	}
 
 	componentDidUpdate(prevProps, prevState) {
-        if (this.props.tests === true && this.props.tests !== prevProps.tests) {
-            this.setState({tests: this.props.tests});
-        }
+		if (this.props.tests === true && this.props.tests !== prevProps.tests) {
+			this.setState({ tests: this.props.tests });
+		}
 	}
-	
-	componentDidMount () {
+
+	componentDidMount() {
 		this.IntervalId = setInterval(() => {
-			this.setState({ translate : this.state.translate === -percent ? 0 : this.state.translate - 350 })
+			this.setState({ translate: this.state.translate === -percent ? 0 : this.state.translate - 350 })
 		}, 10000);
 	}
 
-	componentWillUnmount () {
-		clearInterval (this.IntervalId);
+	componentWillUnmount() {
+		clearInterval(this.IntervalId);
 	}
 
-	ToLeft () {
-		this.setState({ translate : this.state.translate === 0 ? -percent : this.state.translate + 350 })
-	}	
+	ToLeft() {
+		this.setState({ translate: this.state.translate === 0 ? -percent : this.state.translate + 350 })
+	}
 
-	ToRight () {
-		this.setState({ translate : this.state.translate === -percent ? 0 : this.state.translate - 350 })
+	ToRight() {
+		this.setState({ translate: this.state.translate === -percent ? 0 : this.state.translate - 350 })
 	}
 
 	getTodayDate = () => {
@@ -129,25 +129,25 @@ class TestSlider extends Component {
 		let mm = today.getMonth() + 1;
 		let yyyy = today.getFullYear();
 
-		if(dd < 10) {
+		if (dd < 10) {
 			dd = '0' + dd
-		} 
+		}
 
 		if (mm < 10) {
 			mm = '0' + mm
-		} 
-		return	today = yyyy + '-' + mm + '-' + dd;
+		}
+		return today = yyyy + '-' + mm + '-' + dd;
 	}
 
 	compareDates = (stringDate) => {
 		let today = new Date();
 		today = this.getTodayDate(today);
-		return Date.parse(stringDate) >= Date.parse(today);        
+		return Date.parse(stringDate) >= Date.parse(today);
 	}
 	checkIfAdded = (testId) => {
 		if (this.props.user && this.props.user.tests) {
 			for (let i = 0; i < this.props.user.tests.length; i++) {
-				if (testId ===  this.props.user.tests[i].id) {
+				if (testId === this.props.user.tests[i].id) {
 					return true;
 				}
 			}
@@ -160,42 +160,41 @@ class TestSlider extends Component {
 		let tests = [];
 		if (this.state.tests) {
 			tests = this.state.tests;
-			fillteredTests = tests.filter(item =>  this.compareDates(item.testDeadline));
-		} 
-		tests = tests.slice(0,10)
-		console.log(tests);
+			fillteredTests = tests.filter(item => this.compareDates(item.testDeadline));
+		}
+		tests = tests.slice(0, 10)
 		return (
 			<>
 				<FlexRow>
 					<FlexChild>
 						<Arrow onClick={this.ToLeft.bind(this)}> {'<'} </Arrow>
 					</FlexChild>
-						<CarouselContainer>
-							<Test 
-								style={{ ...styles, transform: `translateX(${this.state.translate}px)` }}
-								count={fillteredTests.length}>
-								{this.state.tests 
-									?	fillteredTests.map( (item) => {
-											return (
-												<Padding key={item.id}>
-													<OneTestSize>
-													
-														<TestRender  
-															added={this.checkIfAdded(item.id)}
-															test={item} 
-															user={this.props.user}
-															testAddClicked={this.props.testAddClicked}
-															userTestAdded={this.props.userTestAdded}
-															addCurrentItem={this.props.addCurrentItem}
-														/>
-													</OneTestSize>
-												</Padding>
-											);
-										})
-									: ''
-								}
-							</Test>
-						</CarouselContainer>
+					<CarouselContainer>
+						<Test
+							style={{ ...styles, transform: `translateX(${this.state.translate}px)` }}
+							count={fillteredTests.length}>
+							{this.state.tests
+								? fillteredTests.map((item) => {
+									return (
+										<Padding key={item.id}>
+											<OneTestSize>
+
+												<TestRender
+													added={this.checkIfAdded(item.id)}
+													test={item}
+													user={this.props.user}
+													testAddClicked={this.props.testAddClicked}
+													userTestAdded={this.props.userTestAdded}
+													addCurrentItem={this.props.addCurrentItem}
+												/>
+											</OneTestSize>
+										</Padding>
+									);
+								})
+								: ''
+							}
+						</Test>
+					</CarouselContainer>
 					<FlexChild>
 						<Arrow onClick={this.ToRight.bind(this)}> {'>'} </Arrow>
 					</FlexChild>
@@ -209,7 +208,7 @@ function mapStateToProps(state) {
 	return {
 		tests: state.appReducer.tests,
 	}
-	
+
 }
 
 export default connect(mapStateToProps, null)(TestSlider)
