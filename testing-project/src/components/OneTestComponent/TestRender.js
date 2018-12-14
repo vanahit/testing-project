@@ -182,14 +182,14 @@ class TestComponent extends Component {
 
 					<ButtonDiv>
 						<DetailsLink to={`/test-info-page/${test.id}`}>
-							<span onClick={() => this.props.addCurrentItem(test)}>View Details</span>
+							<span>View Details</span>
 						</DetailsLink>
 						{
 							(this.props.user && this.props.user.type !== 'company') || !this.props.user
 								? <Button
 									onClick={() => this.add(test)}
-									disabled={this.props.added ? true : false}>
-									{this.props.added === true ? 'Added' : 'Add'}
+									disabled={this.props.added }>
+									{this.props.added ? 'Added' : 'Add'}
 								</Button>
 								: ""
 						}

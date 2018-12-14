@@ -123,6 +123,16 @@ class OneTestInfo extends Component {
 		} else {
 			this.props.testAddClicked();
 		}
+    }
+    checkIfAdded = (testId) => {
+		if (this.props.user && this.props.user.tests) {
+			for (let i = 0; i < this.props.user.tests.length; i++) {
+				if (testId === this.props.user.tests[i].id) {
+					return true;
+				}
+			}
+			return false;
+		}
 	}
 	render() {
      	return(
@@ -162,8 +172,8 @@ class OneTestInfo extends Component {
 							    (this.props.user && this.props.user.type !== 'company') || !this.props.user 
 								? <Button 
 									onClick={() => this.add( this.props.item )}
-									disabled = {this.props.added ? true : false}>
-									{this.props.added === true ? 'Added' : 'Add test'}
+									disabled = {this.checkIfAdded(this.props.item.id) ? true : false}>
+									{this.checkIfAdded(this.props.item.id) ? 'Added' : 'Add test'}
  								</Button>
 								: ""
 						}
