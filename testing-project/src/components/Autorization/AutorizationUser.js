@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import Login from "./login/Login";
 import UserRegistration from "./registration/UserRegistration";
-import * as firebase from "firebase";
+import  firebase from "firebase";
 import styled from 'styled-components';
 import {Redirect} from "react-router";
 
