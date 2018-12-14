@@ -146,7 +146,7 @@ class TestCreator extends Component {
 		return new Promise ((resolve, reject) => {
 			this.props.submittedTrue();
 			resolve(this.props.submitted)
-		}) .then (() => {
+		}).then(() => {
 			if (this.testHeaderValidation()
 				&& this.state.passScore
 				&& (this.state.passScore <= this.props.totalScore)

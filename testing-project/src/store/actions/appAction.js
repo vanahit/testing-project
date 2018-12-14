@@ -1,14 +1,9 @@
 import { GET_TESTS_STARTED, 
         GET_TESTS_SUCCESS, 
-        GET_TESTS_FAILURE,
         GET_USERS_STARTED, 
         GET_USERS_SUCCESS, 
-        GET_USERS_FAILURE,
         GET_COMPANIES_STARTED, 
         GET_COMPANIES_SUCCESS, 
-        GET_COMPANIES_FAILURE,
-        USER_LOGIN,
-        USER_LOGOUT,
         ADD_USER_TEST,
         DELETE_USER_TEST,
         ADD_PASSING_TEST,
@@ -29,15 +24,6 @@ import { GET_TESTS_STARTED,
        type: GET_TESTS_STARTED
     }
   };
-  
-  export function getTestsFailure (error) {
-    return {
-      type: GET_TESTS_FAILURE,
-      payload: {
-        error
-      }
-    }
-  };
 
   export function getUsersSuccess (users) {
     return {
@@ -54,16 +40,6 @@ import { GET_TESTS_STARTED,
     }
   };
   
-  export function getUsersFailure (error) {
-    return {
-      type: GET_USERS_FAILURE,
-      payload: {
-        error
-      }
-    }
-  };
-
-
   export function getCompaniesSuccess (companies) {
     return {
       type: GET_COMPANIES_SUCCESS,
@@ -78,29 +54,6 @@ import { GET_TESTS_STARTED,
       type: GET_COMPANIES_STARTED
     }
   };
-  
-  export function getCompaniesFailure (error) {
-    return {
-      type: GET_COMPANIES_FAILURE,
-      payload: {
-        error
-      }
-    }
-};
-
-export function userLogin (userType) {
-  return {
-    type: USER_LOGIN,
-    userType
-  }
-};
-
-export function userLogout () {
-  return {
-    type: USER_LOGOUT,
-     
-  }
-};
 
 export function addUserTest (test) {
   return {

@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
-import src from '../../images/is.jpg';
 import Searching from './Searching';
 import Pagination from './Pagination';
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
-import styled from 'styled-components';
+import styled  from 'styled-components';
 import Loader from '../../components/Loader';
 import CompanySvg from '../../containers/Pages/CompanyInfoPage/CompanySvg';
 
@@ -18,12 +17,27 @@ const CompanySvgDiv = styled.div`
 	}
 `;
 
+const NoTests = styled.div`
+	font-size: 28px;
+	margin: 100px 0;
+	color: #141218;
+`;
+
 const LoaderDiv = styled.div`
-	margin: auto;
+	text-align: center;
+	margin: 200px 0;
 `;
 const NavLinkDiv = styled(NavLink)`
 	color: #100529;
 	text-decoration: none;
+`;
+const CompanyName = styled.span`
+	text-transform: uppercase;
+`;
+const TestsCount = styled.span`
+	text-decoration: underline;
+	color: #100529;
+	font-size: 24px;
 `;
 
 class AllCompanies extends Component {
@@ -40,7 +54,7 @@ class AllCompanies extends Component {
 		}
 	}
 
-	componentDidUpdate(prevProps, prevState) {
+	componentDidUpdate(prevProps) {
 		if (this.props.companiesLoaded !== prevProps.companiesLoaded) {
 			this.setState({ data: this.props.companies });
 		}
@@ -127,57 +141,57 @@ class AllCompanies extends Component {
 						currentDataLength={currentData.length}
 						selectSearchData={selectSearchData}
 					/>
-					<div className="content-grid">
-						{
-
-							currentData.length ?
-								currentData.map(item => {
+					{this.state.data.length ?
+						filterData.length ?
+							<div className="content-grid">
+								{currentData.map(item => {
 									return (
 										<TransitionGroup className="grid" key={item.id}>
-											<CSSTransition
-												in={true}
-												appear={true}
-												timeout={450}
-												classNames="slide"
-											>
-
-												<div className="companyUser" onClick={() => this.props.addCurrentItem(item)} >
-													<CompanySvgDiv> <CompanySvg /></CompanySvgDiv>
-													<div className="grid-info">
-														<h2>{item.name}</h2>
-														<p>
-															Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+									<CSSTransition
+										in={true}
+										appear={true}
+										timeout={450}
+										classNames="slide"
+									>
+										<div className="companyUser" onClick={() => this.props.addCurrentItem(item)} >
+											<CompanySvgDiv> <CompanySvg /></CompanySvgDiv>
+											<div className="grid-info">
+												<h2><CompanyName>{item.name}</CompanyName></h2>
+												<p>
+													Lorem Ipsum is simply dummy text of the printing and typesetting industry.
 													</p>
-														<div className="testsDiv">
-															<NavLinkDiv to={{
-																pathname: `/company-info-page/${item.name}`,
+												<div className="testsDiv">
+													<NavLinkDiv to={{
+														pathname: `/company-info-page/${item.name}`,
 
-															}}  >
-																<span>{this.getTests(item.id)} Tests</span>
-															</NavLinkDiv >
-														</div>
-													</div>
+													}}  >
+														<TestsCount>{this.getTests(item.id)} Tests</TestsCount>
+													</NavLinkDiv >
 												</div>
+											</div>
+										</div>
 
-											</CSSTransition>
-										</TransitionGroup>
-									)
-								})
-
-								: <LoaderDiv><Loader /></LoaderDiv>
+									</CSSTransition>
+								</TransitionGroup>
+								)
+							})
 						}
+
 						<Pagination
-							load_More={loadMore}
-							loadMore={this.loadMore.bind(this)}
-							currentPage={currentPage}
-							prev={this.prev.bind(this)}
-							pageClick={this.pageClick.bind(this)}
-							next={this.next.bind(this)}
-							pages={pages}
-						/>
-					</div>
+									load_More={loadMore}
+									loadMore={this.loadMore.bind(this)}
+									currentPage={currentPage}
+									prev={this.prev.bind(this)}
+									pageClick={this.pageClick.bind(this)}
+									next={this.next.bind(this)}
+									pages={pages}
+								/>
+							</div>
+							: <NoTests>Sorry, nothing was found!</NoTests>
+						: <LoaderDiv><Loader /></LoaderDiv>
+					}
 				</div>
-				: 'THERE IS NO COMPANIES YET'
+				: <NoTests>THERE IS NO COMPANIES YET</NoTests>
 		);
 	}
 }

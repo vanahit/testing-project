@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import styled, {css} from 'styled-components'
 import { connect } from 'react-redux';
 
@@ -52,7 +52,6 @@ const TestTotalScore = props => {
 		<FlexChild  width={'292px'}>
 			<TestDetails
 				type='text'
-				value={props.value}
 				placeholder="Total Score"  
 				disabled 
 				value={`Total Score ${props.totalScore}`}

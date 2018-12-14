@@ -30,7 +30,6 @@ export default class InvitedUsers extends Component {
             })
         });
         this.setState({data: tests})
-        console.log(tests)
     });
 	}
 

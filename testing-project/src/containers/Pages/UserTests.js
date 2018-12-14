@@ -6,12 +6,18 @@ import  styled  from 'styled-components';
 import { NavLink} from "react-router-dom";
 import { addTest } from '../../store/actions/testPasser';
 import {firebase} from '../../firebase/firebase';
+import Loader from '../../components/Loader';
 
 const NoTests = styled.div`
 	font-size: 28px;
-	margin: 40px 0;
-
+	margin: 100px 0;
+	color: #141218;
 `;
+
+const LoaderDiv = styled.div`
+	margin: auto;
+`;
+
 const TestsLink = styled(NavLink) `
 	display: inline-block;
 	text-decoration: none;
@@ -115,7 +121,7 @@ class UserTests extends Component {
         }
         
         
-        const selectSearchData = ['JavaScript', 'Java', "PHP", 'C#', 'MySQL', 'Python', 'Ruby', 'Swift', 'React', 'Redux'];
+        const selectSearchData = ['HTML', 'CSS', 'JavaScript', 'Java', 'Python', 'C#', 'Ruby', 'Swift', 'React', 'Redux', 'C++', 'PHP', 'MySQL'];
         const { search, type, currentPage, dataPerPage, loadMore, sortType, orderAscanding} = this.state;
         let filterData = tests.filter(item => {
             return item.testTitle.toLowerCase().substr(0, search.length) === search.toLowerCase()
@@ -229,7 +235,7 @@ class UserTests extends Component {
                                 </tr>
                             )
                         })
-                     : 'LOADER'
+                     : <LoaderDiv> <Loader /> </LoaderDiv>
                     }
                     </tbody>
 

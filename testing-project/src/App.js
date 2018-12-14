@@ -9,7 +9,7 @@ import AutorizationUser from "./components/Autorization/AutorizationUser";
 import AutorizationCompany from "./components/Autorization/AutorizationCompany";
 import Company from "./containers/Pages/Company";
 import CompaniesInUser from "./containers/Pages/CompanyInfoPage/CompaniesInUser";
-import UsersInCompany from "./containers/Pages/UsersInCompany";
+import UsersInCompany from "./containers/Pages/UserInfoPage/UsersInCompany";
 import AllTests from "./containers/Pages/AllTests";
 import AllCompanies from "./containers/Pages/AllCompanies";
 import AllUsers from "./containers/Pages/AllUsers";
@@ -22,7 +22,6 @@ import * as firebase from "firebase";
 import Layout from "./Hoc/Layout";
 import PopUpLogin from './components/PopUps/PopUpLogin';
 import PopUpDelete from './components/PopUps/PopUpDelete';
-import { userLogin } from './store/actions/appAction';
 import PopUpTestAdded from './components/PopUps/PopUpTestAdded';
 import StartTest from './containers/Pages/StartTest';
 import OneTestInfo from './containers/Pages/TestInfoPage/OneTestInfo';
@@ -82,9 +81,8 @@ class App extends Component {
                         }
                     })
                 }
-                console.log(`log in `);
+              
             } else {
-                console.log('log out');
                 localStorage.removeItem("current")
                 this.setState({ currentLog: null, user: null })
             }
@@ -120,13 +118,6 @@ class App extends Component {
     }
 
     render() {
-        let testInfo = '';
-        if (this.state.currentItem) {
-            testInfo = this.state.currentItem;
-
-
-        }
-        console.log(testInfo);
         return (
             <div>
 
@@ -168,7 +159,7 @@ class App extends Component {
                                 <Route 
                                     key={item.id}
                                     path={`/user-info-page/${item.firstName}${item.lastName}`}
-                                    component={() => <UsersInCompany item={item} />} />
+                                    component={() => <UsersInCompany item={item} userId={this.state.user.id}/>} />
                             )
                         })}
                          {this.props.tests && this.props.tests.map(item => {
@@ -254,8 +245,6 @@ const mapDispatchToProps = dispatch => {
         getCompanies: companies => dispatch(getCompanies(companies)),
         getTests: tests => dispatch(getTests(tests)),
         getUsers: users => dispatch(getUsers(users)),
-        userLogin: userType => dispatch(userLogin(userType))
-
     };
 };
 

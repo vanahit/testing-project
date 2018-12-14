@@ -2,14 +2,17 @@ import React, { Component } from 'react';
 import Searching from '../Searching';
 import Pagination from '../Pagination';
 import { connect } from 'react-redux';
-import  styled  from 'styled-components';
-import { NavLink} from "react-router-dom";
+import styled from 'styled-components';
 import Loader from '../../../components/Loader';
+
+const LoaderDiv = styled.div`
+	margin: auto;
+`;
 
 const NoTests = styled.div`
 	font-size: 28px;
-	margin: 40px 0;
-
+	margin: 100px 0;
+	color: #141218;
 `;
 
 const Button = styled.button`
@@ -95,17 +98,17 @@ class CompanyTests extends Component {
 		return today = dd + '/' + mm + '/' + yyyy;
 	}
 
-	componentDidUpdate(prevProps, prevState) {
+	componentDidUpdate(prevProps) {
 		if (this.props.testsLoaded !== prevProps.testsLoaded) {
 			this.setState({ data: this.props.tests });
 		}
 	}
 	render() {
-	let tests = [];
+		let tests;
 		if (this.state.data) {
 			tests = this.state.data.filter(test => test.companyId === this.state.company.id && !test.deleted);
 		}
-		const selectSearchData = ['JavaScript', 'Java', "PHP", 'C#', 'MySQL', 'Python', 'Ruby', 'Swift', 'React', 'Redux'];
+		const selectSearchData = ['HTML', 'CSS', 'JavaScript', 'Java', 'Python', 'C#', 'Ruby', 'Swift', 'React', 'Redux', 'C++', 'PHP', 'MySQL'];
 		const { search, type, currentPage, dataPerPage, loadMore, sortType, orderAscanding } = this.state;
 		let filterData = tests.filter(item => {
 			return item.testTitle.toLowerCase().substr(0, search.length) === search.toLowerCase()
@@ -145,72 +148,81 @@ class CompanyTests extends Component {
 			pages.push(i);
 		}
 		return (
-			currentData.length ?
-			<div className="container-table">
-				<Searching
-					{...this.state}
-					data={tests}
-					searching={this.searching.bind(this)}
-					currentDataLength={currentData.length}
-					selectSearchData={selectSearchData}
-				/>
-				<table className="dataTable">
-					<thead>
-						<tr>
-							<th onClick={this.sorting.bind(this, "testTitle")}>
-								{sortType === "testTitle" && orderAscanding &&
-									<span className="sortArrowBottom"></span>}
-								{sortType === "testTitle" && !orderAscanding &&
-									<span className="sortArrowTop"></span>}
-								Title
-							</th>
-							<th onClick={this.sorting.bind(this, "testType")}>
-								{sortType === "testType" && orderAscanding &&
-									<span className="sortArrowBottom"></span>}
-								{sortType === "testType" && !orderAscanding &&
-									<span className="sortArrowTop"></span>}
-								Type
-							</th>
-							<th onClick={this.sorting.bind(this, "company")}>
-								{sortType === "company" && orderAscanding &&
-									<span className="sortArrowBottom"></span>}
-								{sortType === "company" && !orderAscanding &&
-									<span className="sortArrowTop"></span>}
-								Company
-							</th>
-							<th>Score</th>
-						</tr>
-					</thead>
-					<tbody>
-						{currentData ?
-							currentData.map((item, index) => {
-								return (
-									<tr key={item.id} >
-										<td>{item.testTitle}</td>
-										<td>{item.testType}</td>
-										<td>{item.testDeadline}</td>
-										<td><Button>ADD</Button></td>
-									</tr>
-								)
-							})
-							: <Loader />
-						}
-						
-					</tbody>
+			tests.length ?
+				<div className="container-table">
+					<Searching
+						{...this.state}
+						data={tests}
+						searching={this.searching.bind(this)}
+						currentDataLength={currentData.length}
+						selectSearchData={selectSearchData}
+					/>
+					{tests ?
+						filterData.length ?
+							<>
+								<table className="dataTable">
+									<thead>
+										<tr>
+											<th onClick={this.sorting.bind(this, "testTitle")}>
+												{sortType === "testTitle" && orderAscanding &&
+													<span className="sortArrowBottom"></span>}
+												{sortType === "testTitle" && !orderAscanding &&
+													<span className="sortArrowTop"></span>}
+												Title
+								</th>
+											<th onClick={this.sorting.bind(this, "testType")}>
+												{sortType === "testType" && orderAscanding &&
+													<span className="sortArrowBottom"></span>}
+												{sortType === "testType" && !orderAscanding &&
+													<span className="sortArrowTop"></span>}
+												Type
+								</th>
+											<th onClick={this.sorting.bind(this, "company")}>
+												{sortType === "company" && orderAscanding &&
+													<span className="sortArrowBottom"></span>}
+												{sortType === "company" && !orderAscanding &&
+													<span className="sortArrowTop"></span>}
+												Company
+								</th>
+											<th>Score</th>
+										</tr>
+									</thead>
+									<tbody>
 
-				</table>
-				<Pagination
-					load_More={loadMore}
-					loadMore={this.loadMore.bind(this)}
-					currentPage={currentPage}
-					prev={this.prev.bind(this)}
-					pageClick={this.pageClick.bind(this)}
-					next={this.next.bind(this)}
-					pages={pages}
-				/>
-			</div>
-			: <NoTests> THERE IS NO TESTS </NoTests>
-			
+										{currentData.map(item => {
+											return (
+												<tr key={item.id} >
+													<td>{item.testTitle}</td>
+													<td>{item.testType}</td>
+													<td>{item.testDeadline}</td>
+													<td><Button>ADD</Button></td>
+												</tr>
+											)
+										})
+										}
+
+									</tbody>
+
+								</table>
+								<Pagination
+									load_More={loadMore}
+									loadMore={this.loadMore.bind(this)}
+									currentPage={currentPage}
+									prev={this.prev.bind(this)}
+									pageClick={this.pageClick.bind(this)}
+									next={this.next.bind(this)}
+									pages={pages}
+								/>
+							</>
+							: <NoTests>Sorry, nothing was found!</NoTests>
+
+						: <LoaderDiv><Loader /></LoaderDiv>
+
+					}
+
+				</div>
+				: <NoTests> There is no tests yet. </NoTests>
+
 		);
 	}
 }

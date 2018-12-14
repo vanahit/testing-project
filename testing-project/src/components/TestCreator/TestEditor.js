@@ -152,7 +152,7 @@ class TestEditor extends Component {
 		return new Promise ((resolve, reject) => {
 			this.props.submittedTrue();
 			resolve(this.props.submitted)
-		}) .then (() => {
+		}).then (() => {
 			if (this.testHeaderValidation()
 				&& this.state.passScore
 				&& (this.state.passScore <= this.props.totalScore)
@@ -162,15 +162,15 @@ class TestEditor extends Component {
 				this.postData();
 				this.props.deleteStateData();
 
-				this.setState({
-					testTitle: '',
-					description: '',
-					testDeadline: '',
-					testType: '',
-					passScore: '',
-					testDuration: '',
-					
-                })
+				return this.setState({
+                        testTitle: '',
+                        description: '',
+                        testDeadline: '',
+                        testType: '',
+                        passScore: '',
+                        testDuration: '',
+                        
+                    })
             }
 		})
     }

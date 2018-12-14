@@ -1,6 +1,6 @@
 import React from 'react';
 import {NavLink} from "react-router-dom";
-import styled, {css} from 'styled-components';
+import styled from 'styled-components';
 import * as firebase from "firebase";
 import UserIcon from './UserSvg';
 import CompanyIcon from './CompanySvg';

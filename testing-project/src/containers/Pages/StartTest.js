@@ -20,10 +20,6 @@ const LinkDiv = styled(NavLink)`
         cursor: pointer;
     }
 `;
-const TestLink = styled(NavLink)`
-    text-decoration: none;
-   
-`;
 
 const Main = styled.div`
     margin: auto;

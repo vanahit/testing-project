@@ -19,11 +19,11 @@ class CompanyProfile extends Component {
                         <div className='profile-create-test'>
                             <div>
                                 <div className='checked-icon'>
-                                    <img src={require('../../images/checkbox.png')}/>
+                                    <img src={require('../../images/checkbox.png')}  alt='checkbox'/>
                                     <span>You can find employe.</span>
                                 </div>
                                 <div className='checked-icon'>
-                                    <img src={require('../../images/checkbox.png')}/>
+                                    <img src={require('../../images/checkbox.png')}  alt='checkbox'/>
                                     <span>You can add your own test.</span>
                                 </div>
                             </div>

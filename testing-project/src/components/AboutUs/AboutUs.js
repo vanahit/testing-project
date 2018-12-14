@@ -32,7 +32,7 @@ const Wrapper = styled.div`
     padding:160px 380px;
 `;
 
-const ABOUT_DIGILEARN = styled.div`
+const AboutCheckme = styled.div`
     color: white;
     font-size: 60px;
 `;
@@ -247,7 +247,7 @@ class AboutUs extends React.Component {
             <div>
                 <Main>
                     <Wrapper>
-                        <ABOUT_DIGILEARN>ABOUT CHECK ME</ABOUT_DIGILEARN>
+                        <AboutCheckme>ABOUT CHECK ME</AboutCheckme>
 
                         <Description>
                             Our main goal is cooperation, which we founded between our users and companies .We give

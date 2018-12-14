@@ -1,15 +1,10 @@
 
 import { GET_TESTS_STARTED, 
   GET_TESTS_SUCCESS, 
-  GET_TESTS_FAILURE,
   GET_USERS_STARTED, 
   GET_USERS_SUCCESS, 
-  GET_USERS_FAILURE,
   GET_COMPANIES_STARTED, 
   GET_COMPANIES_SUCCESS, 
-  GET_COMPANIES_FAILURE,
-  USER_LOGIN,
-  USER_LOGOUT,
   ADD_USER_TEST,
   DELETE_USER_TEST,
   ADD_PASSING_TEST,
@@ -24,9 +19,6 @@ import { GET_TESTS_STARTED,
     tests: [],
     companies: [],
     users: [],
-    testsError: null,
-    usersError: null,
-    companiesError: null,
     userLogin: false,
     userType: '',
     addedTest: null,
@@ -46,16 +38,8 @@ import { GET_TESTS_STARTED,
         return {
           ...state,
           testsLoaded: true,
-          testsError: null,
           tests: action.payload
         };
-
-      case GET_TESTS_FAILURE:
-        return {
-          ...state,
-          testsError: action.payload.error
-        };
-
       case GET_USERS_STARTED:
         return {
           ...state,
@@ -66,15 +50,8 @@ import { GET_TESTS_STARTED,
         return {
           ...state,
           usersLoaded: true,
-          usersError: null,
           users: action.payload
         };
-      case GET_USERS_FAILURE:
-        return {
-          ...state,
-          usersError: action.payload.error
-        };
-
       case GET_COMPANIES_STARTED:
         return {
           ...state,
@@ -85,41 +62,21 @@ import { GET_TESTS_STARTED,
         return {
           ...state,
           companiesLoaded: true,
-          companiesError: null,
           companies: action.payload
         };
-
-      case GET_COMPANIES_FAILURE:
-        return {
-          ...state,
-          companiesLoaded: false,
-          companiesError: action.payload.error
-        };
-      case USER_LOGIN:
-        return {
-          ...state,
-          userLogin: true,
-          userType: action.userType
-      }
-      case USER_LOGOUT:
-        return {
-          ...state,
-          userLogin: false,
-          userType: '',
-        }
       case ADD_USER_TEST:
         return {
-          ... state,
+          ...state,
           addedTest: action.test
         }
       case DELETE_USER_TEST:
         return {
-          ... state,
+          ...state,
           addedTest: null,
         }
       case ADD_PASSING_TEST:
         return {
-          ... state,
+          ...state,
           passingTest: action.test,
         }
   

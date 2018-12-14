@@ -1,14 +1,11 @@
 import {
     getCompaniesStarted,
     getCompaniesSuccess,
-    getCompaniesFailure,
     getTestsStarted,
-    getTestsFailure,
     getTestsSuccess,
     getUsersStarted,
-    getUsersFailure,
     getUsersSuccess,
-    editingTest,
+  
 } from '../actions/appAction';
 import { firebase } from '../../firebase/firebase';
 

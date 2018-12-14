@@ -6,10 +6,16 @@ import { CSSTransition, TransitionGroup } from "react-transition-group";
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 import Loader from '../../components/Loader';
-import {NavLink} from "react-router-dom";
 
 const LoaderDiv = styled.div`
-	margin: auto;
+	text-align: center;
+	margin: 200px 0;
+	
+`;
+const NoTests = styled.div`
+	font-size: 28px;
+	margin: 100px 0;
+	color: #141218;
 `;
 
 class AllTests extends Component {
@@ -69,7 +75,7 @@ class AllTests extends Component {
 	checkIfAdded = (testId) => {
 		if (this.props.user && this.props.user.tests) {
 			for (let i = 0; i < this.props.user.tests.length; i++) {
-				if (testId ===  this.props.user.tests[i].id) {
+				if (testId === this.props.user.tests[i].id) {
 					return true;
 				}
 			}
@@ -85,7 +91,7 @@ class AllTests extends Component {
 		}
 
 
-		const selectSearchData = ['JavaScript', 'Java', "PHP", 'C#', 'MySQL', 'Python', 'Ruby', 'Swift', 'React', 'Redux'];
+		const selectSearchData = ['HTML', 'CSS', 'JavaScript', 'Java', 'Python', 'C#', 'Ruby', 'Swift', 'React', 'Redux', 'C++', 'PHP', 'MySQL'];
 		const { search, type, currentPage, dataPerPage, loadMore } = this.state;
 		let filterData = fillteredTests.filter(item => {
 			return item.testTitle.toLowerCase().substr(0, search.length) === search.toLowerCase()
@@ -105,56 +111,61 @@ class AllTests extends Component {
 		}
 
 		return (
-			this.state.data ?
-			<div className="container-fluid">
-				<Searching
-					{...this.state}
-					searching={this.searching.bind(this)}
-					currentDataLength={currentData.length}
-					selectSearchData={selectSearchData}
-				/>
-				<div className="content-grid">
-				
-					{ currentData.length ? 
-						currentData.map(item => {
-							return (
-								<TransitionGroup className="grid" key={item.id}>
-									<CSSTransition
-										in={this.state.unMounted ? false : true}
-										appear={this.state.unMounted ? false : true}
-										timeout={450}
-										classNames="slide"
-									>								
-											<TestComponent
-												added={this.checkIfAdded(item.id)}
-												test={item}
-												user={this.props.user}
-												testAddClicked={this.props.testAddClicked}
-												userTestAdded={this.props.userTestAdded}
-												addCurrentItem={this.props.addCurrentItem}
-											/>
-									
-										</CSSTransition>
-									</TransitionGroup>
-								)
-							})
-						
-						: <LoaderDiv><Loader/></LoaderDiv>
-					}
-					
-
-					<Pagination
-						load_More={loadMore}
-						loadMore={this.loadMore.bind(this)}
-						currentPage={currentPage}
-						prev={this.prev.bind(this)}
-						pageClick={this.pageClick.bind(this)}
-						next={this.next.bind(this)}
-						pages={pages}
+			this.props.tests ?
+				<div className="container-fluid">
+					<Searching
+						{...this.state}
+						searching={this.searching.bind(this)}
+						currentDataLength={currentData.length}
+						selectSearchData={selectSearchData}
 					/>
+					{tests.length ?
+						filterData.length ?
+							<div className="content-grid">
+								{currentData.map(item => {
+									return (
+										<TransitionGroup className="grid" key={item.id}>
+											<CSSTransition
+												in={this.state.unMounted ? false : true}
+												appear={this.state.unMounted ? false : true}
+												timeout={450}
+												classNames="slide"
+											>
+												<TestComponent
+													added={this.checkIfAdded(item.id)}
+													test={item}
+													user={this.props.user}
+													testAddClicked={this.props.testAddClicked}
+													userTestAdded={this.props.userTestAdded}
+													addCurrentItem={this.props.addCurrentItem}
+												/>
+
+											</CSSTransition>
+										</TransitionGroup>
+									)
+								})
+								}
+								<Pagination
+									load_More={loadMore}
+									loadMore={this.loadMore.bind(this)}
+									currentPage={currentPage}
+									prev={this.prev.bind(this)}
+									pageClick={this.pageClick.bind(this)}
+									next={this.next.bind(this)}
+									pages={pages}
+								/>
+							</div>
+							: <NoTests>Sorry, nothing was found!</NoTests>
+
+						: <LoaderDiv>  <Loader /> </LoaderDiv>
+
+					}
+
+
 				</div>
-			</div>
-			: 'THERE IS NO TESTS YET'
+
+
+				: <NoTests> There is no tests yet </NoTests>
 		);
 	}
 }

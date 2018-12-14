@@ -48,10 +48,6 @@ const TestDetails = styled.input`
 `;
 
 const TestCreatorCompany = props => {
-	const handleChange = (e) => {
-		props.getInputValue(e, 'company');
-	}
-
 	return (
 		<FlexChild>
 			<TestDetails

@@ -160,11 +160,7 @@ class TestSlider extends Component {
 		let tests = [];
 		if (this.state.tests) {
 			tests = this.state.tests;
-			fillteredTests = tests.filter(item => {
-				if (this.compareDates(item.testDeadline)) {
-					return item;
-				}
-			});
+			fillteredTests = tests.filter(item =>  this.compareDates(item.testDeadline));
 		} 
 		tests = tests.slice(0,10)
 		console.log(tests);

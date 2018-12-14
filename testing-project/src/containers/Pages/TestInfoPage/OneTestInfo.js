@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import { NavLink} from "react-router-dom";
 import styled from 'styled-components';
 import { connect } from 'react-redux';
 import { firebase } from '../../../firebase/firebase';
@@ -126,8 +125,7 @@ class OneTestInfo extends Component {
 		}
 	}
 	render() {
-      	return(
-           this.props.item &&
+     	return(
             <Main>
                <Title>{ this.props.item.title}</ Title>
                 <FlexRow>
@@ -172,7 +170,8 @@ class OneTestInfo extends Component {
                        
                     </FlexChild>
                 </FlexRow>
-            </Main>
+           </Main>
+         
         );
 	}
 }

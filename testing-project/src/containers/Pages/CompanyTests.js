@@ -9,10 +9,10 @@ import styled from 'styled-components';
 
 const NoTests = styled.div`
 	font-size: 28px;
-	margin: 60px 0;
+	margin: 100px 0;
 	color: #141218;
-
 `;
+
 const CreateTest = styled(NavLink)`
 	color: #FF5959;
 	text-decoration: none;
@@ -22,9 +22,7 @@ const CreateTest = styled(NavLink)`
 		cursor: pointer;
 	}
 `;
-const DeadLineSpan = styled.span`
-	color: ${props => props.deadline < Date.now() ? 'red' : ''}
-`;
+
 class CompanyTests extends Component {
 	constructor(props) {
 		super(props);
