@@ -93,7 +93,7 @@ const Button = styled.button`
     padding: 15px 20px;
     border: 0;
     border-radius: 4px;
-    background-color: ${props => props.disabled ? '#4F9DA6' :'rgba(255, 89, 89, 1)'};
+    background-color: ${props => props.color || 'rgba(255, 89, 89, 1)'};
 	color: white;
 	box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.16);
     font-weight: bold;
@@ -124,17 +124,22 @@ class OneTestInfo extends Component {
 			this.props.testAddClicked();
 		}
     }
-    checkIfAdded = (testId) => {
+    checkIfAdded = (test) => {
 		if (this.props.user && this.props.user.tests) {
 			for (let i = 0; i < this.props.user.tests.length; i++) {
-				if (testId === this.props.user.tests[i].id) {
-					return true;
-				}
-			}
+				if (test.id === this.props.user.tests[i].id) {
+                    if (this.props.user.tests[i].userScore < 0)  {
+                        return 'added';
+                    } else {
+                        return 'passed';
+                    }
+				} 
+            }
+            
 			return false;
 		}
-	}
-	render() {
+    }
+ 	render() {
      	return(
             <Main>
                <Title>{ this.props.item.title}</ Title>
@@ -169,13 +174,35 @@ class OneTestInfo extends Component {
                         </FlexRow>
                         
                         {
-							    (this.props.user && this.props.user.type !== 'company') || !this.props.user 
-								? <Button 
-									onClick={() => this.add( this.props.item )}
-									disabled = {this.checkIfAdded(this.props.item.id) ? true : false}>
-									{this.checkIfAdded(this.props.item.id) ? 'Added' : 'Add test >'}
- 								</Button>
-								: ""
+                                (this.props.user && this.props.user.type !== 'company') || !this.props.user ?
+                                    <>
+                                        {!this.checkIfAdded(this.props.item)  &&
+                                            <Button 
+                                                onClick={() => this.add( this.props.item )}>
+                                                Add test >  
+                                            </Button>
+                                        }
+                                        {
+                                        this.checkIfAdded(this.props.item) === 'added' &&
+                                        
+                                            <Button 
+                                                color={'#FFAD5A'}
+                                                onClick={() => this.add( this.props.item )}>
+                                                Pass test > 
+                                            </Button>
+                                        }
+                                        {
+                                        this.checkIfAdded(this.props.item) === 'passed' &&
+                                            <Button 
+                                                color={'#4F9DA6'}
+                                                disabled
+                                                onClick={() => this.add( this.props.item )}>
+                                                
+                                                Passed 
+                                            </Button>
+                                        }
+                                    </>
+                                    : ""
 						}
                        
                     </FlexChild>

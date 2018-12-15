@@ -62,24 +62,18 @@ const DataTitle = styled.div`
 `;
 
 const Button = styled.button`
-	margin: 0 26px 26px 0;
-    width: ${props => props.width || '90px'};  
-    height: 44px;
+    padding: 10px 15px;
     border: 0;
     border-radius: 4px;
-    background-color: ${props => props.disabled ? '#4F9DA6' : 'rgba(255, 89, 89, 1)'};
+    background-color: ${props => props.color || 'rgba(255, 89, 89, 1)'};
 	color: white;
 	box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.16);
     font-weight: bold;
     font-size: 20px;
 	box-sizing: border-box;
 	: hover {
-		cursor: ${props => props.disabled ? '' : 'pointer'}
+		cursor: ${props => props.disabled ? ''  : 'pointer' }
 	}
-`;
-
-const ButtonDiv = styled.div`
-	text-align: right;
 `;
 const Img = styled.img`
 	margin: 0;
@@ -87,9 +81,13 @@ const Img = styled.img`
 	height: 100%;
 	box-sizing: border-box;
 `;
+const Flex = styled.div`
+	margin: 16px;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+`;
 const DetailsLink = styled(NavLink)`
-	display: inline-block;
-	padding-right: 25px;
 	font-size: 20px;
 	text-decoration: underline;
 	color:#4F9DA6;
@@ -160,6 +158,23 @@ class TestComponent extends Component {
 			this.props.testAddClicked();
 		}
 	}
+
+	checkIfAdded = (test) => {
+		if (this.props.user && this.props.user.tests) {
+			for (let i = 0; i < this.props.user.tests.length; i++) {
+				if (test.id === this.props.user.tests[i].id) {
+                    if (this.props.user.tests[i].userScore < 0)  {
+                        return 'added';
+                    } else {
+                        return 'passed';
+                    }
+				} 
+            }
+            
+			return false;
+		}
+	}
+	
 	render() {
 		let test = this.props.test;
 		return (
@@ -186,23 +201,42 @@ class TestComponent extends Component {
 							</Data>
 						</DataTitle>
 					</Details>
-
-					<ButtonDiv>
+					<Flex >
 						<DetailsLink to={`/test-info-page/${test.id}`}>
 							<span>View Details</span>
 						</DetailsLink>
 						{
-							(this.props.user && this.props.user.type !== 'company') || !this.props.user
-								? <Button
-									onClick={() => this.add(test)}
-									disabled={this.props.added }>
-									{this.props.added ? 'Added' : 'Add  >'}
-								</Button>
-								: ""
+                                (this.props.user && this.props.user.type !== 'company') || !this.props.user ?
+                                    <>
+                                        {!this.checkIfAdded(test)  &&
+                                            <Button 
+                                                onClick={() => this.add( test )}>
+                                                Add test >  
+                                            </Button>
+                                        }
+                                        {
+                                        this.checkIfAdded(test) === 'added' &&
+                                        
+                                            <Button 
+                                                color={'#FFAD5A'}
+                                                onClick={() => this.add( test )}>
+                                                Pass test > 
+                                            </Button>
+                                        }
+                                        {
+                                        this.checkIfAdded(test) === 'passed' &&
+                                            <Button 
+                                                color={'#4F9DA6'}
+                                                disabled
+                                                onClick={() => this.add( test )}>
+                                                
+                                                Passed 
+                                            </Button>
+                                        }
+                                    </>
+                                    : ""
 						}
-
-					</ButtonDiv>
-
+					</Flex>
 				</TestBlock>
 			</>
 		);

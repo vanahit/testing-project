@@ -137,7 +137,7 @@ class StartTest extends Component {
             this.state.user && this.state.user.type === 'user' ?
             this.state.test &&
             <>
-            {!this.state.started ?
+            {!this.state.started && this.state.test ?
             <Main>
                 <AllDiv>
                     <LinkDiv to={`/${this.state.user.firstName}${this.state.user.lastName}/start-test`}> My Account </LinkDiv> 
@@ -151,21 +151,21 @@ class StartTest extends Component {
                         Logo
                     </FlexChild>
                     <FlexChild width={'calc(100% - 354px)'}>
-                        <TestTitle>{this.state.test.testTitle}</TestTitle>
-                        <TestDescription>{this.state.test.description}</TestDescription>
+                        <TestTitle>{this.props.test.testTitle}</TestTitle>
+                        <TestDescription>{this.props.test.description}</TestDescription>
                         <PassingDescription>
                             You can take the test once.
                             If you stop the test in the middle, you will get as much as you managed to score. 
                         </PassingDescription>
                         < Square />  
                         <TestDetails>Number of questions : </TestDetails>
-                        <TestDetailsValue>{this.state.test.questions.length}</TestDetailsValue>
+                        <TestDetailsValue>{this.props.test.questions.length}</TestDetailsValue>
                         < Square />  
                         <TestDetails>Time : </TestDetails>
                         <TestDetailsValue>30 minutes</TestDetailsValue>
                         < Square />  
                         <TestDetails>Score : </TestDetails>
-                        <TestDetailsValue>{this.state.test.totalScore} points</TestDetailsValue>
+                        <TestDetailsValue>{this.props.test.totalScore} points</TestDetailsValue>
                        
                             <Button onClick={()=> this.setState({started: true})}>START TEST ></Button>
                        
@@ -175,7 +175,7 @@ class StartTest extends Component {
         : <TestPassPanel passingTest={this.props.passingTest} user={this.props.user}/>
           }  
         </>
-        : <Redirect to='/authorization'/>
+        : 'You can pass this test please login'
         );
 	}
 }
