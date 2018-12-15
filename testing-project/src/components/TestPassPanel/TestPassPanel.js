@@ -22,6 +22,7 @@ class TestPassPanel extends Component {
 		user: this.props.user,
 		totalScore: 0,
 	}
+
 	componentDidUpdate(prevProps) {	
         if (this.props.test !== prevProps.test) {
 			this.setState({test: this.props.test});
@@ -56,7 +57,8 @@ class TestPassPanel extends Component {
 			<Main>
 				{
 					!this.state.testEnd && this.state.test &&
-						<TestPasser 
+						<TestPasser
+							user={this.state.user} 
 							totalScore={this.totalScore}
 							testEnded={this.testEnded}
 							test={this.state.test}

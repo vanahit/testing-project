@@ -15,11 +15,14 @@ export default class InvitedUsers extends Component {
 			dataPerPage: 4,
 			loadMore: 0,
 			sortType: "testTitle",
-			orderAscanding: true
+			orderAscanding: true,
+			
 		}
+		this.unmouted = false;
 	}
 
 	componentDidMount() {
+		this.unmouted = false;
 		firebase.database().ref('tests').on('value', (snapshot) => {
 			const tests = [];
 			snapshot.forEach(childSnapshot => {
@@ -28,8 +31,14 @@ export default class InvitedUsers extends Component {
 					...childSnapshot.val()
 				})
 			});
-			this.setState({ data: tests })
+			if (!this.unmouted) {
+				this.setState({ data: tests });
+			}
+			
 		});
+	}
+	componentWillMount() {
+		this.unmouted = true;
 	}
 
 	searching(e, searchProp) {

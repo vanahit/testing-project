@@ -3,7 +3,8 @@ import styled from 'styled-components'
 import { connect } from 'react-redux';
 import {increaseUserScore} from '../../store/actions/testPasser';
 import Timer from './Timer';
-import img from '../../images/testPassPanelBg.jpg'
+import img from '../../images/testPassPanelBg.jpg';
+import { firebase } from '../../firebase/firebase';
 
 const Main = styled.div`
 	margin: auto;
@@ -105,7 +106,11 @@ class TestPasser extends Component {
         
         this.id = 0;
     }
-   
+	componentDidMount() {
+		
+		
+	}	
+
     changeCurrentQuesion = (id) => {
         this.setState({currentQuesion: this.state.testData.questions[id]});
     }

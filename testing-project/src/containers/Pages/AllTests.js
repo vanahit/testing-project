@@ -121,10 +121,10 @@ class AllTests extends Component {
 					/>
 					{tests.length ?
 						filterData.length ?
-							<div className="content-grid">
+							<div className="content-grid-tests">
 								{currentData.map(item => {
 									return (
-										<TransitionGroup className="grid" key={item.id}>
+										<TransitionGroup className="test-grid" key={item.id}>
 											<CSSTransition
 												in={this.state.unMounted ? false : true}
 												appear={this.state.unMounted ? false : true}

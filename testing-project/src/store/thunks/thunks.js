@@ -15,21 +15,22 @@ export const getTests = () => {
 
         firebase.database().ref('tests').on('value', (snapshot) => {
             let tests = [];
-            let passersObj = {};
             let passers = [];
             snapshot.forEach(childSnapshot => {
                 if (childSnapshot.hasChild('passers')) {
+                   
                     childSnapshot.child('passers').forEach(snapshot1 => {
+                        let passersObj = {};
                         passersObj = {
                             ...passersObj,
-                            [snapshot1.key]: { id: snapshot1.key, ...snapshot1.val() },
+                            [snapshot1.key]: { id: snapshot1.key, ...snapshot1.val() }
+                            
                         }
-
+                        passers = Object.values(passersObj);
                     })
                 } else {
                     passers = [];
                 }
-                passers = Object.values(passersObj);
                 if (childSnapshot.hasChild('passers')) {
                     tests.push({
                         id: childSnapshot.key,

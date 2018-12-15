@@ -534,6 +534,18 @@ img {
     flex-wrap: wrap;
     width: 100%;
 }
+.content-grid-tests {
+    display: flex;
+    justify-content: space-between;
+    margin: 20px 0;
+    flex-wrap: wrap;
+    width: 100%;
+}
+
+.content-grid-tests .test-grid {
+    margin: 15px 0;
+    position: relative;
+}
 
 .content-grid .grid {
     width: 276px;
@@ -596,7 +608,11 @@ img {
     left: 50%;
     transform: translateX(-50%);
 }
-
+.companyUser {
+    padding: 8px;
+    border: 1px solid #DCDCDC;
+    border-radius: 4px;
+}
 .companyUser h2 {
     text-align: center;
     color: #4F9DA6;
@@ -715,14 +731,12 @@ img {
 .slide-enter {
     opacity: 0;
     transform: scale(0.97) translateY(5px);
-    padding: 8px;
     z-index: 1;
 }
 
 .slide-enter.slide-enter-active {
     opacity: 1;
     transform: scale(1) translateY(0);
-    padding: 8px;
     transition: opacity 300ms linear 100ms, transform 300ms ease-in-out 100ms;
     position: absolute;
     width: 100%;
@@ -731,7 +745,6 @@ img {
 
 .slide-enter-done {
     overflow: auto;
-    padding: 8px;
     box-shadow: 0px 3px 6px #DCDCDC;
 }
 
@@ -755,7 +768,6 @@ img {
 
 .slide-appear {
     opacity: 0;
-    padding: 8px;
     transform: scale(0.5) translateY(5px);
     z-index: 1;
 }
