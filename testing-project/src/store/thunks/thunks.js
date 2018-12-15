@@ -22,7 +22,7 @@ export const getTests = () => {
                     childSnapshot.child('passers').forEach(snapshot1 => {
                         passersObj = {
                             ...passersObj,
-                            key: { id: snapshot1.key, ...snapshot1.val() },
+                            [snapshot1.key]: { id: snapshot1.key, ...snapshot1.val() },
                         }
 
                     })

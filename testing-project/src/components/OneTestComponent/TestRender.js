@@ -43,11 +43,18 @@ const Company = styled.div`
 `;
 
 const Data = styled.span`
-font-size: 20px;
+	text-decoration: none;
+	font-size: 20px;
 	color: #4F9DA6;
 	margin-bottom: 8px;
 `;
-
+const PassersLink = styled(NavLink)`
+	text-decoration: underline;
+	font-size: 24px;
+	font-weight: bold;
+	color: #4F9DA6;
+	margin-bottom: 8px;
+`;
 const DataTitle = styled.div`
 	font-size: 20px;	
 	color: black;
@@ -168,9 +175,9 @@ class TestComponent extends Component {
 						</Company>
 						<DataTitle>
 							Passes: {' '}
-							<Data>
+							<PassersLink to={`/${test.company}/test${test.id}/passers`}>
 								{test.passers ? test.passers.length : 0}
-							</Data>
+							</PassersLink>
 						</DataTitle>
 						<DataTitle>
 							Deadline:{' '}

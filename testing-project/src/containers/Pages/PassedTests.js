@@ -44,7 +44,7 @@ class PassedTests extends Component {
 			currentPage: 1,
 			dataPerPage: 4,
 			loadMore: 0,
-			sortType: this.props.currentUser ? "" : 'testTitle',
+			sortType: !this.props.currentUser || (this.props.currentUser &&  this.props.currentUser.type === 'user') ? 'testTitle' : "" ,
 			orderAscanding: true
 		}
 	}
