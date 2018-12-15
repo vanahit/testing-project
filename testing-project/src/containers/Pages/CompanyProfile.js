@@ -1,13 +1,52 @@
 import React, { Component } from 'react';
 import { NavLink } from "react-router-dom";
+import CompanySvg from '../../containers/Pages/CompanyInfoPage/CompanySvg';
+import * as firebase from "firebase";
+import {storage} from '../../firebase/firebase'
 
 class CompanyProfile extends Component {
+    constructor(props){
+        super(props);
+        this.state = {
+            image: null,
+            url: ''
+        }
+    }
+
+    chooseImg (e) {
+        if(e.target.files[0]){
+            const image = e.target.files[0];
+            this.setState({image})
+        }
+    }
+
+    handleUpload () {
+        const { image } = this.state;
+        const uploadImage = storage.ref(`images/${this.props.user.id}/${image.name}`).put(image);
+        uploadImage.on('state_changed',
+        (snapshot) => {
+
+        },
+        (error) => {
+
+        },
+        () => {
+            storage.ref(`images/${this.props.user.id}`).child(image.name).getDownloadURL().then(url => {
+                console.log(url)
+            })
+        })
+    }
+
     render() {
         return (
             <div>
                 <div>
                     <div className='company-profile'>
-                        <div className='profile-logo' />
+                        <div className='profile-logo' > 
+                            <CompanySvg /> 
+                            <input type="file" name="file" id="file" className="upload" onChange={this.chooseImg.bind(this)}  />
+                            <button onClick={this.handleUpload.bind(this)}>Upload</button>
+                        </div>
                         <div className='profile-synopsis'>
                             <div className='profile-synopsis-name'>{this.props.user.name}</div>
                             <div className='quote'>The <span>software agency</span> that doesnt work for you</div>
