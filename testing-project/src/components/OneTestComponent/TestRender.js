@@ -36,20 +36,20 @@ const TestTitle = styled.div`
 `;
 
 const Company = styled.div`
-	font-size: 16px;
+	font-size: 20px;
 	color: #FFAD5A;
 	font-weight: bold;
 	margin-bottom: 8px;
 `;
 
 const Data = styled.span`
-	font-size: 16px;
+font-size: 20px;
 	color: #4F9DA6;
 	margin-bottom: 8px;
 `;
 
 const DataTitle = styled.div`
-	font-size: 16px;
+	font-size: 20px;	
 	color: black;
 	margin-bottom: 8px;
 `;
