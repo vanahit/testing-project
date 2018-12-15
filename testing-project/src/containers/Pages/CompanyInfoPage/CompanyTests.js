@@ -18,19 +18,13 @@ const NoTests = styled.div`
 `;
 
 const Button = styled.button`
-	margin: 0 26px 26px 0;
-    width: ${props => props.width || '90px'};  
-    height: 44px;
-    border: 0;
-    border-radius: 4px;
-    background-color: ${props => props.disabled ? '#4F9DA6' : 'rgba(255, 89, 89, 1)'};
-	color: white;
-	box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.16);
-    font-weight: bold;
-    font-size: 20px;
-	box-sizing: border-box;
+    border: 1px solid ${props => props.disabled ? '#4F9DA6' : 'rgba(255, 89, 89, 1)'};
+    background-color: ${props => props.disabled ? '#4F9DA6' : 'transparent'};
+	color: ${props => props.disabled ? 'white' : 'rgba(255, 89, 89, 1)'};
 	: hover {
 		cursor: ${props => props.disabled ? '' : 'pointer'}
+		background-color: rgba(255, 89, 89, 1);
+		color: white;
 	}
 `;
 
@@ -115,15 +109,14 @@ class CompanyTests extends Component {
 		if (this.props.user && this.props.user.tests) {
 			for (let i = 0; i < this.props.user.tests.length; i++) {
 				if (testId === this.props.user.tests[i].id) {
-					this.setState({added : true});
+					return true;
 				}
 			}
-			this.setState({added : false});;
+			return false;
 		}
 	}
 	add = (test) => {
 		if (this.props.user && this.props.user.type === 'user') {
-			this.checkIfAdded(test.id);
 			let userUrl = this.props.user.id;
 			firebase.database().ref(`user/${this.props.user.id}/tests`).once('value', (snapshot) => {
 				if (snapshot.hasChild(`${test.id}`)) {
@@ -205,22 +198,25 @@ class CompanyTests extends Component {
 												{sortType === "testTitle" && !orderAscanding &&
 													<span className="sortArrowTop"></span>}
 												Title
-								</th>
+											</th>
 											<th onClick={this.sorting.bind(this, "testType")}>
 												{sortType === "testType" && orderAscanding &&
 													<span className="sortArrowBottom"></span>}
 												{sortType === "testType" && !orderAscanding &&
 													<span className="sortArrowTop"></span>}
 												Type
-								</th>
+											</th>
 											<th onClick={this.sorting.bind(this, "company")}>
 												{sortType === "company" && orderAscanding &&
 													<span className="sortArrowBottom"></span>}
 												{sortType === "company" && !orderAscanding &&
 													<span className="sortArrowTop"></span>}
 												Company
-								</th>
-											<th>Score</th>
+											</th>
+											<th>	{
+														(this.props.user && this.props.user.type !== 'company') || !this.props.user ? 'Enroll' : 'Passers' 
+													}
+											</th>
 										</tr>
 									</thead>
 									<tbody>
@@ -230,16 +226,17 @@ class CompanyTests extends Component {
 												<tr key={item.id} >
 													<td>{item.testTitle}</td>
 													<td>{item.testType}</td>
-													<td>{item.testDeadline}</td>
+													<td>{this.deadline(item.testDeadline)}</td>
 													<td>
 													{
 														(this.props.user && this.props.user.type !== 'company') || !this.props.user
 															? <Button
 																onClick={() => this.add(item)}
-																disabled={this.state.added}>
-																{this.state.added === true ? 'Added' : 'Add'}
+																disabled={this.checkIfAdded(item.id)}
+															>
+																{this.checkIfAdded (item.id) === true ? 'Added' : 'Add'}
 															</Button>
-															: ""
+															: item.passers ? item.passers.length : '__'
 													}</td>
 												</tr>
 											)

@@ -36,20 +36,27 @@ const TestTitle = styled.div`
 `;
 
 const Company = styled.div`
-	font-size: 16px;
+	font-size: 20px;
 	color: #FFAD5A;
 	font-weight: bold;
 	margin-bottom: 8px;
 `;
 
 const Data = styled.span`
-	font-size: 16px;
+	text-decoration: none;
+	font-size: 20px;
 	color: #4F9DA6;
 	margin-bottom: 8px;
 `;
-
+const PassersLink = styled(NavLink)`
+	text-decoration: underline;
+	font-size: 24px;
+	font-weight: bold;
+	color: #4F9DA6;
+	margin-bottom: 8px;
+`;
 const DataTitle = styled.div`
-	font-size: 16px;
+	font-size: 20px;	
 	color: black;
 	margin-bottom: 8px;
 `;
@@ -168,9 +175,9 @@ class TestComponent extends Component {
 						</Company>
 						<DataTitle>
 							Passes: {' '}
-							<Data>
+							<PassersLink to={`/${test.company}/test${test.id}/passers`}>
 								{test.passers ? test.passers.length : 0}
-							</Data>
+							</PassersLink>
 						</DataTitle>
 						<DataTitle>
 							Deadline:{' '}
@@ -182,14 +189,14 @@ class TestComponent extends Component {
 
 					<ButtonDiv>
 						<DetailsLink to={`/test-info-page/${test.id}`}>
-							<span onClick={() => this.props.addCurrentItem(test)}>View Details</span>
+							<span>View Details</span>
 						</DetailsLink>
 						{
 							(this.props.user && this.props.user.type !== 'company') || !this.props.user
 								? <Button
 									onClick={() => this.add(test)}
-									disabled={this.props.added ? true : false}>
-									{this.props.added === true ? 'Added' : 'Add'}
+									disabled={this.props.added }>
+									{this.props.added ? 'Added' : 'Add  >'}
 								</Button>
 								: ""
 						}

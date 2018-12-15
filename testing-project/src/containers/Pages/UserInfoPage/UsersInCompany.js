@@ -5,6 +5,7 @@ import UserSvg from '../UserSvg';
 
 const UserSvgDiv = styled.div`
 	margin: 30px auto;
+	margin-right: 20px;
 	width: 200px;
 	:hover {
 		fill: #FF5959;
@@ -33,10 +34,20 @@ export default function UserInCompany (props) {
 							<span className="gray">Skills: </span>
 							<span className="orange"> {skills(props.item.languages)} </span>
 						</div>
+						<div className="skillsDivUser">
+							{props.currentUser && props.currentUser.type === 'company' &&
+								<>
+								<span className="gray">E-mail: </span>
+								<span className="orange"> {props.item.email} </span>
+								</>
+							}
+							
+						
+						</div>
 					</div>
 				</div>
 				<div className="labelHeader">Companies Tests</div>
-				<PassedTests user={props.item} userId={props.userId} />
+				<PassedTests user={props.item} userId={props.userId}  currentUser={props.currentUser}  />
 			</div>
 		);
 }

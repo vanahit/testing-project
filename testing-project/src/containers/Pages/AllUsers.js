@@ -8,6 +8,10 @@ import styled from 'styled-components';
 import Loader from '../../components/Loader';
 import UserSvg from './UserSvg';
 
+const Main = styled.div`
+	max-width: 1200px;
+	margin: auto;
+`;
 const UserSvgDiv = styled.div`
 	margin: 0 auto;
 	width: 100px;
@@ -34,6 +38,7 @@ class AllUsers extends Component {
 
 		this.state = {
 			data: this.props.users,
+			passers: this.props.passers,
 			search: "",
 			type: "",
 			currentPage: 1,
@@ -88,9 +93,12 @@ class AllUsers extends Component {
 		const selectSearchData = ['HTML', 'CSS', 'JavaScript', 'Java', 'Python', 'C#', 'Ruby', 'Swift', 'React', 'Redux', 'C++', 'PHP', 'MySQL'];
 		const { search, type, currentPage, dataPerPage, loadMore } = this.state;
 		let users = [];
-		if (this.state.data) {
+		if (this.props.passers) {
+			users = this.props.passers !== 'no' ?	users = this.state.passers : [];
+		} else if (this.state.data) {
 			users = this.state.data;
 		}
+
 		let filterData = users.filter(item => {
 			return item.firstName.toLowerCase().substr(0, search.length) === search.toLowerCase() ||
 				item.lastName.toLowerCase().substr(0, search.length) === search.toLowerCase()
@@ -109,7 +117,8 @@ class AllUsers extends Component {
 			pages.push(i);
 		}
 		return (
-			this.state.data ?
+			<Main>
+			{users.length ?
 				<div className="container-fluid">
 					<Searching
 						{...this.state}
@@ -168,7 +177,9 @@ class AllUsers extends Component {
 						: <LoaderDiv><Loader /></LoaderDiv>
 					}
 				</div>
-				: <NoTests>THERE IS NO USERS YET</NoTests>
+				: <NoTests> {this.props.passers ? 'There is no passers yet' : 'There is no users yet' } </NoTests>
+			}
+			</Main>
 		);
 	}
 }

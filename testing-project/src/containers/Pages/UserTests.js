@@ -29,6 +29,16 @@ const TestsLink = styled(NavLink)`
 	}
 
 `;
+
+const Button = styled.button`
+    border: 0;
+    background-color: rgba(255, 89, 89, 1);
+    color: white;
+    : hover {
+        cursor: pointer;
+    }
+    `;
+
 class UserTests extends Component {
     constructor(props) {
         super(props);
@@ -228,7 +238,7 @@ class UserTests extends Component {
                                             </td>
                                             <td>
                                                 <NavLink to={`/${this.props.user.firstName}${this.props.user.lastName}/start-test`}>
-                                                    <button onClick={() => this.props.addTest(item)}>Start</button>
+                                                    <Button onClick={() => this.props.addTest(item)}>Start</Button>
                                                 </NavLink>
                                             </td>
                                         </tr>

@@ -70,7 +70,7 @@ const BecomeUser = () => {
                     <TitleWhite>
                         FOR USER
                             </TitleWhite>
-                    <CheckBox>Complete Tests</CheckBox>
+                    <CheckBox>Register</CheckBox>
                     <CheckBox>Complete Tests</CheckBox>
                     <CheckBox>Recieve Invitations from Leading Companies</CheckBox>
 
