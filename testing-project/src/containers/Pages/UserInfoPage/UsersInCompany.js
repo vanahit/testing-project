@@ -36,7 +36,7 @@ export default function UserInCompany (props) {
 					</div>
 				</div>
 				<div className="labelHeader">Companies Tests</div>
-				<PassedTests user={props.item} userId={props.userId} />
+				<PassedTests user={props.item} userId={props.userId}  currentUser={props.currentUser}  />
 			</div>
 		);
 }

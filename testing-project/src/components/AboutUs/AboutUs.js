@@ -29,7 +29,11 @@ const Wrapper = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding:160px 380px;
+    padding: 160px;
+
+    @media screen and (max-width: 1190px) {
+		padding:20px;
+    }
 `;
 
 const AboutCheckme = styled.div`
@@ -57,6 +61,8 @@ const BoxWrapper = styled.div`
 		flex-direction: column;
         min-width: 100%;
         align-items:center;
+       padding: 20px;
+        
     }
 `;
 
@@ -80,6 +86,7 @@ const OurTeam = styled.div`
       justify-content:space-between;
       width: 1200px;
       color: #4F9DA6;
+      font-weight: bold;
       font-size: 34px;
       margin: 60px auto 30px;
       border-bottom: 1px solid #E7E7E7;
@@ -92,12 +99,12 @@ const MemberBoxWrapper = styled.div`
        margin: 0 auto;
        justify-content: space-between;
        
-         @media screen and (max-width: 1190px) {
-		flex-direction: column;
-        width: 100%;
-        margin-bottom:20px;
-        align-items:center;
-}
+        @media screen and (max-width: 1190px) {
+            flex-direction: column;
+            width: 100%;
+            margin-bottom:20px;
+            align-items:center;
+    }
 `;
 
 
@@ -116,6 +123,16 @@ const BoxIcon = styled.div`
     margin: 32px auto;
     width: 48px;
 `;
+
+const TeamBlock = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+     @media screen and (max-width: 1190px) {
+		padding:20px;
+    }
+`;
+
 
 const Box = ({boxIcon, boxItem, count}) => (
     <BoxStyle>
@@ -219,7 +236,7 @@ class AboutUs extends React.Component {
                     timing: {delay: member.delay, duration: 1000, ease: easePolyOut}
                 }}
             >
-                {({left, rotate, opacity}) => {
+                {({left, opacity}) => {
                     return (
                         <div style={{
                             opacity,
@@ -272,34 +289,35 @@ class AboutUs extends React.Component {
 
                     </Wrapper>
                 </Main>
-
-                <OurTeam>
-                    <span>OUR TEAM</span>
-                </OurTeam>
-
-
-                <Reveal
-                    fraction={1}
-                    onReveal={() => {
-                        this.setState({show: true})
-                    }}
-                >
-                    <MemberBoxWrapper>
-                        {this.showMembers()}
-                    </MemberBoxWrapper>
-                </Reveal>
+                <TeamBlock>
+                    <OurTeam>
+                        <span>OUR TEAM</span>
+                    </OurTeam>
 
 
-                <div style={{
-                    maxWidth: '1200px', margin: '0 auto 76px', color: '#100529', fontSize: '16px',
-                }}>
-                    Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the
-                    industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type
-                    and scrambled it to make a type specimen book. It has survived not only five centuries, but also the
-                    leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s
-                    with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop
-                    publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-                </div>
+                    <Reveal
+                        fraction={1}
+                        onReveal={() => {
+                            this.setState({show: true})
+                        }}
+                    >
+                        <MemberBoxWrapper>
+                            {this.showMembers()}
+                        </MemberBoxWrapper>
+                    </Reveal>
+
+
+                    <div style={{
+                        maxWidth: '1200px', margin: '0 auto 76px', color: '#100529', fontSize: '16px',
+                    }}>
+                        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the
+                        industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type
+                        and scrambled it to make a type specimen book. It has survived not only five centuries, but also the
+                        leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s
+                        with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop
+                        publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+                    </div>
+                </TeamBlock>
 
             </div>
 

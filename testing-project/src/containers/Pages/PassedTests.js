@@ -27,6 +27,10 @@ const TestsLink = styled(NavLink)`
 const LoaderDiv = styled.div`
 	margin: auto;
 `;
+const Tr = styled.tr`
+	background-color: ${props => props.color === 'true' ? 'rgba(79, 157, 166, 0.3)' : ''};
+	font-weight:  ${props => props.color === 'true' ? 'bold' : ''};
+`;
 
 class PassedTests extends Component {
 	constructor(props) {
@@ -40,7 +44,7 @@ class PassedTests extends Component {
 			currentPage: 1,
 			dataPerPage: 4,
 			loadMore: 0,
-			sortType: "testTitle",
+			sortType: this.props.currentUser ? "" : 'testTitle',
 			orderAscanding: true
 		}
 	}
@@ -106,8 +110,20 @@ class PassedTests extends Component {
 	}
 	render() {
 		let tests = [];
+		let companyTests = [];
+		let otherTests = [];
 		if (this.state.tests) {
 			tests = this.state.tests.filter(test => test.userScore >= 0);
+			if (this.props.currentUser && this.props.currentUser.type === 'company') {
+				tests.forEach(test => {
+					if (test.companyId === this.props.currentUser.id) {
+						companyTests.push(test);
+					} else {
+						otherTests.push(test);
+					}
+				})
+				tests = companyTests.concat(otherTests);
+			}
 		}
 		const selectSearchData = ['HTML', 'CSS', 'JavaScript', 'Java', 'Python', 'C#', 'Ruby', 'Swift', 'React', 'Redux', 'C++', 'PHP', 'MySQL'];
 		const { search, type, currentPage, dataPerPage, loadMore, sortType, orderAscanding } = this.state;
@@ -119,26 +135,30 @@ class PassedTests extends Component {
 			filterData = filterData.filter(item => item.testType === type)
 		}
 
-		filterData.sort((a, b) => {
-			let nameA = a[sortType].toUpperCase();
-			let nameB = b[sortType].toUpperCase();
-			if (orderAscanding) {
-				if (nameA < nameB) {
-					return -1;
+		if (this.state.sortType) {
+			filterData.sort((a, b) => {
+				let nameA = a[sortType].toUpperCase();
+				let nameB = b[sortType].toUpperCase();
+				if (orderAscanding) {
+					if (nameA < nameB) {
+						return -1;
+					}
+					if (nameA > nameB) {
+						return 1;
+					}
+				} else {
+					if (nameA < nameB) {
+						return 1;
+					}
+					if (nameA > nameB) {
+						return -1;
+					}
 				}
-				if (nameA > nameB) {
-					return 1;
-				}
-			} else {
-				if (nameA < nameB) {
-					return 1;
-				}
-				if (nameA > nameB) {
-					return -1;
-				}
-			}
-			return 0;
-		});
+				return 0;
+			});
+		}
+
+
 
 		const indexOfLastData = currentPage * dataPerPage;
 		const indexOfFirstData = indexOfLastData - dataPerPage;
@@ -161,91 +181,91 @@ class PassedTests extends Component {
 					/>
 					{tests ?
 						filterData.length ?
-						<>
-							<table className="dataTable">
-								<thead>
-									<tr>
-										<th onClick={this.sorting.bind(this, "testTitle")}>
-											{sortType === "testTitle" && orderAscanding &&
-												<span className="sortArrowBottom"></span>}
-											{sortType === "testTitle" && !orderAscanding &&
-												<span className="sortArrowTop"></span>}
-											Title
+							<>
+								<table className="dataTable">
+									<thead>
+										<tr>
+											<th onClick={this.sorting.bind(this, "testTitle")}>
+												{sortType === "testTitle" && orderAscanding &&
+													<span className="sortArrowBottom"></span>}
+												{sortType === "testTitle" && !orderAscanding &&
+													<span className="sortArrowTop"></span>}
+												Title
 										</th>
-										<th onClick={this.sorting.bind(this, "testType")}>
-											{sortType === "testType" && orderAscanding &&
-												<span className="sortArrowBottom"></span>}
-											{sortType === "testType" && !orderAscanding &&
-												<span className="sortArrowTop"></span>}
-											Type
+											<th onClick={this.sorting.bind(this, "testType")}>
+												{sortType === "testType" && orderAscanding &&
+													<span className="sortArrowBottom"></span>}
+												{sortType === "testType" && !orderAscanding &&
+													<span className="sortArrowTop"></span>}
+												Type
 										</th>
-										<th onClick={this.sorting.bind(this, "company")}>
-											{sortType === "company" && orderAscanding &&
-												<span className="sortArrowBottom"></span>}
-											{sortType === "company" && !orderAscanding &&
-												<span className="sortArrowTop"></span>}
-											Company
+											<th onClick={this.sorting.bind(this, "company")}>
+												{sortType === "company" && orderAscanding &&
+													<span className="sortArrowBottom"></span>}
+												{sortType === "company" && !orderAscanding &&
+													<span className="sortArrowTop"></span>}
+												Company
 										</th>
-										<th>Score</th>
-									</tr>
-								</thead>
-								<tbody>
-									{currentData.map((item, index) => {
+											<th>Score</th>
+										</tr>
+									</thead>
+									<tbody>
+										{currentData.map((item, index) => {
 											return (
-												<tr key={item.id} >
+												<Tr key={item.id} color={this.props.currentUser && item.companyId === this.props.currentUser.id ? 'true' : 'false'} >
 													<td>{item.testTitle}</td>
 													<td>{item.testType}</td>
 													<td>{item.company}</td>
 													<td>{item.userScore}/{item.totalScore}</td>
-												</tr>
+												</Tr>
 											)
 										})
-									}
-								</tbody>
+										}
+									</tbody>
 
-							</table>
-					
-							<Pagination
-								load_More={loadMore}
-								loadMore={this.loadMore.bind(this)}
-								currentPage={currentPage}
-								prev={this.prev.bind(this)}
-								pageClick={this.pageClick.bind(this)}
-								next={this.next.bind(this)}
-								pages={pages}
-							/>	
-						</>	
-						: <NoTests>Sorry, nothing was found!</NoTests>
-					
-					: <LoaderDiv><Loader/></LoaderDiv>
-	
-				}
-			</div>
-			: <NoTests> There is no passed tests yet {' '}
-						{((this.props.userId && (this.props.user.id === this.props.userId)) || !this.props.userId) &&
-							<>
-								{this.props.user.tests && this.props.user.tests.length
-									? <TestsLink to={`/${this.props.user.firstName}${this.props.user.lastName}/tests`} >  pass test </TestsLink>
-									: <TestsLink to={`/tests`} >  add test </TestsLink>
-								}
+								</table>
+
+								<Pagination
+									load_More={loadMore}
+									loadMore={this.loadMore.bind(this)}
+									currentPage={currentPage}
+									prev={this.prev.bind(this)}
+									pageClick={this.pageClick.bind(this)}
+									next={this.next.bind(this)}
+									pages={pages}
+								/>
 							</>
-						}
-					</NoTests>
-					);
-				}
-			}
-			
+							: <NoTests>Sorry, nothing was found!</NoTests>
+
+						: <LoaderDiv><Loader /></LoaderDiv>
+
+					}
+				</div>
+				: <NoTests> There is no passed tests yet {' '}
+					{((this.props.userId && (this.props.user.id === this.props.userId)) || !this.props.userId) &&
+						<>
+							{this.props.user.tests && this.props.user.tests.length
+								? <TestsLink to={`/${this.props.user.firstName}${this.props.user.lastName}/tests`} >  pass test </TestsLink>
+								: <TestsLink to={`/tests`} >  add test </TestsLink>
+							}
+						</>
+					}
+				</NoTests>
+		);
+	}
+}
+
 function mapStateToProps(state) {
 	return {
-						tests: state.appReducer.tests,
-					testsLoaded: state.appReducer.testsLoaded,
-				}
-			}
-			
+		tests: state.appReducer.tests,
+		testsLoaded: state.appReducer.testsLoaded,
+	}
+}
+
 function mapDispatchToProps(dispatch) {
 	return {
 
-					}
-					}
-					
+	}
+}
+
 export default connect(mapStateToProps, mapDispatchToProps)(PassedTests)

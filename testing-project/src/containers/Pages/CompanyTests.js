@@ -221,7 +221,14 @@ class CompanyTests extends Component {
 													<td >
 														<span onClick={() => this.deleteTest(item.id)}>Delete</span>
 													</td>
-													<td><span className="passer">{!item.passers ? 0 : item.passers.length}</span></td>
+													<td>
+														<NavLink to={`/${this.props.user.name}/test${item.id}/passers`}>
+															<span className="passer">
+																{!item.passers ? 0 : item.passers.length}
+
+															</span>
+														</NavLink>
+													</td>
 												</tr>
 											)
 										})

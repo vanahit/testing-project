@@ -31,11 +31,13 @@ const TestsLink = styled(NavLink)`
 `;
 
 const Button = styled.button`
+    border: 0;
     background-color: rgba(255, 89, 89, 1);
+    color: white;
     : hover {
         cursor: pointer;
     }
-`;
+    `;
 
 class UserTests extends Component {
     constructor(props) {

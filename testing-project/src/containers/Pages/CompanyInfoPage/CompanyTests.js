@@ -18,19 +18,13 @@ const NoTests = styled.div`
 `;
 
 const Button = styled.button`
-	margin: 0 26px 26px 0;
-    width: ${props => props.width || '90px'};  
-    height: 44px;
-    border: 0;
-    border-radius: 4px;
-    background-color: ${props => props.disabled ?  '#4F9DA6' : 'rgba(255, 89, 89, 1)'};
-	color: white;
-	box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.16);
-    font-weight: bold;
-    font-size: 20px;
-	box-sizing: border-box;
+    border: 1px solid ${props => props.disabled ? '#4F9DA6' : 'rgba(255, 89, 89, 1)'};
+    background-color: ${props => props.disabled ? '#4F9DA6' : 'transparent'};
+	color: ${props => props.disabled ? 'white' : 'rgba(255, 89, 89, 1)'};
 	: hover {
-		cursor: ${props => props.disabled === true ? '' : 'pointer'}
+		cursor: ${props => props.disabled ? '' : 'pointer'}
+		background-color: rgba(255, 89, 89, 1);
+		color: white;
 	}
 `;
 
@@ -219,7 +213,10 @@ class CompanyTests extends Component {
 													<span className="sortArrowTop"></span>}
 												Company
 											</th>
-											<th>Score</th>
+											<th>	{
+														(this.props.user && this.props.user.type !== 'company') || !this.props.user ? 'Enroll' : 'Passers' 
+													}
+											</th>
 										</tr>
 									</thead>
 									<tbody>
@@ -229,7 +226,7 @@ class CompanyTests extends Component {
 												<tr key={item.id} >
 													<td>{item.testTitle}</td>
 													<td>{item.testType}</td>
-													<td>{item.testDeadline}</td>
+													<td>{this.deadline(item.testDeadline)}</td>
 													<td>
 													{
 														(this.props.user && this.props.user.type !== 'company') || !this.props.user
@@ -239,7 +236,7 @@ class CompanyTests extends Component {
 															>
 																{this.checkIfAdded (item.id) === true ? 'Added' : 'Add'}
 															</Button>
-															: ""
+															: item.passers ? item.passers.length : '__'
 													}</td>
 												</tr>
 											)

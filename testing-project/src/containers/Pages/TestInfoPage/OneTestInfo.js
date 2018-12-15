@@ -173,7 +173,7 @@ class OneTestInfo extends Component {
 								? <Button 
 									onClick={() => this.add( this.props.item )}
 									disabled = {this.checkIfAdded(this.props.item.id) ? true : false}>
-									{this.checkIfAdded(this.props.item.id) ? 'Added' : 'Add test'}
+									{this.checkIfAdded(this.props.item.id) ? 'Added' : 'Add test >'}
  								</Button>
 								: ""
 						}

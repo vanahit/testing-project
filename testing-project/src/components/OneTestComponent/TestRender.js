@@ -189,7 +189,7 @@ class TestComponent extends Component {
 								? <Button
 									onClick={() => this.add(test)}
 									disabled={this.props.added }>
-									{this.props.added ? 'Added' : 'Add'}
+									{this.props.added ? 'Added' : 'Add  >'}
 								</Button>
 								: ""
 						}

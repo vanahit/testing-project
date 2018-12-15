@@ -39,6 +39,7 @@ class App extends Component {
         userTestAdded: false,
         user: null
     };
+    passers = 0;
 
     componentDidMount() {
 
@@ -151,7 +152,10 @@ class App extends Component {
                                 <Route 
                                     key={item.id}
                                     path={`/user-info-page/${item.firstName}${item.lastName}`}
-                                    component={() => <UsersInCompany item={item} userId={this.state.user ? this.state.user.id : 1}/>} />
+                                    component={() => <UsersInCompany
+                                        currentUser={this.state.user} 
+                                        item={item} 
+                                        userId={this.state.user ? this.state.user.id : 1} passers={this.passers && this.passers}/>} />
                             )
                         })}
                          {this.props.tests && this.props.tests.map(item => {
@@ -165,6 +169,15 @@ class App extends Component {
                                         testAddClicked={this.testAddClicked}
                                         userTestAdded={this.userTestAdded}
                                     />} />
+                            )
+                        })}
+
+                        {this.props.tests && this.props.tests.map(item => {
+                            this.passers = item.passers;
+                            return (
+                                <Route 
+                                    key={item.id}
+                                    path={`/${item.company}/test${item.id}`} component={() => <AllUsers  passers={item.passers ? item.passers : 'no'}/>} />
                             )
                         })}
 
