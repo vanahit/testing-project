@@ -9,8 +9,9 @@ import Loader from '../../components/Loader';
 import CompanySvg from '../../containers/Pages/CompanyInfoPage/CompanySvg';
 
 const CompanySvgDiv = styled.div`
-	margin: 0 auto;
-	width: 100px;
+	margin: 8px auto;
+	width: 150px;
+	height: 150px;
 	fill: rgba(16, 5, 41, 1);
 	:hover {
 		fill: #FF5959;
@@ -22,7 +23,9 @@ const NoTests = styled.div`
 	margin: 100px 0;
 	color: #141218;
 `;
-
+const UserImg = styled.img`
+	height: 110px;
+`;
 const LoaderDiv = styled.div`
 	text-align: center;
 	margin: 200px 0;
@@ -132,7 +135,7 @@ class AllCompanies extends Component {
 
 		}
 		return (
-			this.state.data ?
+			this.state.data.length ?
 				<div className="container-fluid">
 					<Searching
 						{...this.state}
@@ -141,7 +144,7 @@ class AllCompanies extends Component {
 						currentDataLength={currentData.length}
 						selectSearchData={selectSearchData}
 					/>
-					{this.state.data.length ?
+					{this.state.data ?
 						filterData.length ?
 							<div className="content-grid">
 								{currentData.map(item => {
@@ -154,8 +157,8 @@ class AllCompanies extends Component {
 										classNames="slide"
 									>
 										<div className="companyUser" onClick={() => this.props.addCurrentItem(item)} >
-											<CompanySvgDiv> 
-												{item.image ? <img src={item.image} alt="Company"  /> : <CompanySvg />}
+											<CompanySvgDiv className="image-content"> 
+												{item.image ? <UserImg src={item.image} alt="Company"  /> : <CompanySvg />}
 											</CompanySvgDiv>
 											<div className="grid-info">
 												<h2><CompanyName>{item.name}</CompanyName></h2>

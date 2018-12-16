@@ -237,9 +237,9 @@ class UserTests extends Component {
                                                 <span onClick={() => this.deleteTest(item.id)}>Delete</span>
                                             </td>
                                             <td>
-                                             
-                                            <NavLink to={`/test-info-page/${item.id}`} ><Button onClick={() => this.props.addTest(item)}>Start</Button></NavLink>
-                                        
+                                                <NavLink to={`/${this.props.user.firstName}${this.props.user.lastName}/start-test`}>
+                                                    <NavLink to={`/test-info-page/${item.id}`} ><Button onClick={() => this.props.addTest(item)}>Start</Button></NavLink>
+                                                </NavLink>
                                             </td>
                                         </tr>
                                     )

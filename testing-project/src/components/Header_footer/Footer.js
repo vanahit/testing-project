@@ -94,6 +94,7 @@ const LinkSpan = styled(NavLink) `
     font-size: 14px;
 `;
 const FlexChild = styled.div`
+    font-size: 14px;
     position: relative;
     box-sizing: border-box;
     margin: 5px 0;

@@ -13,14 +13,17 @@ const Main = styled.div`
 	margin: auto;
 `;
 const UserSvgDiv = styled.div`
-	margin: 0 auto;
-	width: 100px;
+	margin: 8px auto;
+	width: 150px;
+	height: 150px;
 	fill: rgba(16, 5, 41, 1);
 	:hover {
 		fill: #FF5959;
 	}
 `;
-
+const UserImg = styled.img`
+	height: 110px;
+`;
 const LoaderDiv = styled.div`
 	text-align: center;
 	margin: 200px 0;
@@ -140,8 +143,8 @@ class AllUsers extends Component {
 												classNames="slide"
 											>
 												<div className="companyUser">
-													<UserSvgDiv>
-														{item.image ? <img src={item.image} alt="User"  /> : <UserSvg />}
+													<UserSvgDiv className="image-content">
+														{item.image ? <UserImg src={item.image} alt="User"  /> : <UserSvg />}
 													</UserSvgDiv>
 													<div className="grid-info">
 														<h2>{item.firstName} {item.lastName}</h2>

@@ -3,8 +3,7 @@ import styled from 'styled-components'
 import { connect } from 'react-redux';
 import {increaseUserScore} from '../../store/actions/testPasser';
 import Timer from './Timer';
-import img from '../../images/testPassPanelBg.jpg';
-import { firebase } from '../../firebase/firebase';
+import img from '../../images/testPassPanelBg.jpg'
 
 const Main = styled.div`
 	margin: auto;
@@ -101,17 +100,15 @@ class TestPasser extends Component {
 		super(props);
 		this.state = {
 			testData: this.props.test,
-			currentQuesion: this.props.test.questions[0],
+			currentQuesion: this.props.test.currentQuestionIndex 
+				? this.props.test.questions[this.props.test.currentQuestionIndex] 
+				: this.props.test.questions[0],
         }
         
-        this.id = 0;
+        this.id = this.props.test.currentQuestionIndex ? this.props.test.currentQuestionIndex : 0;
     }
-	componentDidMount() {
-		
-		
-	}	
 
-    changeCurrentQuesion = (id) => {
+	changeCurrentQuesion = (id) => {
         this.setState({currentQuesion: this.state.testData.questions[id]});
     }
 
@@ -131,8 +128,10 @@ class TestPasser extends Component {
         }
 
         if (this.id < this.state.testData.questions.length - 1) {
-            this.id ++;
-            this.changeCurrentQuesion(this.id);
+			this.id ++;
+			this.props.getCurrentIndex(this.id);
+			this.changeCurrentQuesion(this.id);
+			this.sortRandomAnswers();
         } else {
             this.props.testEnded();
         }
@@ -143,13 +142,9 @@ class TestPasser extends Component {
 
   	render() {
 
-        let questions = [];
-        let answers = [];
-
-		if (this.state.testData) {
-            questions = this.state.testData.questions;
-            answers = this.sortRandomAnswers();
-        } 
+        let questions = this.state.testData.questions;
+        let answers = this.state.currentQuesion.answers;
+        
        	return (
 			<Main>
                 {this.state.testData 
@@ -162,8 +157,9 @@ class TestPasser extends Component {
                             </FlexChild>
                             <FlexChild width={'144px'}>
                                 <Timer 
-                                    time={this.state.testData.testDuration}
-                                    testEnded={this.props.testEnded}
+                                    time={this.props.time}
+									testEnded={this.props.testEnded}
+									getTime={this.props.getTime}
                                 /> 
                             </FlexChild>
                         </FlexRow>

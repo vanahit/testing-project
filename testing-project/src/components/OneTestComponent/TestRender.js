@@ -25,18 +25,18 @@ const TestBlock = styled.div`
 `;
 
 const Details = styled.div`
-	padding: 16px;
+	padding: 0 16px;
 `;
 
 const TestTitle = styled.div`
-	font-size: 20px;
+	font-size: 16px;
 	color: #4F9DA6;
 	font-weight: bold;
 	margin-bottom: 8px;
 `;
 
 const Company = styled.div`
-	font-size: 20px;
+	font-size: 16px;
 	color: #FFAD5A;
 	font-weight: bold;
 	margin-bottom: 8px;
@@ -44,19 +44,23 @@ const Company = styled.div`
 
 const Data = styled.span`
 	text-decoration: none;
-	font-size: 20px;
+	font-size: 16px;
 	color: #4F9DA6;
 	margin-bottom: 8px;
 `;
 const PassersLink = styled(NavLink)`
+	margin-top: 8px;
+	display: block;
+	font-size: 18px;
 	text-decoration: underline;
-	font-size: 24px;
-	font-weight: bold;
-	color: #4F9DA6;
-	margin-bottom: 8px;
+	color: rgba(2, 134, 205, 1);
+	: hover {
+		cursor: pointer;
+	
+}
 `;
 const DataTitle = styled.div`
-	font-size: 20px;	
+	font-size: 16px;	
 	color: black;
 	margin-bottom: 8px;
 `;
@@ -77,20 +81,21 @@ const Button = styled.button`
 `;
 const Img = styled.img`
 	margin: 0;
+	margin-bottom: 8px;
 	width: 100%;
 	height: 100%;
 	box-sizing: border-box;
 `;
-const Flex = styled.div`
+const ButtonRight = styled.div`
 	margin: 16px;
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
+	text-align: right;
 `;
 const DetailsLink = styled(NavLink)`
-	font-size: 20px;
+	margin-top: 8px;
+	display: block;
+	font-size: 18px;
 	text-decoration: underline;
-	color:#4F9DA6;
+	color: rgba(2, 134, 205, 1);
 	: hover {
 		cursor: pointer;
 		
@@ -189,22 +194,26 @@ class TestComponent extends Component {
 							{test.company}
 						</Company>
 						<DataTitle>
-							Passes: {' '}
-							<PassersLink to={`/${test.company}/test${test.id}/passers`}>
-								{test.passers ? test.passers.length : 0}
-							</PassersLink>
-						</DataTitle>
-						<DataTitle>
 							Deadline:{' '}
 							<Data>
 								{this.convertDate(test.testDeadline)}
 							</Data>
+							<PassersLink to={`/${test.company}/test${test.id}/passers`}>
+						
+							Passes: {' '}
+							
+								{test.passers ? test.passers.length : 0}
+						
+					
+						</PassersLink>
+							<DetailsLink to={`/test-info-page/${test.id}`}>
+								<span>View Details</span>
+							</DetailsLink>
 						</DataTitle>
 					</Details>
-					<Flex >
-						<DetailsLink to={`/test-info-page/${test.id}`}>
-							<span>View Details</span>
-						</DetailsLink>
+					
+					<ButtonRight>
+						
 						{
                                 (this.props.user && this.props.user.type !== 'company') || !this.props.user ?
                                     <>
@@ -236,7 +245,7 @@ class TestComponent extends Component {
                                     </>
                                     : ""
 						}
-					</Flex>
+					</ButtonRight>
 				</TestBlock>
 			</>
 		);
