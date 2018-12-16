@@ -30,10 +30,12 @@ const LoaderDiv = styled.div`
 `;
 
 const NoTests = styled.div`
+	padding-top: 100px;
 	font-size: 28px;
-	margin: 100px 0;
 	color: #141218;
+	box-sizing: border-box;
 `;
+
 
 class AllUsers extends Component {
 	constructor(props) {

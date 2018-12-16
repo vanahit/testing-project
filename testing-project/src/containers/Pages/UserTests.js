@@ -9,9 +9,10 @@ import { firebase } from '../../firebase/firebase';
 import Loader from '../../components/Loader';
 
 const NoTests = styled.div`
+	padding-top: 100px;
 	font-size: 28px;
-	margin: 100px 0;
 	color: #141218;
+	box-sizing: border-box;
 `;
 
 const LoaderDiv = styled.div`

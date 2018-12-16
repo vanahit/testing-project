@@ -12,10 +12,6 @@ const UserSvgDiv = styled.div`
 	}
 `;
 
-const UserImg = styled.img`
-
-`;
-
 export default function UserInCompany (props) {
 
 	function skills(arr) {
@@ -28,7 +24,7 @@ export default function UserInCompany (props) {
 				</nav>
 				<div className="userContent">
 					<UserSvgDiv className="image-content">
-						{props.item.image ? <UserImg src={props.item.image} alt="User"  /> : <UserSvg />}
+						{props.item.image ? <img src={props.item.image} alt="User"  /> : <UserSvg />}
 					</UserSvgDiv>
 					<div className="infoUser">
 						<h2>{props.item.firstName} {props.item.lastName} </h2>

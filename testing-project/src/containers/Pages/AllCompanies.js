@@ -19,9 +19,10 @@ const CompanySvgDiv = styled.div`
 `;
 
 const NoTests = styled.div`
+	padding-top: 100px;
 	font-size: 28px;
-	margin: 100px 0;
 	color: #141218;
+	box-sizing: border-box;
 `;
 const UserImg = styled.img`
 	height: 110px;

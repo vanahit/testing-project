@@ -3,9 +3,10 @@ import CompanyTests from './CompanyTests';
 import styled from 'styled-components';
 import CompanySvg from './CompanySvg';
 
-const CompanySvgDiv = styled.div`
-	width: 200px;
-	margin: auto;
+const UserSvgDiv = styled.div`
+	margin: 0px auto;
+	margin-right: 20px;
+	width: 250px;
 	:hover {
 		fill: #FF5959;
 	}
@@ -19,8 +20,10 @@ export default function CompaniesInUser(props) {
 					<span>Profile</span>
 				</nav>
 				<div className="userContent">
-					<div className="imgDiv">
-						< CompanySvgDiv> <CompanySvg /> </ CompanySvgDiv>
+					<div className="imgDiv" className="image-content">
+					<UserSvgDiv className="image-content">
+						{props.item.image ? <img src={props.item.image} alt="User"  /> : <CompanySvg />}
+					</UserSvgDiv>
 					</div>
 					<div className="infoUser">
 						<h2>{props.item.name}</h2>

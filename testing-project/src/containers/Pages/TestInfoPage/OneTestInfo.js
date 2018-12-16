@@ -9,11 +9,11 @@ import { addTest } from '../../../store/actions/testPasser';
 
 const Main = styled.div`
     margin: auto;
-    margin-bottom: 100px;
+    padding-bottom: 100px;
     max-width: 1200px;
     color: rgba(16, 5, 41, 1);
     overflow: auto;
-    	   
+    box-sizing: border-box;	   
 	@media screen and (max-width: 1190px) {
 		padding: 0 20px;
         min-width: 100%;
