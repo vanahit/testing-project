@@ -49,7 +49,7 @@ const GetStartedDiv = styled.div`
 
 const FlexRow = styled.div`
     display: flex;
-    margin: 19px auto;
+    margin: 0px auto;
     max-width: 1200px;
     flex-direction: row;
     justify-content: ${props => props.content || 'space-between'};  ;

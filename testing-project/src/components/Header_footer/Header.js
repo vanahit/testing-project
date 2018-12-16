@@ -98,6 +98,11 @@ const Navigation = styled(NavLink)`
         color: #FFAD5A;
         text-decoration: underline;
     }
+    &.active{
+        color: #FFAD5A;
+        fill: #FFAD5A;
+        text-decoration: underline;
+    }
 `;
 const Header = (props) => {
 
@@ -114,7 +119,11 @@ const Header = (props) => {
         <header style={{
             backgroundColor: '#141218',
             width: '100%',
-            margin: 0,        }}>
+            margin: 0, 
+            position: 'fixed',
+            zIndex: 4,
+            top: 0,
+            left: 0       }}>
 
             <FlexRow>
                 <FlexChild width={'200px'}>
@@ -157,7 +166,7 @@ const Header = (props) => {
                     </FlexChild>
                 } 
             </FlexRow>
-
+            
         </header>
     )
 };

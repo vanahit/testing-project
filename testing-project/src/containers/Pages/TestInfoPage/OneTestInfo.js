@@ -7,6 +7,7 @@ import { addUserTest } from '../../../store/actions/appAction';
 const Main = styled.div`
     margin: auto;
     margin-bottom: 100px;
+    margin-top: 100px;
     max-width: 1200px;
     color: rgba(16, 5, 41, 1);
     overflow: auto;
