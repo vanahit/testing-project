@@ -140,7 +140,9 @@ class AllUsers extends Component {
 												classNames="slide"
 											>
 												<div className="companyUser">
-													<UserSvgDiv><UserSvg /></UserSvgDiv>
+													<UserSvgDiv>
+														{item.image ? <img src={item.image} alt="User"  /> : <UserSvg />}
+													</UserSvgDiv>
 													<div className="grid-info">
 														<h2>{item.firstName} {item.lastName}</h2>
 														<div className="skillsDiv">

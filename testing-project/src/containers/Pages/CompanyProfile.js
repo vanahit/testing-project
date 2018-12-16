@@ -9,8 +9,10 @@ class CompanyProfile extends Component {
         super(props);
         this.state = {
             image: null,
-            url: ''
+            url: this.props.user.image,
+            progress: 0
         }
+
     }
 
     chooseImg (e) {
@@ -21,31 +23,53 @@ class CompanyProfile extends Component {
     }
 
     handleUpload () {
+
         const { image } = this.state;
+        if(image){
         const uploadImage = storage.ref(`images/${this.props.user.id}/${image.name}`).put(image);
-        uploadImage.on('state_changed',
-        (snapshot) => {
 
-        },
-        (error) => {
-
-        },
-        () => {
-            storage.ref(`images/${this.props.user.id}`).child(image.name).getDownloadURL().then(url => {
-                console.log(url)
+        
+            uploadImage.on('state_changed',
+            (snapshot) => {
+                const progress = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
+                this.setState({progress})
+            },
+            (error) => {
+                console.log(error);
+            },
+            () => {
+                storage.ref(`images/${this.props.user.id}`).child(image.name).getDownloadURL().then(url => {
+                    console.log(url)
+                    this.setState({url})
+                })
             })
-        })
+        }
+
+    }
+
+    componentDidUpdate (prevProps, prevState) {
+        if(prevState.url !== this.state.url){
+            firebase.database().ref(`companies/${this.props.user.id}`).child('image').set(this.state.url);
+            console.log("update data");
+        }
     }
 
     render() {
+        console.log(this.state.url)
         return (
             <div>
                 <div>
                     <div className='company-profile'>
                         <div className='profile-logo' > 
-                            <CompanySvg /> 
+                            <div className="image-content">
+                                {this.state.url ? <img src={this.state.url} alt="Upload" /> : <CompanySvg /> }
+                                {this.state.url && <div className='uploadOverlay'></div>}
+                                { !this.state.image ? <button onClick={this.handleUpload.bind(this)} className="uploadImage" disabled={true}>Upload</button> : <button onClick={this.handleUpload.bind(this)} className="uploadImage" >Upload</button>}
+                            </div>
+                            {this.state.progress !== 0 && <progress value={this.state.progress} className="progress red upload-progress" max="100" ></progress>}
                             <input type="file" name="file" id="file" className="upload" onChange={this.chooseImg.bind(this)}  />
-                            <button onClick={this.handleUpload.bind(this)}>Upload</button>
+                            
+                            
                         </div>
                         <div className='profile-synopsis'>
                             <div className='profile-synopsis-name'>{this.props.user.name}</div>
