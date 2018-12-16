@@ -1,11 +1,18 @@
 import React, {Component} from 'react';
-import src from '../../images/is.jpg';
 import PassedTests from './PassedTests';
 import UserSvg from './UserSvg';
 import * as firebase from "firebase";
 import {storage} from '../../firebase/firebase'
+import styled from 'styled-components';
 
-
+const CompanySvgDiv = styled.div`
+	margin: 0 auto;
+	width: 100px;
+	fill: rgba(16, 5, 41, 1);
+	:hover {
+		fill: #FF5959;
+	}
+`;
 
 export default class UserProfile extends Component {
 	constructor(props){

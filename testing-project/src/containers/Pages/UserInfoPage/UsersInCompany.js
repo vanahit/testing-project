@@ -4,12 +4,16 @@ import styled from 'styled-components';
 import UserSvg from '../UserSvg';
 
 const UserSvgDiv = styled.div`
-	margin: 30px auto;
+	margin: 0px auto;
 	margin-right: 20px;
-	width: 200px;
+	width: 250px;
 	:hover {
 		fill: #FF5959;
 	}
+`;
+
+const UserImg = styled.img`
+
 `;
 
 export default function UserInCompany (props) {
@@ -23,7 +27,9 @@ export default function UserInCompany (props) {
 					<span>Profile</span>
 				</nav>
 				<div className="userContent">
-					<UserSvgDiv><UserSvg /></UserSvgDiv>
+					<UserSvgDiv className="image-content">
+						{props.item.image ? <UserImg src={props.item.image} alt="User"  /> : <UserSvg />}
+					</UserSvgDiv>
 					<div className="infoUser">
 						<h2>{props.item.firstName} {props.item.lastName} </h2>
 

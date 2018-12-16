@@ -1192,7 +1192,7 @@ img {
 .image-content{
     position: relative;
     width: 250px;
-    height: 200px;
+    height: 250px;
     border-radius: 50%;
     overflow: hidden;
 }

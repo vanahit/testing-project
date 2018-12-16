@@ -37,10 +37,10 @@ const Header = styled.div`
 const GetStartedDiv = styled.div`
     position: absolute;
     display: inline-block;
-    bottom:0;
+    bottom: 0;
     color: white;
     width: 100%;   
-    min-height: ${props => props.height || '100px'};  
+    min-height: 100px;  
     z-index: 1;
     background-color: rgba(20, 18, 24, 0.75);
     font-size: 24px;
@@ -64,10 +64,11 @@ const FlexRow = styled.div`
 
 const GetsStartedText = styled.div`
     display: inline-block;
+    vertical-align: middle;
     max-width: 1018px;
-    margin: 18px 0;
+    margin: 0 0;
     word-wrap: break-word;
-    @media screen and (max-width: 1190px) {
+    @media screen and (max-width: 1000px) {
         padding: 0 10px
         text-align: center;
     }
@@ -78,7 +79,6 @@ const Button = styled(NavLink)`
     border: 0;
     border-radius: 4px;
     padding: 15px;
-    margin: 20px 0;
     color: white;
     text-decoration: none;
     font-weight: bold;
@@ -153,7 +153,7 @@ class HomePage extends Component {
 
                             <Button to="/authorization">
                                 GET STARTED
-                                </Button>
+                            </Button>
 
                         </FlexRow>
                     </GetStartedDiv>
