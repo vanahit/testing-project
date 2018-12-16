@@ -1,4 +1,4 @@
-import {DELETE_TEST, ADD_TEST, INCREASE_USER_SCORE} from './actionTypes'
+import {DELETE_TEST, ADD_TEST, INCREASE_USER_SCORE, GET_TEST_SUCCESS} from './actionTypes'
 
 export function deleteTest() {
     return {
@@ -20,4 +20,9 @@ export function increaseUserScore(score) {
     }
 }
 
-  
+export function getTestSuccess() {
+    return {
+        type: GET_TEST_SUCCESS,
+        
+    }
+}

@@ -1,8 +1,11 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
 import { firebase } from '../../../firebase/firebase';
 import { addUserTest } from '../../../store/actions/appAction';
+import { NavLink } from "react-router-dom";
+import TestPassPanel from '../../../components/TestPassPanel/TestPassPanel';
+import { addTest } from '../../../store/actions/testPasser';
 
 const Main = styled.div`
     margin: auto;
@@ -55,6 +58,14 @@ const Title = styled.div`
     font-size: ${props => props.size || '34px'};  
     color:rgba(79, 157, 166, 1);
 `;
+
+const TitleStart = styled.div`
+    width: 100%;
+    margin: 60px 0;
+    font-size: ${props => props.size || '34px'};  
+    color:rgba(79, 157, 166, 1);
+    border-bottom: 1px solid rgba(220, 220, 220, 1);
+`;
 const Square = styled.span`
     display: inline-block;
     width: 18px;
@@ -62,7 +73,7 @@ const Square = styled.span`
     background-color: #4F9DA6;
 
 `;
-const TestDescription= styled.div`
+const TestDescription = styled.div`
     font-size: 24px;
     color: #FFAD5A;
     margin-bottom: 16px;
@@ -100,129 +111,183 @@ const Button = styled.button`
     font-size: 20px;
 	box-sizing: border-box;
 	: hover {
-		cursor: ${props => props.disabled ? ''  : 'pointer' }
+		cursor: ${props => props.disabled ? '' : 'pointer'}
 	}
+`;
+const AllDiv = styled.div`
+	margin-top: 30px;
+	font-size: 20px;
+    padding-bottom: 10px;
+`;
+
+const LinkDiv = styled(NavLink)`
+    display: inline-block;
+    text-decoration: none;
+    color: #141218;
+    :hover, :active {
+        text-decoration: underline;
+        cursor: pointer;
+    }
 `;
 
 class OneTestInfo extends Component {
+    state = {
+        test: this.props.test,
+        user: this.props.user,
+        started: false,
+    }
 
+    componentDidUpdate(prevProps) {
+        if (this.props.test !== prevProps.test) {
+            this.setState({ test: this.props.test });
+            console.log(this.state.test)
+        }
+        if (this.props.user !== prevProps.user) {
+            this.setState({ user: this.props.user });
+        }
+    }
     add = (test) => {
-       
-		if (this.props.user && this.props.user.type === 'user') {
-			let userUrl = this.props.user.id;
-			firebase.database().ref(`user/${this.props.user.id}/tests`).once('value',  (snapshot)=> {
-				if (snapshot.hasChild(`${test.id}`)) {
-				
-				} else {
-					this.props.userTestAdded();
-					this.props.addUserTest(test);
-					let userRef = firebase.database().ref(`user/${userUrl}`);
-					userRef.child('tests').child(`${test.id}`).set({...test, userScore: -1});
-				}
-			});
-		} else {
-			this.props.testAddClicked();
-		}
+
+        if (this.props.user && this.props.user.type === 'user') {
+            let userUrl = this.props.user.id;
+            firebase.database().ref(`user/${this.props.user.id}/tests`).once('value', (snapshot) => {
+                if (snapshot.hasChild(`${test.id}`)) {
+
+                } else {
+                    this.props.userTestAdded();
+                    this.props.addUserTest(test);
+                    let userRef = firebase.database().ref(`user/${userUrl}`);
+                    userRef.child('tests').child(`${test.id}`).set({ ...test, userScore: -1 });
+                }
+            });
+        } else {
+            this.props.testAddClicked();
+        }
     }
     checkIfAdded = (test) => {
-		if (this.props.user && this.props.user.tests) {
-			for (let i = 0; i < this.props.user.tests.length; i++) {
-				if (test.id === this.props.user.tests[i].id) {
-                    if (this.props.user.tests[i].userScore < 0)  {
+        if (this.props.user && this.props.user.tests) {
+            for (let i = 0; i < this.props.user.tests.length; i++) {
+                if (test.id === this.props.user.tests[i].id) {
+                    if (this.props.user.tests[i].userScore < 0) {
                         return 'added';
                     } else {
                         return 'passed';
                     }
-				} 
+                }
             }
-            
-			return false;
-		}
+
+            return false;
+        }
     }
- 	render() {
-     	return(
-            <Main>
-               <Title>{ this.props.item.title}</ Title>
-                <FlexRow>
-                    <FlexChild >
-                        <TestTitle>{ this.props.item.company}</TestTitle>
-                        <TestDescription>{ this.props.item.testTitle}</TestDescription>
-                        <PassingDescription>
-                             { this.props.item.description}. 
+    startTest = (testId) => {
+        let test = this.props.user.tests.filter(test => test.id === testId);
+        let testObj = test[0];
+        new Promise((resolve) => {
+            this.props.addTest(testObj)
+            this.setState({test: testObj});
+            resolve(this.state.test)
+        }).then(test => {
+            console.log(this.state.test.questions);
+            this.setState({started: true});
+        })
+     
+    }
+
+    render() {
+        return (
+            !this.state.started && this.state.test ?
+                <Main>
+                    {this.props.user && this.props.user.type === 'user' && this.checkIfAdded(this.props.item) === 'added' &&
+                        <>
+                            <AllDiv>
+                                <LinkDiv to={`/${this.props.user.firstName}${this.props.user.lastName}/tests`}> My Account </LinkDiv>
+                                /{' '}
+                                Start tests
+                             </AllDiv>
+                            <TitleStart> Start Test</ TitleStart>
+                        </>
+                    }
+                    <Title>{this.props.item.title}</ Title>
+                    <FlexRow>
+                        <FlexChild >
+                            <TestTitle>{this.props.item.company}</TestTitle>
+                            <TestDescription>{this.props.item.testTitle}</TestDescription>
+                            <PassingDescription>
+                                {this.props.item.description}.
                         </PassingDescription>
-                        <FlexRow>
-                            <FlexChild >
-                                < Square />  
-                                <TestDetails>Test type : </TestDetails>
-                                <TestDetailsValue>{ this.props.item.testType }{''}</TestDetailsValue>
-                            </FlexChild>
-                            <FlexChild >
-                                < Square />  
-                                <TestDetails>Number of questions : </TestDetails>
-                                <TestDetailsValue>{ this.props.item.questions.length}{''}</TestDetailsValue>
-                            </FlexChild>
-                            <FlexChild>
-                                < Square />  
-                                <TestDetails>Time : </TestDetails>
-                                <TestDetailsValue>{ this.props.item.testDuration} minutes</TestDetailsValue>
-                            </FlexChild>
-                            <FlexChild>
-                                < Square />  
-                                <TestDetails>Score : </TestDetails>
-                                <TestDetailsValue>{ this.props.item.totalScore} points</TestDetailsValue>
-                            </FlexChild>
-                        </FlexRow>
-                        
-                        {
+                            <FlexRow>
+                                <FlexChild >
+                                    < Square />
+                                    <TestDetails>Test type : </TestDetails>
+                                    <TestDetailsValue>{this.props.item.testType}{''}</TestDetailsValue>
+                                </FlexChild>
+                                <FlexChild >
+                                    < Square />
+                                    <TestDetails>Number of questions : </TestDetails>
+                                    <TestDetailsValue>{this.props.item.questions.length}{''}</TestDetailsValue>
+                                </FlexChild>
+                                <FlexChild>
+                                    < Square />
+                                    <TestDetails>Time : </TestDetails>
+                                    <TestDetailsValue>{this.props.item.testDuration} minutes</TestDetailsValue>
+                                </FlexChild>
+                                <FlexChild>
+                                    < Square />
+                                    <TestDetails>Score : </TestDetails>
+                                    <TestDetailsValue>{this.props.item.totalScore} points</TestDetailsValue>
+                                </FlexChild>
+                            </FlexRow>
+
+                            {
                                 (this.props.user && this.props.user.type !== 'company') || !this.props.user ?
                                     <>
-                                        {!this.checkIfAdded(this.props.item)  &&
-                                            <Button 
-                                                onClick={() => this.add( this.props.item )}>
-                                                Add test >  
+                                        {!this.checkIfAdded(this.props.item) &&
+                                            <Button
+                                                onClick={() => this.add(this.props.item)}>
+                                                Add test >
                                             </Button>
                                         }
                                         {
-                                        this.checkIfAdded(this.props.item) === 'added' &&
-                                        
-                                            <Button 
+                                            this.checkIfAdded(this.props.item) === 'added' &&
+
+                                            <Button
                                                 color={'#FFAD5A'}
-                                                onClick={() => this.add( this.props.item )}>
-                                                Pass test > 
+                                                onClick={() => this.startTest(this.props.item.id)}>
+                                                Pass test >
                                             </Button>
                                         }
                                         {
-                                        this.checkIfAdded(this.props.item) === 'passed' &&
-                                            <Button 
+                                            this.checkIfAdded(this.props.item) === 'passed' &&
+                                            <Button
                                                 color={'#4F9DA6'}
                                                 disabled
-                                                onClick={() => this.add( this.props.item )}>
-                                                
-                                                Passed 
+                                              >
+
+                                                Passed
                                             </Button>
                                         }
                                     </>
                                     : ""
-						}
-                       
-                    </FlexChild>
-                </FlexRow>
-           </Main>
-         
+                            }
+
+                        </FlexChild>
+                    </FlexRow>
+                </Main>
+                : <TestPassPanel test={this.props.test} user={this.props.user} />
         );
-	}
+    }
 }
 
 function mapStateToProps(state) {
-	return {
+    return {
         test: state.testPasser.testDetails,
-        passingTest: state.appReducer.passingTest,
-	}
+    }
 }
 function mapDispatchToProps(dispatch) {
-	return {
+    return {
         addUserTest: test => dispatch(addUserTest(test)),
-	}
+        addTest: test => dispatch(addTest(test)),
+    }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(OneTestInfo)

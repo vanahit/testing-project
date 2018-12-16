@@ -1,8 +1,9 @@
-import {DELETE_TEST, ADD_TEST, INCREASE_USER_SCORE} from '../actions/actionTypes';
+import {DELETE_TEST, ADD_TEST, INCREASE_USER_SCORE, GET_TEST_SUCCESS} from '../actions/actionTypes';
 
 const initialState = {
-    testDetails: {},
+    testDetails: 'no',
     userScore: 0,
+    testLoaded: false,
 }
 
 export default function testPasser(state = initialState, action) {
@@ -17,6 +18,10 @@ export default function testPasser(state = initialState, action) {
                 ...state,
                 testDetails: action.test,
             }
+        case GET_TEST_SUCCESS:
+            return {
+            testLoaded: true,
+        }
         case INCREASE_USER_SCORE:
             return {
                 ...state,

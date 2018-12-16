@@ -15,7 +15,7 @@ class Timer extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-            minutes: this.props.time,
+            minutes: '',
             seconds: '00',
         }
     }
@@ -47,12 +47,12 @@ class Timer extends Component {
         }
 
         this.secondsRemaining--
+        this.props.getTime(this.secondsRemaining);
     }
         
     startCountDown = () => {
         this.intervalHandle = setInterval(this.tick, 1000);
-        let time = this.state.minutes;
-        this.secondsRemaining = time * 60;
+        this.secondsRemaining = this.props.time;
     }
 
     componentDidMount() {

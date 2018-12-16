@@ -8,6 +8,7 @@ import {
 
 } from '../actions/appAction';
 import { firebase } from '../../firebase/firebase';
+import { addTest, getTestSuccess } from '../actions/testPasser';
 
 export const getTests = () => {
     return dispatch => {
@@ -112,3 +113,13 @@ export const getUsers = () => {
     }
 };
 
+export const getPassingTest = (test) => {
+    return dispatch => {
+        new Promise(resolve => {
+            dispatch(addTest(test));
+            resolve(test);
+        }).then(test => {
+            dispatch(getTestSuccess());
+        })
+    }
+}
