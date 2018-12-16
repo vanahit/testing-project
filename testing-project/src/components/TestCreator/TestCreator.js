@@ -23,6 +23,7 @@ const Main = styled.div`
 	max-width: 1200px;
 	font-size: 24px;
 	overflow: auto;
+	margin-top: 100px;
 `;
 
 const FlexRow = styled.div`
