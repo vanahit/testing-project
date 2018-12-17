@@ -6,6 +6,8 @@ import { connect } from 'react-redux';
 import { editingTest, deleteTest } from '../../store/actions/testCreator';
 import Loader from '../../components/Loader';
 import styled from 'styled-components';
+import PopUpDelete from '../../components/PopUps/PopUpDelete';
+
 
 
 const NoTests = styled.div`
@@ -39,8 +41,9 @@ class CompanyTests extends Component {
 			currentPage: 1,
 			dataPerPage: 4,
 			loadMore: 0,
-			sortType: "testDeadline",
-			orderAscanding: true
+			sortType: "testTitle",
+			orderAscanding: true,
+			testDeletedClicked: false,
 		}
 	}
 
@@ -106,9 +109,13 @@ class CompanyTests extends Component {
 	}
 
 	deleteTest = (itemId) => {
-		this.props.testDeletedClicked();
+		this.testDeletedClicked();
 		this.props.deleteTest(itemId);
 	}
+
+	testDeletedClicked = () => {
+        this.setState({ testDeletedClicked: !this.state.testDeletedClicked });
+    }
 
 	render() {
 		let tests = [];
@@ -166,6 +173,8 @@ class CompanyTests extends Component {
 
 		return (
 			this.state.data.length ?
+			<div>
+			{this.state.testDeletedClicked && <PopUpDelete testDeletedClicked={this.testDeletedClicked} />}
 				<div className="container-table">
 					<Searching
 						{...this.state}
@@ -250,7 +259,7 @@ class CompanyTests extends Component {
 
 						: <LoaderDiv> <Loader /></LoaderDiv>
 					}
-				</div>
+				</div></div>
 				: <NoTests>There is no tests yet <CreateTest to={`/${this.props.user.name}/add-test`}>CREATE TEST</CreateTest></NoTests>
 		);
 	}

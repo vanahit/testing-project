@@ -162,7 +162,7 @@ class TestSlider extends Component {
 			tests = this.state.tests;
 			fillteredTests = tests.filter(item => this.compareDates(item.testDeadline));
 		}
-		tests = tests.slice(0, 10)
+		fillteredTests = fillteredTests.slice(0, 10)
 		return (
 			<>
 				<FlexRow>
