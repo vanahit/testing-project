@@ -6,6 +6,7 @@ import { addUserTest } from '../../../store/actions/appAction';
 import { NavLink } from "react-router-dom";
 import TestPassPanel from '../../../components/TestPassPanel/TestPassPanel';
 import { addTest } from '../../../store/actions/testPasser';
+import PopUpLogin from '../../../components/PopUps/PopUpLogin';
 
 const Main = styled.div`
     margin: auto;
@@ -136,6 +137,7 @@ class OneTestInfo extends Component {
         test: this.props.test,
         user: this.props.user,
         started: false,
+        testAddClicked: false
     }
 
     componentDidUpdate(prevProps) {
@@ -162,7 +164,7 @@ class OneTestInfo extends Component {
                 }
             });
         } else {
-            this.props.testAddClicked();
+            this.testAddClicked();
         }
     }
     checkIfAdded = (test) => {
@@ -193,10 +195,14 @@ class OneTestInfo extends Component {
         })
      
     }
-
+    testAddClicked = () => {
+        this.setState({ testAddClicked: !this.state.testAddClicked });
+    };
     render() {
         return (
             !this.state.started && this.state.test ?
+            <div>
+                {this.state.testAddClicked && <PopUpLogin testAddClicked={this.testAddClicked} />}
                 <Main>
                     {this.props.user && this.props.user.type === 'user' && this.checkIfAdded(this.props.item) === 'added' &&
                         <>
@@ -274,6 +280,7 @@ class OneTestInfo extends Component {
                         </FlexChild>
                     </FlexRow>
                 </Main>
+                </div>
                 : <TestPassPanel test={this.props.test} user={this.props.user} />
         );
     }

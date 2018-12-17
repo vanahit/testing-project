@@ -530,14 +530,14 @@ img {
 
 .content-grid {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
     margin: 20px 0;
     flex-wrap: wrap;
     width: 100%;
 }
 .content-grid-tests {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
     margin: 20px 0;
     flex-wrap: wrap;
     width: 100%;
@@ -639,9 +639,8 @@ img {
 
 .viewMore {
     width: 100%;
-    margin-top: 15px;
     box-sizing: border-box;
-    height: 44px;
+    height: 100%;
     background: #4F9DA6;
     border: none;
     outline: none;
@@ -649,7 +648,9 @@ img {
     cursor: pointer;
     font-size: 20px;
     color: #FFFFFF;
-
+    position: absolute;
+    top: 0;
+    left: 0;
 }
 
 
@@ -677,6 +678,13 @@ img {
     display: inline-block;
     font-size: 20px;
     cursor: pointer;
+    width: 100px;
+}
+
+.loadMore{
+    position: relative;
+    height: 44px;
+    margin-top: 15px;
 }
 
 .pages {
@@ -1251,8 +1259,22 @@ input[type='file']::-webkit-file-upload-button {
     transition: opacity 0.4s linear;
 }
 
+.image-contentCompany img{
+    width: 50%;
+    height: 50%;
+    top: 50%;
+    left: 50%;
+    position: absolute;
+    object-fit: contain;
+    transform: translateY(-50%) translateX(-50%) scale(1, 1);
+}
+
 .image-content:hover img{
     transform: scale(1.2, 1.2);
+}
+
+.image-contentCompany:hover img{
+    transform: translateY(-50%) translateX(-50%) scale(1.2, 1.2);
 }
 
 .image-content:hover .uploadOverlay{
@@ -1275,7 +1297,9 @@ input[type='file']::-webkit-file-upload-button {
 
 .companyUser img{
     height: auto;
-    border-radius: 50%;
+    width: 70%;
+    height: 70%;
+    object-fit: contain;
 }
 
 @media screen and (max-width: 748px){

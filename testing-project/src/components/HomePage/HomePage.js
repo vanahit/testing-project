@@ -9,6 +9,7 @@ import ForOurCompany from './components/ForOurCompany'
 import TestSlider from './components/TestsSlider';
 import { NavLink } from 'react-router-dom';
 import Loader from '../Loader';
+import PopUpLogin from '../PopUps/PopUpLogin';
 
 
 
@@ -129,6 +130,7 @@ class HomePage extends Component {
         super(props);
         this.state = {
             testsLoaded: this.props.testsLoaded,
+            testAddClicked: false
         };
 
     }
@@ -138,8 +140,13 @@ class HomePage extends Component {
             this.setState({ testsLoaded: this.props.testsLoaded });
         }
     }
+    testAddClicked = () => {
+        this.setState({ testAddClicked: !this.state.testAddClicked });
+    };
     render() {
         return (
+            <div>
+            {this.state.testAddClicked && <PopUpLogin testAddClicked={this.testAddClicked} />}
             <Main>
                 <Header>
 
@@ -180,7 +187,7 @@ class HomePage extends Component {
                             this.state.testsLoaded
                                 ? <TestSlider
                                     user={this.props.user}
-                                    testAddClicked={this.props.testAddClicked}
+                                    testAddClicked={this.testAddClicked}
                                     userTestAdded={this.props.userTestAdded}
                                     addCurrentItem={this.props.addCurrentItem}
                                 />
@@ -192,6 +199,7 @@ class HomePage extends Component {
                     </AllTestsDiv>
                 </Body>
             </Main>
+            </div>
         );
     }
 }

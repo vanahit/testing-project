@@ -10,13 +10,14 @@ const Pagination = ({ load_More, loadMore, currentPage, prev, pageClick, next, p
 	return (
 		<PaginationDiv>
 			{((load_More + currentPage) !== pages.length && pages.length !== 1)
-				? <button className="viewMore" onClick={() => loadMore()}>Load More</button> : ""}
+				? <div className="loadMore"><button className="viewMore" onClick={() => loadMore()}>Load More</button></div> : <div className="loadMore"></div>}
 			{pages.length > 1 && <div className="pagination">
 				<div className="paginationContent">
-					{load_More + currentPage !== 1 && <span onClick={() => prev()}> Previous </span>}
+					{load_More + currentPage !== 1 ? <span onClick={() => prev()}> Previous </span> : <span></span>}
 					<div className="pages">
-						<span>Pages:</span>
+						
 						<ul>
+							<span style={{ lineHeight: 2, marginRight: 10 }}>Pages:</span>
 							{
 								pages.map(page => {
 									return (
@@ -32,7 +33,7 @@ const Pagination = ({ load_More, loadMore, currentPage, prev, pageClick, next, p
 							}
 						</ul>
 					</div>
-					{load_More + currentPage !== pages.length && <span onClick={() => next()}> Next </span>}
+					{load_More + currentPage !== pages.length ? <span onClick={() => next()}> Next </span> : <span></span>}
 				</div>
 			</div>}
 		</PaginationDiv>

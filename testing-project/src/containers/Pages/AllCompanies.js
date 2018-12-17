@@ -157,7 +157,7 @@ class AllCompanies extends Component {
 										classNames="slide"
 									>
 										<div className="companyUser" onClick={() => this.props.addCurrentItem(item)} >
-											<CompanySvgDiv className="image-content"> 
+											<CompanySvgDiv className="image-content image-contentCompany"> 
 												{item.image ? <UserImg src={item.image} alt="Company"  /> : <CompanySvg />}
 											</CompanySvgDiv>
 											<div className="grid-info">

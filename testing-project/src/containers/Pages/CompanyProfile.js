@@ -61,7 +61,7 @@ class CompanyProfile extends Component {
                 <div>
                     <div className='company-profile'>
                         <div className='profile-logo' > 
-                            <div className="image-content">
+                            <div className="image-content image-contentCompany">
                                 {this.state.url ? <img src={this.state.url} alt="Upload" /> : <CompanySvg /> }
                                 {this.state.url && <div className='uploadOverlay'></div>}
                                 { !this.state.image ? <button onClick={this.handleUpload.bind(this)} className="uploadImage" disabled={true}>Upload</button> : <button onClick={this.handleUpload.bind(this)} className="uploadImage" >Upload</button>}
