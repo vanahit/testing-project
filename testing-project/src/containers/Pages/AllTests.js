@@ -6,6 +6,7 @@ import { CSSTransition, TransitionGroup } from "react-transition-group";
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 import Loader from '../../components/Loader';
+import PopUpLogin from '../../components/PopUps/PopUpLogin';
 
 const LoaderDiv = styled.div`
 	text-align: center;
@@ -29,6 +30,7 @@ class AllTests extends Component {
 			dataPerPage: 4,
 			loadMore: 0,
 			unMounted: false,
+			testAddClicked: false
 		}
 	}
 	searching(e, searchProp) {
@@ -82,6 +84,10 @@ class AllTests extends Component {
 			return false;
 		}
 	}
+
+	testAddClicked = () => {
+        this.setState({ testAddClicked: !this.state.testAddClicked });
+    };
 	render() {
 		let fillteredTests = [];
 		let tests = [];
@@ -111,6 +117,8 @@ class AllTests extends Component {
 		}
 
 		return (
+			<div>
+			{this.state.testAddClicked && <PopUpLogin testAddClicked={this.testAddClicked} />}
 			this.props.tests ?
 				<div className="container-fluid">
 					<Searching
@@ -135,7 +143,7 @@ class AllTests extends Component {
 													added={this.checkIfAdded(item.id)}
 													test={item}
 													user={this.props.user}
-													testAddClicked={this.props.testAddClicked}
+													testAddClicked={this.testAddClicked}
 													userTestAdded={this.props.userTestAdded}
 												/>
 
@@ -165,6 +173,7 @@ class AllTests extends Component {
 
 
 				: <NoTests> There is no tests yet </NoTests>
+				</div>
 		);
 	}
 }

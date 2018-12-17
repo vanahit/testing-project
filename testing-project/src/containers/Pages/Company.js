@@ -19,7 +19,7 @@ export default class Company extends Component {
                     <Route path="/:company/tests" component={() => 
                         <CompanyTests
                              user={this.props.user} 
-                             testDeletedClicked={this.props.testDeletedClicked}
+                             
                         />}/>
                     <Route path="/:company/invited-users" component={() => <InvitedUsers user={this.props.user} />}/>
 

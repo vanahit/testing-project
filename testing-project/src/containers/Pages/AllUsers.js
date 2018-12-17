@@ -142,7 +142,7 @@ class AllUsers extends Component {
 												timeout={450}
 												classNames="slide"
 											>
-												<div className="companyUser">
+												<div className="">
 													<UserSvgDiv className="image-content">
 														{item.image ? <UserImg src={item.image} alt="User"  /> : <UserSvg />}
 													</UserSvgDiv>

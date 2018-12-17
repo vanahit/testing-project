@@ -20,8 +20,8 @@ import { connect } from 'react-redux';
 import { getCompanies, getTests, getUsers } from './store/thunks/thunks';
 import * as firebase from "firebase";
 import Layout from "./Hoc/Layout";
-import PopUpLogin from './components/PopUps/PopUpLogin';
-import PopUpDelete from './components/PopUps/PopUpDelete';
+// import PopUpLogin from './components/PopUps/PopUpLogin';
+// import PopUpDelete from './components/PopUps/PopUpDelete';
 import PopUpTestAdded from './components/PopUps/PopUpTestAdded';
 import StartTest from './containers/Pages/StartTest';
 import OneTestInfo from './containers/Pages/TestInfoPage/OneTestInfo';
@@ -34,8 +34,6 @@ class App extends Component {
         currentLog: null,
         testsLoaded: this.props.testsLoaded,
         companiesLoaded: this.props.companiesLoaded,
-        testAddClicked: false,
-        testDeletedClicked: false,
         userTestAdded: false,
         user: null
     };
@@ -90,13 +88,8 @@ class App extends Component {
         this.props.getUsers();
     }
 
-    testAddClicked = () => {
-        this.setState({ testAddClicked: !this.state.testAddClicked });
-    };
 
-    testDeletedClicked = () => {
-        this.setState({ testDeletedClicked: !this.state.testDeletedClicked });
-    }
+    
     userTestAdded = () => {
         this.setState({ userTestAdded: !this.state.userTestAdded });
     }
@@ -108,8 +101,8 @@ class App extends Component {
         return (
             <div>
 
-                {this.state.testAddClicked && <PopUpLogin testAddClicked={this.testAddClicked} />}
-                {this.state.testDeletedClicked && <PopUpDelete testDeletedClicked={this.testDeletedClicked} />}
+                
+                
                 {this.state.userTestAdded &&
                     <PopUpTestAdded exists={false} userTestAdded={this.userTestAdded} user={this.state.user}>
                         added to tests in your propfile
@@ -120,7 +113,7 @@ class App extends Component {
                     <Switch className="App">
                         <Route exact path={'/'} component={() =>
                             <HomePage
-                                testAddClicked={this.testAddClicked}
+                                
                                 userTestAdded={this.userTestAdded}
                                 user={this.state.user}
                                 addCurrentItem={this.addCurrentItem}
@@ -128,7 +121,7 @@ class App extends Component {
                             />} />
                         <Route path="/tests/" component={() =>
                             <AllTests
-                                testAddClicked={this.testAddClicked}
+                                
                                 userTestAdded={this.userTestAdded}
                                 user={this.state.user}
                             />} />
@@ -140,7 +133,7 @@ class App extends Component {
                                     component={() => 
                                     <CompaniesInUser 
                                         item={item}
-                                        testAddClicked={this.testAddClicked}
+                                        
                                         userTestAdded={this.userTestAdded}
                                         user={this.state.user}
                                      />} 
@@ -166,7 +159,7 @@ class App extends Component {
                                     <OneTestInfo
                                         user={this.state.user}
                                         item={item}
-                                        testAddClicked={this.testAddClicked}
+                                        
                                         userTestAdded={this.userTestAdded}
                                     />} />
                             )
@@ -211,17 +204,17 @@ class App extends Component {
                                     <Company
                                         currentCompany={this.state.currentLog}
                                         user={this.state.user}
-                                        testDeletedClicked={this.testDeletedClicked} />} />
+                                         />} />
                                 <Route path="/:company/tests" component={() =>
                                     <Company
                                         currentCompany={this.state.currentLog}
                                         user={this.state.user}
-                                        testDeletedClicked={this.testDeletedClicked} />} />
+                                         />} />
                                 <Route path="/:company/invited-users" component={() =>
                                     <Company
                                         currentCompany={this.state.currentLog}
                                         user={this.state.user}
-                                        testDeletedClicked={this.testDeletedClicked} />} />
+                                         />} />
                             </Switch>
                         }
 
