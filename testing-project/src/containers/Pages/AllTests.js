@@ -122,7 +122,9 @@ class AllTests extends Component {
 		return (
 
 			<div>
+				
 			{this.state.testAddClicked && <PopUpLogin testAddClicked={this.testAddClicked} />}
+			{this.props.tests ?
 				<div className="container-fluid">
 					<Searching
 						{...this.state}
@@ -173,9 +175,10 @@ class AllTests extends Component {
 
 
 				</div>
-
+	
 
 				: <NoTests> There is no tests yet </NoTests>
+			}
 				</div>
 		);
 	}

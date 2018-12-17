@@ -196,7 +196,7 @@ class App extends Component {
 
                         {localStorage.getItem("current") === "user"
                             ? <Switch>
-                                {userUnpassedTest.map(test => {
+                                {userUnpassedTest && userUnpassedTest.map(test => {
                                 return(<Route 
                                         key={Date.now() + test.id}
                                         path={`/passing-test/${test.id}`} component={() =>

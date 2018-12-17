@@ -21,7 +21,9 @@ const Main = styled.div`
     
 	}
 `;
-
+const Link = styled(NavLink) `
+    text-decoration: none;
+`;
 const FlexRow = styled.div`
     display: flex;
     width: 100%;
@@ -167,33 +169,22 @@ class OneTestInfo extends Component {
         }
     }
     checkIfAdded = (test) => {
-        if (this.props.user && this.props.user.tests) {
-            for (let i = 0; i < this.props.user.tests.length; i++) {
-                if (test.id === this.props.user.tests[i].id) {
-                    if (this.props.user.tests[i].userScore < 0) {
+		if (this.props.user && this.props.user.tests) {
+			for (let i = 0; i < this.props.user.tests.length; i++) {
+				if (test.id === this.props.user.tests[i].id) {
+                    if (this.props.user.tests[i].userScore < 0 && !this.props.user.tests[i].currentTime)  {
                         return 'added';
+                    } else if (this.props.user.tests[i].currentTime){
+                        return 'continue';
                     } else {
-                        return 'passed';
-                    }
-                }
+						return 'passed';
+					}
+				} 
             }
-
-            return false;
-        }
-    }
-    startTest = (testId) => {
-        let test = this.props.user.tests.filter(test => test.id === testId);
-        let testObj = test[0];
-        new Promise((resolve) => {
-            this.props.addTest(testObj)
-            this.setState({test: testObj});
-            resolve(this.state.test)
-        }).then(test => {
-            console.log(this.state.test.questions);
-            this.setState({started: true});
-        })
-     
-    }
+            
+			return false;
+		}
+	}
     testAddClicked = () => {
         this.setState({ testAddClicked: !this.state.testAddClicked });
     };
@@ -254,13 +245,23 @@ class OneTestInfo extends Component {
                                             </Button>
                                         }
                                         {
-                                            this.checkIfAdded(this.props.item) === 'added' &&
-
-                                            <Button
-                                                color={'#FFAD5A'}
-                                                onClick={() => this.startTest(this.props.item.id)}>
-                                                Pass test >
+                                        this.checkIfAdded(this.props.item) === 'added' &&
+                                            <Link to = {`/passing-test/${this.props.item.id}`} >
+                                                <Button 
+                                                    color={'#FFAD5A'}>
+                                                
+                                                    Pass test > 
+                                                </Button>
+                                            </Link>
+										}
+										{ this.checkIfAdded(this.props.item) === 'continue' &&
+                                        <Link to = {`/passing-test/${this.props.item.id}`} >
+                                            <Button 
+                                                color={'#FFAD5A'}>
+                                              
+											  Continue test > 
                                             </Button>
+										</Link>
                                         }
                                         {
                                             this.checkIfAdded(this.props.item) === 'passed' &&

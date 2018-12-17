@@ -56,7 +56,7 @@ class TestPassPanel extends Component {
 				userTest.child('currentTime').set(this.state.time);
 				userTest.child('currentQuestionIndex').set(this.state.currentIndex);
 
-				if ((this.state.time === 1 || this.state.currentIndex === this.state.test.questions.length) && this.state.unmounted) {
+				if ((this.state.time === 0 || this.state.currentIndex > this.state.test.questions.length - 1) && this.state.unmounted) {
 					userTest.update({userScore: this.props.userScore});
 					let testRef = firebase.database().ref(`tests/${this.props.test.id}`);
 					userTest.child('currentScore').remove();

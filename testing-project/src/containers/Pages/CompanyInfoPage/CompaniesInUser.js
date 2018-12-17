@@ -29,7 +29,7 @@ export default class CompaniesInUser extends Component {
     };
 	render(){
 		return(
-			<div>
+			<Main>
 			{this.state.testAddClicked && <PopUpLogin testAddClicked={this.testAddClicked} />}
 			{this.props.item && <div className="containerUser">
 				<nav className="bar">
@@ -38,7 +38,7 @@ export default class CompaniesInUser extends Component {
 				<div className="userContent">
 					<div className="imgDiv image-content">
 						<UserSvgDiv className="image-content">
-							{props.item.image ? <img src={props.item.image} alt="User" /> : <CompanySvg />}
+							{this.props.item.image ? <img src={this.props.item.image} alt="User" /> : <CompanySvg />}
 						</UserSvgDiv>
 					</div>
 					<div className="infoUser">
@@ -57,7 +57,7 @@ export default class CompaniesInUser extends Component {
 					/> 
 			</div>
 			}
-			</div>
+			</Main>
 			
 		);	
 	}

@@ -169,11 +169,13 @@ class TestComponent extends Component {
 		if (this.props.user && this.props.user.tests) {
 			for (let i = 0; i < this.props.user.tests.length; i++) {
 				if (test.id === this.props.user.tests[i].id) {
-                    if (this.props.user.tests[i].userScore < 0)  {
+                    if (this.props.user.tests[i].userScore < 0 && !this.props.user.tests[i].currentTime)  {
                         return 'added';
+                    } else if (this.props.user.tests[i].currentTime){
+                        return 'continue';
                     } else {
-                        return 'passed';
-                    }
+						return 'passed';
+					}
 				} 
             }
             
@@ -230,6 +232,15 @@ class TestComponent extends Component {
                                                 color={'#FFAD5A'}>
                                               
                                                 Pass test > 
+                                            </Button>
+										</NavLink>
+										}
+										{ this.checkIfAdded(test) === 'continue' &&
+                                        <NavLink to = {`/passing-test/${test.id}`} >
+                                            <Button 
+                                                color={'#FFAD5A'}>
+                                              
+											  Continue test > 
                                             </Button>
 										</NavLink>
                                         }

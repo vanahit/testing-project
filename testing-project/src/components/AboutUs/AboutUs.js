@@ -1,5 +1,5 @@
 import React from 'react';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 import styled from 'styled-components';
 import img from '../../images/Photos/photo-1520492943297-59dc5f2d0fe6.jpg';
 import CompaniesSvg from './CompaniesSvg';
@@ -15,7 +15,7 @@ import Reveal from 'react-reveal/Reveal';
 
 import Loader from '../Loader';
 import Animate from 'react-move/Animate';
-import {easePolyOut} from 'd3-ease';
+import { easePolyOut } from 'd3-ease';
 
 
 const Main = styled.div`
@@ -136,52 +136,53 @@ const TeamBlock = styled.div`
 `;
 
 
-const Box = ({boxIcon, boxItem, count}) => (
-    <BoxStyle>
-        <BoxIcon>{boxIcon}</BoxIcon>
-        <div style={{
-            borderBottom: '1px solid black',
-            width: '270px',
-            textAlign: 'center',
-            fontSize: '60px',
-            paddingBottom: '32px',
-            borderColor: 'white',
-            color: 'white',
-            boxSizing: 'border-box',
-        }}>
-            {count ? count : <Loader/>}
-        </div>
-        <div style={{
-            color: 'white',
-            fontSize: '34px',
-            paddingBottom: '16px',
-            paddingTop: '16px',
-        }}>
-            {boxItem}
-        </div>
-    </BoxStyle>
+const Box = ({ boxIcon, boxItem, count }) => (
+   <BoxStyle>
+      <BoxIcon>{boxIcon}</BoxIcon>
+      <div style={{
+         borderBottom: '1px solid black',
+         width: '270px',
+         textAlign: 'center',
+         fontSize: '60px',
+         paddingBottom: '32px',
+         borderColor: 'white',
+         color: 'white',
+         boxSizing: 'border-box',
+      }}>
+         {count ? count : <Loader />}
+      </div>
+      <div style={{
+         color: 'white',
+         fontSize: '34px',
+         paddingBottom: '16px',
+         paddingTop: '16px',
+      }}>
+         {boxItem}
+      </div>
+   </BoxStyle>
 );
 
 
-const MemberBox = ({image, name, profession}) => (
+const MemberBox = ({ image, name, profession }) => (
    <div>
       <TeamMemberImage style={{
          background: `url(${image})`,
          backgroundRepeat: 'no-repeat',
          backgroundPosition: ' center center',
          backgroundSize: 'cover',
-      }}/>
+      }} />
       <div style={{
          textAlign: 'center',
          margin: '16px 0 30px',
       }}>
-         <div style={{fontSize: '24px', color: '#100529', fontWeight: 'bold', marginBottom: '8px'}}>{name}</div>
-         <div style={{fontSize: '20px', color: '#FFAD5A'}}>{profession}</div>
+         <div style={{ fontSize: '24px', color: '#100529', fontWeight: 'bold', marginBottom: '8px' }}>{name}</div>
+         <div style={{ fontSize: '20px', color: '#FFAD5A' }}>{profession}</div>
       </div>
    </div>
 );
 
 class AboutUs extends React.Component {
+   timeoutId;
    state = {
       show: false,
       members: [
@@ -221,15 +222,19 @@ class AboutUs extends React.Component {
       testStart: 0,
       companyStart: 0,
       userStart: 0,
+
    };
 
    componentDidUpdate(prevProps, prevState, snapshot) {
 
-      setTimeout(() => {
+      this.timeoutId = setTimeout(() => {
          this.showTest();
          this.showCompany();
          this.showUser();
       }, 100)
+   }
+   componentWillUnmount() {
+      clearTimeout(this.timeoutId);
    }
 
    showTest = () => {
@@ -273,10 +278,10 @@ class AboutUs extends React.Component {
                opacity: [1],
                left: [0],
                rotate: [360],
-               timing: {delay: member.delay, duration: 1000, ease: easePolyOut}
+               timing: { delay: member.delay, duration: 1000, ease: easePolyOut }
             }}
          >
-            {({left, opacity}) => {
+            {({ left, opacity }) => {
                return (
                   <div style={{
                      opacity,
@@ -302,37 +307,40 @@ class AboutUs extends React.Component {
       return (
          <div>
             <Main>
-               <Wrapper>
-                  <AboutCheckme>ABOUT CHECK ME</AboutCheckme>
+               <ShadowDiv>
+                  <Wrapper>
 
-                  <Description>
-                     Our main goal is cooperation, which we founded between our users and companies .We give
-                     opportunity
-                     to our users to make achievements by completing tests which created by our companies . It is
-                     important for us to create reliable collaboration. The best achievement will be for our
-                     users ,
-                     to
-                     receive invitation from leading companies. For our companies the best achievement will be
-                     invitation
+                     <AboutCheckme>ABOUT CHECK ME</AboutCheckme>
+
+                     <Description>
+                        Our main goal is cooperation, which we founded between our users and companies .We give
+                        opportunity
+                        to our users to make achievements by completing tests which created by our companies . It is
+                        important for us to create reliable collaboration. The best achievement will be for our
+                        users ,
+                        to
+                        receive invitation from leading companies. For our companies the best achievement will be
+                        invitation
                      the best users to their company. <span
-                     style={{color: '#FFAD5A'}}>DESTINATION WAS ACHIEVES.</span>
-                  </Description>
+                           style={{ color: '#FFAD5A' }}>DESTINATION WAS ACHIEVES.</span>
+                     </Description>
 
-                  <Zoom
-                     onReveal={() => {
-                        this.showTest();
-                        this.showCompany();
-                        this.showUser();
-                     }}
-                  >
-                     <BoxWrapper>
-                        <Box boxIcon={<TestsSvg/>} count={this.state.testStart} boxItem={'TESTS'}/>
-                        <Box boxIcon={<CompaniesSvg/>} count={this.state.companyStart} boxItem={'COMPANIES'}/>
-                        <Box boxIcon={<UsersSvg/>} count={this.state.userStart} boxItem={'USERS'}/>
-                     </BoxWrapper>
-                  </Zoom>
+                     <Zoom
+                        onReveal={() => {
+                           this.showTest();
+                           this.showCompany();
+                           this.showUser();
+                        }}
+                     >
+                        <BoxWrapper>
+                           <Box boxIcon={<TestsSvg />} count={this.state.testStart} boxItem={'TESTS'} />
+                           <Box boxIcon={<CompaniesSvg />} count={this.state.companyStart} boxItem={'COMPANIES'} />
+                           <Box boxIcon={<UsersSvg />} count={this.state.userStart} boxItem={'USERS'} />
+                        </BoxWrapper>
+                     </Zoom>
 
-               </Wrapper>
+                  </Wrapper>
+               </ShadowDiv>
             </Main>
             <TeamBlock>
                <OurTeam>
@@ -343,7 +351,7 @@ class AboutUs extends React.Component {
                <Reveal
                   fraction={1}
                   onReveal={() => {
-                     this.setState({show: true})
+                     this.setState({ show: true })
                   }}
                >
                   <MemberBoxWrapper>
