@@ -9,9 +9,10 @@ import styled from 'styled-components';
 
 
 const NoTests = styled.div`
+	padding-top: 100px;
 	font-size: 28px;
-	margin: 100px 0;
 	color: #141218;
+	box-sizing: border-box;
 `;
 
 const LoaderDiv = styled.div`
@@ -38,7 +39,7 @@ class CompanyTests extends Component {
 			currentPage: 1,
 			dataPerPage: 4,
 			loadMore: 0,
-			sortType: "testTitle",
+			sortType: "testDeadline",
 			orderAscanding: true
 		}
 	}

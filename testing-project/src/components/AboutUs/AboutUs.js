@@ -51,7 +51,9 @@ const Description = styled.div`
 		min-width: 100%;
     }
 `;
-
+const ShadowDiv = styled.div`
+    background-color: rgba(20, 18, 24, 0.75);
+`;
 const BoxWrapper = styled.div`
       width: 1200px;
       display: flex;
@@ -69,8 +71,8 @@ const BoxWrapper = styled.div`
 const BoxStyle = styled.div`
     width:368px;
     height:294px;
-    background-color:#FF5959;
-    opacity:0.7;
+    background-color: rgba(255, 89, 89, 0.7);
+    color: white;
     display:flex;
     flex-direction:column;
     align-items:center;   
@@ -142,16 +144,18 @@ const Box = ({boxIcon, boxItem, count}) => (
             width: '270px',
             textAlign: 'center',
             fontSize: '60px',
-            paddingBottom: '40px',
+            paddingBottom: '32px',
             borderColor: 'white',
             color: 'white',
+            boxSizing: 'border-box',
         }}>
             {count ? count : <Loader/>}
         </div>
         <div style={{
             color: 'white',
             fontSize: '34px',
-            marginTop: '15px',
+            paddingBottom: '16px',
+            paddingTop: '16px',
         }}>
             {boxItem}
         </div>
@@ -263,6 +267,7 @@ class AboutUs extends React.Component {
         return (
             <div>
                 <Main>
+                    <ShadowDiv>
                     <Wrapper>
                         <AboutCheckme>ABOUT CHECK ME</AboutCheckme>
 
@@ -288,6 +293,7 @@ class AboutUs extends React.Component {
                         </Zoom>
 
                     </Wrapper>
+                    </ShadowDiv>
                 </Main>
                 <TeamBlock>
                     <OurTeam>

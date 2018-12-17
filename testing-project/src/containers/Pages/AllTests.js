@@ -13,7 +13,9 @@ const LoaderDiv = styled.div`
 	
 `;
 const NoTests = styled.div`
-	padding-top: 100px;
+	width: 1200px;
+	margin: auto;
+	padding-top: 200px;
 	font-size: 28px;
 	color: #141218;
 	box-sizing: border-box;
@@ -112,7 +114,7 @@ class AllTests extends Component {
 		}
 
 		return (
-			this.props.tests ?
+			tests ?
 				<div className="container-fluid">
 					<Searching
 						{...this.state}

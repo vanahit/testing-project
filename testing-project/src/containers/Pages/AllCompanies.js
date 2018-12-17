@@ -19,11 +19,14 @@ const CompanySvgDiv = styled.div`
 `;
 
 const NoTests = styled.div`
+	width: 1200px;
+	margin: auto;
 	padding-top: 100px;
 	font-size: 28px;
 	color: #141218;
 	box-sizing: border-box;
 `;
+
 const UserImg = styled.img`
 	height: 110px;
 `;
@@ -136,7 +139,7 @@ class AllCompanies extends Component {
 
 		}
 		return (
-			this.state.data.length ?
+			this.props.companies ?
 				<div className="container-fluid">
 					<Searching
 						{...this.state}
@@ -145,7 +148,7 @@ class AllCompanies extends Component {
 						currentDataLength={currentData.length}
 						selectSearchData={selectSearchData}
 					/>
-					{this.state.data ?
+					{companies.length ?
 						filterData.length ?
 							<div className="content-grid">
 								{currentData.map(item => {

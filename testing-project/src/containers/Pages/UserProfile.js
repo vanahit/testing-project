@@ -5,13 +5,8 @@ import * as firebase from "firebase";
 import {storage} from '../../firebase/firebase'
 import styled from 'styled-components';
 
-const CompanySvgDiv = styled.div`
-	margin: 0 auto;
-	width: 100px;
-	fill: rgba(16, 5, 41, 1);
-	:hover {
-		fill: #FF5959;
-	}
+const Main = styled.div`
+	box-sizing: border-box;
 `;
 
 export default class UserProfile extends Component {
@@ -66,7 +61,7 @@ export default class UserProfile extends Component {
 
 	render(){
 		return (
-			<div>
+			<Main>
 				<div className="userContent company-profile">
 					<div className='profile-logo' > 
                         <div className="image-content">
@@ -91,7 +86,7 @@ export default class UserProfile extends Component {
 				</div>
 				<div className="labelHeader">Passed Tests</div>
 				<PassedTests user={this.props.user} />
-			</div>
+			</Main>
 		);
 	}
 

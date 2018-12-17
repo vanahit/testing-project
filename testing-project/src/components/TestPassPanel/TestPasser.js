@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import styled from 'styled-components'
 import { connect } from 'react-redux';
-import {increaseUserScore} from '../../store/actions/testPasser';
+import { increaseUserScore } from '../../store/actions/testPasser';
 import Timer from './Timer';
 import img from '../../images/testPassPanelBg.jpg'
 
@@ -100,93 +100,93 @@ class TestPasser extends Component {
 		super(props);
 		this.state = {
 			testData: this.props.test,
-			currentQuesion: this.props.test.currentQuestionIndex 
-				? this.props.test.questions[this.props.test.currentQuestionIndex] 
+			currentQuesion: this.props.test.currentQuestionIndex && this.props.test.currentQuestionIndex
+				? this.props.test.questions[this.props.test.currentQuestionIndex]
 				: this.props.test.questions[0],
-        }
-        
-        this.id = this.props.test.currentQuestionIndex ? this.props.test.currentQuestionIndex : 0;
-    }
+		}
+
+		this.id = this.props.test.currentQuestionIndex ? this.props.test.currentQuestionIndex : 0;
+	}
 
 	changeCurrentQuesion = (id) => {
-        this.setState({currentQuesion: this.state.testData.questions[id]});
-    }
+		this.setState({ currentQuesion: this.state.testData.questions[id] });
+	}
 
-    sortRandomAnswers = () => {
-        function sortRandom (a, b) {
-            return Math.random() - 0.5;
-        }
-        if (this.state.currentQuesion.answers) {
-            let answers = this.state.currentQuesion.answers;
-            return  answers.sort(sortRandom);
-        }
-    }
+	sortRandomAnswers = () => {
+		function sortRandom(a, b) {
+			return Math.random() - 0.5;
+		}
+		if (this.state.currentQuesion.answers) {
+			let answers = this.state.currentQuesion.answers;
+			return answers.sort(sortRandom);
+		}
+	}
 
-    choosedAnswer = (e) => {
-        if (+e.target.id === this.state.currentQuesion.isRight) {
-            this.props.increaseUserScore(this.state.currentQuesion.score);
-        }
+	choosedAnswer = (e) => {
+		if (+e.target.id === this.state.currentQuesion.isRight) {
+			this.props.increaseUserScore(this.state.currentQuesion.score);
+		}
 
-        if (this.id < this.state.testData.questions.length - 1) {
-			this.id ++;
+		if (this.id < this.state.testData.questions.length - 1) {
+			this.id++;
 			this.props.getCurrentIndex(this.id);
 			this.changeCurrentQuesion(this.id);
 			this.sortRandomAnswers();
-        } else {
-            this.props.testEnded();
-        }
+		} else {
+			this.props.testEnded();
+		}
 	}
 	componentWillUnmount() {
 		this.props.testEnded();
 	}
 
-  	render() {
+	render() {
 
-        let questions = this.state.testData.questions;
-        let answers = this.state.currentQuesion.answers;
-        
-       	return (
+		let questions = this.state.testData.questions;
+		let answers = this.state.currentQuesion.answers;
+
+		return (
 			<Main>
-                {this.state.testData 
-               		?  <div>
-                        <FlexRow>
-						   <FlexChild width={'calc(100% - 144px)'}>
-							   <QuestionNumber> 
-								   Question {this.id + 1}/{questions.length}
+				{this.state.testData
+					? <div>
+						<FlexRow>
+							<FlexChild width={'calc(100% - 144px)'}>
+								<QuestionNumber>
+									Question {this.id + 1}/{questions.length}
 								</QuestionNumber>
-                            </FlexChild>
-                            <FlexChild width={'144px'}>
-                                <Timer 
-                                    time={this.props.time}
+							</FlexChild>
+							<FlexChild width={'144px'}>
+								<Timer
+									time={this.props.time}
 									testEnded={this.props.testEnded}
 									getTime={this.props.getTime}
-                                /> 
-                            </FlexChild>
-                        </FlexRow>
-                        <FlexRow >
-                            <FlexChild width={'100%'}>
-                                <AnswerTitle>
+								/>
+							</FlexChild>
+						</FlexRow>
+						<FlexRow >
+							<FlexChild width={'100%'}>
+								<AnswerTitle>
 									<AnswerText>
 										{questions.length && this.state.currentQuesion.questionTitle}
 									</AnswerText>
-                                </AnswerTitle>
-                            </FlexChild>
-                        </FlexRow>
-                        {   
-                            answers.map((answer, index) => (
+								</AnswerTitle>
+							</FlexChild>
+						</FlexRow>
+						{
+							answers.map((answer, index) => (
 
-                                <FlexRow key={`answer${index}`}>
-                                    <FlexChildAnswer  
-                                        width={'100%'}
-                                        id={answer.id}
-                                        onClick={this.choosedAnswer}
-                                    >
-                                        {answer.title}
-                                    </FlexChildAnswer>
-                                </FlexRow>
-                            ))
-                        }
-                    </div>
+								<FlexRow key={`answer${index}`}>
+									<FlexChildAnswer
+										width={'100%'}
+										id={answer.id}
+										onClick={this.choosedAnswer}
+									>
+										{answer.title}
+									</FlexChildAnswer>
+								</FlexRow>
+							))
+						}
+					</div>
 
 					: 'LOADER'
 				}
@@ -195,17 +195,12 @@ class TestPasser extends Component {
 	}
 }
 
-function mapStateToProps(state) {
-	return {
-        
-	}
-}
 
 function mapDispatchToProps(dispatch) {
 	return {
-        increaseUserScore: (score) => dispatch(increaseUserScore(score)),
+		increaseUserScore: (score) => dispatch(increaseUserScore(score)),
 	}
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(TestPasser)
+export default connect(null, mapDispatchToProps)(TestPasser)
 

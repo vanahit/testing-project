@@ -6,6 +6,9 @@ import styled from 'styled-components';
 import { NavLink } from "react-router-dom";
 import Loader from '../../components/Loader';
 
+const Main = styled.div`
+	box-sizing: border-box;
+`;
 
 const NoTests = styled.div`
 	padding-top: 100px;
@@ -172,7 +175,7 @@ class PassedTests extends Component {
 
 		return (
 			tests.length ?
-				<div className="container-table">
+				<Main className="container-table">
 					<Searching
 						{...this.state}
 						data={tests}
@@ -241,7 +244,7 @@ class PassedTests extends Component {
 						: <LoaderDiv><Loader /></LoaderDiv>
 
 					}
-				</div>
+				</Main>
 				: <NoTests> There is no passed tests yet {' '}
 					{((this.props.userId && (this.props.user.id === this.props.userId)) || !this.props.userId) &&
 						<>

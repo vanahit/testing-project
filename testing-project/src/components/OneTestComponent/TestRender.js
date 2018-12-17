@@ -12,6 +12,7 @@ import { connect } from 'react-redux';
 import { addUserTest } from '../../store/actions/appAction';
 import { firebase } from '../../firebase/firebase';
 import { NavLink } from "react-router-dom";
+import { addTest } from '../../store/actions/testPasser';
 
 const TestBlock = styled.div`
 	position: relative;
@@ -179,7 +180,6 @@ class TestComponent extends Component {
 			return false;
 		}
 	}
-	
 	render() {
 		let test = this.props.test;
 		return (
@@ -225,28 +225,33 @@ class TestComponent extends Component {
                                         }
                                         {
                                         this.checkIfAdded(test) === 'added' &&
-                                        
+                                        <NavLink to = {`/passing-test/${test.id}`} >
                                             <Button 
-                                                color={'#FFAD5A'}
-                                                onClick={() => this.add( test )}>
+                                                color={'#FFAD5A'}>
+                                              
                                                 Pass test > 
                                             </Button>
+										</NavLink>
                                         }
+										
                                         {
-                                        this.checkIfAdded(test) === 'passed' &&
-                                            <Button 
+										this.checkIfAdded(test) === 'passed' &&
+										
+									        <Button 
                                                 color={'#4F9DA6'}
                                                 disabled
-                                                onClick={() => this.add( test )}>
+                                               >
                                                 
                                                 Passed 
-                                            </Button>
+											</Button>
+										
                                         }
                                     </>
                                     : ""
 						}
 					</ButtonRight>
 				</TestBlock>
+			
 			</>
 		);
 	}
@@ -255,6 +260,7 @@ class TestComponent extends Component {
 function mapDispatchToProps(dispatch) {
 	return {
 		addUserTest: test => dispatch(addUserTest(test)),
+		addTest: test => dispatch(addTest(test)),
 	}
 }
 

@@ -5,14 +5,15 @@ import { connect } from 'react-redux';
 
 const Main = styled.div`
     margin: auto;
-    margin-top: 100px;
-    margin-bottom: 200px;
+    padding-top: 100px;
+    padding-bottom: 200px;
     max-width: 1200px;
     min-height: 260px;
     background-color: #F5F5F5;
     color: rgba(16, 5, 41, 1);
     box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.16);
-	overflow: auto;
+    overflow: auto;
+    box-sizing: border-box;
 `;
 const FlexRow = styled.div`
 	display: flex;

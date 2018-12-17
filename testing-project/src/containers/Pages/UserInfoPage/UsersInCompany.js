@@ -11,20 +11,25 @@ const UserSvgDiv = styled.div`
 		fill: #FF5959;
 	}
 `;
+const Main = styled.div`
+	padding-top: 77px;
+	box-sizing: border-box;
+`;
 
-export default function UserInCompany (props) {
+export default function UserInCompany(props) {
 
 	function skills(arr) {
 		return arr.join(', ')
 	}
 	return (
-			props.item && <div className="containerUser">
+		<Main>
+			{props.item && <div className="containerUser">
 				<nav className="bar">
 					<span>Profile</span>
 				</nav>
 				<div className="userContent">
 					<UserSvgDiv className="image-content">
-						{props.item.image ? <img src={props.item.image} alt="User"  /> : <UserSvg />}
+						{props.item.image ? <img src={props.item.image} alt="User" /> : <UserSvg />}
 					</UserSvgDiv>
 					<div className="infoUser">
 						<h2>{props.item.firstName} {props.item.lastName} </h2>
@@ -39,17 +44,18 @@ export default function UserInCompany (props) {
 						<div className="skillsDivUser">
 							{props.currentUser && props.currentUser.type === 'company' &&
 								<>
-								<span className="gray">E-mail: </span>
-								<span className="orange"> {props.item.email} </span>
+									<span className="gray">E-mail: </span>
+									<span className="orange"> {props.item.email} </span>
 								</>
 							}
-							
-						
+
+
 						</div>
 					</div>
 				</div>
 				<div className="labelHeader">Companies Tests</div>
-				<PassedTests user={props.item} userId={props.userId}  currentUser={props.currentUser}  />
-			</div>
-		);
+				<PassedTests user={props.item} userId={props.userId} currentUser={props.currentUser} />
+			</div>}
+		</Main>
+	);
 }

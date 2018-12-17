@@ -30,7 +30,7 @@ const FlexRow = styled.div`
 	@media screen and (max-width: 1190px) {
         flex-direction: column;
         text-align: center;
-		min-width: 100%;
+        min-width: 100%;
     }
    
 `;
@@ -128,7 +128,7 @@ const Header = (props) => {
             <FlexRow>
                 <FlexChild width={'200px'}>
                     <NavLink to={'/'}>
-                        <LogoDiv><Logo /></LogoDiv>
+                        <LogoDiv ><Logo /></LogoDiv>
                     </NavLink>
                 </FlexChild>
 
@@ -142,11 +142,11 @@ const Header = (props) => {
                 </FlexChild>
 
                 {props.user ?
-                    <FlexChild>
+                    <FlexChild >
                          {props.user.type === "company" 
                             ? 
 
-                                <MyAccount to={`/${props.user.name}/profile`}> 
+                                <MyAccount  to={`/${props.user.name}/profile`}> 
                                     {props.user.name}
                                     <IconSizes><CompanyIcon /></IconSizes>
                                 </MyAccount> 

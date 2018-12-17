@@ -26,7 +26,7 @@ const Main = styled.div`
 const Header = styled.div`
     position: relative;
     width: 100%;   
-    height: 600px;		
+    height: 700px;		
     background-image: url(${mainBackground});
     background-position: center; 
     background-repeat: no-repeat; 
@@ -38,6 +38,7 @@ const GetStartedDiv = styled.div`
     position: absolute;
     display: inline-block;
     bottom: 0;
+    padding: 18px;
     color: white;
     width: 100%;   
     min-height: 100px;  
@@ -61,6 +62,7 @@ const FlexRow = styled.div`
         min-width: 100%;
     }
 `;
+
 
 const GetsStartedText = styled.div`
     display: inline-block;

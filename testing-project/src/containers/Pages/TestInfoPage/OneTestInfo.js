@@ -9,7 +9,7 @@ import { addTest } from '../../../store/actions/testPasser';
 
 const Main = styled.div`
     margin: auto;
-    padding-bottom: 100px;
+    padding-top: 130px;
     max-width: 1200px;
     color: rgba(16, 5, 41, 1);
     overflow: auto;

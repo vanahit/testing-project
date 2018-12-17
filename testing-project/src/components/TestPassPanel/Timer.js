@@ -15,7 +15,7 @@ class Timer extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-            minutes: '',
+            minutes: Math.floor(this.props.time / 60),
             seconds: '00',
         }
     }

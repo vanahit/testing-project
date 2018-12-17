@@ -8,6 +8,10 @@ import { addTest } from '../../store/actions/testPasser';
 import { firebase } from '../../firebase/firebase';
 import Loader from '../../components/Loader';
 
+const Main = styled.div`
+	box-sizing: border-box;
+`;
+
 const NoTests = styled.div`
 	padding-top: 100px;
 	font-size: 28px;
@@ -179,87 +183,99 @@ class UserTests extends Component {
         }
 
         return (
-            currentData.length ?
-                <div className="container-table">
-                    <Searching
-                        {...this.state}
-                        data={tests}
-                        searching={this.searching.bind(this)}
-                        currentDataLength={currentData.length}
-                        selectSearchData={selectSearchData}
-                    />
-                    <table className="dataTable">
-                        <thead>
-                            <tr>
-                                <th onClick={this.sorting.bind(this, "testTitle")}>
-                                    {sortType === "testTitle" && orderAscanding &&
-                                        <span className="sortArrowBottom"></span>}
-                                    {sortType === "testTitle" && !orderAscanding &&
-                                        <span className="sortArrowTop"></span>}
-                                    Title
-                        </th>
-                                <th onClick={this.sorting.bind(this, "testType")}>
-                                    {sortType === "testType" && orderAscanding &&
-                                        <span className="sortArrowBottom"></span>}
-                                    {sortType === "testType" && !orderAscanding &&
-                                        <span className="sortArrowTop"></span>}
-                                    Type
-                        </th>
-                                <th onClick={this.sorting.bind(this, "company")}>
-                                    {sortType === "company" && orderAscanding &&
-                                        <span className="sortArrowBottom"></span>}
-                                    {sortType === "company" && !orderAscanding &&
-                                        <span className="sortArrowTop"></span>}
-                                    Company
-                        </th>
-                                <th onClick={this.sorting.bind(this, "testDeadline")}>
-                                    {sortType === "testDeadline" && orderAscanding &&
-                                        <span className="sortArrowBottom"></span>}
-                                    {sortType === "testDeadline" && !orderAscanding &&
-                                        <span className="sortArrowTop"></span>}
-                                    Deadline
-                        </th>
-                                <th>Delete</th>
-                                <th>Enrole Tests</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {this.state.tests ?
-                                currentData.map(item => {
-                                    return (
-                                        <tr key={item.id}>
-                                            <td>{item.testTitle}</td>
-                                            <td>{item.testType}</td>
-                                            <td>{item.company}</td>
-                                            <td>
-                                                {this.deadline(item.testDeadline)}
-                                            </td>
-                                            <td>
-                                                <span onClick={() => this.deleteTest(item.id)}>Delete</span>
-                                            </td>
-                                            <td>
-                                                <NavLink to={`/${this.props.user.firstName}${this.props.user.lastName}/start-test`}>
-                                                    <NavLink to={`/test-info-page/${item.id}`} ><Button onClick={() => this.props.addTest(item)}>Start</Button></NavLink>
-                                                </NavLink>
-                                            </td>
-                                        </tr>
-                                    )
-                                })
-                                : <LoaderDiv> <Loader /> </LoaderDiv>
-                            }
-                        </tbody>
+            tests.length ?
+                <Main className="container-table">
+                    {tests ?
+                        <>
+                            <Searching
+                                {...this.state}
+                                data={tests}
+                                searching={this.searching.bind(this)}
+                                currentDataLength={currentData.length}
+                                selectSearchData={selectSearchData}
+                            />
+                            {filterData.length ?
+                                <>
+                                    <table className="dataTable">
+                                        <thead>
+                                            <tr>
+                                                <th onClick={this.sorting.bind(this, "testTitle")}>
+                                                    {sortType === "testTitle" && orderAscanding &&
+                                                        <span className="sortArrowBottom"></span>}
+                                                    {sortType === "testTitle" && !orderAscanding &&
+                                                        <span className="sortArrowTop"></span>}
+                                                    Title
+                                                </th>
+                                                <th onClick={this.sorting.bind(this, "testType")}>
+                                                    {sortType === "testType" && orderAscanding &&
+                                                        <span className="sortArrowBottom"></span>}
+                                                    {sortType === "testType" && !orderAscanding &&
+                                                        <span className="sortArrowTop"></span>}
+                                                    Type
+                                                </th>
+                                                <th onClick={this.sorting.bind(this, "company")}>
+                                                    {sortType === "company" && orderAscanding &&
+                                                        <span className="sortArrowBottom"></span>}
+                                                    {sortType === "company" && !orderAscanding &&
+                                                        <span className="sortArrowTop"></span>}
+                                                    Company
+                                                </th>
+                                                <th onClick={this.sorting.bind(this, "testDeadline")}>
+                                                    {sortType === "testDeadline" && orderAscanding &&
+                                                        <span className="sortArrowBottom"></span>}
+                                                    {sortType === "testDeadline" && !orderAscanding &&
+                                                        <span className="sortArrowTop"></span>}
+                                                    Deadline
+                                                </th>
+                                                <th>Delete</th>
+                                                <th>Enrole Tests</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {this.state.tests ?
+                                                currentData.map(item => {
+                                                    return (
+                                                        <tr key={item.id}>
+                                                            <td>{item.testTitle}</td>
+                                                            <td>{item.testType}</td>
+                                                            <td>{item.company}</td>
+                                                            <td>
+                                                                {this.deadline(item.testDeadline)}
+                                                            </td>
+                                                            <td>
+                                                                <span onClick={() => this.deleteTest(item.id)}>Delete</span>
+                                                            </td>
+                                                            <td>
+                                                               
+                                                                    <NavLink to={`/passing-test/${item.id}`} ><Button >Start</Button></NavLink>
+                                                               
+                                                            </td>
+                                                        </tr>
+                                                    )
+                                                })
+                                                : <LoaderDiv> <Loader /> </LoaderDiv>
+                                            }
+                                        </tbody>
 
-                    </table>
-                    <Pagination
-                        load_More={loadMore}
-                        loadMore={this.loadMore.bind(this)}
-                        currentPage={currentPage}
-                        prev={this.prev.bind(this)}
-                        pageClick={this.pageClick.bind(this)}
-                        next={this.next.bind(this)}
-                        pages={pages}
-                    />
-                </div>
+                                    </table>
+                                    <Pagination
+                                        load_More={loadMore}
+                                        loadMore={this.loadMore.bind(this)}
+                                        currentPage={currentPage}
+                                        prev={this.prev.bind(this)}
+                                        pageClick={this.pageClick.bind(this)}
+                                        next={this.next.bind(this)}
+                                        pages={pages}
+                                    />
+                                </>
+                                : <NoTests>Sorry, nothing was found!</NoTests>}
+                        </>
+
+                        : <LoaderDiv>  <Loader /> </LoaderDiv>
+                    }
+
+                </Main>
+
                 : <NoTests> There is no tests yet {' '}
                     <TestsLink to={`/tests`} >  add test </TestsLink>
                 </NoTests>

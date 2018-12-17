@@ -30,12 +30,13 @@ const LoaderDiv = styled.div`
 `;
 
 const NoTests = styled.div`
-	padding-top: 100px;
+	width: 1200px;
+	margin: auto;
+	padding-top: 200px;
 	font-size: 28px;
 	color: #141218;
 	box-sizing: border-box;
 `;
-
 
 class AllUsers extends Component {
 	constructor(props) {
@@ -97,10 +98,10 @@ class AllUsers extends Component {
 	render() {
 		const selectSearchData = ['HTML', 'CSS', 'JavaScript', 'Java', 'Python', 'C#', 'Ruby', 'Swift', 'React', 'Redux', 'C++', 'PHP', 'MySQL'];
 		const { search, type, currentPage, dataPerPage, loadMore } = this.state;
-		let users = [];
+		let users = 'no';
 		if (this.props.passers) {
-			users = this.props.passers !== 'no' ?	users = this.state.passers : [];
-		} else if (this.state.data) {
+			users = this.props.passers !== 'no' ? users = this.state.passers : [];
+		} else if (this.state.data && !this.props.passers) {
 			users = this.state.data;
 		}
 
@@ -123,7 +124,7 @@ class AllUsers extends Component {
 		}
 		return (
 			<Main>
-			{users.length ?
+			{this.props.passers !== 'no' || this.state.users ?
 				<div className="container-fluid">
 					<Searching
 						{...this.state}
@@ -131,7 +132,7 @@ class AllUsers extends Component {
 						currentDataLength={currentData.length}
 						selectSearchData={selectSearchData}
 					/>
-					{this.state.data.length ?
+					{users.length ? 
 						filterData.length ?
 							<div className="content-grid">
 
@@ -181,7 +182,7 @@ class AllUsers extends Component {
 							</div>
 							: <NoTests>Sorry, nothing was found!</NoTests>
 
-						: <LoaderDiv><Loader /></LoaderDiv>
+						: <LoaderDiv> <Loader /></LoaderDiv>
 					}
 				</div>
 				: <NoTests> {this.props.passers ? 'There is no passers yet' : 'There is no users yet' } </NoTests>

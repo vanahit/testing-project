@@ -23,8 +23,8 @@ import Layout from "./Hoc/Layout";
 import PopUpLogin from './components/PopUps/PopUpLogin';
 import PopUpDelete from './components/PopUps/PopUpDelete';
 import PopUpTestAdded from './components/PopUps/PopUpTestAdded';
-import StartTest from './containers/Pages/StartTest';
 import OneTestInfo from './containers/Pages/TestInfoPage/OneTestInfo';
+import TestPassPanel from './components/TestPassPanel/TestPassPanel';
 
 
 class App extends Component {
@@ -38,6 +38,7 @@ class App extends Component {
         testDeletedClicked: false,
         userTestAdded: false,
         user: null
+
     };
     passers = 0;
 
@@ -105,6 +106,11 @@ class App extends Component {
     }
 
     render() {
+       let userUnpassedTest = [];
+       if (this.state.user && this.state.user.type === 'user') {
+        userUnpassedTest = this.state.user.tests.filter(test => test.userScore === -1);
+        console.log(userUnpassedTest);
+       }
         return (
             <div>
 
@@ -171,7 +177,8 @@ class App extends Component {
                                     />} />
                             )
                         })}
-
+                        
+                       
                         {this.props.tests && this.props.tests.map(item => {
                             this.passers = item.passers;
                             return (
@@ -196,8 +203,12 @@ class App extends Component {
 
                         {localStorage.getItem("current") === "user"
                             ? <Switch>
-                                <Route path="/:user/start-test" component={() =>
-                                    <StartTest user={this.state.user} />} />
+                                {userUnpassedTest.map(test => {
+                                return(<Route 
+                                        key={Date.now() + test.id}
+                                        path={`/passing-test/${test.id}`} component={() =>
+                                    <TestPassPanel test={test} user={this.state.user}   />} />)
+                                })}
                                 <Route path="/:user/profile" component={() => <User currentCompany={this.state.currentLog} user={this.state.user} />} />
                                 <Route path="/:user/tests" component={() => <User currentCompany={this.state.currentLog} user={this.state.user} />} /> 
                             </Switch>
@@ -242,6 +253,7 @@ function mapStateToProps(state) {
         users: state.appReducer.users,
         companies: state.appReducer.companies,
         tests: state.appReducer.tests,
+        test: state.testPasser.testDetails,
     }
 }
 

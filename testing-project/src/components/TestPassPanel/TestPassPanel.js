@@ -5,10 +5,12 @@ import TestFinished from './TestFinished';
 import TestPasser from './TestPasser';
 import {deleteTest, increaseUserScore} from '../../store/actions/testPasser';
 import { firebase } from '../../firebase/firebase';
-
+import {Redirect} from 'react-router-dom';
+import Loader from '../Loader';
 
 const Main = styled.div`
 	margin: auto;
+	margin-top: 190px;
 	max-width: 1200px;
 	font-size: 24px;
 	color: white;
@@ -23,17 +25,11 @@ class TestPassPanel extends Component {
 		time: this.props.test.currentTime ? this.props.test.currentTime : this.props.test.testDuration * 60,
 		currentIndex: this.props.test.currentQuestionIndex ? this.props.test.currentQuestionIndex : 0,
 		totalScore: this.props.test.currentScore ? this.props.test.currentScore : 0,
+		unmounted: false
 	}
-
+	
 	componentDidUpdate(prevProps) {	
-
-		if (this.props.test !== prevProps.test) {
-			this.setState({test: this.props.test});
-		}
-
-		if (this.props.user !== prevProps.user ) {
-            this.setState({ user: this.props.user });
-        }
+		console.log('hello')
     }
 
 	testEnded = () => {
@@ -44,30 +40,35 @@ class TestPassPanel extends Component {
 		this.setState({totalScore: this.state.totalScore + score});
 	}
 
-	componentDidMount(){
+	componentDidMount() {
 		this.props.increaseUserScore(this.state.totalScore);
 		window.addEventListener('beforeunload', this.updatePassingTest);
 	}
 
 	updatePassingTest = () => {
-		console.log('unmounted');
-		this.props.increaseUserScore(-this.props.userScore);
-		let userTests = this.props.user.tests.filter(test => test.userScore >= 0);
-		if (this.state.user) {
-			let userTest =  firebase.database().ref(`user/${this.state.user.id}/tests/${this.state.test.id}`);
-			userTest.child('currentScore').set( this.props.userScore);
-			userTest.child('currentTime').set(this.state.time);
-			userTest.child('currentQuestionIndex').set(this.state.currentIndex);
+	
+		if (this.props.user) {
+			this.props.increaseUserScore(-this.props.userScore);
+			let userTests = this.props.user.tests.filter(test => test.userScore >= 0);
+			if (this.state.user) {
+				let userTest =  firebase.database().ref(`user/${this.state.user.id}/tests/${this.state.test.id}`);
+				userTest.child('currentScore').set( this.props.userScore);
+				userTest.child('currentTime').set(this.state.time);
+				userTest.child('currentQuestionIndex').set(this.state.currentIndex);
 
-			if (this.state.time === 0 || this.state.currentIndex === this.props.test.questions.length - 1) {
-				userTest.update({userScore: this.props.userScore});
-				let testRef = firebase.database().ref(`tests/${this.props.test.id}`);
-				userTest.child('currentScore').remove();
-				userTest.child('currentTime').remove();
-				userTest.child('currentQuestionIndex').remove();
-				testRef.child(`passers`).child(`${this.props.user.id}`).set({...this.props.user, tests: userTests});
+				if ((this.state.time === 1 || this.state.currentIndex === this.state.test.questions.length) && this.state.unmounted) {
+					userTest.update({userScore: this.props.userScore});
+					let testRef = firebase.database().ref(`tests/${this.props.test.id}`);
+					userTest.child('currentScore').remove();
+					userTest.child('currentTime').remove();
+					userTest.child('currentQuestionIndex').remove();
+					testRef.child(`passers`).child(`${this.props.user.id}`).set({...this.props.user, tests: userTests});
+					console.log('unmounted');
+					this.unmounted = true;
+				}
 			}
-		}
+	}
+		
 	}
 
 	getTime = (time) => {
@@ -79,11 +80,13 @@ class TestPassPanel extends Component {
 	}
 
 	componentWillUnmount() {
-		this.updatePassingTest();
-		window.removeEventListener('beforeunload', this.updatePassingTest);
+		this.setState({unmounted :true});
+		
 	}
 	render() {
 		return (
+			this.state.user && this.state.user.type === 'user' ?
+			this.state.test ?
 			<Main>
 				{
 					!this.state.testEnd && this.state.test &&
@@ -104,6 +107,8 @@ class TestPassPanel extends Component {
 						/>
 				}
 			</Main>
+			: <Loader />
+			: <Redirect to='/tests' />
 		);
 	}
 }
