@@ -41,7 +41,7 @@ class App extends Component {
     passers = 0;
 
     componentDidMount() {
-
+        
         firebase.auth().onAuthStateChanged((currentLog) => {
             if (currentLog) {
                 this.setState({ currentLog });
@@ -102,8 +102,7 @@ class App extends Component {
        let userUnpassedTest = [];
        if (this.state.user && this.state.user.type === 'user') {
         userUnpassedTest = this.state.user.tests.filter(test => test.userScore === -1);
-        console.log(userUnpassedTest);
-       }
+        }
         return (
             <div>
 
@@ -181,8 +180,8 @@ class App extends Component {
                             )
                         })}
 
-                        <Route path="/autorization-company" component={AutorizationCompany} currentCompany={this.state.currentLog} user={this.state.user} />
-                        <Route path="/autorization-user" component={AutorizationUser} currentCompany={this.state.currentLog} user={this.state.user} />
+                        <Route path="/autorization-company" component={() => <AutorizationCompany  user={this.state.user} />}  />
+                        <Route path="/autorization-user" component={() => <AutorizationUser user={this.state.user}/>}  />
                         <Route path="/aboutUs/" component={AboutUs} />
                         <Route path='/registration/user' component={AutorizationUser} />
                         <Route path='/registration/company' component={AutorizationCompany} />
@@ -190,11 +189,11 @@ class App extends Component {
                         <Route path="/companies/" component={() => <AllCompanies addCurrentItem={this.addCurrentItem} />} />
                         <Route
                             path='/authorization/'
-                            component={() => <Authorization currentCompany={this.state.currentLog}
+                            component={() => <Authorization currentLog={this.state.currentLog}
                                 user={this.state.user} />}
                         />
 
-                        {localStorage.getItem("current") === "user"
+                        {this.state.user && this.state.user.type === 'user'
                             ? <Switch>
                                 {userUnpassedTest && userUnpassedTest.map(test => {
                                 return(<Route 
@@ -204,6 +203,7 @@ class App extends Component {
                                 })}
                                 <Route path="/:user/profile" component={() => <User currentCompany={this.state.currentLog} user={this.state.user} />} />
                                 <Route path="/:user/tests" component={() => <User currentCompany={this.state.currentLog} user={this.state.user} />} /> 
+                                <Route component={NoMatch} />
                             </Switch>
 
                             : <Switch>
@@ -226,6 +226,7 @@ class App extends Component {
                                         currentCompany={this.state.currentLog}
                                         user={this.state.user}
                                          />} />
+                                <Route component={NoMatch} />
                             </Switch>
                         }
 

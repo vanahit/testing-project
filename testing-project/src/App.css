@@ -48,8 +48,7 @@
     border-bottom: 1px solid #4F9DA6;
     margin: auto;
     margin-top: 177px;
-    margin-bottom:30px;
-  
+     
 }
 
 .switch-buttons p {
@@ -315,16 +314,6 @@
     color: #FFAD5A;
 }
 
-.profile-find-employee {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 360px;
-    width: 1200px;
-    background-color: #eeeeff;
-    margin: 76px auto;
-    max-width: 100%;
-}
 
 .profile-create-test {
     width: 1000px;

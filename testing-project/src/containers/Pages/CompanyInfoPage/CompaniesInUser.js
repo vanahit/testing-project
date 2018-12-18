@@ -36,7 +36,7 @@ export default class CompaniesInUser extends Component {
 					<span>Profile</span>
 				</nav>
 				<div className="userContent">
-					<div className="imgDiv image-content">
+					<div className="imgDiv image-content image-contentCompany">
 						<UserSvgDiv className="image-content">
 							{this.props.item.image ? <img src={this.props.item.image} alt="User" /> : <CompanySvg />}
 						</UserSvgDiv>

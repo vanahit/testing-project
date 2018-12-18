@@ -48,8 +48,8 @@ class Authorization extends Component {
                         </button>
                         </div>
                         {this.state.selectedTab === 'company' ?
-                            <AutorizationCompany /> :
-                            <AutorizationUser/>}
+                            <AutorizationCompany user={this.props.user}/> :
+                            <AutorizationUser  user={this.props.user}/>}
                     </div>}
                 }
             </div>

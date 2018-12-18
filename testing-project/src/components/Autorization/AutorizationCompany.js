@@ -4,9 +4,10 @@ import CompanyRegistration from "./registration/CompanyRegistration";
 import * as firebase from "firebase";
 import styled from 'styled-components';
 import {Redirect} from "react-router";
+import { connect } from 'react-redux';
 
 const MarginDiv = styled.div`
-    margin: 30px auto;
+    margin: 130px auto;
 `;
 
 class AutorizationCompany extends Component {
@@ -21,8 +22,9 @@ class AutorizationCompany extends Component {
             email: '',
             remember: "SESSION",
             showError: false,
-            errorMessage: ""
+            errorMessage: " ",
         }
+
         this.remember = this.remember.bind(this)
     }
 
@@ -31,11 +33,34 @@ class AutorizationCompany extends Component {
             [field]: e.target.value,
         })
     }
-
+ 
     remember(event){
         this.setState({remember: event.target.checked ? "LOCAL" : "SESSION"})
     }
 
+    checkWichUser (id) {
+        for (let i = 0; i < this.props.companies.length; i++) {
+            if (id === this.props.companies[i].id) {
+               this.currentLogName = 'company';
+                return 'company';
+            }
+        }
+        for (let i = 0; i < this.props.users.length; i++) {
+            if (id === this.props.users[i].id) {
+                this.currentLogName = 'user';
+                return 'user';
+            }
+        }
+
+        return false;
+    }
+    logOut = () => {
+        firebase.auth().signOut().then(function () {
+            localStorage.removeItem("current")
+        }, function (error) {
+            console.error('Sign Out Error', error);
+        });
+    };
 
     signIn(e) {
         e.preventDefault();
@@ -44,20 +69,23 @@ class AutorizationCompany extends Component {
         .then(function() {
         return firebase.auth().signInWithEmailAndPassword(self.state.email, self.state.pass);
         })
-        .then(r => {
-            localStorage.setItem("current", "company");
-            this.props.userLogin('company');
+        .then(user => {
+            if (self.checkWichUser(user.uid) === 'company') {
+                localStorage.setItem("current", "company");
+            } else {
+                this.setState({errorMessage: 'There is no such user please check your email and password'});
+                this.logOut();
+            }
         })
         .catch(err => {
-            this.setState({errorMessage: err.message})
+            this.setState({errorMessage: 'There is no such user please check your email and password'})
         });
     }
 
     render() {
-
         return (
-           <MarginDiv>
-                {(this.props.user && localStorage.getItem("current") === "company") ?
+            <MarginDiv>
+                {(localStorage.getItem("current") === "company") && this.props.user ?
                      <Redirect to={`/${this.props.user.name}/profile`}/> 
                     :
                       <div className='container'>
@@ -76,5 +104,15 @@ class AutorizationCompany extends Component {
         );
     }
 }
-export default AutorizationCompany;
+
+function mapStateToProps(state) {
+    return {
+        users: state.appReducer.users,
+        companies: state.appReducer.companies,
+    }
+}
+
+
+
+export default connect(mapStateToProps, null)(AutorizationCompany);
 

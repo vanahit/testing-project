@@ -4,9 +4,10 @@ import UserRegistration from "./registration/UserRegistration";
 import * as firebase from "firebase";
 import styled from 'styled-components';
 import { Redirect } from "react-router";
+import { connect } from 'react-redux';
 
 const MarginDiv = styled.div`
-    margin: 30px auto;
+    margin: 130px auto;
 `;
 class AutorizationUser extends Component {
 
@@ -36,26 +37,52 @@ class AutorizationUser extends Component {
     }
 
 
+    checkWichUser (id) {
+        for (let i = 0; i < this.props.companies.length; i++) {
+            if (id === this.props.companies[i].id) {
+                return 'company';
+            }
+        }
+        for (let i = 0; i < this.props.users.length; i++) {
+            if (id === this.props.users[i].id) {
+                return 'user';
+            }
+        }
+
+        return false;
+    }
+    logOut = () => {
+        firebase.auth().signOut().then(function () {
+            localStorage.removeItem("current")
+        }, function (error) {
+            console.error('Sign Out Error', error);
+        });
+    };
+
     signIn(e) {
         e.preventDefault();
         let self = this;
         firebase.auth().setPersistence(firebase.auth.Auth.Persistence[this.state.remember])
-            .then(function () {
-                return firebase.auth().signInWithEmailAndPassword(self.state.email, self.state.pass);
-            })
-            .then(r => {
+        .then(function() {
+        return firebase.auth().signInWithEmailAndPassword(self.state.email, self.state.pass);
+        })
+        .then(user => {
+            if (self.checkWichUser(user.uid) === 'user') {
                 localStorage.setItem("current", "user");
-                this.props.userLogin('user');
-            })
-            .catch(err => {
-                this.setState({ errorMessage: err.message })
-            });
+            } else {
+                this.setState({errorMessage: 'There is no such user please check your email and password'});
+                this.logOut();
+            }
+        })
+        .catch(err => {
+            this.setState({errorMessage: 'There is no such user please check your email and password'})
+        });
     }
 
     render() {
         return (
             <MarginDiv>
-                {(this.props.user && localStorage.getItem("current") === "user") ?
+                {(localStorage.getItem("current") === "user") && this.props.user ?
                     <Redirect to={`/${this.props.user.firstName}${this.props.user.lastName}/profile`} /> :
                     <div className='container'>
                         <Login
@@ -72,7 +99,13 @@ class AutorizationUser extends Component {
         );
     }
 }
+function mapStateToProps(state) {
+    return {
+        users: state.appReducer.users,
+        companies: state.appReducer.companies,
+    }
+}
 
-export default AutorizationUser;
 
 
+export default connect(mapStateToProps, null)(AutorizationUser);

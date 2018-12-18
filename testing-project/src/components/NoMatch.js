@@ -4,7 +4,7 @@ import React from 'react';
 const NoMatch = () => {
     return (
         <div className='not-found'>
-            {/*<img src="../images/404.jpg" alt=""/>*/}
+            <img src="../images/404.jpg" alt=""/>
             {/*<Link to={'/'} >efw</Link>*/}
         </div>
     )

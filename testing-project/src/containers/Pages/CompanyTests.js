@@ -172,7 +172,7 @@ class CompanyTests extends Component {
 		}
 
 		return (
-			this.state.data.length ?
+			tests.length ?
 			<div>
 			{this.state.testDeletedClicked && <PopUpDelete testDeletedClicked={this.testDeletedClicked} />}
 				<div className="container-table">

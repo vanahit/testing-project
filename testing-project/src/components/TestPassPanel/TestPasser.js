@@ -134,6 +134,7 @@ class TestPasser extends Component {
 			this.sortRandomAnswers();
 		} else {
 			this.props.testEnded();
+			this.props.getCurrentIndex(this.id + 1);
 		}
 	}
 	componentWillUnmount() {

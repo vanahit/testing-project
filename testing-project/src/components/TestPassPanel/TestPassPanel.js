@@ -3,9 +3,9 @@ import styled from 'styled-components'
 import { connect } from 'react-redux';
 import TestFinished from './TestFinished';
 import TestPasser from './TestPasser';
-import {deleteTest, increaseUserScore} from '../../store/actions/testPasser';
+import { deleteTest, increaseUserScore } from '../../store/actions/testPasser';
 import { firebase } from '../../firebase/firebase';
-import {Redirect} from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import Loader from '../Loader';
 
 const Main = styled.div`
@@ -27,17 +27,13 @@ class TestPassPanel extends Component {
 		totalScore: this.props.test.currentScore ? this.props.test.currentScore : 0,
 		unmounted: false
 	}
-	
-	componentDidUpdate(prevProps) {	
-		console.log('hello')
-    }
 
 	testEnded = () => {
-		this.setState({testEnd: true});
+		this.setState({ testEnd: true });
 	}
 
 	totalScore = (score) => {
-		this.setState({totalScore: this.state.totalScore + score});
+		this.setState({ totalScore: this.state.totalScore + score });
 	}
 
 	componentDidMount() {
@@ -46,69 +42,69 @@ class TestPassPanel extends Component {
 	}
 
 	updatePassingTest = () => {
-	
+
 		if (this.props.user) {
 			this.props.increaseUserScore(-this.props.userScore);
 			let userTests = this.props.user.tests.filter(test => test.userScore >= 0);
-			if (this.state.user) {
-				let userTest =  firebase.database().ref(`user/${this.state.user.id}/tests/${this.state.test.id}`);
-				userTest.child('currentScore').set( this.props.userScore);
-				userTest.child('currentTime').set(this.state.time);
-				userTest.child('currentQuestionIndex').set(this.state.currentIndex);
 
-				if ((this.state.time === 0 || this.state.currentIndex > this.state.test.questions.length - 1) && this.state.unmounted) {
-					userTest.update({userScore: this.props.userScore});
-					let testRef = firebase.database().ref(`tests/${this.props.test.id}`);
-					userTest.child('currentScore').remove();
-					userTest.child('currentTime').remove();
-					userTest.child('currentQuestionIndex').remove();
-					testRef.child(`passers`).child(`${this.props.user.id}`).set({...this.props.user, tests: userTests});
-					console.log('unmounted');
-					this.unmounted = true;
-				}
+			let userTest = firebase.database().ref(`user/${this.state.user.id}/tests/${this.state.test.id}`);
+			userTest.child('currentScore').set(this.props.userScore);
+			userTest.child('currentTime').set(this.state.time);
+			userTest.child('currentQuestionIndex').set(this.state.currentIndex);
+
+			if (this.state.testEnd) {
+				userTest.update({ userScore: this.props.userScore });
+				let testRef = firebase.database().ref(`tests/${this.props.test.id}`);
+				userTest.child('currentScore').remove();
+				userTest.child('currentTime').remove();
+				userTest.child('currentQuestionIndex').remove();
+				testRef.child(`passers`).child(`${this.props.user.id}`).set({ ...this.props.user, tests: userTests });
+
 			}
-	}
-		
+		}
+
 	}
 
 	getTime = (time) => {
-		this.setState({time: time});
+		this.setState({ time: time });
 	}
 
 	getCurrentIndex = (index) => {
-		this.setState({currentIndex: index});
+		this.setState({ currentIndex: index });
 	}
 
 	componentWillUnmount() {
-		this.setState({unmounted :true});
-		
+		this.setState({ unmounted: true });
+		this.updatePassingTest();
+
 	}
 	render() {
 		return (
 			this.state.user && this.state.user.type === 'user' ?
-			this.state.test ?
-			<Main>
-				{
-					!this.state.testEnd && this.state.test &&
-						<TestPasser
-							getCurrentIndex={this.getCurrentIndex}
-							getTime={this.getTime}
-							user={this.state.user} 
-							totalScore={this.totalScore}
-							testEnded={this.testEnded}
-							test={this.props.test}
-							time={this.state.time}
-						/>
-				}
-				{
-					this.state.testEnd &&
-						<TestFinished user={this.props.user}
-							totalScore={this.state.totalScore}
-						/>
-				}
-			</Main>
-			: <Loader />
-			: <Redirect to='/tests' />
+				this.state.test ?
+					<Main>
+						{
+							!this.state.testEnd && this.state.test &&
+							<TestPasser
+								getCurrentIndex={this.getCurrentIndex}
+								getTime={this.getTime}
+								user={this.state.user}
+								totalScore={this.totalScore}
+								testEnded={this.testEnded}
+								test={this.props.test}
+								time={this.state.time}
+							/>
+						}
+						{
+							this.state.testEnd &&
+							<TestFinished user={this.props.user}
+								totalScore={this.state.totalScore}
+								test={this.props.test}
+							/>
+						}
+					</Main>
+					: <Loader />
+				: <Redirect to='/tests' />
 		);
 	}
 }

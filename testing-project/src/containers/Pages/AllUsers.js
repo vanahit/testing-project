@@ -38,6 +38,10 @@ const NoTests = styled.div`
 	box-sizing: border-box;
 `;
 
+const InfoDiv = styled.div`
+	padding: 0 16px;
+`;
+
 class AllUsers extends Component {
 	constructor(props) {
 		super(props);
@@ -48,7 +52,7 @@ class AllUsers extends Component {
 			search: "",
 			type: "",
 			currentPage: 1,
-			dataPerPage: 4,
+			dataPerPage: 8,
 			loadMore: 0,
 		}
 	}
@@ -122,6 +126,7 @@ class AllUsers extends Component {
 		for (let i = 1; i <= Math.ceil(users.length / dataPerPage); i++) {
 			pages.push(i);
 		}
+		console.log(currentData.length)
 		return (
 			<Main>
 			{this.props.passers !== 'no' || this.state.users ?
@@ -130,6 +135,7 @@ class AllUsers extends Component {
 						{...this.state}
 						searching={this.searching.bind(this)}
 						currentDataLength={currentData.length}
+						data={users}
 						selectSearchData={selectSearchData}
 					/>
 					{users.length ? 
@@ -150,6 +156,7 @@ class AllUsers extends Component {
 														{item.image ? <UserImg src={item.image} alt="User"  /> : <UserSvg />}
 													</UserSvgDiv>
 													<div className="grid-info">
+													<InfoDiv>
 														<h2>{item.firstName} {item.lastName}</h2>
 														<div className="skillsDiv">
 															<span className="gray">Skills: </span>
@@ -157,12 +164,13 @@ class AllUsers extends Component {
 														</div>
 														<p>
 															Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-												</p>
+														</p>
 														<div className="testsDiv usersDiv">
 															<NavLink to={`/user-info-page/${item.firstName}${item.lastName}`} >
 																<span>View Profile</span>
 															</NavLink>
 														</div>
+														</InfoDiv>
 													</div>
 												</div>
 											</CSSTransition>

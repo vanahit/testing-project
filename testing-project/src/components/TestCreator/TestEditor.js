@@ -66,9 +66,10 @@ class TestEditor extends Component {
 			testDeadline: '',
             testType: '',
             passScore: '',
-			testDuration: '',
+            testDuration: '',
+            unmounted: false
         }
-        this.unmounted = false;
+     
     }
 
     getInputValue = (e, field) => {
@@ -150,8 +151,7 @@ class TestEditor extends Component {
 	}
 
     submitHandler = () => {
-        this.unmounted = false;
-		return new Promise ((resolve, reject) => {
+        return new Promise ((resolve, reject) => {
 			this.props.submittedTrue();
 			resolve(this.props.submitted)
 		}).then (() => {
@@ -163,7 +163,7 @@ class TestEditor extends Component {
 
 				this.postData();
 				this.props.deleteStateData();
-                if (!this.unmounted) {
+                if (!this.state.unmounted) {
                     return this.setState({
                             testTitle: '',
                             description: '',
@@ -196,7 +196,7 @@ class TestEditor extends Component {
     componentWillUnmount () {
         this.props.deleteStateData();
         this.props.testCreatedFalse();
-        this.unmounted = true;
+        this.setState({unmounted: true});
     }
 
 	render() {

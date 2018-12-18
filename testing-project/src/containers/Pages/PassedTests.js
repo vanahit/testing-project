@@ -132,7 +132,7 @@ class PassedTests extends Component {
 		const selectSearchData = ['HTML', 'CSS', 'JavaScript', 'Java', 'Python', 'C#', 'Ruby', 'Swift', 'React', 'Redux', 'C++', 'PHP', 'MySQL'];
 		const { search, type, currentPage, dataPerPage, loadMore, sortType, orderAscanding } = this.state;
 		let filterData = tests.filter(item => {
-			return item.testTitle.toLowerCase().substr(0, search.length) === search.toLowerCase()
+			return item.testTitle && item.testTitle.toLowerCase().substr(0, search.length) === search.toLowerCase()
 		})
 
 		if (type !== "") {

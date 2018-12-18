@@ -46,6 +46,9 @@ const TestsCount = styled.span`
 	color: #100529;
 	font-size: 24px;
 `;
+const InfoDiv = styled.div`
+	padding: 0 8px;
+`;
 
 class AllCompanies extends Component {
 	constructor(props) {
@@ -56,7 +59,7 @@ class AllCompanies extends Component {
 			search: "",
 			type: "",
 			currentPage: 1,
-			dataPerPage: 4,
+			dataPerPage: 8,
 			loadMore: 0,
 		}
 	}
@@ -165,6 +168,7 @@ class AllCompanies extends Component {
 												{item.image ? <UserImg src={item.image} alt="Company"  /> : <CompanySvg />}
 											</CompanySvgDiv>
 											<div className="grid-info">
+											<InfoDiv>
 												<h2><CompanyName>{item.name}</CompanyName></h2>
 												<p>
 													Lorem Ipsum is simply dummy text of the printing and typesetting industry.
@@ -177,6 +181,7 @@ class AllCompanies extends Component {
 														<TestsCount>{this.getTests(item.id)} Tests</TestsCount>
 													</NavLinkDiv >
 												</div>
+												</InfoDiv>
 											</div>
 										</div>
 

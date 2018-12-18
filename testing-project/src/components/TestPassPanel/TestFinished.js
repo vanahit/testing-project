@@ -2,11 +2,10 @@ import React, { Component } from 'react';
 import styled from 'styled-components'
 import {Link} from "react-router-dom";
 import { connect } from 'react-redux';
+import CompanySvg from '../../containers/Pages/CompanyInfoPage/CompanySvg';
 
 const Main = styled.div`
     margin: auto;
-    padding-top: 100px;
-    padding-bottom: 200px;
     max-width: 1200px;
     min-height: 260px;
     background-color: #F5F5F5;
@@ -67,20 +66,27 @@ const RouterLink = styled.span`
 	color: #4F9DA6;
 	text-decoration: underline;
 `;
-
+const ImageDiv = styled.div`
+    width: 150px;
+    height: 150px;
+`;
 class TestFinished extends Component {
     
     render() {
+        let company = this.props.companies.filter(company => company.id === this.props.test.companyId);
+        console.log(company.image)
 		return (
 			<Main>
                 <FlexRow>
-                    <FlexChild width={'146px'}>
-                        Logo
-                    </FlexChild>
+                    <ImageDiv className="image-content image-contentCompany">
+					
+							{company.image ? <img src={company.image} alt={company.name} /> : <CompanySvg />}
+					
+					</ImageDiv>
                     <FlexChild width={'calc(100% - 354px)'}>
                        <TestTitle>JS Foundation</TestTitle>
                        <Score>
-                           Your Score: {this.props.userScore}/{this.props.totalScore}
+                           Your Score: {this.props.userScore}/{this.props.test.totalScore}
                         </Score>
                     </FlexChild>
                     <FlexChild width={'100%'}>
@@ -99,9 +105,8 @@ class TestFinished extends Component {
 
 function mapStateToProps(state) {
 	return {
-        test: state.testPasser.testDetails,
-        totalScore: state.testPasser.testDetails.totalScore,
-        userScore: state.testPasser.userScore,
+       userScore: state.testPasser.userScore,
+       companies: state.appReducer.companies,
 	}
 }
 

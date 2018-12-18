@@ -40,11 +40,11 @@ export default class UserProfile extends Component {
                 this.setState({progress})
             },
             (error) => {
-                console.log(error);
+                
             },
             () => {
                 storage.ref(`images/${this.props.user.id}`).child(image.name).getDownloadURL().then(url => {
-                    console.log(url)
+                    
                     this.setState({url})
                 })
             })
@@ -55,7 +55,8 @@ export default class UserProfile extends Component {
     componentDidUpdate (prevProps, prevState) {
         if(prevState.url !== this.state.url){
             firebase.database().ref(`user/${this.props.user.id}`).child('image').set(this.state.url);
-            console.log("update data");
+           
+            
         }
     }
 

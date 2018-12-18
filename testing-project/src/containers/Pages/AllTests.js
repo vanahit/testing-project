@@ -30,7 +30,7 @@ class AllTests extends Component {
 			search: "",
 			type: "",
 			currentPage: 1,
-			dataPerPage: 4,
+			dataPerPage: 8,
 			loadMore: 0,
 			unMounted: false,
 			testAddClicked: false

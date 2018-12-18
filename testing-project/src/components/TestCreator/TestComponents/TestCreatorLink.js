@@ -3,7 +3,7 @@ import React from 'react';
 import {NavLink} from "react-router-dom";
 
 const AllDiv = styled.div`
-	margin-top: 30px;
+	margin-top: 130px;
 	font-size: 24px;
 	padding-bottom: 30px;
 	border-bottom: 1px solid #D6D6D6;
