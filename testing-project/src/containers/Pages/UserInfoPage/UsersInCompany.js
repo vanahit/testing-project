@@ -34,13 +34,12 @@ export default function UserInCompany(props) {
 					<div className="infoUser">
 						<h2>{props.item.firstName} {props.item.lastName} </h2>
 
-						<div className="desc">
-							Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.
-						</div>
+						
 						<div className="skillsDivUser">
 							<span className="gray">Skills: </span>
 							<span className="orange"> {skills(props.item.languages)} </span>
 						</div>
+
 						<div className="skillsDivUser">
 							{props.currentUser && props.currentUser.type === 'company' &&
 								<>
@@ -50,6 +49,9 @@ export default function UserInCompany(props) {
 							}
 
 
+						</div>
+						<div className="desc">
+							{props.item.description}
 						</div>
 					</div>
 				</div>

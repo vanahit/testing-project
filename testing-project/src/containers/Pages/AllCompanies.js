@@ -171,7 +171,7 @@ class AllCompanies extends Component {
 											<InfoDiv>
 												<h2><CompanyName>{item.name}</CompanyName></h2>
 												<p>
-													Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+													{item.description}
 													</p>
 												<div className="testsDiv">
 													<NavLinkDiv to={{
