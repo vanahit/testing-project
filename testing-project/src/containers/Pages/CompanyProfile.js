@@ -105,7 +105,7 @@ class CompanyProfile extends Component {
                                 <div>
                                     <div className='checked-icon'>
                                         <img src={require('../../images/checkbox.png')} alt='checkbox' />
-                                        <span>You can find employe.</span>
+                                        <span>You can find employee.</span>
                                     </div>
                                     <div className='checked-icon'>
                                         <img src={require('../../images/checkbox.png')} alt='checkbox' />
