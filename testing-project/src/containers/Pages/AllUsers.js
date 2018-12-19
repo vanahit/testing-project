@@ -163,7 +163,7 @@ class AllUsers extends Component {
 															<span className="orange"> {this.skills(item.languages)} </span>
 														</div>
 														<p>
-															Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+															{item.description}
 														</p>
 														<div className="testsDiv usersDiv">
 															<NavLink to={`/user-info-page/${item.firstName}${item.lastName}`} >
