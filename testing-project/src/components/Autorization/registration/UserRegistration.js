@@ -22,7 +22,7 @@ class UserRegistration extends Component {
             confirmedPassword: '',
             languages: [],
             skillsContent: false,
-            validErrors: { firstName: true, lastName: true, email: true, password: true, confirmedPassword: true },
+            validErrors: { firstName: true, lastName: true, email: true, password: true, confirmedPassword: true, languages: true },
             progress: 0,
             progressColor: "red",
             progressColorConfirm: "white",
@@ -113,7 +113,7 @@ class UserRegistration extends Component {
 
     signUpUser() {
 
-        if (this.state.password === this.state.confirmedPassword && this.state.password && this.state.firstName && this.state.lastName && this.state.email) {
+        if (this.state.password === this.state.confirmedPassword && this.state.password && this.state.firstName && this.state.lastName && this.state.email && this.state.languages.length !== 0) {
 
             const user = { ...this.state };
 
@@ -143,10 +143,11 @@ class UserRegistration extends Component {
                 email: this.state.email,
                 password: this.state.password,
                 confirmedPassword: this.state.confirmedPassword,
+                languages: this.state.languages
             }
             const objErrors = this.state.validErrors;
             for (let key in obj) {
-                if (obj[key] === "") {
+                if (obj[key] === "" || obj[key].length === 0) {
                     objErrors[key] = false
                 }
             }
@@ -257,6 +258,8 @@ class UserRegistration extends Component {
                         {validErrors.password === false && password === "" ?
                             <progress max="100" value="100" className={`progressConfirm ${progressColorConfirm} eror`}></progress> :
                             <progress max="100" value="100" className={`progressConfirm ${progressColorConfirm}`}></progress>}
+                        {validErrors.languages === false && this.state.languages.length === 0 &&
+                            <div style={{color: "red"}}>Checked your skills!</div>}
                         <div className="skills">
                             Skills
                             {skillsContent ?
