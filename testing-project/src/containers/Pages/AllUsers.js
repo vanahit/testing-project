@@ -42,6 +42,20 @@ const InfoDiv = styled.div`
 	padding: 0 16px;
 `;
 
+const PassTests = styled.div`
+	margin-top: 19px;
+	font-size: 16px;
+`;
+const TitleDiv = styled.div`
+	text-align: center;
+	font-size: 18px;
+	color: #4F9DA6;
+	font-weight: bold;
+`;
+const GreenSpan = styled.span`
+	
+	color: #4F9DA6;
+`;
 class AllUsers extends Component {
 	constructor(props) {
 		super(props);
@@ -96,7 +110,9 @@ class AllUsers extends Component {
 	}
 
 	skills(arr) {
-		return arr.join(', ')
+		let arrNew = arr.filter((skill, index) => index < 3);
+		
+		return arrNew.join(', ');
 	}
 
 	render() {
@@ -126,7 +142,7 @@ class AllUsers extends Component {
 		for (let i = 1; i <= Math.ceil(users.length / dataPerPage); i++) {
 			pages.push(i);
 		}
-		console.log(currentData.length)
+		
 		return (
 			<Main>
 			{this.props.passers !== 'no' || this.state.users ?
@@ -157,14 +173,14 @@ class AllUsers extends Component {
 													</UserSvgDiv>
 													<div className="grid-info">
 													<InfoDiv>
-														<h2>{item.firstName} {item.lastName}</h2>
+														< TitleDiv>{item.firstName} {item.lastName}</ TitleDiv>
 														<div className="skillsDiv">
 															<span className="gray">Skills: </span>
 															<span className="orange"> {this.skills(item.languages)} </span>
 														</div>
-														<p>
-															{item.description}
-														</p>
+														<PassTests>
+															Passed tests: <GreenSpan>{item.tests ? item.tests.length : 0}</GreenSpan>
+														</PassTests>
 														<div className="testsDiv usersDiv">
 															<NavLink to={`/user-info-page/${item.firstName}${item.lastName}`} >
 																<span>View Profile</span>

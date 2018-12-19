@@ -742,6 +742,7 @@ img {
 
 .slide-enter-done {
     overflow: auto;
+    border: 1px solid #DCDCDC;
     box-shadow: 0px 3px 6px #DCDCDC;
 }
 
